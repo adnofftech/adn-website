@@ -1,43 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AD'N Artist Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AD'N - Artiste Réunionnais</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Arial', sans-serif; background-color:#0a0a0a; color:#fff; line-height:1.6; overflow-x:hidden; }
+  header { background: linear-gradient(135deg, #111, #1a1a1a), url('https://via.placeholder.com/1200x400') center/cover no-repeat; padding:80px 20px; text-align:center; position:relative; }
+  header h1 { font-size:3.5rem; color:#e63946; text-shadow: 0 0 15px #e63946, 0 0 30px #e63946; margin-bottom:10px; letter-spacing:2px; animation: glow 2s infinite alternate; }
+  @keyframes glow { from { text-shadow: 0 0 15px #e63946, 0 0 30px #e63946;} to { text-shadow: 0 0 25px #f1faee, 0 0 50px #f1faee;} }
+  header p { font-size:1.2rem; color:#ccc; margin-bottom:20px; }
+  .social-icons { margin:15px 0; }
+  .social-icons a { color:#e63946; margin:0 10px; text-decoration:none; font-weight:bold; transition:0.3s; }
+  .social-icons a:hover { color:#f1faee; transform:scale(1.2); }
+  nav a { color:#e63946; text-decoration:none; margin:0 15px; font-weight:bold; transition:0.3s; }
+  nav a:hover { color:#f1faee; transform:scale(1.1); }
+
+  section { padding:50px 20px; text-align:center; opacity:0; transform: translateY(20px); transition: 0.8s; }
+  section.visible { opacity:1; transform: translateY(0); }
+  section h2 { font-size:2rem; margin-bottom:20px; color:#e63946; text-transform:uppercase; }
+  section h3 { font-size:1.5rem; margin-bottom:15px; color:#f1faee; text-transform:uppercase; }
+  section p { max-width:600px; margin:0 auto 20px auto; }
+
+  .year-folder { margin-bottom:50px; border:1px solid #e63946; padding:20px; border-radius:15px; transition: transform 0.3s; }
+  .year-folder:hover { transform:scale(1.02); border-color:#f1faee; }
+  iframe { border:none; border-radius:10px; margin-top:15px; }
+  .coming-soon { font-size:2rem; color:#f1faee; animation: blink 1s infinite, rotate 2s linear infinite; display:inline-block; }
+  @keyframes blink { 0%,50%,100%{opacity:1;}25%,75%{opacity:0.3;} }
+  @keyframes rotate { 0%{transform:rotate(0deg);}100%{transform:rotate(360deg);} }
+
+  form { max-width:400px; margin:0 auto; text-align:left; }
+  form input, form textarea { width:100%; padding:10px; margin-bottom:15px; border-radius:10px; border:none; }
+  form button { background-color:#e63946; color:#fff; padding:10px 20px; border:none; border-radius:30px; font-weight:bold; cursor:pointer; transition:0.3s; text-transform:uppercase; }
+  form button:hover { background-color:#d62828; transform:scale(1.05); }
+
+  footer { text-align:center; padding:20px; background-color:#111; color:#888; margin-top:40px; }
+  footer .social-icons a { margin:0 8px; transition:0.3s; }
+  footer .social-icons a:hover { color:#f1faee; transform:scale(1.2); }
+
+  @media(max-width:768px){
+    iframe { width:90% !important; height:auto !important; }
+    header h1 { font-size:2.5rem; }
+  }
+</style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to AD'N Artist Portfolio</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#artworks">Artworks</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <section id="about">
-        <h2>About the Artist</h2>
-        <p>AD'N is a contemporary artist known for innovative techniques and immersive experiences.</p>
-    </section>
-    <section id="artworks">
-        <h2>Artworks</h2>
-        <div class="artwork">
-            <img src="artwork1.jpg" alt="Artwork 1">
-            <p>Description of Artwork 1</p>
-        </div>
-        <div class="artwork">
-            <img src="artwork2.jpg" alt="Artwork 2">
-            <p>Description of Artwork 2</p>
-        </div>
-    </section>
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>If you would like to get in touch, please email <a href="mailto:contact@adnportfolio.com">contact@adnportfolio.com</a>.</p>
-    </section>
-    <footer>
-        <p>&copy; 2026 AD'N Portfolio. All rights reserved.</p>
-    </footer>
+
+<header>
+  <h1>AD'N</h1>
+  <p>Artiste Réunionnais</p>
+  <div class="social-icons">
+    <a href="https://www.instagram.com/adn.0ff/" target="_blank">Instagram</a>
+    <a href="https://www.tiktok.com/@adn.offf?is_from_webapp=1&sender_device=pc" target="_blank">TikTok</a>
+    <a href="https://open.spotify.com/intl-fr/artist/2uZuAzm3JiETQdCcAJDn7f?si=Ndvb_50qTauVlaeBe_HbAg" target="_blank">Spotify</a>
+    <a href="https://www.youtube.com/@adn.0ff" target="_blank">YouTube</a>
+  </div>
+  <nav>
+    <a href="#bio">Bio</a>
+    <a href="#music">Musique</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section id="bio">
+  <h2>À propos de moi</h2>
+  <p>AD'N est un jeune artiste réunionnais qui a démarré sa carrière avec des freestyles sur Instagram et TikTok. Il a rapidement fait le buzz avec son premier single <strong>2 MINUTES</strong>, resté en rotation sur Exo FM. Il poursuit aujourd'hui son ascension avec des morceaux mélodiques et sincères, prêt à s'imposer sur la scène locale.</p>
+</section>
+
+<section id="music">
+  <h2>Écoute ma musique / Discographie</h2>
+
+  <div class="year-folder">
+    <h3>2024</h3>
+    <p>2 MINUTES</p>
+    <iframe src="https://open.spotify.com/embed/album/4Eyi2G6rBOJZ1skSvQHB0U?utm_source=generator" width="300" height="380" allowfullscreen></iframe>
+
+    <p>BELLA</p>
+    <iframe src="https://open.spotify.com/embed/track/2FSY4mc9P33yBaSMknrQPv?utm_source=generator" width="300" height="80" allowfullscreen></iframe>
+  </div>
+
+  <div class="year-folder">
+    <h3>2025</h3>
+    <p>COMPTE DESSI MWIN</p>
+    <iframe src="https://open.spotify.com/embed/album/75FUawcS8JlWc00r9Gy6Um?utm_source=generator" width="300" height="380" allowfullscreen></iframe>
+
+    <p>Y FAIT MAL</p>
+    <iframe src="https://open.spotify.com/embed/album/1VG4GBnVaTVOKdxUSLxPPE?utm_source=generator" width="300" height="380" allowfullscreen></iframe>
+
+    <p>Album « Comme dans les films »</p>
+    <iframe src="https://open.spotify.com/embed/album/7vTzNycb81ZXVSIVO0a5eI?utm_source=generator" width="300" height="380" allowfullscreen></iframe>
+  </div>
+
+  <div class="year-folder">
+    <h3>2026</h3>
+    <p class="coming-soon">⏳ À venir...</p>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <form action="mailto:adn@example.com" method="post" enctype="text/plain">
+    <input type="text" name="name" placeholder="Ton nom" required>
+    <input type="email" name="email" placeholder="Ton email" required>
+    <textarea name="message" rows="5" placeholder="Ton message" required></textarea>
+    <button type="submit">Envoyer</button>
+  </form>
+</section>
+
+<footer>
+  &copy; 2026 AD'N - Tous droits réservés
+  <div class="social-icons">
+    <a href="https://www.instagram.com/adn.0ff/" target="_blank">Instagram</a>
+    <a href="https://www.tiktok.com/@adn.offf?is_from_webapp=1&sender_device=pc" target="_blank">TikTok</a>
+    <a href="https://open.spotify.com/intl-fr/artist/2uZuAzm3JiETQdCcAJDn7f?si=Ndvb_50qTauVlaeBe_HbAg" target="_blank">Spotify</a>
+    <a href="https://www.youtube.com/@adn.0ff" target="_blank">YouTube</a>
+  </div>
+</footer>
+
+<script>
+  // Animation au scroll
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) { entry.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.2 });
+  sections.forEach(section => observer.observe(section));
+</script>
+
 </body>
 </html>
