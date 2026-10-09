@@ -136,7 +136,8 @@ fo = int(2.0 * SR); mix_music[-fo:] *= np.linspace(1, 0, fo)
 # Scène 1 — démarrage de l'imprimante
 add(mix_sfx, impact(1.5, 55), 0.0, 0.9)
 add(mix_sfx, swoosh_riser(1.2), 0.05, 0.5)
-add(mix_sfx, mech_loop(28.2, 6, 16), 0.5, 0.55)          # moteur + rouleaux (0.5 → 28.7)
+add(mix_sfx, mech_loop(9.0, 6, 12), 0.5, 0.30)           # moteur + rouleaux, imprimante à l'écran (0.5 → 9.5)
+add(mix_sfx, mech_loop(2.55, 12, 34), 26.96, 0.30)       # accélération avant l'arrêt (26.96 → 29.5)
 for i, tt in enumerate(np.linspace(0.8, 3.0, 14)): add(mix_sfx, paper_rustle(0.18), tt, 0.5)
 add(mix_sfx, whoosh(0.7), 2.55, 0.8)                        # plongée caméra vers les billets
 # Scène 2 — rêve
@@ -190,12 +191,12 @@ v = np.pad(v, (0, max(0, N - len(v))))[:N]
 win = int(0.05 * SR); e = np.sqrt(np.convolve(v ** 2, np.ones(win) / win, mode="same"))
 act = np.clip(e / 0.03, 0, 1)
 k = int(0.12 * SR); act = np.convolve(act, np.ones(k) / k, mode="same")         # lissage (attaque/relâche)
-duck_music = 1 - 0.78 * act      # musique : -13 dB sous la voix
-duck_sfx = 1 - 0.45 * act        # SFX : -5 dB sous la voix
+duck_music = 1 - 0.88 * act      # musique : -13 dB sous la voix
+duck_sfx = 1 - 0.70 * act        # SFX : -5 dB sous la voix
 music = mix_music * duck_music; sfx = mix_sfx * duck_sfx
-bed = music * 0.55 + sfx * 0.85
+bed = music * 0.30 + sfx * 0.50
 bed = np.tanh(bed * 1.2) / np.tanh(1.2)
-peak = np.max(np.abs(bed)); bed = bed / peak * 0.8
+peak = np.max(np.abs(bed)); bed = bed / peak * 0.55
 out = os.path.join(ROOT, "video", "audio"); os.makedirs(out, exist_ok=True)
 pcm = (bed * 32767).astype(np.int16)
 with wave.open(os.path.join(out, "bed.wav"), "wb") as f:

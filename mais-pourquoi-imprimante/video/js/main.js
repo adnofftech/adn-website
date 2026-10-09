@@ -96,7 +96,7 @@ export function renderAt(t) {
     lastBill.position.set(x, y, z); lastBill.rotation.set(-Math.PI / 2 + 0.3 * Math.sin(u * 11) * (1 - u * 0.8), Math.sin(u * 6) * 0.5, 0.3 * Math.sin(u * 8) * (1 - u)); }
   const bgk = sstep(58.6, 62, t); scene.background.copy(bgA).lerp(bgB, bgk); if (t >= 30.3 && t < 39.2) scene.background.setHex(0x0b2427); scene.fog.color.copy(scene.background); scene.fog.density = lerp(0.012, 0.004, bgk) * (world.visible ? 0.5 : 1);
   const c = evalShots(t, SA);
-  const sh = shake(t, t < 3 ? 0.02 : 0.05);
+  const sh = shake(t, t < 3 ? 0.012 : t < 26.96 ? 0 : t < 29.5 ? 0.09 * lin(26.96, 29.5, t) : 0.05);
   cam.position.set(c.p[0] + sh[0], c.p[1] + sh[1], c.p[2] + sh[2]); cam.up.set(Math.sin(c.roll), Math.cos(c.roll), 0);
   cam.lookAt(c.l[0], c.l[1], c.l[2]); cam.fov = c.fov; cam.updateProjectionMatrix();
   renderer.render(scene, cam);
