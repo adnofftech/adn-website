@@ -19,8 +19,8 @@ const cashTex = () => mk(128, 64, (g, w, h) => {
   g.fillStyle = "#e9dfb4"; g.fillRect(w * 0.42, 0, w * 0.16, h); g.fillStyle = "#1a5c36"; g.fillRect(w * 0.42, h * 0.4, w * 0.16, h * 0.2);
 });
 const digitStrip = () => mk(320, 640, (g, w, h) => {
-  g.clearRect(0, 0, w, h); g.textAlign = "center"; g.textBaseline = "middle"; g.font = `900 50px ${MONO}`;
-  for (let c = 0; c < 5; c++) for (let r = 0; r < 10; r++) { g.fillStyle = c === 2 ? "#e8b84a" : "#47f0a0"; g.fillText(String(Math.floor(H(c * 10 + r, 3) * 10)), c * 64 + 32, r * 64 + 34); }
+  g.clearRect(0, 0, w, h); g.textAlign = "center"; g.textBaseline = "middle"; g.font = `900 56px ${MONO}`;
+  for (let c = 0; c < 5; c++) for (let r = 0; r < 10; r++) { g.fillStyle = c === 2 ? "#ffd46a" : "#7dffc4"; g.fillText(String(Math.floor(H(c * 10 + r, 3) * 10)), c * 64 + 32, r * 64 + 34); }
 }, { repeat: [1, 0.2] });
 
 // ------------------------------------------------------------------ montagne
@@ -48,7 +48,7 @@ export function buildMountain() {
 // ------------------------------------------------------------------ foule
 export const BLOCKS = [ // x0, x1, z0, z1, nx, nz, tardif (S18 seulement), teinte du faisceau
   [-10.0, -4.8, 10.8, 18.0, 5, 7, 0, 0x47f0a0], [4.8, 10.0, 10.8, 18.0, 5, 7, 0, 0xffd27a], [-15.6, -10.4, 6.0, 15.0, 5, 6, 0, 0x7ad7ff], [10.4, 15.6, 6.0, 15.0, 5, 6, 0, 0xff9a7a],
-  [-10.0, -4.8, 19.0, 23.0, 5, 3, 1, 0xc9a0ff], [4.8, 10.0, 19.0, 23.0, 5, 3, 1, 0x47f0a0], [-15.0, -9.8, 16.0, 24.0, 5, 4, 1, 0xffd27a], [9.8, 15.0, 16.0, 24.0, 5, 4, 1, 0x7ad7ff],
+  [-10.0, -4.8, 19.0, 24.0, 6, 4, 1, 0xc9a0ff], [4.8, 10.0, 19.0, 24.0, 6, 4, 1, 0x47f0a0], [-15.4, -9.8, 16.0, 25.0, 6, 5, 1, 0xffd27a], [9.8, 15.4, 16.0, 25.0, 6, 5, 1, 0x7ad7ff],
 ];
 const blockC = (b) => [(b[0] + b[1]) / 2, (b[2] + b[3]) / 2];
 function makeCrowd() {
@@ -124,11 +124,13 @@ function makeRiches() {
 function makeFlights(people, N, tA, tB, seedK, onlyEarly) {
   const list = []; const idx = people.map((p, i) => i).filter((i) => !onlyEarly || !people[i].late);
   for (let i = 0; i < N; i++) {
-    const pj = people[idx[Math.floor(H(i, seedK + 1) * idx.length)]]; const cl = blockC(BLOCKS[pj.ci]);
-    const a0 = Math.atan2(cl[1], cl[0]) + (H(i, seedK + 2) - 0.5) * 0.3; const u0 = 0.3 + 0.5 * H(i, seedK + 3); const r0 = u0 * MT.R;
+    // les billets visent un voisin sur 4 : ça forme des flux denses et lisibles (montagne -> groupe de silhouettes) plutôt qu'une gerbe
+    const kk = Math.floor(H(i, seedK + 1) * idx.length); const pj = people[idx[kk - (kk % 4)]]; const cl = blockC(BLOCKS[pj.ci]);
+    const a0 = Math.atan2(cl[1], cl[0]) + (H(i, seedK + 2) - 0.5) * 0.3; const u0 = 0.5 + 0.45 * H(i, seedK + 3); const r0 = u0 * MT.R;
     const p0 = new T.Vector3(Math.cos(a0) * r0, mtnY(r0, a0) + 0.5, Math.sin(a0) * r0);
     const p1 = new T.Vector3(pj.x + (H(i, seedK + 4) - 0.5) * 0.6, 1.85 * pj.sc + 0.4 + H(i, seedK + 5) * 0.8, pj.z + (H(i, seedK + 6) - 0.5) * 0.6);
-    const dist = p0.distanceTo(p1); const c = new T.Vector3().addVectors(p0, p1).multiplyScalar(0.5); c.y += 5 + 0.28 * dist; c.x += (H(i, seedK + 7) - 0.5) * 3; c.z += (H(i, seedK + 8) - 0.5) * 3;
+    // arc bas : la courbe redescend vers les têtes (plus de gerbe vers le plafond)
+    const dist = p0.distanceTo(p1); const c = new T.Vector3().addVectors(p0, p1).multiplyScalar(0.5); c.y += 1.4 + 0.09 * dist; c.x += (H(i, seedK + 7) - 0.5) * 1.4; c.z += (H(i, seedK + 8) - 0.5) * 1.4;
     list.push({ t0: tA + (tB - tA) * Math.pow(H(i, seedK + 9), onlyEarly ? 1.25 : 1), dur: 1.1 + 0.9 * H(i, seedK + 10), p0, c, p1, sp: [3 + 6 * H(i, seedK + 11), 2 + 5 * H(i, seedK + 12), 4 * (H(i, seedK + 13) - 0.5)], sc: 1.25 + 0.5 * H(i, seedK + 14) });
   }
   return list;
@@ -147,7 +149,7 @@ export function buildHall() {
     const frame = new T.Mesh(new T.PlaneGeometry(w + 1.0, h + 1.0), new T.MeshBasicMaterial({ color: 0xe8b84a })); frame.position.set(x, y, z); frame.rotation.y = ry;
     const tx = digitStrip(); const dg = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ map: tx, transparent: true })); dg.position.set(x, y, z); dg.rotation.y = ry;
     const off = 0.03; const dx = Math.sin(ry) * off, dz = Math.cos(ry) * off; bg.position.x += dx; bg.position.z += dz; dg.position.x += dx * 2; dg.position.z += dz * 2;
-    const glo = new T.Mesh(new T.PlaneGeometry(w + 2.4, h + 2.4), new T.MeshBasicMaterial({ color: 0x47f0a0, transparent: true, opacity: 0.10, blending: T.AdditiveBlending, depthWrite: false })); glo.position.set(x, y, z); glo.rotation.y = ry;
+    const glo = new T.Mesh(new T.PlaneGeometry(w + 2.4, h + 2.4), new T.MeshBasicMaterial({ color: 0x47f0a0, transparent: true, opacity: 0.18, blending: T.AdditiveBlending, depthWrite: false })); glo.position.set(x, y, z); glo.rotation.y = ry;
     grp.add(frame, bg, glo, dg); U.screens.push({ tx, k, ph: H(k, 9) });
   };
   const buildSide = (s) => {
@@ -164,13 +166,14 @@ export function buildHall() {
       put(wheelI, si, -s * 2.9, y, z, 1, 1, 1, 0, Math.PI / 2, H(si + s * 50, 7) * 6); si++;
     }
     g.add(bodyI, doorI, wheelI);
-    [56, 34, 12, -10, -30].forEach((z, k) => addScreen(g, -s * 0.1, 15.5, z, s < 0 ? Math.PI / 2 : -Math.PI / 2, 8, 4.4, k + (s > 0 ? 5 : 0)));
+    // écrans inclinés vers la caméra (sinon ils sont vus de biais et illisibles) et agrandis
+    [56, 34, 12, -10, -30].forEach((z, k) => addScreen(g, -s * 3.6, 15.5, z, -s * (Math.PI / 2 - 0.45), 11, 6, k + (s > 0 ? 5 : 0)));
     shell.add(g); return g;
   };
   U.sideL = buildSide(-1); U.sideR = buildSide(1);
   const back = new T.Group(); back.position.set(0, 0, HALL.zb); shell.add(back); U.back = back;
   const wb = new T.Mesh(new T.PlaneGeometry(2 * HALL.xw, HALL.h), backMat); wb.position.set(0, HALL.h / 2, 0); back.add(wb);
-  [-10.5, 0, 10.5].forEach((x, k) => addScreen(back, x, 15, 0.1, 0, 9, 5, k + 10));
+  [-11.5, 0, 11.5].forEach((x, k) => addScreen(back, x, 15.5, 0.1, 0, 10.5, 5.8, k + 10));
   // feux de piste le long de l'allée centrale (repères de vitesse + lignes de fuite vers la montagne)
   U.runway = new T.InstancedMesh(new T.BoxGeometry(0.5, 0.07, 1.5), new T.MeshBasicMaterial({ color: 0xffffff }), 34); U.runway.frustumCulled = false;
   for (let k = 0; k < 17; k++) for (const sd of [-1, 1]) { const i = k * 2 + (sd > 0 ? 1 : 0); put(U.runway, i, sd * 2.7, 0.06, 70 - k * 3.1, 1, 1, 1); U.runway.setColorAt(i, _c.setRGB(0, 0, 0)); }

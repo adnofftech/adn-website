@@ -81,3 +81,11 @@ export function faceCam(obj, camPos, pitchK = 0.6) {
   const dx = camPos[0] - obj.position.x, dy = camPos[1] - obj.position.y, dz = camPos[2] - obj.position.z;
   obj.rotation.order = "YXZ"; obj.rotation.y = Math.atan2(dx, dz); obj.rotation.x = -pitchK * Math.atan2(dy, Math.hypot(dx, dz)); obj.rotation.z = 0;
 }
+/** Texte d'une ligne ajusté à la largeur du plan (jamais coupé), ombre portée sombre pour rester lisible sur la carte. */
+export function fitText(text, { w = 8, h = 1, px = 1024, color = "#f3ecd4", size = 0.6, weight = 700, font = MONO, fill = 0.97 } = {}) {
+  const c = document.createElement("canvas"); c.width = px; c.height = Math.round((px * h) / w); const g = c.getContext("2d");
+  let fs = Math.round(c.height * size); g.font = `${weight} ${fs}px ${font}`; const mw = g.measureText(text).width; if (mw > c.width * fill) fs = Math.floor((fs * c.width * fill) / mw);
+  g.font = `${weight} ${fs}px ${font}`; g.textAlign = "center"; g.textBaseline = "middle"; g.shadowColor = "rgba(0,0,0,.9)"; g.shadowBlur = Math.round(fs * 0.2); g.fillStyle = color; g.fillText(text, c.width / 2, c.height / 2 + 2);
+  const tx = new T.CanvasTexture(c); tx.colorSpace = T.SRGBColorSpace; tx.anisotropy = 4;
+  return new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ map: tx, transparent: true, side: T.DoubleSide, depthWrite: false }));
+}

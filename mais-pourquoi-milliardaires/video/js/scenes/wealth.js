@@ -31,7 +31,7 @@ export const ENV = (t) => {
     const open = sstep(8.0, 9.6, t);
     return { bg: open > 0 ? mixHex(bg, 0x03080a, open).getHex() : bg, fog: lerp(0.0125, 0.0026, open) };
   }
-  if (t < 60) { const w = sstep(51.5, 54.2, t); return { bg: mixHex(0x03060e, 0x0b0703, w).getHex(), fog: 0.0028 }; }
+  if (t < 60) { const w = sstep(51.5, 54.2, t); return { bg: mixHex(0x030a0c, 0x0b0703, w).getHex(), fog: 0.0028 }; }
   return { bg: 0x020403, fog: 0.0122 };
 };
 export const SHAKE = (t) => {
@@ -52,15 +52,15 @@ export const SHOTS = [
   { t: 5.38, p: V(0, 4.1, 40.1), l: V(0, 6.2, 12.5), f: 56, e: eout },
   { t: 5.8, p: V(0, 4.15, 39.4), l: V(0, 6.0, 12.5), f: 56 },
   { t: 6.94, p: V(0, 4.2, 39.0), l: V(0, 6.0, 12.5), f: 56, e: eio },
-  { t: 7.56, p: V(0, 5.2, 17.0), l: V(0, 6.0, 12.5), f: 46, e: ein },
+  { t: 7.56, p: V(0, 5.0, 26.0), l: V(0, 6.0, 12.5), f: 50, e: ein },
   // S3 : recul spectaculaire, carte, chiffres, plongée dans un point chaud
-  { t: 7.7, p: V(0, 5.4, 17.3), l: V(0, 6.0, 12.5), f: 46, e: ein },
+  { t: 7.7, p: V(0, 5.2, 26.4), l: V(0, 6.0, 12.5), f: 50, e: ein },
   { t: 7.98, p: V(0, 12, 50), l: V(0, 8, 6), f: 54, e: eio },
   { t: 8.6, p: V(0, 40, 84), l: V(0, 6, -16), f: 58, e: eio },
   { t: 9.5, p: V(0, 84, 84), l: V(0, 2, -34), f: 58, e: eio },
-  { t: 10.6, p: V(0, 100, 56), l: V(0, 2, -42), f: 56 },
-  { t: 11.8, p: V(-3, 99, 54), l: V(-1, 2, -42), f: 56, e: eio },
-  { t: 12.5, p: V(2, 96, 50), l: V(1, 2, -42), f: 56, e: ein },
+  { t: 10.6, p: V(0, 100, 56), l: V(0, 2, -47), f: 56 },
+  { t: 11.8, p: V(-3, 99, 54), l: V(-1, 2, -47), f: 56, e: eio },
+  { t: 12.5, p: V(2, 96, 50), l: V(1, 2, -47), f: 56, e: ein },
   { t: END1 - 0.01, p: V(DIVE_XZ[0] + 0.15, dvH + 1.9, DIVE_XZ[1] + 2.4), l: V(DIVE_XZ[0], dvH + 0.2, DIVE_XZ[1] - 0.6), f: 50 },
   // S13 : réseau froid vu d'en haut, descente vers le hub, un flux jusqu'au bénéficiaire
   { t: 51.3, p: V(-26, 92, 10), l: V(HUB.x, 2, HUB.z), f: 54 },
@@ -118,8 +118,8 @@ export function update(g, t) {
     if (open > 0.5) { sun.position.set(-30, 80, 50); sun.color.setHex(0xe6fff4); sun.intensity = 1.5; hemi.intensity = 1.15; }
     pt.color.setHex(doubt > 0.5 ? 0x8fb4ff : 0xffc34d); pt.intensity = (t > S2 && t < 8.4 ? 34 * (1 - 0.5 * doubt) : 0) * (1 - open); pt.position.set(0, 7, 20);
   } else if (isB) {
-    mixHex(0x7fa6f0, 0xffdcae, warm13, hemi.color); mixHex(0x08122a, 0x2a1a08, warm13, hemi.groundColor); hemi.intensity = 0.8 + 0.1 * warm13;
-    mixHex(0xaecbff, 0xffd9a0, warm13, sun.color); sun.intensity = 0.8 + 0.3 * warm13; sun.position.set(-30, 70, 40);
+    mixHex(0x9fd8cc, 0xffdcae, warm13, hemi.color); mixHex(0x0a2420, 0x2a1a08, warm13, hemi.groundColor); hemi.intensity = 0.8 + 0.1 * warm13;
+    mixHex(0xb8e6d8, 0xffd9a0, warm13, sun.color); sun.intensity = 0.8 + 0.3 * warm13; sun.position.set(-30, 70, 40);
     pt.color.setHex(0xffc470); pt.position.set(HERO_XZ[0] + 2.5, 4.5, HERO_XZ[1] + 5); pt.intensity = 9 * sstep(54.2, 54.6, t); pt.distance = 40;
   } else {
     const lit = 0.28 + 0.72 * sstep(79.16, 79.45, t);
@@ -130,7 +130,7 @@ export function update(g, t) {
   // ---------------- visibilités
   const hallVis = isA || (isC && t < 9.4);
   hall.visible = hallVis; wave.visible = isC && t >= 7.95 && t < 10.2; mtn.visible = isA || (isC && t < END1 + 0.1); map.visible = (isC && t >= 8.0) || isB;
-  floor.material.color.setHex(isB ? 0xb8c4d8 : 0xffffff);
+  floor.material.color.setHex(isB ? 0xb8d0c8 : 0xffffff);
   let hk = 1, shellY = 0, ceilY = 0;
   if (isC) { hk = 1 - sstep(8.0, 8.7, t); shellY = -32 * ein(lin(8.8, 9.45, t)); ceilY = 50 * eio(lin(7.95, 8.6, t)); }
   const fL = isC ? ein(lin(7.98, 8.68, t)) : 0, fB = isC ? ein(lin(8.12, 8.82, t)) : 0;
@@ -139,7 +139,7 @@ export function update(g, t) {
   hU.shell.visible = shellY > -31; hU.ceil.visible = ceilY < 45;
 
   // ---------------- montagne
-  if (isC) { const s = (1 + 0.3 * eio(lin(7.9, 9.4, t))) * (1 - 0.1 * eio(lin(10.7, 13, t))); mtn.scale.setScalar(s); }
+  if (isC) { const s = 1 + 0.55 * eio(lin(7.9, 9.4, t)); mtn.scale.setScalar(s); }
   else if (isA) { const m = eio(lin(79.2, 82.6, t)); mtn.scale.set(1 - 0.08 * m, 1 - 0.24 * m, 1 - 0.08 * m); }
 
   // ---------------- salle
@@ -156,7 +156,7 @@ export function update(g, t) {
     hU.screens.forEach((s) => { s.tx.offset.y = ((t * (0.55 + 0.25 * s.ph) + s.ph) % 1); });
     hU.riches.userData.setAll(hU.riches.userData.cashI, hU.riches.userData.cash, isA ? 99 : t);
     hU.riches.userData.setAll(hU.riches.userData.goldI, hU.riches.userData.gold, isA ? 99 : t);
-    hU.riches.userData.setAll(hU.riches.userData.coinI, hU.riches.userData.coin, isA ? 99 : t);
+    hU.riches.userData.setAll(hU.riches.userData.coinI, hU.riches.userData.coin, isA ? -99 : t);   // S18 : pas de piliers de pièces devant la foule
     // joie de la foule : après « donnaient », figée au ralenti après « non ? »
     const joy = isA ? 1 : sstep(3.0, 3.6, t) * (1 - sstep(TM.non, TM.non + 0.25, t)) * (1 - 0.0);
     const tone = isA ? 0 : sstep(TM.non, TM.non + 0.4, t);
@@ -195,7 +195,7 @@ export function update(g, t) {
       nb.A.visible = nb.B.visible = t >= TM.milliers - 0.02; if (nb.A.visible) updateNumbers(nb, t, cam);
     } else {
       updateMap(M, t, 13, warm13); M.fA.group.visible = false; M.dive.visible = false; M.diveFill.visible = false; M.hub.visible = true; M.pBody.visible = M.pHead.visible = M.bars.visible = M.stock.visible = true; nb.A.visible = nb.B.visible = false;
-      updateS13Fx(M, t, warm13);
+      updateS13Fx(M, t, warm13, [cam.p[0] - ox, cam.p[1] - oy, cam.p[2] - oz]);
     }
   } else { nb.A.visible = nb.B.visible = false; }
 }

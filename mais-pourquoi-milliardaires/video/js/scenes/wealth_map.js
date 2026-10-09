@@ -1,12 +1,12 @@
 // Carte du monde stylisée en relief (S3, S13) : colonnes/points procéduraux, flux lumineux, jetons, silhouettes, hub de distribution, bénéficiaire, chiffres géants.
 import { T, H, clamp, lerp, sstep, lin, eio, eout, ein, eoutBack, glowTex, billTex, mk, FONT, MONO, glow, makePerson, SKIN, CLOTH } from "../shared.js";
-import { _o, _c, _v, put, hide, pop, mixHex, bez, makeSegDisplay, fatText, smallText } from "./wealth_lib.js";
+import { _o, _c, _v, put, hide, pop, mixHex, bez, makeSegDisplay, fatText, smallText, fitText } from "./wealth_lib.js";
 
 const TAU = Math.PI * 2;
 export const MAPC = { kx: 0.27, kz: 0.5, lon0: 10, zN: -22, latS: -56, lonMin: -135, dLon: 3.67, dLat: 2.2, cols: 79, rows: 62 };
 export const mapXZ = (lon, lat) => [(lon - MAPC.lon0) * MAPC.kx, MAPC.zN - (lat - MAPC.latS) * MAPC.kz];
 export const HUB = new T.Vector3(-12, 1.0, -52.5);     // « système de distribution » (S13)
-export const SRC3 = new T.Vector3(0, 25.5, -3);          // sommet de la montagne (S3) d'où partent les flux
+export const SRC3 = new T.Vector3(0, 30.5, -3);          // sommet de la montagne (S3) d'où partent les flux
 
 // ------------------------------------------------------------------ continents (lon, lat), volontairement grossiers
 const P = (s) => s.trim().split(/\s+/).map((p) => p.split(",").map(Number));
@@ -87,21 +87,22 @@ function buildFlows(origin, targets, { N = 20, w = 0.2, pk = 0.22, pb = 6, nCoin
 }
 const _qa = new T.Vector3();
 /** Met à jour couleurs des rubans + jetons. front(a) -> progression 0..1 ; base(a) -> luminosité de base ; cA,cB couleurs (tête → origine / cible) */
-function paintFlows(F, t, { front, base, colA, colB, pulse, coinCol, coinK, spd = 0.7, coinHead = null, coinMul = null }) {
-  const { arcs, N, col, nCoin, coins } = F; let ci = 0; const c = new T.Color();
+function paintFlows(F, t, { front, base, colA, colB, pulse, coinCol, coinK, spd = 0.7, coinHead = null, coinMul = null, cam = null }) {
+  const { arcs, N, col, nCoin, coins } = F; let ci = 0; const c = new T.Color(); const PA = F.mesh.geometry.attributes.position.array;
+  const nearK = (x, y, z) => (cam ? sstep(5, 22, Math.hypot(x - cam[0], y - cam[1], z - cam[2])) : 1);   // les rubans proches de la caméra s'effacent (rien ne traverse l'objectif)
   for (let a = 0; a < arcs.length; a++) {
     const arc = arcs[a]; const f = front(a, arc); const bs = base(a, arc); const ph = H(a, 51) * 3;
     for (let j = 0; j <= N; j++) {
       const s = j / N; let I = 0; const rt = clamp(Math.pow(s / 0.4, 1.8), 0.012, 1);
       if (f > 0 && s <= f + 0.001) { const head = Math.exp(-((f - s) * 9)); I = bs * (0.55 + 0.45 * head); if (f < 1) I += 0.7 * Math.exp(-Math.pow((f - s) * 14, 2)); }
       if (pulse && f > 0 && s <= f + 0.001) { const pp = ((t * spd + ph) % 1); I += pulse * Math.exp(-Math.pow((s - pp) * 9, 2)); }
-      I = Math.min(I * rt, 0.95); c.copy(colA).lerp(colB, s); const b = (a * (N + 1) + j) * 4;
+      const b = (a * (N + 1) + j) * 4; I = Math.min(I * rt, 0.95) * nearK(PA[b * 3], PA[b * 3 + 1], PA[b * 3 + 2]); c.copy(colA).lerp(colB, s);
       for (let k = 0; k < 4; k++) { col[(b + k) * 3] = c.r * I; col[(b + k) * 3 + 1] = c.g * I; col[(b + k) * 3 + 2] = c.b * I; }
     }
     for (let k = 0; k < nCoin; k++) {
       let s = ((t - arc.tl) / (arc.dur * 1.25) + k / nCoin); s -= Math.floor(s); const ch = coinHead ? coinHead(a, arc) : f; const ck = coinK * (coinMul ? coinMul(a, arc) : 1); const ok = ch > 0 && s <= ch && ck > 0.001 && t > arc.tl - 0.001;
       if (!ok) { hide(coins, ci); coins.setColorAt(ci, c.setRGB(0, 0, 0)); ci++; continue; }
-      bez(arc.p0, arc.c, arc.p1, s, _qa); const sc = ck * (0.8 + 0.3 * H(a * 3 + k, 7)) * Math.min(1, s / 0.05, (1 - s) / 0.05 + 0.3);
+      bez(arc.p0, arc.c, arc.p1, s, _qa); const sc = ck * (0.8 + 0.3 * H(a * 3 + k, 7)) * Math.min(1, s / 0.05, (1 - s) / 0.05 + 0.3) * nearK(_qa.x, _qa.y, _qa.z);
       put(coins, ci, _qa.x, _qa.y, _qa.z, sc, sc, sc, 0.6 + t * 2, t * 6 + a, 0); coins.setColorAt(ci, coinCol); ci++;
     }
   }
@@ -154,7 +155,12 @@ export function buildMap() {
   const plat = new T.Mesh(new T.CylinderGeometry(2.3, 2.5, 0.3, 28), new T.MeshLambertMaterial({ color: 0xd9a63a, emissive: 0x3a2808 })); plat.position.y = -0.1; hero.add(plat);
   const hp = warmPerson(2.0); hero.add(hp); M.heroP = hp;
   M.heroGlow = glow(0xff9a3c, 13, 0.0); M.heroGlow.position.set(0, 2.8, -2.2); hero.add(M.heroGlow);
-  M.heroBeam = new T.Mesh(gradBeam(2.0, 2.8, 34), beamMat(0xffc870, 0.0)); M.heroBeam.position.set(0, 17, -0.4); hero.add(M.heroBeam);
+  // faisceau du bénéficiaire : deux plans croisés à gradient horizontal (bords fondus, pas de bord net) + fondu vers le haut
+  const softTex = mk(64, 256, (g, w, h) => { const gx = g.createLinearGradient(0, 0, w, 0); gx.addColorStop(0, "rgba(255,255,255,0)"); gx.addColorStop(0.5, "rgba(255,255,255,1)"); gx.addColorStop(1, "rgba(255,255,255,0)"); g.fillStyle = gx; g.fillRect(0, 0, w, h);
+    g.globalCompositeOperation = "destination-in"; const gy = g.createLinearGradient(0, 0, 0, h); gy.addColorStop(0, "rgba(0,0,0,0)"); gy.addColorStop(0.55, "rgba(0,0,0,.6)"); gy.addColorStop(1, "rgba(0,0,0,1)"); g.fillStyle = gy; g.fillRect(0, 0, w, h); });
+  M.heroBeam = new T.Group(); M.heroBeam.position.set(0, 15, -0.4);
+  for (const ry of [0, Math.PI / 2]) { const bp = new T.Mesh(new T.PlaneGeometry(6.4, 30), new T.MeshBasicMaterial({ map: softTex, color: 0xffc870, transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); bp.rotation.y = ry; M.heroBeam.add(bp); }
+  hero.add(M.heroBeam);
   M.heroCoins = new T.InstancedMesh(new T.CylinderGeometry(0.5, 0.5, 0.12, 8), new T.MeshBasicMaterial({ color: 0xffd36a }), 60); M.heroCoins.frustumCulled = false; hero.add(M.heroCoins);
   M.dive = glow(0xffa640, 3, 0); M.dive.material.depthTest = false; M.dive.renderOrder = 20; map.add(M.dive);
   M.diveFill = glow(0xff9d2e, 3, 0); M.diveFill.material.blending = T.NormalBlending; M.diveFill.material.depthTest = false; M.diveFill.renderOrder = 21; map.add(M.diveFill); M.diveCell = CELLS.find((c) => c.dive);
@@ -163,8 +169,8 @@ export function buildMap() {
 
 // ------------------------------------------------------------------ mise à jour de la carte
 const C = (h) => new T.Color(h);
-const CS = { base: C(0x0e4030), hi: C(0x3cbd86), lit: C(0x6dffb8), gold: C(0xffd070), cold0: C(0x060d1e), cold1: C(0x15366f), mid0: C(0x2b2142), mid1: C(0x6e5384), warm0: C(0x3a1c08), warm1: C(0xb0661c) };
-const DAWN = [C(0x4f8cff), C(0x9a5cff), C(0xff6f8e), C(0xffa238), C(0xffd36a)];
+const CS = { base: C(0x0e4030), hi: C(0x3cbd86), lit: C(0x6dffb8), gold: C(0xffd070), cold0: C(0x061218), cold1: C(0x1c5a66), mid0: C(0x0e3a2c), mid1: C(0x2f8f6a), warm0: C(0x3a2a0a), warm1: C(0xc08a24) };
+const DAWN = [C(0x3fb4d0), C(0x35c89a), C(0x8fdc72), C(0xffc23e), C(0xffe08a)];
 export function dawn(u, out) { const x = clamp(u) * 4, i = Math.min(3, Math.floor(x)); return out.copy(DAWN[i]).lerp(DAWN[i + 1], x - i); }
 const _k = new T.Color(), _k2 = new T.Color(), _k3 = new T.Color();
 const act = (M, c) => (c.tgt !== undefined ? M.fA.arcs[c.tgt].tl + M.fA.arcs[c.tgt].dur : 11.86 + 1.14 * (0.55 * c.dN + 0.45 * c.j));
@@ -189,7 +195,7 @@ export function updateMap(M, t, mode, warm) {
       if (mode === 3) { _k.copy(CS.lit).lerp(CS.gold, c.j < 0.5 ? 0.12 : 0.5 + 0.35 * c.j); if (c.dive) _k.setRGB(1, 0.72, 0.3); }
       else dawn(warm * (0.35 + 0.65 * litK), _k);
       M.plates.setColorAt(i, _k.multiplyScalar(ps));
-      const hs = (mode === 3 ? 3.4 : 2.8) * ps * (c.dive ? 1.7 : 1); put(M.halos, i, c.x, hh + 0.08, c.z, hs, 1, hs); M.halos.setColorAt(i, _k.multiplyScalar(mode === 3 ? 0.8 : 0.32));
+      const hs = (mode === 3 ? 2.0 : 2.8) * ps * (c.dive ? 1.7 : 1); put(M.halos, i, c.x, hh + 0.08, c.z, hs, 1, hs); M.halos.setColorAt(i, _k.multiplyScalar(mode === 3 ? 0.4 : 0.32));
     } else { hide(M.plates, i); hide(M.halos, i); }
   }
   for (const k of ["cols", "plates", "halos"]) { M[k].instanceMatrix.needsUpdate = true; M[k].instanceColor.needsUpdate = true; }
@@ -197,16 +203,16 @@ export function updateMap(M, t, mode, warm) {
 
 export function updateS3Fx(M, t) {
   const F = M.fA; const on = t > 10.55; F.group.visible = on;
-  if (on) paintFlows(F, t, { front: (a, arc) => clamp((t - arc.tl) / arc.dur), base: () => 0.26, colA: _k.setRGB(0.28, 0.95, 0.62), colB: _k2.setRGB(1, 0.82, 0.42), pulse: 0.34, coinCol: new T.Color(0xffd36a), coinK: 1.1, spd: 0.8 });
+  if (on) paintFlows(F, t, { front: (a, arc) => clamp((t - arc.tl) / arc.dur), base: () => 0.2, colA: _k.setRGB(0.28, 0.95, 0.62), colB: _k2.setRGB(1, 0.82, 0.42), pulse: 0.28, coinCol: new T.Color(0xffd36a), coinK: 1.1, spd: 0.8 });
   const dc = M.diveCell; const dv = sstep(12.5, 13.18, t);
-  M.dive.position.set(dc.x, dc.h + 1.0, dc.z); M.dive.scale.setScalar(lerp(3, 70, ein(dv))); M.dive.material.opacity = 0.25 + 0.55 * dv; M.dive.visible = t > 11.4;
+  M.dive.position.set(dc.x, dc.h + 1.0, dc.z); M.dive.scale.setScalar(lerp(3, 70, ein(dv))); M.dive.material.opacity = 0.2 + 0.3 * dv; M.dive.visible = t > 11.4;
   M.diveFill.position.copy(M.dive.position); M.diveFill.scale.setScalar(90); M.diveFill.material.opacity = sstep(12.9, 13.16, t); M.diveFill.visible = t > 12.85;
 }
 
-export function updateS13Fx(M, t, warm) {
-  const F = M.fB; F.group.visible = true; const burst = sstep(53.96, 54.12, t); const fade = sstep(54.45, 54.75, t);
+export function updateS13Fx(M, t, warm, cam = null) {
+  const F = M.fB; F.group.visible = true; const burst = sstep(53.96, 54.12, t); const fade = sstep(54.2, 54.5, t);
   const colA = dawn(warm, new T.Color()), colB = dawn(Math.min(1, warm + 0.18), new T.Color()).lerp(_k2.setRGB(1, 1, 1), 0.12);
-  paintFlows(F, t, { front: () => 1, base: (a) => (a === 0 ? (0.26 + 0.3 * burst) * (1 - 0.9 * sstep(54.5, 54.72, t)) : (0.1 + 0.16 * burst) * (1 - fade * 0.97)), colA, colB, pulse: (0.16 + 0.3 * burst) * (1 - 0.9 * fade), coinCol: new T.Color(0xffd36a), coinK: 1.0, spd: 0.5 + 0.9 * burst,
+  paintFlows(F, t, { front: () => 1, base: (a) => (a === 0 ? (0.26 + 0.3 * burst) * (1 - 0.9 * sstep(54.5, 54.72, t)) : (0.1 + 0.16 * burst) * (1 - fade * 0.95)), colA, colB, pulse: (0.16 + 0.3 * burst) * (1 - 0.95 * fade), cam, coinCol: new T.Color(0xffd36a), coinK: 1.0, spd: 0.5 + 0.9 * burst,
     coinHead: (a, arc) => clamp((t - arc.tl) / arc.dur), coinMul: (a) => (a === 0 ? 1 - sstep(54.55, 54.75, t) : 1 - fade) });
   let m = 0;
   for (const s of M.stockData) { const u = (t - s.t0) / s.dur; if (u <= 0 || u >= 1) continue; const e = u * u * (3 - 2 * u); bez(s.p0, s.c, s.p1, e, _qa); const sc = 0.9 * Math.min(1, u / 0.1) * Math.min(1, (1 - u) / 0.15); put(M.stock, m, _qa.x, _qa.y, _qa.z, sc, sc, sc, u * 6, u * 5, 0); M.stock.setColorAt(m, _k.setRGB(0.55, 0.78, 1)); m++; }
@@ -224,14 +230,14 @@ export function updateS13Fx(M, t, warm) {
   for (const k of [M.pBody, M.pHead, M.bars]) { k.instanceMatrix.needsUpdate = true; k.instanceColor.needsUpdate = true; }
   const chg = sstep(52.2, 53.7, t), gold = sstep(53.64, 53.95, t); const hc = dawn(Math.max(gold * 0.8, warm * 0.9), _k);
   M.ringMat.color.copy(hc); M.ring.rotation.z = t * 0.5; M.ring2.rotation.z = -t * 0.9; M.ring2.position.y = 3 + Math.sin(t * 2) * 0.3;
-  M.beam.material.color.copy(hc); M.beam.material.opacity = 0.1 + 0.22 * chg + 0.2 * burst; M.core.material.color.copy(hc); M.core.material.opacity = 0.35 + 0.3 * chg; M.core.scale.setScalar(6 + 3 * burst + 1.5 * Math.sin(t * 6) * chg);
+  M.beam.material.color.copy(hc); M.beam.material.opacity = Math.min(0.25, 0.1 + 0.22 * chg + 0.2 * burst) * (1 - sstep(54.1, 54.35, t)); M.core.material.color.copy(hc); M.core.material.opacity = (0.35 + 0.3 * chg) * (1 - sstep(54.15, 54.4, t)); M.core.scale.setScalar(6 + 3 * burst + 1.5 * Math.sin(t * 6) * chg);
   M.hubPlate.material.color.copy(hc); M.hubPlate.material.opacity = 0.14 + 0.2 * chg;
   const fill = clamp((t - 52.2) / 2.3); for (let i = 0; i < 28; i++) { const on = i / 28 < fill; M.gauge.setColorAt(i, on ? _c.copy(hc) : _c.setRGB(0.07, 0.1, 0.18)); } M.gauge.instanceColor.needsUpdate = true;
   // bénéficiaire
   const hp = pop((t - 53.9) / 0.4); M.hero.visible = hp > 0.01; M.hero.scale.setScalar(Math.max(0.001, hp));
   const up = sstep(54.35, 54.7, t); M.heroP.rotation.y = Math.sin(t * 1.3) * 0.1; M.heroP.userData.armL.rotation.z = lerp(0.12, -(Math.PI - 0.75), up); M.heroP.userData.armR.rotation.z = lerp(-0.12, Math.PI - 0.75, up);
   M.heroP.position.y = 0.16 * Math.abs(Math.sin(t * 7)) * sstep(54.5, 54.7, t);
-  M.heroGlow.material.opacity = 0.5 * sstep(54.1, 54.55, t); M.heroBeam.material.opacity = 0.22 * sstep(54.0, 54.4, t);
+  M.heroGlow.material.opacity = 0.5 * sstep(54.1, 54.55, t); M.heroBeam.children.forEach((b) => { b.material.opacity = 0.13 * sstep(54.0, 54.4, t); });
   for (let i = 0; i < 44; i++) { const ta = 54.1 + 0.55 * H(i, 91); const u = (t - ta) / 0.85; if (u <= 0 || u >= 1) { hide(M.heroCoins, i); continue; } const a = H(i, 92) * TAU, r = 1.2 + 1.8 * H(i, 94); put(M.heroCoins, i, Math.cos(a) * r, 9 - u * 8, Math.sin(a) * r * 0.6 - 0.8, 0.3, 0.3, 0.3, u * 7 + i, u * 5, 0); }
   M.heroCoins.instanceMatrix.needsUpdate = true;
 }
@@ -242,16 +248,19 @@ export function buildNumbers() {
   const A = new T.Group(), B = new T.Group(); const N = {};
   N.d18 = makeSegDisplay(5, { gapAfter: [1], offCol: 0x15110a }); N.d18.position.set(1.5, 0.2, 0); A.add(N.d18);
   N.tilde = fatText("≈", { w: 2.4, h: 2.6, px: 320, size: 0.9, layers: 4, step: 0.06 }); N.tilde.position.set(-4.05, 0.25, 0); A.add(N.tilde);
-  N.unit = fatText("Md€", { w: 9, h: 3.2, px: 900, size: 0.8, layers: 5, step: 0.07 }); N.unit.position.set(0.25, -2.9, 0); A.add(N.unit);
-  N.mention = smallText("Forbes 1er mars 2026 · converti au taux BCE du 09/10/2026", { w: 14.4, h: 0.78, px: 1700, size: 0.5 }); N.mention.position.set(0.25, -4.75, 0.1); A.add(N.mention);
+  N.unit = fatText("Md€", { w: 9, h: 3.2, px: 900, size: 0.8, layers: 5, step: 0.07 }); N.unit.position.set(0.25, -2.75, 0); A.add(N.unit);
+  // mention de conversion (FACTS F1€) : 2 lignes centrées, dans les marges, crème pleine opacité
+  N.mention = new T.Group(); N.mention.userData.lines = [];
+  [["Forbes 1er mars 2026 · converti au taux", -4.3], ["BCE du 09/10/2026 (1 € = 1,1206 $)", -5.0]].forEach(([tx, y]) => { const m = fitText(tx, { w: 10.8, h: 0.85, px: 1560, size: 0.62, color: "#f3ecd4" }); m.position.set(0, y, 0.1); N.mention.add(m); N.mention.userData.lines.push(m); }); A.add(N.mention);
   N.back = new T.Mesh(new T.PlaneGeometry(19, 8.4), new T.MeshBasicMaterial({ map: cardTex(), transparent: true, opacity: 0, depthWrite: false })); N.back.position.set(0.25, -2.0, -0.9); A.add(N.back);
-  N.backM = new T.Mesh(new T.PlaneGeometry(18, 2.4), new T.MeshBasicMaterial({ map: cardTex(), transparent: true, opacity: 0, depthWrite: false })); N.backM.position.set(0.25, -4.75, -0.5); A.add(N.backM);
+  N.backM = new T.Mesh(new T.PlaneGeometry(17, 3.0), new T.MeshBasicMaterial({ map: cardTex(), transparent: true, opacity: 0, depthWrite: false })); N.backM.position.set(0.25, -4.65, -0.5); A.add(N.backM);
   N.plus = smallText("plus de", { w: 3.4, h: 1.0, px: 480, size: 0.7, color: "#f3ecd4", font: FONT }); N.plus.position.set(-6.2, -0.1, 0); B.add(N.plus);
   N.d824 = makeSegDisplay(3, { pitch: 1.46, offCol: 0x15110a }); N.d824.position.set(-0.6, 0.2, 0); B.add(N.d824);
   N.mill1 = fatText("millions", { w: 6.2, h: 1.9, px: 800, size: 0.7, layers: 4, step: 0.06, color: "#f3ecd4" }); N.mill1.position.set(5.6, 0, 0); B.add(N.mill1);
   N.mill2 = fatText("de personnes", { w: 9.6, h: 1.6, px: 1200, size: 0.7, layers: 4, step: 0.06, color: "#f3ecd4" }); N.mill2.position.set(0.2, -2.35, 0); B.add(N.mill2);
-  N.sub = smallText("moins de 3 $ par jour · Banque mondiale, 2024", { w: 13, h: 0.78, px: 1500, size: 0.52 }); N.sub.position.set(0.2, -4.0, 0.1); B.add(N.sub);
-  N.back2 = new T.Mesh(new T.PlaneGeometry(19, 7.6), new T.MeshBasicMaterial({ map: cardTex(), transparent: true, opacity: 0, depthWrite: false })); N.back2.position.set(0.2, -1.9, -0.9); B.add(N.back2);
+  N.sub = fitText("moins de 3 $ par jour", { w: 9.4, h: 1.0, px: 1200, size: 0.62, color: "#f3ecd4", font: FONT, weight: 700 }); N.sub.position.set(0.2, -3.95, 0.1); B.add(N.sub);
+  N.src = fitText("Banque mondiale, 2024", { w: 8, h: 0.8, px: 1000, size: 0.55, color: "#f3ecd4" }); N.src.position.set(0.2, -4.95, 0.1); B.add(N.src);
+  N.back2 = new T.Mesh(new T.PlaneGeometry(19, 9.4), new T.MeshBasicMaterial({ map: cardTex(), transparent: true, opacity: 0, depthWrite: false })); N.back2.position.set(0.2, -2.45, -0.9); B.add(N.back2);
   return { A, B, N };
 }
 const digitsOf = (v, slots) => { const s = String(Math.max(0, Math.round(v))); const out = new Array(slots).fill(null); for (let i = 0; i < s.length; i++) out[slots - s.length + i] = Number(s[i]); return out; };
@@ -266,18 +275,18 @@ export function placeHud(obj, cam, px, py, D, k, sway = 0, t = 0) {
   _eu.set(0.05 * sway * Math.sin(t * 0.9), 0.16 * sway * Math.sin(t * 1.3), 0, "YXZ"); _qs.setFromEuler(_eu); obj.quaternion.multiply(_qs); obj.scale.setScalar(k);
 }
 export function updateNumbers(NB, t, cam) {
-  const { A, B, N } = NB; const tM = 9.2, tMd = 9.86, tE = 10.22, tMi = 11.86; const out = 1 - sstep(12.52, 12.78, t);
+  const { A, B, N } = NB; const tM = 9.2, tMd = 9.86, tE = 10.22, tMi = 11.86; const out = 1 - sstep(12.85, 13.05, t);   // le panneau reste lisible jusqu'au plongeon (blanc de raccord dès 12,9)
   A.visible = t >= tM - 0.02 && out > 0.01;
   const v18 = 18000 * eout(clamp((t - tM) / 1.05)); N.d18.userData.set(digitsOf(t < tM ? 0 : v18, 5));
-  const unitS = pop((t - tMd) / 0.32); N.unit.visible = unitS > 0.01; N.unit.scale.setScalar(Math.max(0.001, unitS)); N.unit.position.y = -2.9 + (1 - Math.min(1, unitS)) * 1.5;
+  const unitS = pop((t - tMd) / 0.32); N.unit.visible = unitS > 0.01; N.unit.scale.setScalar(Math.max(0.001, unitS)); N.unit.position.y = -2.75 + (1 - Math.min(1, unitS)) * 1.5;
   const ts = pop((t - (tM + 0.9)) / 0.3); N.tilde.visible = ts > 0.01; N.tilde.scale.setScalar(Math.max(0.001, ts));
-  const ms = sstep(tE, tE + 0.4, t); N.mention.material.opacity = ms * 0.95; N.mention.visible = ms > 0.01; N.backM.material.opacity = 0.95 * ms;
+  const ms = sstep(tE, tE + 0.4, t); N.mention.userData.lines.forEach((m) => { m.material.opacity = ms; }); N.mention.visible = ms > 0.01; N.backM.material.opacity = 0.95 * ms;
   N.back.material.opacity = 0.85 * sstep(tM - 0.1, tM + 0.5, t);
   const pulse = 1 + 0.07 * Math.exp(-Math.pow((t - tMd) * 9, 2)) + 0.05 * Math.exp(-Math.pow((t - tE) * 9, 2));
-  placeHud(A, cam, 540, 330, 70, 2.72 * pulse * (0.4 + 0.6 * out), 1, t);
+  placeHud(A, cam, 540, 330, 30, 1.166 * pulse * (0.4 + 0.6 * out), 1, t);   // D=30 : le HUD reste devant la montagne pendant la plongée
   B.visible = t >= tMi - 0.05 && out > 0.01;
   const v824 = 824 * eout(clamp((t - tMi) / 0.55)); N.d824.userData.set(digitsOf(t < tMi ? 0 : v824, 3));
   const ps = pop((t - (tMi + 0.12)) / 0.3), ps2 = pop((t - 12.4) / 0.3); for (const [o, k] of [[N.mill1, ps], [N.mill2, ps2], [N.plus, ps]]) { o.visible = k > 0.01; if (o.userData.planes) o.scale.setScalar(Math.max(0.001, k)); }
-  N.sub.material.opacity = sstep(tMi + 0.55, tMi + 0.9, t) * 0.95; N.sub.visible = t > tMi + 0.5; N.back2.material.opacity = 0.85 * sstep(tMi, tMi + 0.4, t);
-  placeHud(B, cam, 540, 1085, 70, 1.95 * (0.4 + 0.6 * out), 1, t + 3);
+  N.sub.material.opacity = sstep(tMi + 0.15, tMi + 0.4, t); N.sub.visible = t > tMi + 0.1; N.src.material.opacity = sstep(12.4, 12.62, t); N.src.visible = t > 12.38; N.back2.material.opacity = 0.85 * sstep(tMi, tMi + 0.4, t);
+  placeHud(B, cam, 530, 1040, 30, 0.793 * (0.4 + 0.6 * out), 1, t + 3);
 }
