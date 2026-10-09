@@ -79,7 +79,7 @@ export function buildS15(root) {
     return { grp, pl, lab, gl, k }; });
 
   // ---------- jauge SOLDE (10 segments) ----------
-  { const gp = new T.Group(); gp.position.set(0.35, TOP + 0.01, 1.02); gp.rotation.x = -0.95; g.add(gp); S.gauge = gp;
+  { const gp = new T.Group(); gp.position.set(0.35, TOP + 0.01, 1.2); gp.rotation.x = -1.12; g.add(gp); S.gauge = gp;
     bx(1.7, 0.52, 0.06, M(0x1d1f22, 0x0a0a0c), 0, 0.26, 0, gp); bx(1.76, 0.03, 0.08, M(PAL.gold, 0x4a3808), 0, 0.535, 0, gp);
     const seg = new T.InstancedMesh(new T.BoxGeometry(0.13, 0.22, 0.04), new T.MeshBasicMaterial({ color: 0xffffff }), 10); seg.frustumCulled = false; seg.position.set(0, 0.17, 0.05); gp.add(seg); S.seg = seg;
     const lb = textPlane("SOLDE", { w: 0.7, h: 0.17, px: 320, size: 0.7, color: "#f3ecd4", align: "left" }); lb.position.set(-0.52, 0.4, 0.04); gp.add(lb); }
@@ -121,7 +121,7 @@ export function buildS15(root) {
     // coude + bec
     const sx = PIPE.xs - PIPE.x0; sp(0.14, steel, sx, 0, 0, pg, 12, 8); cy(0.1, 0.1, 0.5, steel, sx, -0.27, 0, pg, 12); cy(0.1, 0.07, 0.16, steel, sx, -0.6, 0, pg, 12); S.spout = [sx, -0.7];
     // plaque « REVENU STABLE » + étiquette FERMÉ
-    const pl = textPlane("REVENU STABLE", { w: 1.5, h: 0.3, px: 512, size: 0.58, color: "#b4c0ba", bg: "#202624", border: "#6a7570" }); pl.position.set(-1.35 - PIPE.x0 + 0.2, 0.42, 0.06); pg.add(pl); S.plaque = pl;
+    const pl = textPlane("REVENU STABLE", { w: 1.15, h: 0.26, px: 512, size: 0.56, color: "#b4c0ba", bg: "#202624", border: "#6a7570" }); pl.position.set(0.28 - PIPE.x0, -0.46, 0.06); pg.add(pl); S.plaque = pl;
     const fm = textPlane("FERMÉ", { w: 0.62, h: 0.24, px: 320, size: 0.66, color: "#fff7ee", bg: "#d8382b" }); fm.position.set(vx, -0.38, 0.22); pg.add(fm); S.closed = fm; }
   // pointillé gris du flux absent (de la sortie du bec jusqu'à la pile)
   { S.dots = []; const A = [PIPE.xs, PIPE.y - 0.82, PIPE.z], B = [PILE[0] + 0.1, 1.38, PILE[1] - 0.05], C = [PIPE.xs - 0.1, 2.4, -0.4]; const tmp = new T.Vector3();
@@ -130,6 +130,7 @@ export function buildS15(root) {
   S.pulses = [0, 1, 2].map(() => { const m = sp(0.075, new T.MeshBasicMaterial({ color: 0xe8b84a, transparent: true, opacity: 0.8 }), 0, 0, 0, g, 8, 6); m.visible = false; return m; });
   S.valveFlash = glow(0xff5a3a, 1.2, 0); S.valveFlash.position.set(PIPE.xv - 0.24, PIPE.y, PIPE.z + 0.1); g.add(S.valveFlash);
   S.spark = glow(0xffe6a0, 1.0, 0); g.add(S.spark);
+  S.lowGlow = glow(0xff4a30, 1.6, 0); S.lowGlow.position.set(PILE[0] + 0.3, TOP + 0.2, 0.5); g.add(S.lowGlow);
   return S;
 }
 
@@ -201,6 +202,7 @@ export function updateS15(S, t) {
     S.pulses.forEach((p, j) => { const ph = ((t - T15.revenus) / 0.85 + j / 3); const on = t > T15.revenus && t < 63.0; const f = ph - Math.floor(ph); p.visible = on && f < 0.97; const x = PIPE.x0 + 0.1 + (PIPE.xv - PIPE.x0 - 0.35) * f; p.position.set(x, PIPE.y, PIPE.z); p.material.opacity = 0.85 * (1 - sstep(0.85, 0.97, f)); p.scale.setScalar(1 - 0.5 * sstep(0.85, 0.97, f)); });
     let vf = 0; for (let j = 0; j < 3; j++) { const ph = ((t - T15.revenus) / 0.85 + j / 3); const f = ph - Math.floor(ph); if (t > T15.revenus && t < 63.0 && f > 0.9) vf = Math.max(vf, (f - 0.9) / 0.1); }
     S.valveFlash.material.opacity = 0.6 * vf; S.valveFlash.scale.setScalar(0.8 + 0.8 * vf); }
+  S.lowGlow.material.opacity = 0.5 * sstep(63.7, 64.1, t) * (0.6 + 0.4 * Math.sin(t * 12));
   // ---- lampe qui faiblit
   { const lampOn = 1 - 0.55 * dim; const fl = t > T15.risque - 0.02 && t < T15.risque + 0.25 ? 0.5 + 0.5 * Math.sin(t * 60) : 1; S.tl.userData.shade.material.color.setHex(hexMixLamp(lampOn * fl)); S.tlGlow.material.opacity = 0.4 * lampOn * fl; S.flGlow.material.opacity = 0.4 * (1 - 0.7 * dim); }
 }

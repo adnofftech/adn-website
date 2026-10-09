@@ -17,6 +17,16 @@ export const rep = (tex, a, b) => { tex.wrapS = tex.wrapT = T.RepeatWrapping; te
 export const uvScale = (geo, su, sv) => { const uv = geo.attributes.uv; for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * su, uv.getY(i) * sv); return geo; };
 
 // ---------------------------------------------------------------- textures
+/** certificat d'action fictif (texte ajusté à la largeur) */
+export const shareCert = () => mk(512, 320, (g, w, h) => {
+  g.fillStyle = "#f3ecd4"; g.fillRect(0, 0, w, h);
+  g.strokeStyle = "rgba(31,138,76,.16)"; g.lineWidth = 1; for (let i = 0; i < 26; i++) { g.beginPath(); g.arc(w / 2, h * 0.62, 20 + i * 8, 0, 7); g.stroke(); }
+  g.strokeStyle = "#1f8a4c"; g.lineWidth = 10; g.strokeRect(12, 12, w - 24, h - 24); g.lineWidth = 3; g.strokeRect(30, 30, w - 60, h - 60);
+  g.fillStyle = "#1f8a4c"; g.font = `900 72px ${FONT}`; g.textAlign = "center"; g.textBaseline = "alphabetic"; g.fillText("ACTION", w / 2, 122);
+  g.font = `700 22px ${MONO}`; g.fillStyle = "#4a4a44"; g.fillText("PART DU CAPITAL · SOCIÉTÉ FICTIVE", w / 2, 168);
+  g.fillStyle = "#e8b84a"; g.beginPath(); g.arc(w / 2, 238, 42, 0, 7); g.fill(); g.strokeStyle = "#a57c26"; g.lineWidth = 3; g.stroke(); g.fillStyle = "#1f8a4c"; g.font = `900 40px ${FONT}`; g.fillText("%", w / 2, 252);
+  g.fillStyle = "#1f8a4c"; g.fillRect(70, 205, 110, 5); g.fillRect(w - 180, 205, 110, 5); g.fillRect(70, 222, 80, 5); g.fillRect(w - 150, 222, 80, 5);
+});
 /** graphique boursier (chandeliers + moyenne mobile) — aucun chiffre */
 export const chartTex = (seed = 1, title = "BOURSE") => mk(512, 320, (g, w, h) => {
   const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "#0b1d36"); gr.addColorStop(1, "#050d1b"); g.fillStyle = gr; g.fillRect(0, 0, w, h);

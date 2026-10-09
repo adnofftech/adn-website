@@ -1,7 +1,7 @@
 // Scène 7 du module shares : l'entreprise (tour) apparaît, se décompose en maquette éclatée dont les parts appartiennent à des actionnaires différents,
 // une part (or) est mise en évidence avec son investisseur, puis usine / bureaux / salariés / produits, reconnexion, et le certificat final.
 import { T, H, clamp, lerp, sstep, lin, eio, eout, ein, eoutBack, glowTex, certTex, FONT, MONO, textPlane, glow, mk } from "../shared.js";
-import { _o, mixHex, pop, put, hide, inst, lam, bas, addMat, chartTex, ribbonTex, beamTex, investorIcon, buildFactory, buildOffice, buildWorkers, buildProducts } from "./shares_lib.js";
+import { shareCert, _o, mixHex, pop, put, hide, inst, lam, bas, addMat, chartTex, ribbonTex, beamTex, investorIcon, buildFactory, buildOffice, buildWorkers, buildProducts } from "./shares_lib.js";
 
 const FH = 1.7, BW = 4.5, NF = 8, QX = [1, -1, -1, 1], QZ = [1, 1, -1, -1];     // quadrants : 0 (+x,+z) 1 (-x,+z) 2 (-x,-z) 3 (+x,-z)
 const COL = { G: 0xf0b93a, B: 0x3b82d6, C: 0xf0654f, T: 0x25b8a3, W: 0xc9d3dc };
@@ -22,7 +22,7 @@ export function buildS7() {
   S.glowG = glow(0xffd25a, 16, 0); g.add(S.glowG);
   // investisseurs : G (or), B (fonds), C, T
   S.inv = [["G", 0, 0], ["B", 1, 1], ["C", 3, 2], ["T", 2, 3]].map(([o, q, v]) => { const ic = investorIcon(COL[o], v, 2.0); ic.visible = false; g.add(ic); const st = new T.Mesh(new T.CylinderGeometry(0.08, 0.08, 1, 6), addMat(COL[o], 0.0)); g.add(st); return { o, q, ic, st }; });
-  S.tagPart = textPlane("UNE PART DU CAPITAL", { w: 8.4, h: 1.5, px: 512, color: "#ffd25a", bg: "rgba(8,14,24,.9)", border: "#ffd25a", size: 0.5 }); g.add(S.tagPart);
+  S.tagPart = textPlane("UNE PART DU CAPITAL", { w: 8.4, h: 1.5, px: 1024, color: "#ffd25a", bg: "rgba(8,14,24,.92)", border: "#ffd25a", size: 0.36 }); g.add(S.tagPart);
   S.coins = inst((() => { const cg = new T.CylinderGeometry(0.5, 0.5, 0.12, 20); cg.rotateX(Math.PI / 2); return cg; })(), new T.MeshBasicMaterial({ color: 0xffd25a }), 16); g.add(S.coins);
   // icônes
   S.icons = ICONS.map(([k, x, z, label]) => {
@@ -38,7 +38,7 @@ export function buildS7() {
   S.pulses = inst(new T.SphereGeometry(0.6, 10, 8), new T.MeshBasicMaterial({ color: 0xffffff }), 12); g.add(S.pulses);
   S.sign = textPlane("ENTREPRISE", { w: 9.6, h: 1.9, px: 512, color: "#f3ecd4", bg: "rgba(8,14,24,.9)", border: "#e8b84a", size: 0.5 }); S.sign.position.set(0, 2.2, 7.4); g.add(S.sign);
   // certificat final
-  S.cert = new T.Mesh(new T.PlaneGeometry(1, 1), new T.MeshBasicMaterial({ map: certTex("ACTION"), side: T.DoubleSide })); S.cert.scale.set(5.6, 3.5, 1); g.add(S.cert);
+  S.cert = new T.Mesh(new T.PlaneGeometry(1, 1), new T.MeshBasicMaterial({ map: shareCert(), side: T.DoubleSide })); S.cert.scale.set(5.6, 3.5, 1); g.add(S.cert);
   S.certGlow = glow(0xffd25a, 16, 0); g.add(S.certGlow);
   // barre F3 (hologramme collé à la caméra)
   S.hud = new T.Mesh(new T.PlaneGeometry(1, 1), new T.MeshBasicMaterial({ map: hudTex(), transparent: true, depthTest: false, depthWrite: false })); S.hud.renderOrder = 50; S.hud.frustumCulled = false; g.add(S.hud);
@@ -89,14 +89,14 @@ export function updateS7(S, t, TM, cam, base) {
     v.ic.position.set(tx, iy, tz); v.ic.rotation.y = face(tx, tz); v.ic.scale.setScalar(Math.max(0.001, s * (isG ? 1.0 + 0.25 * hl : 0.8)));
     const bot = colTop - (isG ? 0 : 0) + 0.2, hgt = Math.max(0.1, iy - 2.0 - bot); v.st.position.set(tx, bot + hgt / 2, tz); v.st.scale.set(1, hgt, 1); v.st.material.opacity = 0.6 * Math.min(1, s);
   });
-  { const tg = S.tagPart, k = pop((t - (TM.partie + 0.1)) / 0.35) * hl; tg.visible = k > 0.02; tg.position.set(gx - 5.6, gy + 3.2, gx + 1.2); tg.rotation.y = face(tg.position.x, tg.position.z); tg.scale.setScalar(Math.max(0.001, k * 0.85)); }
+  { const tg = S.tagPart, k = pop((t - (TM.partie + 0.1)) / 0.35) * hl; tg.visible = k > 0.02; { const ph = face(gx, gx); tg.position.set(gx + 5.6 * Math.sin(ph), gy + 3.4, gx + 5.6 * Math.cos(ph)); } tg.rotation.y = face(tg.position.x, tg.position.z); tg.scale.setScalar(Math.max(0.001, k * 0.8)); }
   // pièces qui « investissent » : de l'investisseur vers la part (investie)
   { const inv = S.inv[0], p0 = inv.ic.position, on = t >= TM.investie - 0.02 && t < TM.investie + 0.95;
     for (let i = 0; i < 16; i++) {
       const u = ((t - TM.investie) / 0.5 - i * 0.12) % 1.6, uu = u / 0.6;
       if (!on || u < 0 || uu > 1) { hide(S.coins, i); continue; }
-      const k = eio(uu), sx = p0.x + (H(i, 1) - 0.5) * 1.2, sy = p0.y - 1.4, sz = p0.z + (H(i, 2) - 0.5) * 1.2, ex = gx + (H(i, 3) - 0.5) * 2.4, ey = gy + 1 + (H(i, 4) - 0.5) * 6, ez = gx + (H(i, 5) - 0.5) * 2.4;
-      put(S.coins, i, lerp(sx, ex, k), lerp(sy, ey, k) + 1.5 * Math.sin(Math.PI * k), lerp(sz, ez, k), 1 - 0.4 * k, 1 - 0.4 * k, 1 - 0.4 * k, 0, t * 6 + i, 0);
+      const k = eio(uu), sx = p0.x + (H(i, 1) - 0.5) * 1.6, sy = p0.y - 3.0, sz = p0.z + (H(i, 2) - 0.5) * 1.2, ex = gx + (H(i, 3) - 0.5) * 2.4, ey = gy + 1 + (H(i, 4) - 0.5) * 6, ez = gx + (H(i, 5) - 0.5) * 2.4;
+      put(S.coins, i, lerp(sx, ex, k), lerp(sy, ey, k) + 1.5 * Math.sin(Math.PI * k), lerp(sz, ez, k), 1.25 - 0.45 * k, 1.25 - 0.45 * k, 1.25 - 0.45 * k, 0, t * 6 + i, 0);
     }
     S.coins.instanceMatrix.needsUpdate = true; }
   // ---- icônes (usine, bureaux, salariés, produits)
@@ -130,7 +130,7 @@ export function updateS7(S, t, TM, cam, base) {
     S.cert.position.set(lerp(sx, ex, k), lerp(sy, ey, k) + 1.5 * Math.sin(Math.PI * k), lerp(sz, ez, k)); S.cert.scale.set(5.6, 3.5, 1).multiplyScalar(Math.max(0.001, 0.15 + 0.85 * pop(u * 1.0))); S.cert.rotation.set(0, (1 - k) * 0.9 + 0.0, (1 - k) * -0.25);
     S.certGlow.position.set(S.cert.position.x, S.cert.position.y, S.cert.position.z - 0.6); S.certGlow.scale.setScalar(15 * (0.4 + 0.6 * k)); S.certGlow.material.opacity = 0.55 * Math.sin(Math.PI * clamp(u * 0.9)) + 0.18 * k; }
   // ---- barre F3 : hologramme calé en bas du cadre (entre le sujet et les sous-titres)
-  { const k = pop((t - (TM.investie + 0.05)) / 0.35) * (1 - sstep(TM.entreprises - 0.1, TM.entreprises + 0.2, t)); S.hud.visible = k > 0.01;
+  { const k = pop((t - (TM.investie + 0.05)) / 0.35) * (1 - sstep(TM.entreprises - 0.2, TM.entreprises + 0.05, t)); S.hud.visible = k > 0.01;
     if (S.hud.visible) {
       _f.set(cam.l[0] - cam.p[0], cam.l[1] - cam.p[1], cam.l[2] - cam.p[2]).normalize(); _r.crossVectors(_f, _up).normalize(); _u.crossVectors(_r, _f).normalize();
       const D = 4, hh = D * Math.tan((cam.fov * Math.PI) / 360), ww = hh * (1080 / 1920) * 2, pw = ww * 0.8;

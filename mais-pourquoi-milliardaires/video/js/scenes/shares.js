@@ -4,7 +4,7 @@ import { T, PAL, H, clamp, lerp, sstep, lin, eio, eout, ein, eoutBack, mk, billT
 import { MODULES, windowsOf, onset } from "../plan.js";
 import { shotList, evalShots } from "../shots.js";
 import { certTex } from "../shared.js";
-import { _o, mixHex, pop, popAt, put, hide, inst, lam, bas, addMat, rep, uvScale, chartTex, gridTex } from "./shares_lib.js";
+import { shareCert, _o, mixHex, pop, popAt, put, hide, inst, lam, bas, addMat, rep, uvScale, chartTex, gridTex } from "./shares_lib.js";
 import { buildZone, updateZone, HZ } from "./shares_vault.js";
 import { buildS7, updateS7 } from "./shares_s7.js";
 
@@ -21,6 +21,7 @@ const TM = {
   S6: 21.18, fortune: o6(/fortune/), milliardaires: o6(/milliardaires/), ce: o6(/^ce$/), juste: o6(/juste/), argent: o6(/argent/), dans6: o6(/^dans$/), coffre: o6(/coffre/),
   S7: 24.34, grande: o7(/grande/), partie: o7(/partie/), est: o7(/^est$/), investie: o7(/investie/), dans7: o7(/^dans$/), des: o7(/^des$/), entreprises: o7(/entreprises/), sous: o7(/^sous$/), forme: o7(/forme/), actions: o7(/actions/),
 };
+const CUT = 21.175;                                        // coupe S5 -> S6 (marché -> coffre)
 const VX = 500;                                            // décalage local de la zone coffre / univers / réseau
 const Mw = (x, y, z) => [x + ox, y + oy, z + oz];           // repère marché -> monde
 const Vw = (x, y, z) => [x + ox + VX, y + oy, z + oz];       // repère coffre -> monde
@@ -34,18 +35,18 @@ function spl(t, keys) {
   const ma = tan(i), mb = tan(i + 1), u2 = u * u, u3 = u2 * u, h00 = 2 * u3 - 3 * u2 + 1, h10 = u3 - 2 * u2 + u, h01 = -2 * u3 + 3 * u2, h11 = u3 - u2;
   return a.v.map((_, j) => h00 * a.v[j] + h10 * dt * ma[j] + h01 * b.v[j] + h11 * dt * mb[j]);
 }
-const HERO_C = [0, 3, 0];                                  // billet / action / graphique (repère marché)
-const OR_T = [-6, 5, -30];                               // cible de regard en fin de rotation
+const HERO_C = [0, 3.04, 0];                                  // billet / action / graphique (repère marché)
+const OR_T = [-4, 3, -34];                               // cible de regard en fin de rotation
 const cam5 = (t) => {
   const zoom = eio(lin(18.74, 19.02, t)), back = eio(lin(19.04, 19.55, t)), push = eio(lin(19.55, 19.96, t));
-  const e = eio(lin(19.9, 21.17, t)), az = 2.15 * e;
-  const r0 = lerp(3.3, 2.0, zoom) + 0.7 * back - 0.25 * push, r = r0 + 23.6 * Math.pow(e, 1.35), h = 15 * Math.pow(e, 1.25);
+  const u5 = lin(19.9, 21.17, t), e = lerp(eio(u5), u5, 0.2), az = 2.15 * e;
+  const r0 = lerp(3.3, 2.0, zoom) + 0.7 * back - 0.25 * push, r = r0 + 24 * Math.pow(e, 1.35), h = 24 * Math.pow(e, 1.25);
   const look = e;                                          // le regard glisse du billet vers le marché
   const sway = 0.1 * Math.sin((t - 19.0) * 3.1) * sstep(19.02, 19.3, t) * (1 - e);
   const px = HERO_C[0] + r * Math.sin(az) + sway, py = HERO_C[1] + h + 0.05 * (1 - zoom), pz = HERO_C[2] + r * Math.cos(az);
   const lx = lerp(HERO_C[0], OR_T[0], look), ly = lerp(HERO_C[1], OR_T[1], look), lz = lerp(HERO_C[2], OR_T[2], look);
   const roll = -0.05 * Math.sin(Math.PI * zoom) * (1 - e) + 0.05 * Math.sin(Math.PI * e);
-  const fov = lerp(40, 36, zoom) + 22 * Math.pow(e, 1.3);
+  const fov = lerp(40, 36, zoom) + 24 * Math.pow(e, 1.3);
   return [...Mw(px, py, pz), ...Mw(lx, ly, lz), fov, roll];
 };
 // S6 + S7 : plans clés (repère coffre -> monde)
@@ -57,21 +58,22 @@ const CAM67 = [
   K(23.0, [3.0, 8.2, 31], [0.6, 11.6, -4], 52, 0),
   K(23.44, [0.8, 10.0, 21], [0, 10.8, -14], 56, 0),
   K(23.62, [0, 10.5, 9], [0, 10.5, -30], 60, 0),
-  K(23.9, [0, 10.5, -22], [0, 10.5, -60], 64, 0),
+  K(23.9, [0, 10.5, -22], [0, 10.5, -60], 62, 0),
   K(24.1, [0, 24, -44], [0, 6, -90], 62, 0),
   K(24.34, [0, 34, -58], [0, 6, -106], 60, 0),
   K(24.76, [20, 20, -70], [0, 10, -110], 54, 0),
-  K(25.1, [23, 15, -70], [1, 11, -111], 52, 0),
-  K(25.45, [24, 15, -77], [9.25, 14.5, -103], 46, 0),
-  K(25.95, [21, 15.5, -80], [8, 15, -103], 46, 0),
-  K(26.5, [3, 14, -68], [0, 9, -110], 52, 0),
-  K(26.84, [-10, 15, -69], [0, 8, -110], 56, 0),
-  K(27.2, [-3, 12, -78], [0, 8, -106], 52, 0),
+  K(25.1, [26, 16, -72], [2, 11, -108], 52, 0),
+  K(25.45, [29, 17.3, -68], [8, 15, -104], 48, 0),
+  K(25.95, [26, 17, -74], [7, 15, -104], 48, 0),
+  K(26.5, [4, 16, -58], [0, 9, -110], 56, 0),
+  K(26.9, [-5, 17, -54], [0, 8, -110], 58, 0),
+  K(27.2, [-3, 13, -70], [0, 8, -106], 52, 0),
+  K(27.45, [-1, 10, -80], [0, 8.2, -104], 50, 0),
   K(27.64, [0, 8.4, -88], [0, 8.2, -102.4], 50, 0),
 ];
 // ---- ENV / SHAKE
 export const ENV = (t) => {
-  if (t < TM.S6 - 0.005) {
+  if (t < CUT) {
     const cold = sstep(19.2, 20.2, t);
     return { bg: mixHex(0x030509, 0x061326, cold).getHex(), fog: lerp(0.018, 0.0085, cold) };
   }
@@ -80,19 +82,19 @@ export const ENV = (t) => {
 };
 export const SHAKE = (t) => {
   const imp = (t0, a, d) => (t >= t0 && t < t0 + d ? a * Math.pow(1 - (t - t0) / d, 2) : 0);
-  return imp(W0 + 0.02, 0.03, 0.22) + imp(23.3, 0.2, 0.3);
+  return imp(W0 + 0.02, 0.03, 0.22) + imp(23.38, 0.2, 0.3);
 };
 
 // ---- caméra complète : échantillonnée (1/60 s) en clés linéaires
 function camAt(t) {
-  if (t < TM.S6 - 0.004) return cam5(t);
+  if (t < CUT) return cam5(t);
   return spl(t, CAM67);
 }
 function sampleShots() {
   const out = [], dt = 1 / 60;
   const push = (t) => { const v = camAt(t); out.push({ t, p: [v[0], v[1], v[2]], l: [v[3], v[4], v[5]], f: v[6], r: v[7] }); };
   for (let t = W0; t < 21.17 - 1e-6; t += dt) push(t);
-  push(21.17);
+  push(CUT - 0.0001); push(CUT + 0.0001);
   for (let t = 21.18; t < W1 - 1e-6; t += dt) push(t);
   push(W1 - 0.01);
   return out;
@@ -113,7 +115,7 @@ function buildMarket() {
   for (let r = 0; r < R; r++) { const rho = 30 + r * 8, n = Math.round((2 * Math.PI * rho) / 4.3); rows.push([rho, n, N]); N += n; }
   M.N = N; M.rows = rows;
   const bodyG = new T.BoxGeometry(1, 1, 1), wickG = new T.BoxGeometry(1, 1, 1);
-  M.bodies = inst(bodyG, new T.MeshLambertMaterial({ color: 0xffffff, emissive: 0x0a2a24 }), N);
+  M.bodies = inst(bodyG, new T.MeshLambertMaterial({ color: 0xffffff, emissive: 0x06141a }), N);
   M.wicks = inst(wickG, new T.MeshBasicMaterial({ color: 0x8fe9ff }), N);
   M.mirror = new T.InstancedMesh(bodyG, new T.MeshBasicMaterial({ color: 0x1b3550 }), N); M.mirror.frustumCulled = false; M.mirror.instanceMatrix = M.bodies.instanceMatrix; M.mirror.scale.y = -1; g.add(M.mirror);
   M.can = [];
@@ -123,7 +125,7 @@ function buildMarket() {
       const k = base + i, phi = (i / n) * 6.283 + H(r, 9) * 0.3, nz = clamp(0.5 + 0.28 * Math.sin(phi * 4 + r * 2.1) + 0.2 * Math.sin(phi * 9 + r * 0.7) + 0.25 * (H(k, 5) - 0.5), 0.06, 1);
       const hh = (2.2 + 8 * nz) * (0.7 + 0.03 * (rho - 30)), w = 1.5 + 0.05 * (rho - 30), up = H(k, 6) > 0.3;
       M.can.push({ x: Math.sin(phi) * (rho + (H(k, 3) - 0.5) * 2), z: Math.cos(phi) * (rho + (H(k, 3) - 0.5) * 2), h: hh, w, d0: 19.55 + ((rho - 30) / 56) * 0.75 + H(k, 1) * 0.18 });
-      M.bodies.setColorAt(k, col.setHex(up ? 0x1fcf93 : 0xff4057).multiplyScalar(0.55 + 0.6 * nz));
+      M.bodies.setColorAt(k, col.setHex(up ? 0x19e0a0 : 0xff3f5a).multiplyScalar(0.55 + 0.6 * nz));
     }
   });
   g.add(M.bodies, M.wicks);
@@ -144,7 +146,7 @@ function buildMarket() {
   const ND = 90, dp = new Float32Array(ND * 3); const dg = new T.BufferGeometry(); dg.setAttribute("position", new T.BufferAttribute(dp, 3)); M.dust = new T.Points(dg, new T.PointsMaterial({ map: glowTex(), size: 0.05, color: 0xffe2b0, transparent: true, opacity: 0.85, depthWrite: false, blending: T.AdditiveBlending, sizeAttenuation: true })); M.dust.frustumCulled = false; g.add(M.dust);
   // le billet / l'action / le graphique
   const hero = new T.Group(); hero.position.set(...HERO_C); g.add(hero); M.hero = hero;
-  const billT = billTex(), certT = certTex("ACTION"), chartT = chartTex(7, "BOURSE");
+  const billT = billTex(), certT = shareCert(), chartT = chartTex(7, "BOURSE");
   M.tex = { bill: billT, chart: chartT };
   M.faceA = new T.Mesh(new T.PlaneGeometry(1, 1), new T.MeshBasicMaterial({ map: billT })); M.faceA.scale.set(1.3, 0.58, 1); hero.add(M.faceA);
   M.faceB = new T.Mesh(new T.PlaneGeometry(1, 1), new T.MeshBasicMaterial({ map: certT })); M.faceB.scale.set(1.3, 0.81, 1); M.faceB.rotation.y = Math.PI; hero.add(M.faceB);
@@ -218,11 +220,11 @@ export function build() {
 }
 export function update(g, t) {
   const U = g.userData, cam = evalShots(t, TR);
-  const inM = t < TM.S6 - 0.004, inV = !inM;
+  const inM = t < CUT, inV = !inM;
   U.gM.visible = inM; U.gV.visible = inV;
   if (inM) {
     const cold = sstep(19.2, 20.2, t), lit = 0.25 + 0.75 * cold;
-    U.hemi.color.setHex(0x8fb0ff); U.hemi.groundColor.setHex(0x0a1a2a); U.hemi.intensity = 1.0 * lit; U.sun.color.setHex(0xaecbff); U.sun.intensity = 1.1 * lit; U.sun.position.set(-20, 40, 30); U.sun.target.position.set(0, 0, 0); U.pt.intensity = 0;
+    U.hemi.color.setHex(0x8fb0ff); U.hemi.groundColor.setHex(0x0a1a2a); U.hemi.intensity = 1.55 * lit; U.sun.color.setHex(0xcfe0ff); U.sun.intensity = 1.9 * lit; U.sun.position.set(-20, 40, 30); U.sun.target.position.set(0, 0, 0); U.pt.intensity = 0;
     updateMarket(U, t, cam);
   } else {
     const open = sstep(TM.ce + 0.1, TM.ce + 0.9, t), after = sstep(TM.juste, TM.juste + 0.5, t);
