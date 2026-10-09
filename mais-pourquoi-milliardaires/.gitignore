@@ -1,0 +1,6 @@
+video/node_modules/
+video/snapshots/
+video/.hyperframes/
+final/work-*/
+final/.*hf-transaction*/
+__pycache__/
