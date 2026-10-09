@@ -163,13 +163,13 @@ const E = 51.3;
 export const SHOTS = [
   // S11 : entrée face au mur de graphique (raccord), dolly latéral vers l'entreprise, suivi des deux couches
   { t: 38.46, p: [ox - 16, oy + 3.4, oz + 15], l: [ox - 16, oy + 3.2, oz + 6], f: 50, e: eio },
-  { t: 38.92, p: [ox + 3.8, oy + 5, oz + 37], l: [ox + 4.8, oy + 5.6, oz], f: 54, e: eio },
-  { t: t11.bourse + 0.3, p: [ox + 5.2, oy + 5, oz + 36], l: [ox + 5.2, oy + 5.6, oz], f: 54, e: eio },
-  { t: t11.attirer, p: [ox + 11, oy + 4.2, oz + 38], l: [ox + 11.5, oy + 5.4, oz], f: 54, e: eio },
-  { t: 43.9, p: [ox + 11.8, oy + 4.2, oz + 38], l: [ox + 12.3, oy + 5.4, oz], f: 54, e: eio },
-  { t: 44.55, p: [ox + 22.6, oy + 6, oz + 33], l: [ox + 22.6, oy + 5, oz + 3], f: 54 },
-  { t: 45.3, p: [ox + 23, oy + 6, oz + 33.6], l: [ox + 22.6, oy + 5, oz + 3], f: 54 },
-  { t: 45.638, p: [ox + 23.3, oy + 6, oz + 34], l: [ox + 22.6, oy + 5, oz + 3], f: 54 },
+  { t: 38.92, p: [ox + 3, oy + 5, oz + 37], l: [ox + 4, oy + 5.6, oz], f: 54, e: eio },
+  { t: t11.bourse + 0.3, p: [ox + 4, oy + 5, oz + 36], l: [ox + 4, oy + 5.6, oz], f: 54, e: eio },
+  { t: t11.attirer, p: [ox + 10.5, oy + 4.2, oz + 38], l: [ox + 11, oy + 5.4, oz], f: 54, e: eio },
+  { t: 43.9, p: [ox + 11.3, oy + 4.2, oz + 38], l: [ox + 11.8, oy + 5.4, oz], f: 54, e: eio },
+  { t: 44.55, p: [ox + 22.1, oy + 6, oz + 36], l: [ox + 22.1, oy + 3.8, oz + 3], f: 54 },
+  { t: 45.3, p: [ox + 22.4, oy + 6, oz + 36.5], l: [ox + 22.1, oy + 3.8, oz + 3], f: 54 },
+  { t: 45.638, p: [ox + 22.7, oy + 6, oz + 37], l: [ox + 22.1, oy + 3.8, oz + 3], f: 54 },
   // S12 : on arrive devant le premier écran (zone réseau), puis la caméra recule pour révéler le réseau
   { t: 45.64, p: [ox + NX - 2, oy + 14, oz + 10], l: [ox + NX - 2, oy + 14, oz - 2], f: 50 },
   { t: t12.conseq - 0.15, p: [ox + NX - 2, oy + 14.5, oz + 14], l: [ox + NX - 1, oy + 14, oz - 2], f: 52, e: eio },
