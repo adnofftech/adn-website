@@ -31,16 +31,16 @@
       #t1 { top: 250px; font-size: 118px; }
       #t3 { top: 250px; font-size: 104px; }
       #t4 { top: 330px; font-size: 112px; }
-      #t6a { top: 300px; font-size: 100px; }
-      #t6b { top: 760px; font-size: 62px; }
+      #t6a { top: 190px; font-size: 92px; }
+      #t6b { top: 320px; font-size: 92px; }
 
       /* ---- Captions ---- */
       #caps { position: absolute; left: 70px; right: 70px; top: 1370px; height: 260px; display: flex; align-items: center; justify-content: center; text-align: center; }
-      .cap { position: absolute; left: 0; right: 0; font-size: 56px; line-height: 1.14; color: #fff; text-shadow: 0 4px 24px rgba(0,0,0,0.9), 0 0 6px rgba(0,0,0,0.9); }
+      .cap { position: absolute; left: 0; right: 0; font-size: 54px; line-height: 1.16; color: #fff; padding: 22px 30px; border-radius: 30px; background: rgba(2,8,6,0.82); border: 2px solid rgba(43,240,138,0.35); text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
       .cap b { color: #f5c542; font-weight: 700; }
 
       /* ---- Counter badge (S3) ---- */
-      #price { position: absolute; left: 90px; right: 90px; top: 760px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+      #price { position: absolute; left: 90px; right: 90px; top: 700px; padding: 34px 20px; border-radius: 40px; background: rgba(2,8,6,0.84); border: 2px solid rgba(245,197,66,0.5); display: flex; flex-direction: column; align-items: center; gap: 10px; }
       #price .row { display: flex; align-items: baseline; gap: 22px; font-family: "InterBlack"; color: #fff; text-shadow: 0 6px 30px rgba(0,0,0,.8); }
       #price .lbl { font-size: 46px; color: #9fe9c0; }
       #price .val { font-size: 128px; color: #f5c542; font-variant-numeric: tabular-nums; }
@@ -142,8 +142,9 @@
       });
 
       // --- kinetic title builder
-      function words(el, html, cls) {
-        el.innerHTML = html.split(" ").map((w) => `<span class="w ${cls || ""}">${w}</span>`).join(" ");
+      // parts: array of "word" or ["word", "cssClass"]
+      function words(el, parts) {
+        el.innerHTML = parts.map((p) => { const [w, c] = Array.isArray(p) ? p : [p, ""]; return `<span class="w ${c}">${w}</span>`; }).join(" ");
         return el.querySelectorAll(".w");
       }
       function pop(ws, t, stagger = 0.11) {
@@ -152,7 +153,7 @@
       }
 
       // S1 title (on screen from second 0.9: captivates immediately)
-      const w1 = words(document.getElementById("t1"), "ET SI ON IMPRIMAIT DE <span class='gold'>L'ARGENT</span> À <span class='green'>L'INFINI</span> ?");
+      const w1 = words(document.getElementById("t1"), ["ET", "SI", "ON", "IMPRIMAIT", "DE", ["L'ARGENT", "gold"], "À", ["L'INFINI", "green"], "?"]);
       gsap.set(w1, { opacity: 0 });
       pop(w1, 0.9, 0.13);
       tl.to("#t1", { opacity: 0, y: -40, duration: 0.4, ease: "power2.in" }, 9.4);
@@ -165,23 +166,23 @@
       } }, 22.5);
       tl.to("#psub", { color: "#ff5b4a", duration: 3, onStart: () => {} }, 30);
       tl.to("#price", { opacity: 0, duration: 0.3 }, 33.5);
-      const w3 = words(document.getElementById("t3"), "PLUS D'ARGENT <span class='gold'>≠</span> PLUS DE <span class='green'>RICHESSE</span>");
+      const w3 = words(document.getElementById("t3"), ["PLUS", "D'ARGENT", ["≠", "gold"], "PLUS", "DE", ["RICHESSE", "green"]]);
       gsap.set(w3, { opacity: 0 });
       pop(w3, 34.0, 0.14);
       tl.to("#t3", { opacity: 0, scale: 1.08, duration: 0.3, ease: "power2.in" }, 37.6);
 
       // S4: reveal — the title slams in after the freeze
-      const w4 = words(document.getElementById("t4"), "L'ARGENT N'EST PAS LA <span class='gold'>RICHESSE</span>");
+      const w4 = words(document.getElementById("t4"), ["L'ARGENT", "N'EST", "PAS", "LA", ["RICHESSE", "gold"]]);
       gsap.set(w4, { opacity: 0 });
       tl.fromTo(w4, { opacity: 0, scale: 2.4 }, { opacity: 1, scale: 1, duration: 0.3, stagger: 0.12, ease: "power4.out" }, 42.55);
       tl.fromTo("#t4", { x: 0 }, { keyframes: [{ x: -14, duration: 0.04 }, { x: 14, duration: 0.04 }, { x: -8, duration: 0.04 }, { x: 0, duration: 0.04 }], ease: "none" }, 43.1);
       tl.to("#t4", { opacity: 0, y: -30, duration: 0.4 }, 52.0);
 
       // S6: closing
-      const w6 = words(document.getElementById("t6a"), "L'ARGENT <span class='gold'>CIRCULE</span>");
+      const w6 = words(document.getElementById("t6a"), ["L'ARGENT", ["CIRCULE", "gold"]]);
       gsap.set(w6, { opacity: 0 });
       pop(w6, 76.6, 0.18);
-      const w6b = words(document.getElementById("t6b"), "LA RICHESSE <span class='green'>SE FABRIQUE</span>");
+      const w6b = words(document.getElementById("t6b"), ["LA", "RICHESSE", ["SE", "green"], ["FABRIQUE", "green"]]);
       gsap.set(w6b, { opacity: 0 });
       pop(w6b, 77.9, 0.16);
       tl.to(["#t6a", "#t6b"], { opacity: 0, duration: 0.4 }, 79.8);
@@ -206,52 +207,52 @@
         const G = (id) => mk("g", { id });
         const node = (id, x, y, label, sub, color) => {
           const g = G(id); g.setAttribute("opacity", 0);
-          mk("rect", { x: x - 150, y: y - 70, width: 300, height: 140, rx: 28, fill: "#07140e", stroke: color, "stroke-width": 5 }, g);
-          const l = mk("text", { x, y: y - 6, "text-anchor": "middle", class: "dlabel" }, g); l.textContent = label;
+          mk("rect", { x: x - 165, y: y - 66, width: 330, height: 132, rx: 28, fill: "#07140e", stroke: color, "stroke-width": 5 }, g);
+          const l = mk("text", { x, y: y - 6, "text-anchor": "middle", class: "dlabel", style: "font-size:34px" }, g); l.textContent = label;
           const s = mk("text", { x, y: y + 40, "text-anchor": "middle", class: "dsub" }, g); s.textContent = sub;
           return g;
         };
-        // Layout
-        node("nCB", 540, 360, "BANQUE CENTRALE", "taux d'intérêt • billets", "#f5c542");
-        node("nB1", 270, 760, "BANQUE A", "comptes & crédits", "#2bf08a");
-        node("nB2", 810, 760, "BANQUE B", "comptes & crédits", "#2bf08a");
-        node("nYou", 270, 1160, "VOUS", "compte : 0 €", "#9fe9c0");
-        node("nShop", 810, 1160, "COMMERÇANT", "compte : 0 €", "#9fe9c0");
-        node("nState", 540, 1560, "ÉTAT", "dépenses publiques", "#9fe9c0");
+        // Layout (kept above the caption band, y < 1350)
+        node("nCB", 540, 320, "BANQUE CENTRALE", "taux d'intérêt • billets", "#f5c542");
+        node("nB1", 270, 700, "BANQUE A", "comptes & crédits", "#2bf08a");
+        node("nB2", 810, 700, "BANQUE B", "comptes & crédits", "#2bf08a");
+        node("nYou", 270, 1040, "VOUS", "compte : 0 €", "#9fe9c0");
+        node("nShop", 810, 1040, "COMMERÇANT", "compte : 0 €", "#9fe9c0");
+        node("nState", 540, 1250, "ÉTAT", "dépenses publiques", "#9fe9c0");
         // Edges
         const edge = (id, x1, y1, x2, y2, col) => { const p = mk("path", { id, d: `M${x1} ${y1} L${x2} ${y2}`, stroke: col || "#2bf08a", "stroke-width": 5, "stroke-dasharray": "14 12", fill: "none", opacity: 0 }); return p; };
-        edge("eBB", 420, 760, 660, 760);
-        edge("eYB", 270, 830, 270, 1090);
-        edge("eSB", 810, 830, 810, 1090);
-        edge("eYS", 420, 1160, 660, 1160, "#f5c542");
-        edge("eCB1", 470, 430, 330, 690, "#f5c542");
-        edge("eCB2", 610, 430, 750, 690, "#f5c542");
-        edge("eCS", 540, 430, 540, 1490, "#ff5b4a");
+        edge("eBB", 420, 700, 660, 700);
+        edge("eYB", 270, 770, 270, 970);
+        edge("eSB", 810, 770, 810, 970);
+        edge("eYS", 420, 1040, 660, 1040, "#f5c542");
+        edge("eCB1", 440, 386, 300, 634, "#f5c542");
+        edge("eCB2", 640, 386, 780, 634, "#f5c542");
+        edge("eCS", 540, 386, 540, 1184, "#ff5b4a");
         // Bar chart: banknotes vs bank deposits (schematic)
         const bars = G("bars"); bars.setAttribute("opacity", 0);
-        mk("rect", { x: 130, y: 1700, width: 820, height: 140, rx: 20, fill: "#07140e", stroke: "#2bf08a", "stroke-width": 4 }, bars);
-        mk("rect", { id: "barDep", x: 140, y: 1710, width: 0, height: 120, rx: 14, fill: "#2bf08a" }, bars);
-        mk("rect", { id: "barCash", x: 140, y: 1710, width: 0, height: 120, rx: 14, fill: "#f5c542" }, bars);
-        const bt1 = mk("text", { x: 540, y: 1690, "text-anchor": "middle", class: "dsub" }, bars); bt1.textContent = "schéma : monnaie bancaire (vert) vs billets (or)";
+        mk("rect", { x: 130, y: 1690, width: 820, height: 140, rx: 20, fill: "#07140e", stroke: "#2bf08a", "stroke-width": 4 }, bars);
+        mk("rect", { id: "barDep", x: 140, y: 1700, width: 0, height: 120, rx: 14, fill: "#2bf08a" }, bars);
+        mk("rect", { id: "barCash", x: 140, y: 1700, width: 0, height: 120, rx: 14, fill: "#f5c542" }, bars);
+        const bt1 = mk("text", { x: 540, y: 1672, "text-anchor": "middle", class: "dsub" }, bars); bt1.textContent = "schéma : monnaie bancaire (vert) vs billets (or)";
         // Loan creation
         const loan = G("loan"); loan.setAttribute("opacity", 0);
-        const lt = mk("text", { x: 270, y: 1030, "text-anchor": "middle", class: "dbig" }, loan); lt.textContent = "+ 100 €";
-        const lt2 = mk("text", { x: 270, y: 1295, "text-anchor": "middle", class: "dsub" }, loan); lt2.textContent = "crédit = monnaie créée";
+        const lt = mk("text", { x: 270, y: 900, "text-anchor": "middle", class: "dbig" }, loan); lt.textContent = "+ 100 €";
+        const lt2 = mk("text", { x: 270, y: 1140, "text-anchor": "middle", class: "dsub" }, loan); lt2.textContent = "crédit = monnaie créée";
         // Forbidden marker
         const ban = G("ban"); ban.setAttribute("opacity", 0);
-        mk("circle", { cx: 540, cy: 960, r: 70, fill: "#190606", stroke: "#ff5b4a", "stroke-width": 9 }, ban);
-        mk("path", { d: "M490 910 L590 1010", stroke: "#ff5b4a", "stroke-width": 9 }, ban);
-        const bn = mk("text", { x: 540, y: 1075, "text-anchor": "middle", class: "dsub", fill: "#ff9b8f" }, ban); bn.textContent = "financement direct interdit";
+        mk("circle", { cx: 540, cy: 868, r: 54, fill: "#190606", stroke: "#ff5b4a", "stroke-width": 9 }, ban);
+        mk("path", { d: "M502 830 L578 906", stroke: "#ff5b4a", "stroke-width": 9 }, ban);
+        const bn = mk("text", { x: 540, y: 950, "text-anchor": "middle", class: "dsub", fill: "#ff9b8f" }, ban); bn.textContent = "financement direct interdit";
         bn.setAttribute("style", "fill:#ff9b8f");
         // Coins (particles) travelling along the edges
         const coins = [];
-        const coin = (id) => { const c = mk("circle", { id, r: 18, fill: "#f5c542", opacity: 0 }); coins.push(c); return c; };
+        const coin = (id) => { const c = mk("circle", { id, cx: 0, cy: 0, r: 18, fill: "#f5c542", opacity: 0 }); coins.push(c); return c; };
         for (let i = 0; i < 8; i++) coin("coinA" + i);
         // Rate dial
-        const dial = G("dial"); dial.setAttribute("opacity", 0);
-        mk("circle", { cx: 540, cy: 560, r: 62, fill: "none", stroke: "#f5c542", "stroke-width": 6 }, dial);
-        mk("path", { id: "needle", d: "M540 560 L540 510", stroke: "#f5c542", "stroke-width": 8, "stroke-linecap": "round" }, dial);
-        const dt = mk("text", { x: 540, y: 660, "text-anchor": "middle", class: "dsub" }, dial); dt.textContent = "taux d'intérêt";
+        const dial = G("dial"); dial.setAttribute("opacity", 0); dial.setAttribute("data-layout-allow-overflow", "");
+        mk("circle", { cx: 880, cy: 320, r: 62, fill: "#07140e", stroke: "#f5c542", "stroke-width": 6 }, dial);
+        mk("path", { id: "needle", d: "M880 320 L880 270", stroke: "#f5c542", "stroke-width": 8, "stroke-linecap": "round" }, dial);
+        const dt = mk("text", { x: 880, y: 420, "text-anchor": "middle", class: "dsub" }, dial); dt.textContent = "taux d'intérêt";
 
         // ---- timeline (S5 = 53 → 72)
         tl.to("#diag", { opacity: 1, duration: 0.5 }, 52.5);
@@ -263,7 +264,7 @@
         // payments: coins move You → Shop (electronic payment)
         for (let i = 0; i < 6; i++) {
           const c = "#coinA" + i, t0 = 56.5 + i * 0.32;
-          tl.fromTo(c, { attr: { cx: 420, cy: 1160 }, opacity: 0 }, { attr: { cx: 660, cy: 1160 }, opacity: 1, duration: 0.5, ease: "power1.inOut" }, t0);
+          tl.fromTo(c, { attr: { cx: 420, cy: 1040 }, opacity: 0 }, { attr: { cx: 660, cy: 1040 }, opacity: 1, duration: 0.5, ease: "power1.inOut" }, t0);
           tl.to(c, { opacity: 0, duration: 0.1 }, t0 + 0.5);
         }
         // bars: money mostly lives in bank accounts
@@ -280,12 +281,12 @@
         // central bank + dial
         nodeIn("nCB", 64.0);
         tl.to("#dial", { opacity: 1, duration: 0.3 }, 64.4);
-        tl.fromTo("#needle", { rotation: -60, transformOrigin: "540px 560px" }, { rotation: 55, duration: 1.4, ease: "power2.inOut" }, 64.6);
+        tl.fromTo("#needle", { rotation: -60, svgOrigin: "880 320" }, { rotation: 55, duration: 1.4, ease: "power2.inOut" }, 64.6);
         tl.to(["#eCB1", "#eCB2"], { opacity: 0.9, duration: 0.3 }, 65.0);
         // forbidden direct link to the State
         nodeIn("nState", 67.9);
         tl.to("#eCS", { opacity: 1, duration: 0.3 }, 68.3);
-        tl.fromTo("#ban", { opacity: 0, scale: 0.4, transformOrigin: "540px 960px" }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.4)" }, 68.8);
+        tl.fromTo("#ban", { opacity: 0, scale: 0.4, svgOrigin: "540 868" }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.4)" }, 68.8);
       })();
 
       window.__timelines["main"] = tl;
@@ -312,7 +313,7 @@
       renderer.setPixelRatio(1);
       renderer.setSize(W, H, false);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.25;
+      renderer.toneMappingExposure = 0.95;
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       const scene = new THREE.Scene();
       scene.background = new THREE.Color(0x03060a);
@@ -348,8 +349,8 @@
       function labelCanvas(w, h) { const c = document.createElement("canvas"); c.width = w; c.height = h; return [c, c.getContext("2d")]; }
 
       // ---------- lights ----------
-      scene.add(new THREE.HemisphereLight(0x4d7a64, 0x05080a, 0.9));
-      const key = new THREE.SpotLight(0xffe7b0, 0, 90, 0.7, 0.6, 1.2); key.position.set(6, 16, 12); key.target.position.set(0, 1.5, -2); scene.add(key, key.target);
+      const hemi = new THREE.HemisphereLight(0x3d6a54, 0x05080a, 0.35); scene.add(hemi);
+      const key = new THREE.SpotLight(0xffe7b0, 0, 120, 0.8, 0.7, 1.4); key.position.set(7, 20, 22); key.target.position.set(0, 1.5, -2); scene.add(key, key.target);
       const rim = new THREE.PointLight(NEON, 0, 40, 1.6); rim.position.set(0, 3, -8); scene.add(rim);
       const slotLight = new THREE.PointLight(NEON, 0, 18, 1.5); slotLight.position.set(0, 1.4, -0.4); scene.add(slotLight);
       const goldLight = new THREE.PointLight(0xffc860, 0, 30, 1.5); goldLight.position.set(-6, 5, 5); scene.add(goldLight);
@@ -358,7 +359,7 @@
       //   ROOM
       // =====================================================================================
       const room = new THREE.Group(); scene.add(room);
-      const floorMat = new THREE.MeshStandardMaterial({ color: 0x0b1015, roughness: 0.38, metalness: 0.6 });
+      const floorMat = new THREE.MeshStandardMaterial({ color: 0x0a1014, roughness: 0.55, metalness: 0.35 });
       const floor = new THREE.Mesh(new THREE.PlaneGeometry(220, 220), floorMat); floor.rotation.x = -Math.PI / 2; room.add(floor);
       const wallMat = new THREE.MeshStandardMaterial({ color: 0x0a1210, roughness: 0.8, metalness: 0.2 });
       const back = new THREE.Mesh(new THREE.BoxGeometry(46, 12, 0.6), wallMat); back.position.set(0, 6, -9); room.add(back);
@@ -421,7 +422,7 @@
       // ---------- BILLS (instanced) ----------
       const NB = 1800;
       const billTex = billTexture();
-      const billMat = new THREE.MeshStandardMaterial({ map: billTex, side: THREE.DoubleSide, roughness: 0.55, metalness: 0.25, emissive: 0x04301c, emissiveIntensity: 0.6 });
+      const billMat = new THREE.MeshStandardMaterial({ map: billTex, side: THREE.DoubleSide, roughness: 0.55, metalness: 0.25, emissive: 0x04301c, emissiveIntensity: 0.25 });
       const billGeo = new THREE.PlaneGeometry(1.36, 0.64);
       const bills = new THREE.InstancedMesh(billGeo, billMat, NB); bills.frustumCulled = false; room.add(bills);
       const bd = [];
@@ -465,16 +466,16 @@
       const SX = 200;
       const shop = new THREE.Group(); shop.position.x = SX; scene.add(shop);
       const shopLights = [];
-      const sfloor = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshStandardMaterial({ color: 0xcfd8d3, roughness: 0.25, metalness: 0.3 })); sfloor.rotation.x = -Math.PI / 2; shop.add(sfloor);
-      const sback = new THREE.Mesh(new THREE.BoxGeometry(60, 12, 0.4), new THREE.MeshStandardMaterial({ color: 0xe8efe9, roughness: 0.9 })); sback.position.set(0, 6, -14); shop.add(sback);
+      const sfloor = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshStandardMaterial({ color: 0x8fa39a, roughness: 0.4, metalness: 0.2 })); sfloor.rotation.x = -Math.PI / 2; shop.add(sfloor);
+      const sback = new THREE.Mesh(new THREE.BoxGeometry(60, 12, 0.4), new THREE.MeshStandardMaterial({ color: 0x93a89f, roughness: 0.9 })); sback.position.set(0, 6, -14); shop.add(sback);
       for (let i = -2; i <= 2; i++) { const p = new THREE.Mesh(new THREE.BoxGeometry(4, 0.25, 1.4), new THREE.MeshBasicMaterial({ color: 0xf4fff8 })); p.position.set(i * 8, 11, -2 + (i % 2) * 2); shop.add(p); }
-      const sl1 = new THREE.PointLight(0xf3fff7, 160, 60, 1.4); sl1.position.set(SX, 10, 4); scene.add(sl1);
-      const sl2 = new THREE.PointLight(0xdfffe9, 120, 50, 1.4); sl2.position.set(SX, 8, -8); scene.add(sl2);
-      const shelfMat = new THREE.MeshStandardMaterial({ color: 0x2e3c42, metalness: 0.7, roughness: 0.35 });
+      const sl1 = new THREE.PointLight(0xf3fff7, 120, 60, 1.6); sl1.position.set(SX, 10, 4); scene.add(sl1);
+      const sl2 = new THREE.PointLight(0xdfffe9, 90, 50, 1.6); sl2.position.set(SX, 8, -8); scene.add(sl2);
+      const shelfMat = new THREE.MeshStandardMaterial({ color: 0x9db0aa, metalness: 0.05, roughness: 0.6 });
       const prodCols = [0xe5484d, 0xf5c542, 0x3b82f6, 0x2bf08a, 0xffffff, 0xff9d3b];
       const PRODN = 220;
       const prodGeo = new THREE.BoxGeometry(0.9, 1.0, 0.8);
-      const prods = new THREE.InstancedMesh(prodGeo, new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0.1 }), PRODN); prods.frustumCulled = false; shop.add(prods);
+      const prods = new THREE.InstancedMesh(prodGeo, new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0.0, emissive: 0x333333, emissiveIntensity: 1.0 }), PRODN); prods.frustumCulled = false; shop.add(prods);
       const pinfo = [];
       let pi_ = 0;
       const shelves = [{ z: -8, x0: -9 }, { z: -2, x0: -9 }, { z: 4, x0: -9 }, { z: 10, x0: -9 }];
@@ -498,7 +499,7 @@
         const m = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 0.85), new THREE.MeshBasicMaterial({ map: tex }));
         m.position.set(-7 + i * 2.7, 0.78, 10 + 0.9); m.userData = { c, g, tex, base: [1.2, 1.1, 2.9, 1.5, 1.8, 3.2][i], name: tagNames[i] };
         shop.add(m); tags.push(m);
-        const m2 = m.clone(); m2.material = m.material; m2.position.set(-7 + i * 2.7, 0.78, 4 + 0.9); shop.add(m2); tags.push(m2);
+        const m2 = new THREE.Mesh(m.geometry, m.material); m2.userData = m.userData; m2.position.set(-7 + i * 2.7, 0.78, 4 + 0.9); shop.add(m2);
       }
       // customers with growing bill stacks
       const custs = [];
@@ -507,7 +508,7 @@
         const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.45, 1.2, 6, 14), new THREE.MeshStandardMaterial({ color: [0xe5484d, 0x3b82f6, 0xf5c542, 0xa07bff][i], roughness: 0.5 }));
         body.position.y = 1.15; const head = new THREE.Mesh(new THREE.SphereGeometry(0.4, 16, 16), new THREE.MeshStandardMaterial({ color: 0xf2c9a5, roughness: 0.6 })); head.position.y = 2.35;
         const stack = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1, 0.5), new THREE.MeshStandardMaterial({ map: billTex, roughness: 0.5 })); stack.position.set(0.7, 1.4, 0.4);
-        g.add(body, head, stack); g.userData = { stack, lane: i, ph: i * 1.7 }; shop.add(g); custs.push(g);
+        g.add(body, head, stack); g.scale.setScalar(1.6); g.userData = { stack, lane: i, ph: i * 1.7 }; shop.add(g); custs.push(g);
       }
 
       // =====================================================================================
@@ -517,7 +518,7 @@
       const winTex = windowsTexture();
       const NBL = 420;
       const bGeo = new THREE.BoxGeometry(1, 1, 1);
-      const bMat = new THREE.MeshStandardMaterial({ map: winTex, emissiveMap: winTex, emissive: 0xffffff, emissiveIntensity: 1.0, roughness: 0.6, metalness: 0.2 });
+      const bMat = new THREE.MeshStandardMaterial({ map: winTex, emissiveMap: winTex, emissive: 0xffffff, emissiveIntensity: 0.9, roughness: 0.6, metalness: 0.2 });
       const bld = new THREE.InstancedMesh(bGeo, bMat, NBL); bld.frustumCulled = false; city.add(bld);
       const rb = mulberry32(99);
       for (let i = 0; i < NBL; i++) {
@@ -543,34 +544,34 @@
       //   CAMERA RIG (keyframes)  [t, pos, look, fov]
       // =====================================================================================
       const K = [
-        [0.0, [0, 2.4, 15], [0, 2.0, -3], 46],
-        [3.0, [3.2, 2.2, 10], [0, 1.6, -1], 44],
-        [6.5, [0.6, 1.1, 6], [0, 0.6, 2.5], 60],
-        [9.7, [0, 3.6, 11], [0, 2.5, 3], 58],
-        [10.0, [-8, 4.5, 14], [0, 2.5, 3], 55],
-        [13.0, [-3.5, 3.2, 10], [0, 2.8, 3], 62],
-        [15.0, [0, 2.8, 6.5], [0, 2.8, 1], 70],
-        [16.8, [0.2, 2.9, 3.4], [0, 3.0, -3], 78],
-        [18.6, [0, 6.5, 6], [0, 3.0, 3], 66],
-        [19.9, [0, 10, 14], [0, 2.2, 3], 55],
+        [0.0, [0, 4.0, 31], [0, 2.4, -3], 46],
+        [3.0, [5, 3.4, 20], [0, 2.0, -2], 46],
+        [6.5, [1.5, 2.2, 13], [0, 1.0, 3], 62],
+        [9.7, [0, 5.5, 20], [0, 3.0, 3], 60],
+        [10.0, [-12, 6.5, 24], [0, 3.0, 3], 56],
+        [13.0, [-6, 4.8, 17], [0, 3.2, 3], 64],
+        [15.0, [0, 3.6, 10], [0, 3.2, 1], 70],
+        [16.8, [0.2, 3.1, 4.2], [0, 3.1, -3], 78],
+        [18.6, [0, 9.5, 12], [0, 3.0, 3], 66],
+        [19.9, [0, 14, 22], [0, 2.4, 3], 55],
         // S3 (supermarket) — cut at 20
-        [20.0, [SX, 3.2, 17], [SX, 2.0, 0], 52],
-        [27.0, [SX + 5, 2.6, 8], [SX, 2.0, 3], 62],
-        [32.0, [SX - 4, 2.8, 12], [SX, 1.8, 4], 58],
-        [37.9, [SX, 2.4, 14], [SX, 1.6, 6], 50],
+        [20.0, [SX, 12, 32], [SX, 1.2, 3], 52],
+        [27.0, [SX + 8, 8.5, 24], [SX, 1.6, 3], 56],
+        [32.0, [SX - 8, 7.5, 22], [SX, 1.6, 3], 54],
+        [37.9, [SX, 8, 26], [SX, 1.4, 4], 52],
         // S4 — back at the printer
-        [38.0, [0, 3.0, 11], [0, 2.0, -3], 52],
-        [41.7, [0, 2.8, 9.5], [0, 2.4, -3], 46],
-        [41.9, [0, 2.8, 9.5], [0, 2.4, -3], 46],
-        [43.0, [0, 3.5, 12], [0, 3.0, -2], 52],
-        [47.5, [0, 9.5, 27], [0, 4.0, -2], 54],
-        [52.5, [0, 15, 40], [0, 4.0, -3], 56],
+        [38.0, [0, 4.2, 24], [0, 2.4, -3], 50],
+        [41.7, [0, 3.6, 19], [0, 2.6, -3], 46],
+        [41.9, [0, 3.6, 19], [0, 2.6, -3], 46],
+        [43.0, [0, 5.5, 24], [0, 3.4, -2], 52],
+        [47.5, [0, 12, 40], [0, 4.5, -2], 56],
+        [52.5, [0, 18, 54], [0, 4.5, -3], 58],
         // S6
-        [71.5, [0, 2.6, 9.5], [0, 1.6, -1.5], 50],
-        [74.2, [0.8, 2.2, 7.2], [0.6, 0.8, 2.2], 48],
-        [77.0, [0, 6.5, 14], [0, 5.0, -20], 56],
-        [80.0, [0, 24, 22], [0, 10, -70], 58],
-        [86.0, [0, 58, 34], [0, 12, -110], 62],
+        [71.5, [0, 9.5, 26], [0, 2.6, 0], 50],
+        [74.2, [7, 6.0, 15], [0.4, 2.4, 1.0], 52],
+        [77.0, [0, 9, 24], [0, 5.0, -20], 58],
+        [80.0, [0, 30, 34], [0, 10, -70], 60],
+        [86.0, [0, 64, 46], [0, 12, -110], 64],
       ];
       const seg = (t) => { for (let i = K.length - 1; i >= 0; i--) if (t >= K[i][0]) return i; return 0; };
       const v3 = new THREE.Vector3();
@@ -621,16 +622,16 @@
         // --- visibility of whole worlds
         const inShop = t >= S3 && t < S4;
         room.visible = !inShop; city.visible = t >= S6 - 0.5 || t < 0; shop.visible = inShop;
-        scene.fog.near = inShop ? 40 : 28;
-        scene.background.set(inShop ? 0x16201c : 0x03060a); scene.fog.color.set(inShop ? 0x16201c : 0x03060a);
+        scene.fog.near = inShop ? 40 : 28; hemi.intensity = inShop ? 1.6 : 0.35;
+        scene.background.set(inShop ? 0x0d1612 : 0x03060a); scene.fog.color.set(inShop ? 0x0d1612 : 0x03060a);
         const hidden = t >= S5 + 0.7 && t < S6 - 0.5;     // diagram: no need to draw 3D
         canvas.style.opacity = hidden ? 0 : 1;
         if (hidden) return;
 
         // --- lights
         const on = sstep(0.6, 1.4, t) * (t < 0.9 ? 1 : 0.88 + 0.12 * Math.sin(t * 40) * (t < 1.8 ? 1 : 0));
-        key.intensity = 1900 * on * (t >= FREEZE && t < S6 ? 0.6 : 1);
-        rim.intensity = 520 * on; slotLight.intensity = 120 * on * (t < FREEZE ? 1 : 0.2); goldLight.intensity = 260 * on;
+        key.intensity = 330 * on * (t >= FREEZE && t < S6 ? 0.6 : 1);
+        rim.intensity = 70 * on; slotLight.intensity = 16 * on * (t < FREEZE ? 1 : 0.2); goldLight.intensity = 40 * on;
 
         // --- printer pose
         const spd = t < FREEZE ? 0.8 + 0.1 * Math.min(t, FREEZE) : 0;
@@ -663,7 +664,7 @@
 
         // --- bills
         let tc;
-        if (t < FREEZE) tc = t; else if (t < S6 - 0.5) tc = FREEZE; else tc = FREEZE + (t - (S6 - 0.5)) * 0.8;   // frozen from the cut until S6 resumes the fall
+        if (t < FREEZE) tc = t; else if (t < S6 - 0.5) tc = FREEZE; else tc = 1e6;   // frozen from the cut until S6 resumes the fall
         for (let i = 0; i < NB; i++) {
           const b = bd[i];
           const u = (tc - b.ts) / b.dur;
@@ -692,7 +693,7 @@
         // --- wealth items (S4 reveal)
         wealth.visible = t >= S4 + 6 && t < S5 + 1;
         wealthItems.forEach((it, i) => {
-          const u = clamp((t - it.userData.t0) / 0.6); const s = u === 0 ? 0.0001 : (1 + 0.25 * Math.sin(u * Math.PI)) * 1.9 * u;
+          const u = clamp((t - it.userData.t0) / 0.6); const s = u === 0 ? 0.0001 : (1 + 0.25 * Math.sin(u * Math.PI)) * 2.7 * u;
           it.scale.setScalar(Math.max(s, 0.0001));
           it.rotation.y = (t - it.userData.t0) * 0.9; it.position.y = 4.5 + (i % 2) * 1.4 + Math.sin(t * 1.6 + i) * 0.3;
           if (it.userData.spin) it.rotation.z = t * 1.2;
@@ -711,7 +712,7 @@
           custs.forEach((c, i) => {
             const u = clamp((t - S3) / 18); const lane = [-6, -2, 3, 7][i];
             const walk = (t * 1.1 + c.userData.ph);
-            c.position.set(Math.sin(walk * 0.5 + i) * 7, 0, [ -5, 1, 7, 13 ][i] - 1.2);
+            c.position.set(Math.sin(walk * 0.5 + i) * 7, 0, [-5, 1, 7, 13.5][i]);
             c.rotation.y = Math.cos(walk * 0.5 + i) > 0 ? Math.PI / 2 : -Math.PI / 2;
             c.children[0].position.y = 1.15 + Math.abs(Math.sin(walk * 5)) * 0.1;
             const sc = 0.4 + 3.6 * u * u; c.userData.stack.scale.set(1, sc, 1); c.userData.stack.position.y = 1.4 + sc * 0.5 - 0.5;
@@ -732,7 +733,8 @@
         renderer.render(scene, camera);
       }
 
-      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      window.__renderAt = renderAt;
+      window.addEventListener("hf-seek", (e) => { try { renderAt(e.detail.time); } catch (err) { console.error("renderAt error", e.detail.time, err && err.stack || err); } });
       window.__hf = window.__hf || {}; window.__hf.buildReady = window.__hf.buildReady || {};
       window.__hf.buildReady["scene"] = Promise.resolve().then(() => { renderAt(window.__hfThreeTime || 0); });
       renderAt(window.__hfThreeTime || 0);
