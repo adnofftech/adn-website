@@ -1,0 +1,169 @@
+{
+ "confirmed": [
+  {
+   "claim": "[CHIFFRE 1] Fortune cumulée des milliardaires, liste Forbes 2026 (3 428 milliardaires, record)",
+   "value": "20,1 mille milliards de dollars (20 100 Md$), en hausse de 4 000 Md$ sur un an. Citations lues : \"They are richer than ever, worth a record $20.1 trillion, up $4 trillion from last year.\" / \"a record 3,428 entrepreneurs, investors and heirs made this year's World's Billionaires list\". Valorisation : \"We used stock prices and exchange rates from March 1, 2026.\" Publié le 10 mars 2026. Recoupement City AM : \"The world's wealthiest people are worth a record $20.1 trillion combined, up from $16.1 trillion in 2025.\" (article du 10 mars 2026, mis à jour le 11)",
+   "source_url": "https://www.forbes.com.au/news/billionaires/the-forbes-billionaires-list-top-200/ ; https://www.cityam.com/forbes-40th-annual-worlds-billionaires-list/",
+   "status": "CONFIRMÉ (deux pages ouvertes par moi le 2026-10-09). Réserves : forbes.com est en 403, la source est l'édition australienne de Forbes ; c'est un instantané du 1er mars 2026, soit 7 mois de décalage en octobre 2026 ; patrimoine net surtout en actifs, pas en liquidités."
+  },
+  {
+   "claim": "[CHIFFRE 1, conversion] Taux BCE de référence EUR/USD au 9 octobre 2026",
+   "value": "Réponse lue : Cube time 2026-10-09, USD 1,1206. Calcul exact : 20,1 / 1,1206 = 17,94 mille milliards d'euros (arrondi : environ 18 000 Md€). Le calcul est exact, mais il mélange un total du 1er mars 2026 avec un taux du 9 octobre 2026.",
+   "source_url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+   "status": "CONFIRMÉ pour le taux et l'arithmétique ; la conversion reste un ordre de grandeur hybride (dates différentes), à étiqueter comme tel ou à éviter."
+  },
+  {
+   "claim": "[CHIFFRE 2] Personnes en extrême pauvreté dans le monde, 2024, Banque mondiale (mise à jour de septembre 2026)",
+   "value": "Plus de 824 millions de personnes, soit 10,1 % de la population mondiale, en 2024, au seuil de 3,00 $ par personne et par jour (PPA 2021). Citations lues : \"More than 824 million people, about one in ten worldwide, were living in extreme poverty in 2024.\" / \"Extreme poverty is defined as living on less than $3.00 per person per day in 2021 purchasing power parity terms.\" / \"Global extreme poverty is projected to decline marginally from 10.1 percent in 2024 to 9.8 percent in 2026.\" Billet daté du 22 septembre 2026. L'API PIP donne : reporting_year 2024, poverty_line 3, headcount 0.1012, pop_in_poverty 824298368, estimate_type \"actual\".",
+   "source_url": "https://blogs.worldbank.org/en/opendata/september-2026-global-poverty-update-from-the-world-bank--one-in ; https://api.worldbank.org/pip/v1/pip-grp?country=WLD&year=2024&povline=3&group_by=wb&format=json&version=20260922_2021_01_02_PROD",
+   "status": "CONFIRMÉ (blog et API ouverts par moi). Le billet précise une révision de mars à septembre 2026 : \"from about 10.4 percent (846.8 million people) to 10.1 percent (824.3 million)\". Dire \"plus de 800 millions\" ou \"plus de 824 millions (2024)\"."
+  },
+  {
+   "claim": "[CHIFFRE 3] Capitalisation boursière mondiale des actions, fin 2025, WFE",
+   "value": "151,94 mille milliards de dollars (151 940 Md$), +18,5 % sur un an. Citation lue : \"Global equity market capitalisation increased 18.5% compared to the end of 2024, amounting to USD 151.94 trillion\". Communiqué daté du 27 février 2026 (Londres).",
+   "source_url": "https://www.world-exchanges.org/news/articles/new-wfe-data-public-markets-post-strong-growth-2025-despite-geopolitical-instability",
+   "status": "CONFIRMÉ (page ouverte par moi). Donnée de fin 2025, soit 9 à 10 mois de décalage en octobre 2026."
+  },
+  {
+   "claim": "[CHIFFRE 3, autre source] Capitalisation boursière mondiale 2025, SIFMA",
+   "value": "157,8 mille milliards de dollars en 2025, +18,9 % sur un an. Citation lue : \"Global equity market capitalization increased 18.9% year-over-year to $157.8 trillion in 2025.\" Publié le 19 août 2026. États-Unis : 43,7 % (68,9 Tn$).",
+   "source_url": "https://www.sifma.org/news/blog/2026-capital-markets-fact-book-key-findings",
+   "status": "CONFIRMÉ (page ouverte par moi). Écart de 5,9 mille Md$ avec la WFE pour la même année (périmètre et méthode différents) : choisir une seule source par affichage, la WFE de préférence."
+  },
+  {
+   "claim": "UBS Billionaire Ambitions Report 2025 : fortune cumulée des milliardaires",
+   "value": "15,8 mille milliards de dollars. Citation lue : \"In 2025, 196 self-made billionaires added USD 386.5 billion to global wealth, pushing it to a record USD 15.8 trillion.\" et \"Overall, the number of billionaires rose by 8.8%, increasing from 2,682 to nearly 3,000.\" Communiqué du 4 décembre 2025.",
+   "source_url": "https://www.ubs.com/global/en/investor-relations/press-releases/overview-news-display-ndp/en-20251204-billionaire-ambitions-report-2025.html",
+   "status": "CONFIRMÉ (page ouverte). La page ne donne pas de date de valorisation précise (seulement \"2025\"). Le chiffre exact de 2 919 milliardaires n'est pas dans cette page (somme 374 + 2 545 faite par un chercheur, non revérifiée par moi)."
+  },
+  {
+   "claim": "Altrata Billionaire Census 2026 : nombre et fortune des milliardaires en 2025",
+   "value": "3 795 milliardaires et 15,1 Tn$ en 2025. Citation lue dans le PDF : \"Total wealth of the billionaire population soared by 12.8% to a record $15.1tn, equivalent to almost a quarter of the total market capitalization of the S&P 500 at the time.\" Le PDF indique aussi \"all-time high of 3,795 individuals in 2025\".",
+   "source_url": "https://altrata.com/wp-content/uploads/2026/08/Altrata_BillionaireCensus-2026_FINAL-1.pdf",
+   "status": "CONFIRMÉ (PDF téléchargé et texte extrait par moi). La comparaison porte sur le S&P 500 (indice américain), pas sur la bourse mondiale."
+  },
+  {
+   "claim": "Altrata : composition du portefeuille moyen d'un milliardaire (2025)",
+   "value": "Participations cotées 38,0 %, non cotées 34,5 %, actifs liquides 25,8 %, immobilier et luxe 1,7 %. Citation lue : \"Some 73% of the average billionaire portfolio comprises stakes in listed or privately owned companies, with the largest allocation (38%) in public holdings.\" et \"Liquid assets comprise about a quarter of billionaire portfolios\". Légende du graphique : \"Liquid assets (cash, income, dividends and equivalents, such as other liquid or easily liquidated financial investments)\".",
+   "source_url": "https://altrata.com/wp-content/uploads/2026/08/Altrata_BillionaireCensus-2026_FINAL-1.pdf",
+   "status": "CONFIRMÉ (PDF lu par moi). Moyenne par milliardaire (\"share of assets per billionaire\"), pas pondérée par la fortune ; \"liquide\" n'égale pas \"cash\"."
+  },
+  {
+   "claim": "Calcul dérivé : écart de pauvreté mondial à 3,00 $/jour, 2024",
+   "value": "poverty_gap = 0,0351 (API PIP, lu par moi). Calcul refait : 0,0351 x 3 x 365 x 8 141 808 945 = 312,9 Md$ PPA 2021 par an. Résultat d'un calcul, pas un chiffre publié.",
+   "source_url": "https://api.worldbank.org/pip/v1/pip-grp?country=WLD&year=2024&povline=3&group_by=wb&format=json&version=20260922_2021_01_02_PROD",
+   "status": "CALCUL EXACT mais DÉRIVÉ : ciblage parfait, dollars PPA et non dollars de marché ; ne pas afficher comme coût réel."
+  },
+  {
+   "claim": "Préprint Sahoo et al. (Columbia, Berkeley, UCSD, Stanford) : coût mondial pour ramener la pauvreté à 1 %",
+   "value": "Citation lue dans le PDF : \"reducing the global poverty rate to 1% would cost $304B per year: 0.28% of global GDP, or 0.47% of OECD\". Soumis le 2 septembre 2026. Résumé (page arXiv) : \"$211B nominal per year\" pour 34 pays (base 13 %) et \"0.28% of global GDP\". Le PDF précise que le seuil est $2,15 en PPA 2017 ; le passer à $3,00 PPA 2021 \"raises costs by 64%\" ; $347B/an (34 pays, dollars nominaux 2023, seuil $3,00) lu dans le PDF.",
+   "source_url": "https://arxiv.org/abs/2609.02013 ; https://arxiv.org/pdf/2609.02013",
+   "status": "CONFIRMÉ (PDF téléchargé et texte extrait par moi). Préprint non évalué par des pairs ; le 304 Md$ n'est PAS dans le résumé de la page arXiv, seulement dans le corps du texte."
+  },
+  {
+   "claim": "Oxfam : coût annuel pour sortir de la pauvreté (seuil 8,30 $/jour)",
+   "value": "Citation lue : \"The annual cost to lift up the 3.8 billion people who currently live below the poverty line is $1.65 trillion.\" Sous-titre : \"G20 billionaires' fortunes rise by $2.2 trillion in just one year.\" Publié le 20 novembre 2025.",
+   "source_url": "https://www.oxfam.org/en/press-releases/south-africa-puts-stern-test-g20-leaders-year-confront-scourge-global-inequality",
+   "status": "CONFIRMÉ (page ouverte). ONG militante ; seuil 8,30 $, pas l'extrême pauvreté ; les chiffres 13 400 / 15 600 Md$ du G20 et la méthode n'ont pas été revérifiés par moi."
+  },
+  {
+   "claim": "Brookings (13 août 2026) : coût pour ramener la pauvreté de 12 % à 1 % dans 23 pays",
+   "value": "Citations lues : \"...it would cost approximately $170 billion per year to reduce poverty from 12% to 1% of the population.\" ; \"Extrapolated to the whole world, the cost would represent about 0.3% of global GDP.\" ; \"About 800 million people still lived in extreme poverty in 2025,\". La phrase \"just 14% of the wealth gained by global billionaires in 2025 alone\" existe aussi.",
+   "source_url": "https://www.brookings.edu/articles/end-of-extreme-poverty-a-case-for-action-and-a-plan-to-start/",
+   "status": "CONFIRMÉ comme citation, mais le chiffre de 14 % ne cite AUCUNE source (vérifié) : ne pas l'utiliser."
+  },
+  {
+   "claim": "Banque mondiale, page Poverty Overview : projection 2026",
+   "value": "Citation lue : \"the total number of people worldwide living in extreme poverty declined from around 2.3 billion to 811 million\", \"each trying to survive on less than $3 per day\" ; ligne \"$3.00 a day (2021 PPP)\".",
+   "source_url": "https://www.worldbank.org/en/topic/poverty/overview",
+   "status": "CONFIRMÉ mais incohérent : la même page affiche aussi \"Around 831 million\" dans un teaser. Le billet de septembre 2026 ne donne que le taux 2026 (9,8 %), pas de nombre de personnes. Préférer 824 M (2024, observé)."
+  },
+  {
+   "claim": "Mécanisme des ventes forcées (déjà lu par le chercheur 3, non rouvert par moi)",
+   "value": "Citations rapportées : Shleifer-Vishny (NBER 16642) \"Fire sales are forced sales of assets in which high-valuation bidders are sidelined\" ; BCE FSR nov. 2014 \"a financial institution which is forced to liquidate that asset may depress its price\" ; ACPR-Banque de France déc. 2025 \"Une correction brutale des prix de certains actifs aux États-Unis se transmettrait aux marchés européens par effets de contagion.\"",
+   "source_url": "https://www.nber.org/papers/w16642 ; https://www.ecb.europa.eu/pub/pdf/fsr/art/ecb.fsrart201411_01.en.pdf ; https://acpr.banque-france.fr/system/files/2026-03/2025S2_RSF_vFinale.pdf",
+   "status": "NON REVÉRIFIÉ PAR MOI (hors périmètre des 3 chiffres) ; sources institutionnelles crédibles, mécanisme qualitatif, sans chiffre applicable au scénario ; à formuler au conditionnel."
+  }
+ ],
+ "corrections": [
+  "CHIFFRE 1, conversion en euros : 20,1 / 1,1206 = 17,94 mille milliards d'euros est arithmétiquement exact, mais le total Forbes est valorisé au 1er mars 2026 et le taux BCE est celui du 9 octobre 2026. Ce n'est pas un chiffre publié. Recommandation : afficher d'abord le montant en dollars (\"plus de 20 000 milliards de dollars, Forbes, 1er mars 2026\") ; si les euros sont gardés, écrire \"environ 18 000 Md€\" avec la mention \"conversion au taux BCE du 9/10/2026\" et le revérifier juste avant publication.",
+  "Vocabulaire : \"billions\" est correct en français pour 10^12, mais \"trillion\" français vaut 10^18 et \"Tn$\" (abréviation des chercheurs 2 et 3) prête à confusion. À l'écran et en voix off, écrire \"milliers de milliards\" ou \"20 100 milliards\", jamais \"trillions\" ni \"Tn$\".",
+  "Les chiffres 3 428 / 20,1 Tn$ / 1er mars 2026 du chercheur 3 reposaient sur des extraits de recherche non ouverts (il ne retenait que \"plus de 3 400\" lu sur Scripps). Je les ai maintenant lus sur Forbes Australia et City AM : ils sont confirmés. Scripps n'est plus nécessaire.",
+  "Total des milliardaires : les sources divergent selon la méthode et la date. Forbes 20,1 Tn$ (3 428 personnes, 1er mars 2026), UBS 15,8 Tn$ (près de 3 000, 2025), Altrata 15,1 Tn$ (3 795, 2025), Bloomberg top 500 seulement 11,9 Tn$ au 30/12/2025 (via Wikipedia). Il faut citer une seule source avec sa date et ne jamais les additionner ni les mélanger. Forbes est le plus récent et le plus haut.",
+  "Bloomberg : le total de 11,9 Tn$ vient de Wikipedia (secondaire) et date du 30 décembre 2025. Mes recherches ont fait apparaître deux extraits secondaires non ouverts et contradictoires entre eux (11,7 Tn$ en avril 2026 ; 13,3 Tn$ le 15 juin 2026, non retrouvé dans la seconde recherche). Ne rien afficher de Bloomberg.",
+  "Sahoo et al. : le 304 Md$/an (0,28 % du PIB mondial) est un chiffre du corps du texte, pas du résumé arXiv, qui affiche 211 Md$ pour 34 pays. Il utilise le seuil de 2,15 $ (PPA 2017), alors que le chiffre de 824 M de personnes utilise 3,00 $ (PPA 2021). Au nouveau seuil, le papier indique un coût supérieur de 64 % (347 Md$ pour les 34 pays). Ne pas rapprocher 304 Md$ et 824 M dans une même phrase comme s'il s'agissait du même périmètre. Préprint, non évalué par des pairs.",
+  "Pauvreté 2026 : le nombre de 811 millions n'apparaît que sur la page Poverty Overview (qui affiche aussi 831 M dans un teaser). Le billet de septembre 2026 ne donne que le taux de 9,8 %. Un nowcast n'est pas une mesure : utiliser 824 M, 2024.",
+  "Altrata : \"presque un quart de la capitalisation du S&P 500\" ne se rapporte pas à la bourse mondiale. Le rapport entre les fortunes et la capitalisation mondiale (environ 10 % avec Altrata/WFE, environ 13 % avec Forbes/WFE) est un calcul croisé entre sources, dates et périmètres différents, car les fortunes incluent du non coté et du liquide. Ne pas l'afficher.",
+  "Altrata : les 38,0 / 34,5 / 25,8 / 1,7 % sont des moyennes par milliardaire, pas des parts du total de la fortune. \"Liquide\" inclut des placements facilement liquidables. Ne pas multiplier ces pourcentages par 20,1 ou 15,1 Tn$ pour en tirer des montants. Écrire \"en moyenne\".",
+  "Brookings 14 % : la phrase \"14% of the wealth gained by global billionaires in 2025\" n'a aucune source citée dans l'article (vérifié). À écarter. De même, les montants de Brookings 2016 (80 Md$ en 2015, seuil 1,90 $) ont été paraphrasés d'un résumé de lecture et sont obsolètes : contexte historique seulement, jamais à l'écran.",
+  "Méthodologie Forbes (décote de liquidité de 10 %) : verified_by_reading_page=false. Ma tentative d'ouverture de la page forbes.com a renvoyé HTTP 403 : toujours non lue. La décote de 5 % de Bloomberg vient d'un miroir (origin.www.bloomberg.com) non rouvert par moi. Aucun de ces chiffres n'est nécessaire pour la vidéo : ne pas les afficher.",
+  "Ventes forcées : les articles (Shleifer-Vishny 2010, Stein 2013, BCE 2014, FMI 2015) traitent de ventes contraintes, souvent avec levier (banques, fonds). Un don volontaire de milliardaires n'est pas automatiquement une vente forcée. La phrase doit rester au conditionnel (\"pourrait\", \"si beaucoup de vendeurs et peu d'acheteurs\"). Le 37 % de la BCE (externalités sur les fonds propres des banques de la zone euro) ne concerne pas les milliardaires : ne jamais l'afficher. Aucun pourcentage de chute des cours ne doit être avancé.",
+  "Écart de pauvreté : 313 Md$ est un calcul dérivé en dollars PPA avec ciblage parfait ; il est environ 5 fois plus bas que l'estimation d'Oxfam (1 650 Md$ au seuil 8,30 $) parce que le seuil, la population et la conversion de change diffèrent. Ne jamais mettre ces montants côte à côte sans les distinguer. Ne pas comparer non plus une fortune (stock) à un coût annuel (flux) sans le dire.",
+  "Capitalisation boursière : le plus récent chiffre primaire est la WFE à fin 2025 (151,94 Tn$) ; SIFMA donne 157,8 Tn$ pour la même année. La projection Statista 2026 (165,36 Tn$) vue dans un extrait de recherche est une prévision, pas une mesure ; ne pas l'utiliser."
+ ],
+ "missing": [
+  "Capitalisation boursière mondiale plus récente que fin 2025 (WFE premier semestre 2026 ou données mensuelles 2026) : introuvable ; seule une projection Statista (non ouverte) existe. Il faut donc écrire \"fin 2025\" à l'écran.",
+  "Total en temps réel des milliardaires à octobre 2026 (Forbes real-time, Bloomberg Billionaires Index) : non obtenu (forbes.com et bloomberg.com en 403 ou inaccessibles ; seulement des extraits secondaires contradictoires). Le total Forbes de 20,1 Tn$ est celui du 1er mars 2026.",
+  "Taux EUR/USD au 1er mars 2026 (date de valorisation Forbes) : non cherché ; permettrait une conversion cohérente en euros du total Forbes.",
+  "Page méthodologie Forbes 2026 (décote de liquidité) lue directement : toujours en 403. Le chiffre de 10 % reste non vérifié (verified_by_reading_page=false) et n'a pas besoin d'être utilisé.",
+  "Aucune estimation chiffrée sérieuse de l'impact sur les prix d'une vente simultanée de tous les patrimoines de milliardaires : n'existe pas à ma connaissance dans les sources ouvertes ; ne pas inventer de pourcentage de baisse.",
+  "Aucune ventilation pondérée de la fortune totale des milliardaires (actions / non coté / liquide) : seule la moyenne par milliardaire d'Altrata existe ; UBS et Forbes ne publient pas de ventilation globale.",
+  "Estimation onusienne, FMI ou OCDE du coût annuel pour combler l'écart de pauvreté : non trouvée. Les seules estimations sont Sahoo et al. (préprint), Brookings (commentaire, 170 Md$ pour 23 pays), Oxfam (ONG) et le calcul dérivé depuis l'API PIP.",
+  "Critique académique évaluée par des pairs de l'argument \"les milliardaires pourraient mettre fin à la pauvreté\" : non trouvée.",
+  "Rapport Poverty, Prosperity, and Planet 2026 de la Banque mondiale : non lu (403 selon le chercheur 2), aucun chiffre cité.",
+  "Recoupement des citations Shleifer-Vishny, ECB FSR 2014, FMI 2015, ACPR déc. 2025, Bernanke 2007 et Danmarks Nationalbank 2019 : lues par les chercheurs, non rouvertes par moi (hors périmètre des 3 chiffres). Sources anciennes pour la plupart (2007 à 2015) ; une source récente (BCE ou FMI 2025-2026) sur la liquidité de marché serait préférable.",
+  "Les noms ou numéros des 18 scènes ne m'ont pas été transmis : les incrustations ci-dessous sont rattachées à des scènes thématiques (fortunes, pauvreté, composition du patrimoine, marchés, coût de la fin de la pauvreté) et doivent être mappées sur la bonne scène par l'équipe."
+ ],
+ "overlays": [
+  {
+   "scene": "Fortune cumulée des milliardaires",
+   "text": "Plus de 20 000 milliards de dollars (20,1 mille Md$) pour 3 428 milliardaires - Forbes, valeurs au 1er mars 2026",
+   "source": "Forbes 2026 (forbes.com.au, publié le 10/03/2026) ; recoupé par City AM. Option euros : \"environ 18 000 Md€ (conversion au taux BCE du 9/10/2026)\" avec cette mention."
+  },
+  {
+   "scene": "Fortune cumulée (variante prudente, sans conversion)",
+   "text": "Ordre de grandeur : une vingtaine de milliers de milliards de dollars. Les estimations varient selon la source (15 à 20 mille Md$)",
+   "source": "Forbes 20,1 (mars 2026) ; UBS 15,8 (2025) ; Altrata 15,1 (2025). À utiliser si l'équipe veut éviter de privilégier un seul classement."
+  },
+  {
+   "scene": "Personnes pauvres dans le monde",
+   "text": "Plus de 824 millions de personnes vivent avec moins de 3 $ par jour (en parité de pouvoir d'achat), soit 1 sur 10 - Banque mondiale, 2024 (publié en sept. 2026)",
+   "source": "World Bank Data Blog, 22/09/2026 ; API PIP pop_in_poverty 824 298 368, headcount 0,1012."
+  },
+  {
+   "scene": "Capitalisation boursière mondiale",
+   "text": "Valeur des actions cotées dans le monde : environ 152 000 milliards de dollars fin 2025 - WFE",
+   "source": "WFE, communiqué du 27/02/2026 : USD 151.94 trillion. Ne pas la comparer directement aux fortunes (dates et périmètres différents)."
+  },
+  {
+   "scene": "De quoi est faite une fortune de milliardaire",
+   "text": "En moyenne, environ 73 % du patrimoine d'un milliardaire est en parts d'entreprises (cotées ou non), environ 26 % en actifs liquides - Altrata, 2025",
+   "source": "Altrata Billionaire Census 2026 (27/08/2026) : 38,0 % cotées, 34,5 % non cotées, 25,8 % liquides, 1,7 % immobilier et luxe. Moyenne par milliardaire, pas pondérée par la fortune."
+  },
+  {
+   "scene": "Vendre en masse : offre et demande / ventes forcées",
+   "text": "Beaucoup de vendeurs, peu d'acheteurs : les prix pourraient baisser (hypothèse, pas une prévision chiffrée)",
+   "source": "OpenStax Principles of Economics 3e (mécanisme offre-demande) ; Shleifer et Vishny, NBER w16642 ; BCE FSR nov. 2014 (\"may depress its price\"). Aucun pourcentage."
+  },
+  {
+   "scene": "Contagion entre marchés",
+   "text": "Une chute brutale sur un marché pourrait se propager à d'autres marchés - Banque de France / ACPR, déc. 2025",
+   "source": "ACPR - Banque de France, Rapport sur la stabilité financière, déc. 2025 : \"Une correction brutale des prix de certains actifs aux États-Unis se transmettrait aux marchés européens par effets de contagion.\" Le texte vise un autre scénario (valorisations liées à l'IA) ; la mention doit rester illustrative."
+  },
+  {
+   "scene": "Bourse n'est pas l'économie réelle",
+   "text": "Capitalisation = prix de l'action x nombre d'actions : c'est une valeur de marché, pas la production ni les emplois",
+   "source": "Banque mondiale, WDI CM.MKT.LCAP.CD : \"Market capitalization (also known as market value) is the share price times the number of shares outstanding\". La distinction avec l'activité réelle est une déduction, à ne pas présenter comme citation."
+  },
+  {
+   "scene": "Coût de la fin de la pauvreté (ordre de grandeur annuel)",
+   "text": "Estimations très variables : environ 300 milliards de dollars par an pour ramener la pauvreté mondiale à 1 % (préprint, ancien seuil 2,15 $) ; 1 650 Md$ par an au seuil de 8,30 $ (Oxfam)",
+   "source": "Sahoo et al., arXiv 2609.02013 (sept. 2026, non évalué par des pairs) ; Oxfam, 20/11/2025. Ne pas ajouter le calcul dérivé 313 Md$. Préciser \"par an\" : ne pas le comparer à un stock de fortune sans le dire."
+  },
+  {
+   "scene": "Mention légale de fin ou bas d'écran",
+   "text": "Scénario hypothétique. Chiffres : Forbes (1er mars 2026), Banque mondiale (2024, publié sept. 2026), WFE (fin 2025). Données arrondies.",
+   "source": "Synthèse des sources ci-dessus ; à remplacer par les dates exactes validées juste avant publication, et revérifier le taux BCE si les euros sont conservés."
+  }
+ ]
+}
