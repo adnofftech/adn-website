@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Mais pourquoi — L'imprimante à billets</title>
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{--gold:#e8b84a;--mint:#47f0a0;--ink:#04100b;--paper:#f3ecd4;--red:#ff4a3d;--panel:rgba(4,16,11,.80)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#030605}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:"Archivo Black","Arial Black",sans-serif;color:var(--paper)}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+.fx{position:absolute;inset:0;pointer-events:none}
+#vig{background:radial-gradient(ellipse at 50% 46%,rgba(0,0,0,0) 52%,rgba(0,0,0,.62) 100%)}
+#flash{background:#d8ffe8;opacity:0}
+#grn{background:var(--ink);opacity:0}
+.clip{position:absolute;inset:0;pointer-events:none}
+.ov{position:absolute;left:60px;right:60px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.tt{font-size:124px;line-height:.98;letter-spacing:-.035em;text-transform:uppercase;text-shadow:0 8px 0 rgba(0,0,0,.45),0 0 40px rgba(0,0,0,.6)}
+.tt span{display:inline-block;will-change:transform}
+.gold{color:var(--gold)}.mint{color:var(--mint)}.red{color:var(--red)}
+.mono{font-family:"Space Mono",monospace;font-weight:700}
+#brand{position:absolute;left:56px;top:96px;font-size:30px;letter-spacing:.06em;color:var(--paper);opacity:.9;text-shadow:0 2px 12px #000}
+#brand b{color:var(--gold)}
+/* sous-titres */
+#caps.clip{position:absolute;inset:auto;left:70px;right:150px;top:1330px;height:200px;display:flex;align-items:center;justify-content:center}
+.cap{position:absolute;left:0;right:0;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 24px;font-size:66px;line-height:1.05;letter-spacing:-.02em;text-transform:uppercase;opacity:0;-webkit-text-stroke:0;text-shadow:0 5px 0 rgba(0,0,0,.7),0 0 26px rgba(0,0,0,.85)}
+.cap i{font-style:normal;display:inline-block;color:var(--paper)}
+.cap i.on{color:var(--gold)}
+/* graphique argent / produits */
+#chart{top:250px;left:130px;right:130px;padding:34px 40px 30px;background:var(--panel);border:3px solid rgba(71,240,160,.45);border-radius:28px;opacity:0}
+#chart h3{font-size:40px;letter-spacing:.02em;color:var(--mint);margin-bottom:22px}
+#bars{display:flex;align-items:flex-end;gap:64px;height:470px}
+.bar{width:230px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.bar .v{font-size:60px;margin-bottom:8px}
+.bar .b{width:100%;border-radius:14px 14px 0 0}
+.bar .l{font-size:28px;margin-top:12px;letter-spacing:.04em}
+#chart .note{font-size:30px;margin-top:16px;color:var(--paper);opacity:.85}
+.chip{padding:18px 34px;border-radius:999px;font-size:50px;letter-spacing:-.01em;text-transform:uppercase;background:var(--panel);border:3px solid var(--mint);color:var(--mint);text-shadow:none;white-space:nowrap}
+.chip.g{border-color:var(--gold);color:var(--gold)}.chip.r{border-color:var(--red);color:var(--red)}
+.big{font-size:150px;line-height:.9;letter-spacing:-.04em;text-transform:uppercase;text-shadow:0 8px 0 rgba(0,0,0,.5),0 0 44px rgba(0,0,0,.7)}
+.sub{font-size:44px;line-height:1.1;text-transform:uppercase;letter-spacing:-.01em;text-shadow:0 4px 0 rgba(0,0,0,.6),0 0 24px rgba(0,0,0,.8)}
+.src{font-size:24px;color:var(--paper);opacity:.8;margin-top:14px}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="69.5" data-width="1080" data-height="1920">
+  <canvas id="gl" width="1080" height="1920"></canvas>
+  <div id="vig" class="fx"></div>
+  <div id="brand" class="mono">MAIS <b>POURQUOI</b> ?</div>
+
+  <!-- audio : narration Léo + bed (musique + SFX) -->
+  <audio id="narration" src="audio/narration_leo.mp3" data-start="0" data-duration="68.75" data-track-index="1" data-volume="1"></audio>
+  <audio id="bed" src="audio/bed.wav" data-start="0" data-duration="69.5" data-track-index="2" data-volume="1"></audio>
+
+  <!-- S1 : hook -->
+  <section class="clip" id="s-hook" data-start="0" data-duration="3.2" data-track-index="3"><div class="ov" style="top:210px">
+    <div class="tt"><span class="h1">Et si on</span></div>
+    <div class="tt"><span class="h2">imprimait</span></div>
+    <div class="tt gold"><span class="h3">de l'argent</span></div>
+    <div class="tt" style="font-size:136px"><span class="h4">à l'infini&nbsp;?</span></div>
+  </div></section>
+
+  <!-- S2 : compteur -->
+  <section class="clip" id="s-count" data-start="4.2" data-duration="5.5" data-track-index="3"><div class="ov" style="top:250px">
+    <div class="big gold mono" id="cnt" style="font-size:112px;letter-spacing:-.05em">1 000 000</div>
+    <div class="sub mint" id="cntlab" style="margin-top:14px">millions</div>
+  </div></section>
+
+  <!-- S3 : le piège / graphique / prix / inflation -->
+  <section class="clip" id="s-trap" data-start="9.78" data-duration="1.4" data-track-index="3"><div class="ov" style="top:300px"><div class="big red" id="trap" style="font-size:170px">Le piège</div></div></section>
+  <section class="clip" id="s-chart" data-start="13.8" data-duration="6.4" data-track-index="3"><div class="ov" id="chart">
+    <h3>ARGENT&nbsp;vs&nbsp;PRODUITS</h3>
+    <div id="bars">
+      <div class="bar"><div class="v mint mono" id="vA">×1</div><div class="b" id="bA" style="background:linear-gradient(0deg,#1f8a4c,#47f0a0);height:24px"></div><div class="l mono">ARGENT</div></div>
+      <div class="bar"><div class="v gold mono" id="vB">×1</div><div class="b" id="bB" style="background:linear-gradient(0deg,#b8841f,#e8b84a);height:24px"></div><div class="l mono">PRODUITS</div></div>
+    </div>
+    <div class="note mono" id="chnote">à peu près les mêmes produits</div>
+  </div></section>
+  <section class="clip" id="s-prices" data-start="20.0" data-duration="1.5" data-track-index="3"><div class="ov" style="top:300px"><div class="chip r" id="pr">Les prix grimpent&nbsp;▲</div></div></section>
+  <section class="clip" id="s-infl" data-start="21.35" data-duration="3.0" data-track-index="3"><div class="ov" style="top:260px">
+    <div class="big red" id="infl">Inflation</div>
+    <div class="sub" id="infl2" style="margin-top:22px">chaque euro achète <span class="gold">moins</span></div>
+  </div></section>
+  <section class="clip" id="s-ctx" data-start="24.15" data-duration="2.85" data-track-index="3"><div class="ov" style="top:300px;gap:18px">
+    <div class="chip g" id="c1">Pas automatique</div>
+    <div class="chip" id="c2" style="font-size:44px">Ça dépend du contexte</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px"><span class="chip mono" style="font-size:30px;padding:12px 22px" id="f1">production</span><span class="chip mono" style="font-size:30px;padding:12px 22px" id="f2">demande</span><span class="chip mono" style="font-size:30px;padding:12px 22px" id="f3">énergie</span><span class="chip mono" style="font-size:30px;padding:12px 22px" id="f4">confiance</span></div>
+  </div></section>
+
+  <!-- S3→S4 : plus d'argent ≠ plus de richesse -->
+  <section class="clip" id="s-neq" data-start="26.9" data-duration="3.2" data-track-index="3"><div class="ov" style="top:250px">
+    <div class="tt"><span id="n1">Plus d'argent</span></div>
+    <div class="big gold" id="n2" style="font-size:230px;line-height:1">≠</div>
+    <div class="tt"><span id="n3">Plus de richesse</span></div>
+  </div></section>
+  <!-- S4 : révélation -->
+  <section class="clip" id="s-rev" data-start="30.15" data-duration="2.3" data-track-index="3"><div class="ov" style="top:230px">
+    <div class="tt" style="font-size:132px"><span id="r1">L'argent</span></div>
+    <div class="tt red" style="font-size:132px"><span id="r2">n'est pas</span></div>
+    <div class="tt gold" style="font-size:132px"><span id="r3">la richesse</span></div>
+  </div></section>
+  <section class="clip" id="s-sect" data-start="32.4" data-duration="6.1" data-track-index="3"><div class="ov" style="top:250px" id="sect"></div></section>
+
+  <!-- S5 : finance -->
+  <section class="clip" id="s-net" data-start="39.3" data-duration="2.2" data-track-index="3"><div class="ov" style="top:290px;gap:16px"><div class="chip mono" style="font-size:40px" id="net1">comptes · paiements · prêts</div></div></section>
+  <section class="clip" id="s-pct" data-start="41.6" data-duration="4.4" data-track-index="3"><div class="ov" style="top:215px">
+    <div class="big mint" id="p91" style="font-size:150px;white-space:nowrap">+ de 90 %</div>
+    <div class="sub" id="p91l" style="margin-top:6px">de dépôts bancaires</div>
+  </div><div class="ov" style="top:1270px;gap:6px"><div class="sub gold" id="p9" style="font-size:40px"><span class="mono">■</span> 9 % billets et pièces</div><div class="src mono" id="psrc">Banque de France · zone euro · 2020</div></div></section>
+  <section class="clip" id="s-loan" data-start="46.0" data-duration="4.9" data-track-index="3"><div class="ov" style="top:260px;gap:16px">
+    <div class="chip" id="l1">Crédit accordé</div>
+    <div class="chip g" id="l2" style="font-size:44px">+ monnaie créée</div>
+    <div class="chip mono" id="l3" style="font-size:40px;border-color:var(--paper);color:var(--paper)">règles · limites</div>
+  </div></section>
+  <section class="clip" id="s-cb" data-start="50.9" data-duration="2.9" data-track-index="3"><div class="ov" style="top:260px"><div class="chip g" id="cb1">Banque centrale : taux d'intérêt</div></div></section>
+  <section class="clip" id="s-ban" data-start="53.75" data-duration="2.85" data-track-index="3"><div class="ov" style="top:230px;gap:14px">
+    <div class="big red" id="ban" style="font-size:190px">Interdit</div>
+    <div class="chip r mono" id="ban2" style="font-size:36px">art. 123 TFUE · financer directement l'État</div>
+  </div></section>
+
+  <!-- S6 : conclusion -->
+  <section class="clip" id="s-end1" data-start="61.15" data-duration="3.3" data-track-index="3"><div class="ov" style="top:240px;gap:20px">
+    <div class="big gold" id="e1" style="font-size:136px">L'argent<br>est un outil</div>
+    <div class="sub" id="e2" style="font-size:52px">la richesse,<br>c'est ce qu'on <span class="mint">en fait</span></div>
+  </div></section>
+  <section class="clip" id="s-q" data-start="64.5" data-duration="5.0" data-track-index="3"><div class="ov" style="top:230px;gap:18px">
+    <div class="tt" style="font-size:104px"><span id="q1">Quel est</span></div>
+    <div class="tt mint" style="font-size:104px"><span id="q2">le vrai moteur</span></div>
+    <div class="tt" style="font-size:104px"><span id="q3">d'une économie&nbsp;?</span></div>
+    <div class="chip g" id="cta" style="margin-top:34px;font-size:46px;display:flex;align-items:center;gap:18px"><svg width="62" height="56" viewBox="0 0 62 56"><path d="M6 4h50a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H26L12 52V40H6a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="19" cy="22" r="3.6" fill="currentColor"/><circle cx="31" cy="22" r="3.6" fill="currentColor"/><circle cx="43" cy="22" r="3.6" fill="currentColor"/></svg>Dis-le en commentaire&nbsp;!</div>
+  </div></section>
+
+  <div id="caps" class="clip" data-start="0" data-duration="69.5" data-track-index="4"></div>
+  <div id="grn" class="fx"></div>
+  <div id="flash" class="fx"></div>
+</div>
+
+<script src="js/captions.js"></script>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+<script type="module" src="js/main.js"></script>
+<script>
+(() => {
+const tl = gsap.timeline({ paused: true });
+const $ = (s) => document.querySelector(s);
+const slam = (sel, t, o = {}) => tl.fromTo(sel, { y: o.y ?? 70, scale: o.s ?? 1.5, opacity: 0, rotation: o.r ?? -3 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: o.d ?? 0.32, ease: "back.out(1.9)" }, t);
+const out = (sel, t, d = 0.22, y = -40) => tl.to(sel, { opacity: 0, y, duration: d, ease: "power2.in" }, t);
+const pop = (sel, t, d = 0.34) => tl.fromTo(sel, { scale: 0.4, opacity: 0, y: 20 }, { scale: 1, opacity: 1, y: 0, duration: d, ease: "back.out(2)" }, t);
+
+// ---------- S1 hook (mots calés sur la voix) ----------
+slam(".h1", 0.0, { y: 90 }); slam(".h2", 0.44, { y: 90 }); slam(".h3", 0.92, { y: 90 }); slam(".h4", 1.32, { y: 90, s: 1.8 });
+tl.to(".h4", { scale: 1.06, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.0);
+out("#s-hook .tt", 2.95, 0.25, -60);
+
+// ---------- S2 compteur ----------
+const cnt = { v: 1e6 }; const fmt = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+tl.fromTo("#cnt", { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 4.42);
+tl.fromTo("#cntlab", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.25 }, 4.5);
+tl.to(cnt, { v: 1e9, duration: 0.7, ease: "power3.in", onUpdate: () => { $("#cnt").textContent = fmt(cnt.v); $("#cntlab").textContent = cnt.v >= 1e9 ? "milliards" : "millions"; } }, 5.0);
+tl.to("#cnt", { scale: 1.18, duration: 0.14, yoyo: true, repeat: 1, ease: "power2.out" }, 5.72);
+out("#s-count .ov", 8.1, 0.3, -40);
+
+// ---------- S3 ----------
+slam("#trap", 9.9, { s: 2.2, r: 6, d: 0.38 }); out("#trap", 10.85, 0.2, -30);
+// graphique : l'argent monte, les produits restent à ×1
+const ch = { a: 1 };
+tl.fromTo("#chart", { opacity: 0, y: -50, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.6)" }, 13.9);
+tl.to(ch, { a: 16, duration: 3.0, ease: "power2.in", onUpdate: () => { const a = ch.a; $("#vA").textContent = "×" + Math.round(a); $("#bA").style.height = (24 + (a - 1) / 15 * 330) + "px"; } }, 14.5);
+tl.fromTo("#vB", { scale: 1 }, { scale: 1.25, duration: 0.2, yoyo: true, repeat: 1 }, 16.1);
+tl.call(() => { $("#chnote").textContent = "même quantité de produits"; }, null, 16.84);
+out("#chart", 19.8, 0.3, -40);
+pop("#pr", 20.1); tl.to("#pr", { scale: 1.12, duration: 0.14, yoyo: true, repeat: 5 }, 20.4); out("#pr", 21.2, 0.2);
+slam("#infl", 21.4, { s: 2.4, r: 5, d: 0.4 }); tl.fromTo("#infl2", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, 22.6);
+tl.to("#infl", { color: "#ff4a3d", textShadow: "0 0 50px rgba(255,74,61,.7)", duration: 0.3 }, 21.9); out("#s-infl .ov", 24.0, 0.25, -40);
+pop("#c1", 24.25); pop("#c2", 25.9); ["#f1", "#f2", "#f3", "#f4"].forEach((s, i) => pop(s, 26.15 + i * 0.12, 0.28)); out("#s-ctx .ov", 26.85, 0.2, -30);
+
+// ---------- S3→S4 ----------
+slam("#n1", 26.96, { y: 80 }); tl.fromTo("#n2", { scale: 3, opacity: 0, rotation: -25 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.35, ease: "back.out(2.2)" }, 28.2); slam("#n3", 28.75, { y: 80 });
+tl.to("#s-neq .ov", { x: () => 6, duration: 0.05, yoyo: true, repeat: 5, ease: "none" }, 29.0);
+out("#s-neq .ov", 29.55, 0.1, 0);
+tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.85, duration: 0.05 }, 29.5); tl.to("#flash", { opacity: 0, duration: 0.5 }, 29.56);
+// ---------- S4 ----------
+slam("#r1", 30.2, { y: 70 }); slam("#r2", 30.75, { y: 70 }); slam("#r3", 31.3, { y: 70 }); out("#s-rev .ov", 32.3, 0.25, -50);
+// secteurs
+const SECT = [["NOURRITURE", 32.54, "01"], ["LOGEMENTS", 33.46, "02"], ["ÉNERGIE", 34.2, "03"], ["SERVICES", 34.98, "04"], ["TECHNOLOGIES", 35.72, "05"], ["TRAVAIL", 36.84, "06"]];
+const sec = $("#sect"); SECT.forEach(([l, t, n], i) => { const d = document.createElement("div"); d.className = "chip g"; d.id = "sc" + i; d.style.cssText = "position:absolute;top:0;font-size:64px;display:flex;gap:18px;align-items:center;opacity:0"; d.innerHTML = `<span class="mono" style="font-size:30px;color:var(--paper)">${n}/06</span>${l}`; sec.appendChild(d); });
+SECT.forEach(([l, t], i) => { pop("#sc" + i, t - 0.05, 0.3); out("#sc" + i, (SECT[i + 1] ? SECT[i + 1][1] : 38.3) - 0.12, 0.15, -20); });
+
+// ---------- S5 ----------
+tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.9, duration: 0.05, immediateRender: false }, 39.18); tl.to("#flash", { opacity: 0, duration: 0.45 }, 39.24);
+pop("#net1", 39.5); out("#net1", 41.3, 0.2);
+slam("#p91", 42.5, { s: 1.8 }); tl.fromTo("#p91l", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, 44.4); pop("#p9", 44.6); tl.fromTo("#psrc", { opacity: 0 }, { opacity: 0.85, duration: 0.3 }, 44.9); out("#s-pct .ov", 45.75, 0.2);
+pop("#l1", 46.3); pop("#l2", 47.6); pop("#l3", 49.3); out("#s-loan .ov", 50.7, 0.2, -20);
+pop("#cb1", 51.0); tl.to("#cb1", { scale: 1.06, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, 51.4); out("#cb1", 53.55, 0.2);
+slam("#ban", 54.75, { s: 2.6, r: 7, d: 0.34 }); pop("#ban2", 55.15); tl.to("#s-ban .ov", { x: 8, duration: 0.05, yoyo: true, repeat: 5, ease: "none" }, 54.9); out("#s-ban .ov", 56.4, 0.2);
+tl.fromTo("#flash", { opacity: 0 }, { opacity: 0.8, duration: 0.05, immediateRender: false }, 56.55); tl.to("#flash", { opacity: 0, duration: 0.5 }, 56.62);
+
+// ---------- S6 ----------
+slam("#e1", 61.24, { y: 80 }); tl.fromTo("#e2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 62.78); out("#s-end1 .ov", 64.3, 0.2, -40);
+slam("#q1", 64.64, { y: 60 }); slam("#q2", 65.3, { y: 60 }); slam("#q3", 66.0, { y: 60 }); pop("#cta", 67.62, 0.4);
+tl.to("#cta", { scale: 1.07, duration: 0.3, yoyo: true, repeat: 4, ease: "sine.inOut" }, 68.1);
+tl.to("#grn", { opacity: 0.6, duration: 1.0 }, 68.5);
+
+// ---------- sous-titres karaoké ----------
+const caps = $("#caps");
+window.CAPTIONS.forEach((c, k) => {
+  const el = document.createElement("div"); el.className = "cap"; el.id = "cap" + k;
+  c.w.forEach(([s, e, w], j) => { const i = document.createElement("i"); i.id = `cw${k}_${j}`; i.textContent = w; el.appendChild(i); });
+  caps.appendChild(el);
+  tl.fromTo("#cap" + k, { opacity: 0, y: 24, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" }, c.s);
+  c.w.forEach(([s, e, w], j) => { tl.fromTo(`#cw${k}_${j}`, { color: "#f3ecd4", scale: 1 }, { color: "#e8b84a", scale: 1.07, duration: 0.1, ease: "power2.out" }, s); tl.to(`#cw${k}_${j}`, { color: "#f3ecd4", scale: 1, duration: 0.12 }, Math.max(s + 0.12, e)); });
+  tl.to("#cap" + k, { opacity: 0, duration: 0.1 }, c.e - 0.1);
+});
+window.__timelines["main"] = tl;
+})();
+</script>
+</body>
+</html>
