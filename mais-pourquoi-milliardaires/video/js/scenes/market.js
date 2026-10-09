@@ -22,9 +22,9 @@ const canvasTex = (w, h) => { const c = document.createElement("canvas"); c.widt
 
 // ---------------- historique de prix illustratif (aucune valeur réelle) ----------------
 const noise = (u, s) => Math.sin(u * 37 + s) * 0.35 + Math.sin(u * 91 + s * 2) * 0.2 + Math.sin(u * 13 + s * 3) * 0.45;
-const CH0 = 33.6;                                   // origine (virtuelle) de la courbe : le graphique apparaît vers 34,1 avec déjà un historique
+const CH0 = 32.8;                                   // origine (virtuelle) de la courbe : le graphique apparaît vers 34,1 avec déjà un historique
 /** niveau normalisé (0 bas … 1 haut) à l'instant historique tau, vu depuis l'instant présent t */
-const F = (tau) => 0.74 + 0.045 * noise(tau * 1.7, 1) - 0.09 * eio(lin(35.0, 35.66, tau)) - 0.10 * eio(lin(T10P, T10E, tau)) - 0.55 * eio(lin(T10E - 0.04, T10E + 0.62, tau)) + 0.012 * noise(tau * 9, 4) * (1 - lin(T10E, T10E + 0.6, tau));
+const F = (tau) => 0.74 + 0.045 * noise(tau * 0.8, 1) - 0.11 * eio(lin(34.9, 35.66, tau)) - 0.10 * eio(lin(T10P, T10E, tau)) - 0.55 * eio(lin(T10E - 0.04, T10E + 0.62, tau)) + 0.012 * noise(tau * 9, 4) * (1 - lin(T10E, T10E + 0.6, tau));
 const xfrac = (tau) => 0.04 + 0.9 * lin(CH0, 38.5, tau);                // position horizontale (0..1) du point d'instant tau
 const CHY0 = 15.75, CHW = 18, CHH = 31.5;                               // panneau : bas posé sur le sol
 const pxOf = (fr) => 60 + fr * (1024 - 160), pyOf = (v) => 1500 - v * 1140;
@@ -52,7 +52,7 @@ export function build() {
   U.bill = []; const NB = 9;
   for (let i = 0; i < NB; i++) {
     const p = makePerson({ skin: SKIN[i % SKIN.length], shirt: i % 2 ? 0x4a4a60 : 0x3a3f55, pants: 0x23263a, scale: PS, kind: "adult" }); p.position.set(-9 + i * 2.25, 0, 13 + (i % 3) * 0.9); p.rotation.y = Math.PI; g.add(p);
-    const halo = glow(PAL.gold, 4.2, 0.5); halo.position.set(0, 2.0, -0.4); p.add(halo);
+    const halo = glow(PAL.gold, 4.2, 0.42); halo.position.set(0, 2.0, -0.4); p.add(halo);
     // liseré doré sur les épaules (visible de dos, la caméra voit leur dos)
     const sh = new T.Mesh(new T.BoxGeometry(0.74, 0.08, 0.5), new T.MeshBasicMaterial({ color: 0xc9983a })); sh.position.set(0, 1.5, 0); p.add(sh);
     U.bill.push(p);
@@ -93,11 +93,12 @@ export function build() {
   const NS = 560, NU = 14; U.NS = NS; U.NU = NU;
   U.sellers = new T.InstancedMesh(new T.BoxGeometry(0.9, 0.7, 0.7), new T.MeshLambertMaterial({ color: 0xff4a3d, emissive: 0x8a2016 }), NS); U.sellers.frustumCulled = false; g.add(U.sellers);
   U.buyers = new T.InstancedMesh(new T.BoxGeometry(0.9, 0.7, 0.7), new T.MeshLambertMaterial({ color: 0x6a9cff, emissive: 0x2a56c0 }), NU); U.buyers.frustumCulled = false; g.add(U.buyers);
-  U.lblL = textPlane("À VENDRE", { w: 3.4, h: 0.9, px: 640, color: "#ff6a5d", size: 0.62 }); U.lblL.position.set(bx - 3.0, 9.0, 4); g.add(U.lblL);
-  U.lblR = textPlane("ACHETEURS", { w: 3.4, h: 0.9, px: 640, color: "#8ab4ff", size: 0.5 }); U.lblR.position.set(bx + 3.0, 9.0, 4); g.add(U.lblR);
+  U.lblL = textPlane("À VENDRE", { w: 3.4, h: 0.9, px: 640, color: "#ff8a7c", size: 0.62, bg: "rgba(5,9,20,0.6)" }); U.lblL.position.set(bx - 3.0, 9.0, 4); g.add(U.lblL);
+  U.lblR = textPlane("ACHETEURS", { w: 3.4, h: 0.9, px: 640, color: "#8ab4ff", size: 0.5, bg: "rgba(5,9,20,0.6)" }); U.lblR.position.set(bx + 3.0, 9.0, 4); g.add(U.lblR);
   // nuance (directive : ce n'est pas une certitude, c'est un scénario où l'offre dépasse la demande aux prix précédents)
   U.note1 = textPlane("offre > demande aux prix précédents", { w: 9.6, h: 0.56, px: 1536, color: "#cfe0ff", size: 0.72, weight: 700, bg: "rgba(5,9,20,0.62)" }); U.note1.position.set(bx, 10.5, 4); g.add(U.note1);
-  U.note2 = textPlane("scénario hypothétique", { w: 6.0, h: 0.56, px: 960, color: "#9db4e0", size: 0.72, weight: 700, bg: "rgba(5,9,20,0.62)" }); U.note2.position.set(bx, 9.93, 4); g.add(U.note2);
+  U.note2 = textPlane("scénario hypothétique", { w: 9.6, h: 0.56, px: 1536, color: "#9db4e0", size: 0.72, weight: 700, bg: "rgba(5,9,20,0.62)" }); U.note2.position.set(bx, 9.93, 4); g.add(U.note2);
+  [U.lblL, U.lblR, U.note1, U.note2].forEach((m) => { m.material.depthTest = false; m.renderOrder = 20; });
 
   // ============ graphique géant en fond (S9 fin → S10) ============
   const ch = canvasTex(1024, 1792); U.ch = ch;
@@ -194,11 +195,11 @@ export function update(g, t) {
   U.buyers.count = nb2; U.buyers.instanceMatrix.needsUpdate = true;
   const zoneIn = t >= 32.5; [U.bal, U.sellers, U.buyers, U.zoneL, U.haloL, U.haloR].forEach((m) => { m.visible = zoneIn && t < 35.4; });
   // étiquettes + nuance « scénario » : en fondu, retirées avant la plongée vers le graphique
-  const lblA = 1 - sstep(34.3, 34.65, t), noteA = sstep(33.6, 33.9, t) * lblA;
+  const lblA = 1 - sstep(34.45, 34.75, t), noteA = sstep(33.6, 33.9, t) * lblA;
   [U.lblL, U.lblR].forEach((m) => { m.visible = zoneIn && lblA > 0.01; m.material.opacity = lblA; }); [U.note1, U.note2].forEach((m) => { m.visible = zoneIn && noteA > 0.01; m.material.opacity = noteA; });
   // ---- graphique (S9 fin -> S10) : apparaît en fondu derrière la balance, avec déjà un historique de prix
   drawChart(U, t);
-  const chA = sstep(34.1, 34.6, t); U.chart.visible = chA > 0.01; U.chart.material.opacity = chA; U.chartGlow.visible = t >= 34.7;
+  const chA = sstep(34.2, 34.7, t); U.chart.visible = chA > 0.01; U.chart.material.opacity = chA; U.chartGlow.visible = t >= 34.7;
   U.chartGlow.material.opacity = 0.6 * lin(T10P, T10E + 0.4, t);
   // blocs de valeur posés sur la ligne de base : se contractent juste après la chute (sans valeur chiffrée)
   const sh = eio(lin(T10E + 0.15, T10E + 0.9, t)); U.vals.forEach((m, i) => { const h = Math.max(0.05, 3.4 * (0.55 + 0.45 * H(i, 21)) * (1 - 0.68 * sh * (0.7 + 0.3 * H(i, 22)))); const wv = sstep(35.4, 35.9, t); m.scale.set(0.54 * Math.max(wv, 0.001), h, 0.5 * Math.max(wv, 0.001)); m.position.y = VBASE + h / 2; m.visible = wv > 0.01; m.material.color.setHex(sh > 0.3 ? 0xff5a4a : 0x3a7bff); m.material.emissive.setHex(sh > 0.3 ? 0x5a1008 : 0x0a1a4a); });
@@ -213,14 +214,14 @@ export const SHOTS = [
   { t: ST, p: [ox + 0, oy + 8.6, oz + 15], l: [ox + 0, oy + 8.6, oz], f: 48, e: eio },
   { t: 28.7, p: [ox - 2, oy + 9, oz + 28], l: [ox, oy + 8, oz], f: 52, e: eio },
   { t: T8 - 0.1, p: [ox - 3, oy + 4.5, oz + 27], l: [ox - 1, oy + 4.5, oz + 8], f: 56, e: eio },
-  { t: TV, p: [ox + 3, oy + 6, oz + 29], l: [ox, oy + 7, oz + 2], f: 56, e: eio },
+  { t: TV, p: [ox + 3, oy + 6, oz + 29], l: [ox, oy + 5.6, oz + 2], f: 56, e: eio },
   { t: TA, p: [ox + 14, oy + 9, oz + 24], l: [ox - 1, oy + 8, oz], f: 56, e: eio },
   { t: 32.55, p: [ox - 13, oy + 10, oz + 24], l: [ox, oy + 8, oz], f: 58, e: ein },
   // S9 : cut sur la balance entière (les deux plateaux dans le cadre, centrée à gauche de la marge droite), push-in lent, puis envol vers le graphique
   { t: 32.56, p: [ox + BX + 0.9, oy + 8.4, oz + 26.5], l: [ox + BX + 0.9, oy + 3.0, oz + 4], f: 60 },
   { t: 33.72, p: [ox + BX + 0.9, oy + 8.0, oz + 25.5], l: [ox + BX + 0.9, oy + 3.1, oz + 4], f: 58, e: eio },
-  { t: T9F, p: [ox + BX + 0.9, oy + 7.8, oz + 25], l: [ox + BX + 0.9, oy + 3.4, oz + 4], f: 56, e: eio },
-  { t: 34.75, p: [ox + BX + 0.3, oy + 10.5, oz + 21], l: [ox + BX - 1.0, oy + 11.0, oz - 12], f: 56, e: eio },
+  { t: 34.5, p: [ox + BX + 0.9, oy + 7.8, oz + 25], l: [ox + BX + 0.9, oy + 3.4, oz + 4], f: 56, e: eio },
+  { t: 35.05, p: [ox + BX - 1.0, oy + 12.4, oz + 13], l: [ox + BX - 2.8, oy + 15.0, oz - 12], f: 52, e: eio },
   // S10 : on arrive face au graphique, la caméra suit la pointe pendant la chute
   { t: 35.66, p: [ox + BX, oy + 13, oz + 8], l: [ox + BX - 2, oy + 13, oz - 12], f: 52, e: eio },
 ];
@@ -228,7 +229,7 @@ export const SHOTS = [
 // La visée est SOUS la pointe (lead) : le point reste dans la moitié haute du cadre (sous le titre du monteur, y>700), sans anticipation excessive.
 const trk = []; for (let tt = 36.3; tt < T10E - 0.25; tt += 0.1) trk.push(tt); for (let tt = T10E - 0.25; tt < T10E + 0.95; tt += 0.05) trk.push(tt); for (let tt = T10E + 0.95; tt <= EN - 0.02; tt += 0.1) trk.push(tt);
 for (const tt of trk) {
-  const [tx, ty] = tipAt(tt + 0.03); const k = sstep(T10E - 0.7, T10E + 0.15, tt);
+  const [tx, ty] = tipAt(tt); const k = sstep(T10E - 0.7, T10E + 0.15, tt);
   const dist = lerp(17, 10.5, k); const lead = -lerp(0.8, 1.05, sstep(T10E - 0.5, T10E - 0.05, tt));
   SHOTS.push({ t: +tt.toFixed(3), p: [ox + BX + tx * 0.92, oy + ty + lead + 2.2, oz - 12 + dist], l: [ox + BX + tx, oy + ty + lead, oz - 12], f: lerp(46, 50, sstep(T10E - 0.3, T10E + 0.1, tt)) });
 }

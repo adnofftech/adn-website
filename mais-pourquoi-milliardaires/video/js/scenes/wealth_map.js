@@ -87,16 +87,16 @@ function buildFlows(origin, targets, { N = 20, w = 0.2, pk = 0.22, pb = 6, nCoin
 }
 const _qa = new T.Vector3();
 /** Met à jour couleurs des rubans + jetons. front(a) -> progression 0..1 ; base(a) -> luminosité de base ; cA,cB couleurs (tête → origine / cible) */
-function paintFlows(F, t, { front, base, colA, colB, pulse, coinCol, coinK, spd = 0.7, coinHead = null, coinMul = null, cam = null }) {
+function paintFlows(F, t, { front, base, colA, colB, pulse, coinCol, coinK, spd = 0.7, coinHead = null, coinMul = null, cam = null, cap = 0.95, near = [6, 38], gain = 1 }) {
   const { arcs, N, col, nCoin, coins } = F; let ci = 0; const c = new T.Color(); const PA = F.mesh.geometry.attributes.position.array;
-  const nearK = (x, y, z) => (cam ? sstep(5, 22, Math.hypot(x - cam[0], y - cam[1], z - cam[2])) : 1);   // les rubans proches de la caméra s'effacent (rien ne traverse l'objectif)
+  const nearK = (x, y, z) => (cam ? sstep(near[0], near[1], Math.hypot(x - cam[0], y - cam[1], z - cam[2])) : 1);   // les rubans proches de la caméra s'effacent (rien ne traverse l'objectif ; centaines de couches additives => sinon voile blanc)
   for (let a = 0; a < arcs.length; a++) {
     const arc = arcs[a]; const f = front(a, arc); const bs = base(a, arc); const ph = H(a, 51) * 3;
     for (let j = 0; j <= N; j++) {
       const s = j / N; let I = 0; const rt = clamp(Math.pow(s / 0.4, 1.8), 0.012, 1);
       if (f > 0 && s <= f + 0.001) { const head = Math.exp(-((f - s) * 9)); I = bs * (0.55 + 0.45 * head); if (f < 1) I += 0.7 * Math.exp(-Math.pow((f - s) * 14, 2)); }
       if (pulse && f > 0 && s <= f + 0.001) { const pp = ((t * spd + ph) % 1); I += pulse * Math.exp(-Math.pow((s - pp) * 9, 2)); }
-      const b = (a * (N + 1) + j) * 4; I = Math.min(I * rt, 0.95) * nearK(PA[b * 3], PA[b * 3 + 1], PA[b * 3 + 2]); c.copy(colA).lerp(colB, s);
+      const b = (a * (N + 1) + j) * 4; I = Math.min(I * rt, cap) * gain * nearK(PA[b * 3], PA[b * 3 + 1], PA[b * 3 + 2]); c.copy(colA).lerp(colB, s);
       for (let k = 0; k < 4; k++) { col[(b + k) * 3] = c.r * I; col[(b + k) * 3 + 1] = c.g * I; col[(b + k) * 3 + 2] = c.b * I; }
     }
     for (let k = 0; k < nCoin; k++) {
@@ -121,6 +121,12 @@ function warmPerson(scale) {
 // ------------------------------------------------------------------ carte
 const gradBeam = (r0, r1, h, seg = 18) => { const g = new T.CylinderGeometry(r0, r1, h, seg, 1, true); const pos = g.attributes.position; const col = new Float32Array(pos.count * 3); for (let i = 0; i < pos.count; i++) { const u = (pos.getY(i) + h / 2) / h; const v = Math.pow(1 - u, 1.5); col[i * 3] = col[i * 3 + 1] = col[i * 3 + 2] = v; } g.setAttribute("color", new T.BufferAttribute(col, 3)); return g; };
 const beamMat = (c, o) => new T.MeshBasicMaterial({ color: c, vertexColors: true, transparent: true, opacity: o, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide });
+let _soft = null;
+/** gradient horizontal (centre lumineux, bords à 0) x fondu vertical : faisceaux sans bord net */
+const softTex = () => _soft || (_soft = mk(64, 256, (g, w, h) => { const gx = g.createLinearGradient(0, 0, w, 0); gx.addColorStop(0, "rgba(255,255,255,0)"); gx.addColorStop(0.5, "rgba(255,255,255,1)"); gx.addColorStop(1, "rgba(255,255,255,0)"); g.fillStyle = gx; g.fillRect(0, 0, w, h);
+  g.globalCompositeOperation = "destination-in"; const gy = g.createLinearGradient(0, 0, 0, h); gy.addColorStop(0, "rgba(0,0,0,0)"); gy.addColorStop(0.55, "rgba(0,0,0,.6)"); gy.addColorStop(1, "rgba(0,0,0,1)"); g.fillStyle = gy; g.fillRect(0, 0, w, h); }));
+const softBeam = (w, h, color) => { const g = new T.Group(); for (const ry of [0, Math.PI / 2]) { const bp = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ map: softTex(), color, transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); bp.rotation.y = ry; g.add(bp); } return g; };
+const setBeam = (g, color, op) => g.children.forEach((b) => { if (color !== null) b.material.color.copy(color); b.material.opacity = op; });
 export function buildMap() {
   const map = new T.Group(); const M = {};
   const cg = new T.BoxGeometry(1, 1, 1); cg.translate(0, 0.5, 0); const ix = cg.index.array, keep = []; for (let i = 0; i < ix.length; i++) if (i < 18 || i >= 24) keep.push(ix[i]); cg.setIndex(keep);
@@ -145,7 +151,7 @@ export function buildMap() {
   const hub = new T.Group(); hub.position.copy(HUB); M.hub = hub; map.add(hub);
   M.ringMat = new T.MeshBasicMaterial({ color: 0xffffff }); const ring = new T.Mesh(new T.TorusGeometry(6, 0.4, 8, 56), M.ringMat); ring.rotation.x = Math.PI / 2; ring.position.y = 0.5; hub.add(ring); M.ring = ring;
   const ring2 = new T.Mesh(new T.TorusGeometry(3.4, 0.22, 6, 40), M.ringMat); ring2.position.y = 3; ring2.rotation.x = Math.PI / 2; hub.add(ring2); M.ring2 = ring2;
-  M.beam = new T.Mesh(gradBeam(0.7, 2.2, 46), beamMat(0xffffff, 0.4)); M.beam.position.y = 23; hub.add(M.beam);
+  M.beam = softBeam(5.2, 46, 0xffffff); M.beam.position.y = 23; hub.add(M.beam);
   M.core = glow(0xffffff, 9, 0.9); M.core.position.y = 3; hub.add(M.core);
   M.gauge = new T.InstancedMesh(new T.BoxGeometry(0.9, 0.5, 1.5), new T.MeshBasicMaterial({ color: 0xffffff }), 28); M.gauge.frustumCulled = false; hub.add(M.gauge);
   for (let i = 0; i < 28; i++) { const a = (i / 28) * TAU; put(M.gauge, i, Math.cos(a) * 7.6, 0.4, Math.sin(a) * 7.6, 1, 1, 1, 0, -a + Math.PI / 2, 0); M.gauge.setColorAt(i, _c.setRGB(0, 0, 0)); }
@@ -155,11 +161,8 @@ export function buildMap() {
   const plat = new T.Mesh(new T.CylinderGeometry(2.3, 2.5, 0.3, 28), new T.MeshLambertMaterial({ color: 0xd9a63a, emissive: 0x3a2808 })); plat.position.y = -0.1; hero.add(plat);
   const hp = warmPerson(2.0); hero.add(hp); M.heroP = hp;
   M.heroGlow = glow(0xff9a3c, 13, 0.0); M.heroGlow.position.set(0, 2.8, -2.2); hero.add(M.heroGlow);
-  // faisceau du bénéficiaire : deux plans croisés à gradient horizontal (bords fondus, pas de bord net) + fondu vers le haut
-  const softTex = mk(64, 256, (g, w, h) => { const gx = g.createLinearGradient(0, 0, w, 0); gx.addColorStop(0, "rgba(255,255,255,0)"); gx.addColorStop(0.5, "rgba(255,255,255,1)"); gx.addColorStop(1, "rgba(255,255,255,0)"); g.fillStyle = gx; g.fillRect(0, 0, w, h);
-    g.globalCompositeOperation = "destination-in"; const gy = g.createLinearGradient(0, 0, 0, h); gy.addColorStop(0, "rgba(0,0,0,0)"); gy.addColorStop(0.55, "rgba(0,0,0,.6)"); gy.addColorStop(1, "rgba(0,0,0,1)"); g.fillStyle = gy; g.fillRect(0, 0, w, h); });
-  M.heroBeam = new T.Group(); M.heroBeam.position.set(0, 15, -0.4);
-  for (const ry of [0, Math.PI / 2]) { const bp = new T.Mesh(new T.PlaneGeometry(6.4, 30), new T.MeshBasicMaterial({ map: softTex, color: 0xffc870, transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); bp.rotation.y = ry; M.heroBeam.add(bp); }
+  // faisceau du bénéficiaire : deux plans croisés à bords fondus (pas de bord net)
+  M.heroBeam = softBeam(6.4, 30, 0xffc870); M.heroBeam.position.set(0, 15, -0.4);
   hero.add(M.heroBeam);
   M.heroCoins = new T.InstancedMesh(new T.CylinderGeometry(0.5, 0.5, 0.12, 8), new T.MeshBasicMaterial({ color: 0xffd36a }), 60); M.heroCoins.frustumCulled = false; hero.add(M.heroCoins);
   M.dive = glow(0xffa640, 3, 0); M.dive.material.depthTest = false; M.dive.renderOrder = 20; map.add(M.dive);
@@ -201,21 +204,21 @@ export function updateMap(M, t, mode, warm) {
   for (const k of ["cols", "plates", "halos"]) { M[k].instanceMatrix.needsUpdate = true; M[k].instanceColor.needsUpdate = true; }
 }
 
-export function updateS3Fx(M, t) {
+export function updateS3Fx(M, t, cam = null) {
   const F = M.fA; const on = t > 10.55; F.group.visible = on;
-  if (on) paintFlows(F, t, { front: (a, arc) => clamp((t - arc.tl) / arc.dur), base: () => 0.2, colA: _k.setRGB(0.28, 0.95, 0.62), colB: _k2.setRGB(1, 0.82, 0.42), pulse: 0.28, coinCol: new T.Color(0xffd36a), coinK: 1.1, spd: 0.8 });
+  if (on) paintFlows(F, t, { front: (a, arc) => clamp((t - arc.tl) / arc.dur), base: () => 0.2, colA: _k.setRGB(0.28, 0.95, 0.62), colB: _k2.setRGB(1, 0.82, 0.42), pulse: 0.28, cam, cap: 0.62, gain: 1 - 0.75 * sstep(12.7, 13.1, t), coinCol: new T.Color(0xffd36a), coinK: 1.1, spd: 0.8 });
   const dc = M.diveCell; const dv = sstep(12.5, 13.18, t);
   M.dive.position.set(dc.x, dc.h + 1.0, dc.z); M.dive.scale.setScalar(lerp(3, 70, ein(dv))); M.dive.material.opacity = 0.2 + 0.3 * dv; M.dive.visible = t > 11.4;
   M.diveFill.position.copy(M.dive.position); M.diveFill.scale.setScalar(90); M.diveFill.material.opacity = sstep(12.9, 13.16, t); M.diveFill.visible = t > 12.85;
 }
 
 export function updateS13Fx(M, t, warm, cam = null) {
-  const F = M.fB; F.group.visible = true; const burst = sstep(53.96, 54.12, t); const fade = sstep(54.2, 54.5, t);
+  const F = M.fB; F.group.visible = true; const burst = sstep(53.96, 54.12, t); const fade = sstep(54.04, 54.30, t); const fk = (1 - fade) * (1 - fade);   // extinction rapide (au carré) : les rubans additifs saturent vite en blanc dès que la caméra plonge dedans
   const colA = dawn(warm, new T.Color()), colB = dawn(Math.min(1, warm + 0.18), new T.Color()).lerp(_k2.setRGB(1, 1, 1), 0.12);
-  paintFlows(F, t, { front: () => 1, base: (a) => (a === 0 ? (0.26 + 0.3 * burst) * (1 - 0.9 * sstep(54.5, 54.72, t)) : (0.1 + 0.16 * burst) * (1 - fade * 0.95)), colA, colB, pulse: (0.16 + 0.3 * burst) * (1 - 0.95 * fade), cam, coinCol: new T.Color(0xffd36a), coinK: 1.0, spd: 0.5 + 0.9 * burst,
-    coinHead: (a, arc) => clamp((t - arc.tl) / arc.dur), coinMul: (a) => (a === 0 ? 1 - sstep(54.55, 54.75, t) : 1 - fade) });
+  paintFlows(F, t, { front: () => 1, base: (a) => (a === 0 ? (0.26 + 0.3 * burst) * (1 - sstep(54.45, 54.72, t)) : (0.1 + 0.16 * burst) * fk), colA, colB, pulse: (0.16 + 0.3 * burst) * fk, cam, cap: 0.75, near: [8, 55], coinCol: new T.Color(0xffd36a), coinK: 1.0, spd: 0.5 + 0.9 * burst,
+    coinHead: (a, arc) => clamp((t - arc.tl) / arc.dur), coinMul: (a) => (a === 0 ? 1 - sstep(54.5, 54.72, t) : fk) });
   let m = 0;
-  for (const s of M.stockData) { const u = (t - s.t0) / s.dur; if (u <= 0 || u >= 1) continue; const e = u * u * (3 - 2 * u); bez(s.p0, s.c, s.p1, e, _qa); const sc = 0.9 * Math.min(1, u / 0.1) * Math.min(1, (1 - u) / 0.15); put(M.stock, m, _qa.x, _qa.y, _qa.z, sc, sc, sc, u * 6, u * 5, 0); M.stock.setColorAt(m, _k.setRGB(0.55, 0.78, 1)); m++; }
+  for (const s of M.stockData) { const u = (t - s.t0) / s.dur; if (u <= 0 || u >= 1) continue; const e = u * u * (3 - 2 * u); bez(s.p0, s.c, s.p1, e, _qa); const sc = 0.9 * Math.min(1, u / 0.1) * Math.min(1, (1 - u) / 0.15); put(M.stock, m, _qa.x, _qa.y, _qa.z, sc, sc, sc, u * 6, u * 5, 0); M.stock.setColorAt(m, _k.setRGB(0.62, 0.92, 0.95)); m++; }
   M.stock.count = m; M.stock.instanceMatrix.needsUpdate = true; if (M.stock.instanceColor) M.stock.instanceColor.needsUpdate = true;
   const nT = TARGETS.length;
   for (let i = 0; i < nT; i++) {
@@ -224,20 +227,20 @@ export function updateS13Fx(M, t, warm, cam = null) {
     const sc = 1.1 * s0; const y = c.h + 0.02;
     if (s0 < 0.01 || c.hero) { hide(M.pBody, i); hide(M.pHead, i); hide(M.bars, i); continue; }
     put(M.pBody, i, c.x, y + bob, c.z, sc, sc, sc); put(M.pHead, i, c.x, y + bob, c.z, sc, sc, sc);
-    const base = _k.setRGB(0.34, 0.46, 0.7); const tone = _k2.setHex(CLOTH[Math.floor(H(i, 82) * CLOTH.length)]); M.pBody.setColorAt(i, _k3.copy(base).lerp(tone, rec)); M.pHead.setColorAt(i, new T.Color().copy(base).lerp(_c.setHex(SKIN[Math.floor(H(i, 83) * SKIN.length)]), rec));
-    const bh = 0.05 + (1.2 + 2.4 * H(i, 84)) * eout(clamp((t - arr) / 0.9)); put(M.bars, i, c.x + 0.95, y, c.z, 1, bh, 1); M.bars.setColorAt(i, _k3.setRGB(0.4, 0.5, 0.8).lerp(_c.setRGB(1, 0.8, 0.3), rec));
+    const base = _k.setRGB(0.34, 0.5, 0.5); const tone = _k2.setHex(CLOTH[Math.floor(H(i, 82) * CLOTH.length)]); M.pBody.setColorAt(i, _k3.copy(base).lerp(tone, rec)); M.pHead.setColorAt(i, new T.Color().copy(base).lerp(_c.setHex(SKIN[Math.floor(H(i, 83) * SKIN.length)]), rec));
+    const bh = 0.05 + (1.2 + 2.4 * H(i, 84)) * eout(clamp((t - arr) / 0.9)); put(M.bars, i, c.x + 0.95, y, c.z, 1, bh, 1); M.bars.setColorAt(i, _k3.setRGB(0.3, 0.6, 0.62).lerp(_c.setRGB(1, 0.8, 0.3), rec));
   }
   for (const k of [M.pBody, M.pHead, M.bars]) { k.instanceMatrix.needsUpdate = true; k.instanceColor.needsUpdate = true; }
   const chg = sstep(52.2, 53.7, t), gold = sstep(53.64, 53.95, t); const hc = dawn(Math.max(gold * 0.8, warm * 0.9), _k);
   M.ringMat.color.copy(hc); M.ring.rotation.z = t * 0.5; M.ring2.rotation.z = -t * 0.9; M.ring2.position.y = 3 + Math.sin(t * 2) * 0.3;
-  M.beam.material.color.copy(hc); M.beam.material.opacity = Math.min(0.25, 0.1 + 0.22 * chg + 0.2 * burst) * (1 - sstep(54.1, 54.35, t)); M.core.material.color.copy(hc); M.core.material.opacity = (0.35 + 0.3 * chg) * (1 - sstep(54.15, 54.4, t)); M.core.scale.setScalar(6 + 3 * burst + 1.5 * Math.sin(t * 6) * chg);
+  setBeam(M.beam, hc, Math.min(0.3, 0.1 + 0.22 * chg + 0.2 * burst) * (1 - sstep(54.1, 54.35, t))); M.core.material.color.copy(hc); M.core.material.opacity = (0.35 + 0.3 * chg) * (1 - sstep(54.15, 54.4, t)); M.core.scale.setScalar(6 + 3 * burst + 1.5 * Math.sin(t * 6) * chg);
   M.hubPlate.material.color.copy(hc); M.hubPlate.material.opacity = 0.14 + 0.2 * chg;
-  const fill = clamp((t - 52.2) / 2.3); for (let i = 0; i < 28; i++) { const on = i / 28 < fill; M.gauge.setColorAt(i, on ? _c.copy(hc) : _c.setRGB(0.07, 0.1, 0.18)); } M.gauge.instanceColor.needsUpdate = true;
+  const fill = clamp((t - 52.2) / 2.3); for (let i = 0; i < 28; i++) { const on = i / 28 < fill; M.gauge.setColorAt(i, on ? _c.copy(hc) : _c.setRGB(0.05, 0.11, 0.1)); } M.gauge.instanceColor.needsUpdate = true;
   // bénéficiaire
   const hp = pop((t - 53.9) / 0.4); M.hero.visible = hp > 0.01; M.hero.scale.setScalar(Math.max(0.001, hp));
   const up = sstep(54.35, 54.7, t); M.heroP.rotation.y = Math.sin(t * 1.3) * 0.1; M.heroP.userData.armL.rotation.z = lerp(0.12, -(Math.PI - 0.75), up); M.heroP.userData.armR.rotation.z = lerp(-0.12, Math.PI - 0.75, up);
   M.heroP.position.y = 0.16 * Math.abs(Math.sin(t * 7)) * sstep(54.5, 54.7, t);
-  M.heroGlow.material.opacity = 0.5 * sstep(54.1, 54.55, t); M.heroBeam.children.forEach((b) => { b.material.opacity = 0.13 * sstep(54.0, 54.4, t); });
+  M.heroGlow.material.opacity = 0.5 * sstep(54.1, 54.55, t); setBeam(M.heroBeam, null, 0.13 * sstep(54.0, 54.4, t));
   for (let i = 0; i < 44; i++) { const ta = 54.1 + 0.55 * H(i, 91); const u = (t - ta) / 0.85; if (u <= 0 || u >= 1) { hide(M.heroCoins, i); continue; } const a = H(i, 92) * TAU, r = 1.2 + 1.8 * H(i, 94); put(M.heroCoins, i, Math.cos(a) * r, 9 - u * 8, Math.sin(a) * r * 0.6 - 0.8, 0.3, 0.3, 0.3, u * 7 + i, u * 5, 0); }
   M.heroCoins.instanceMatrix.needsUpdate = true;
 }
@@ -259,7 +262,7 @@ export function buildNumbers() {
   N.mill1 = fatText("millions", { w: 6.2, h: 1.9, px: 800, size: 0.7, layers: 4, step: 0.06, color: "#f3ecd4" }); N.mill1.position.set(5.6, 0, 0); B.add(N.mill1);
   N.mill2 = fatText("de personnes", { w: 9.6, h: 1.6, px: 1200, size: 0.7, layers: 4, step: 0.06, color: "#f3ecd4" }); N.mill2.position.set(0.2, -2.35, 0); B.add(N.mill2);
   N.sub = fitText("moins de 3 $ par jour", { w: 9.4, h: 1.0, px: 1200, size: 0.62, color: "#f3ecd4", font: FONT, weight: 700 }); N.sub.position.set(0.2, -3.95, 0.1); B.add(N.sub);
-  N.src = fitText("Banque mondiale, 2024", { w: 8, h: 0.8, px: 1000, size: 0.55, color: "#f3ecd4" }); N.src.position.set(0.2, -4.95, 0.1); B.add(N.src);
+  N.src = fitText("Banque mondiale, 2024", { w: 10, h: 0.9, px: 1300, size: 0.6, color: "#f3ecd4" }); N.src.position.set(0.2, -5.0, 0.1); B.add(N.src);
   N.back2 = new T.Mesh(new T.PlaneGeometry(19, 9.4), new T.MeshBasicMaterial({ map: cardTex(), transparent: true, opacity: 0, depthWrite: false })); N.back2.position.set(0.2, -2.45, -0.9); B.add(N.back2);
   return { A, B, N };
 }

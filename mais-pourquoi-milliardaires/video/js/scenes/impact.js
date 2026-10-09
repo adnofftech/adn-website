@@ -6,6 +6,9 @@ export const OFFSET = MODULES[ID].offset;
 export const WINDOWS = windowsOf(ID);
 const [ox, oy, oz] = OFFSET;
 const NX = 90;                                  // zone du réseau (scène 12) décalée en x
+const GX = 5.5, GY = 14, GH = 6;               // jauge « valeur en bourse » (centre x, centre y, hauteur du tube)
+const PZ = 3;                                    // profondeur (z) des projets de développement
+const INV = [[12.6, 7.0], [14.0, 9.4], [15.4, 7.0], [16.8, 9.4], [18.2, 7.0], [19.6, 9.4], [21.0, 7.0]];   // position d'arrivée des 7 investisseurs (x, z) : deux rangées espacées
 const t11 = { cert: onset(11, /certaines/), perd: onset(11, /perdraient/), valeur: onset(11, /valeur/), bourse: onset(11, /bourse/), elles: onset(11, /elles/), attirer: onset(11, /attirer/), invest: onset(11, /investisseurs/), financer: onset(11, /financer/), dev: onset(11, /developpement/) };
 const t12 = { et: onset(12, /^et$/), panique: onset(12, /panique/), propag: onset(12, /propageait/), marches: onset(12, /marches/), conseq: onset(12, /consequences/), toucher: onset(12, /toucher/), plus: onset(12, /^plus$/), seuls: onset(12, /seuls/), milliardaires: onset(12, /milliardaires/) };
 export const ENV = (t) => ({ bg: t < 45.6 ? 0x070d1a : 0x050a14, fog: 0.007 });
@@ -54,23 +57,25 @@ export function build() {
   U.desks = []; for (let i = 0; i < 3; i++) { const w = makePerson({ skin: SKIN[(i + 1) % SKIN.length], shirt: 0xdfe6ff, pants: 0x2b3a4a, scale: 0.8 }); w.position.set(-9.2 + i * 1.7, 0, 2.6); w.rotation.y = 0.2; co.add(w); U.desks.push(w); }
   U.warm = new T.PointLight(0xffc27a, 160, 38, 1.4); U.warm.position.set(6, 5.5, 3); g.add(U.warm);
   const pad = new T.Mesh(new T.PlaneGeometry(40, 22), new T.MeshLambertMaterial({ color: 0x182848 })); pad.rotation.x = -Math.PI / 2; pad.position.set(2, 0.02, 2); g.add(pad);
-  // (3) jauge « valeur en bourse » (couche 1) au-dessus de l'entreprise
-  const gx = 4, gy = 18;
-  const tube = new T.Mesh(new T.CylinderGeometry(1.5, 1.5, 9, 24, 1, true), new T.MeshBasicMaterial({ color: 0x8ab4ff, transparent: true, opacity: 0.25, side: T.DoubleSide })); tube.position.set(gx, gy, 0); g.add(tube); U.tube = tube;
+  // (3) jauge « valeur en bourse » (couche 1) au-dessus de l'entreprise (compacte : l'ensemble tient dans la zone utile du cadre vertical)
+  const gx = GX, gy = GY;
+  const tube = new T.Mesh(new T.CylinderGeometry(1.5, 1.5, GH, 24, 1, true), new T.MeshBasicMaterial({ color: 0x8ab4ff, transparent: true, opacity: 0.25, side: T.DoubleSide })); tube.position.set(gx, gy, 0); g.add(tube); U.tube = tube;
   U.fill = new T.Mesh(new T.CylinderGeometry(1.35, 1.35, 1, 24), new T.MeshBasicMaterial({ color: 0x4aa0ff })); g.add(U.fill); U.fill.position.x = gx;
-  U.lblV = textPlane("VALEUR EN BOURSE", { w: 9, h: 1.3, px: 768, color: "#8ab4ff", size: 0.58 }); U.lblV.position.set(gx, gy + 6.2, 0); g.add(U.lblV);
-  U.arrowV = new T.Mesh(new T.ConeGeometry(1.4, 2.2, 3), new T.MeshBasicMaterial({ color: 0xff4a3d })); U.arrowV.rotation.z = Math.PI; U.arrowV.position.set(gx + 3.2, gy + 1, 0); g.add(U.arrowV);
-  U.lblA = textPlane("ACTIVITÉ RÉELLE", { w: 8, h: 1.2, px: 768, color: "#47f0a0", size: 0.58 }); U.lblA.position.set(8, 9.2, 5.0); g.add(U.lblA);
-  U.tick = textPlane("● en fonctionnement", { w: 8, h: 1.0, px: 768, color: "#9ff2c7", size: 0.5 }); U.tick.position.set(8, 8.0, 5.0); g.add(U.tick);
-  // (4) investisseurs (silhouettes translucides) qui hésitent
-  U.inv = []; for (let i = 0; i < 7; i++) { const p = makePerson({ skin: SKIN[i % SKIN.length], shirt: 0x6a9cff, pants: 0x2a3a6a, scale: 1.2 }); p.traverse((m) => { if (m.material) { m.material = m.material.clone(); m.material.transparent = true; m.material.opacity = 0.55; } }); g.add(p); U.inv.push(p);
+  U.lblV = textPlane("VALEUR EN BOURSE", { w: 8, h: 1.2, px: 768, color: "#8ab4ff", size: 0.58 }); U.lblV.position.set(gx, gy + GH / 2 + 1.35, 0); g.add(U.lblV);
+  U.arrowV = new T.Mesh(new T.ConeGeometry(1.2, 2.0, 3), new T.MeshBasicMaterial({ color: 0xff4a3d })); U.arrowV.rotation.z = Math.PI; U.arrowV.position.set(gx - 3.0, gy + 1, 0); g.add(U.arrowV);
+  U.lblA = textPlane("ACTIVITÉ RÉELLE", { w: 8, h: 1.2, px: 768, color: "#47f0a0", size: 0.58 }); U.lblA.position.set(5.8, 9.2, 3.5); g.add(U.lblA);
+  U.tick = textPlane("● en fonctionnement", { w: 8, h: 1.0, px: 768, color: "#9ff2c7", size: 0.5 }); U.tick.position.set(5.8, 8.3, 3.5); g.add(U.tick);
+  // (4) investisseurs (silhouettes bien visibles, espacées en deux rangées) qui hésitent
+  U.inv = []; for (let i = 0; i < 7; i++) { const p = makePerson({ skin: SKIN[i % SKIN.length], shirt: 0x6a9cff, pants: 0x2a3a6a, scale: 1.2 }); p.traverse((m) => { if (m.material) { m.material = m.material.clone(); m.material.transparent = true; m.material.opacity = 0.9; } }); g.add(p); U.inv.push(p);
     const case_ = new T.Mesh(new T.BoxGeometry(0.5, 0.38, 0.14), new T.MeshBasicMaterial({ color: PAL.gold })); case_.position.set(0.55, 0.9, 0); p.add(case_); }
+  U.lblI = textPlane("INVESTISSEURS", { w: 7, h: 1.1, px: 768, color: "#9ec0ff", size: 0.56 }); U.lblI.position.set(16.8, 4.0, 8.2); g.add(U.lblI);
   // (5) projets de développement (hologrammes)
-  U.proj = []; for (let i = 0; i < 3; i++) { const geo = new T.EdgesGeometry(new T.BoxGeometry(4.2, [5.5, 3.8, 7][i], 3.2)); const m = new T.LineSegments(geo, new T.LineBasicMaterial({ color: 0x47f0c8, transparent: true, opacity: 0.9 })); m.position.set(16 + i * 5.2, [2.75, 1.9, 3.5][i], 6); g.add(m);
-    const bar = new T.Mesh(new T.BoxGeometry(3.6, 0.35, 0.3), new T.MeshBasicMaterial({ color: 0x47f0a0 })); bar.position.set(16 + i * 5.2, 0.35, 7.8); g.add(bar);
-    const pause = textPlane("⏸ EN PAUSE", { w: 4.2, h: 1.0, px: 512, color: "#ffb36a", size: 0.55 }); pause.position.set(16 + i * 5.2, [6.4, 5.0, 8.0][i], 6); pause.visible = false; g.add(pause);
+  U.proj = []; for (let i = 0; i < 3; i++) { const geo = new T.EdgesGeometry(new T.BoxGeometry(4.2, [5.5, 3.8, 7][i], 3.2)); const m = new T.LineSegments(geo, new T.LineBasicMaterial({ color: 0x47f0c8, transparent: true, opacity: 0.9 })); m.position.set(16 + i * 5.2, [2.75, 1.9, 3.5][i], PZ); g.add(m);
+    const bar = new T.Mesh(new T.BoxGeometry(3.6, 0.35, 0.3), new T.MeshBasicMaterial({ color: 0x47f0a0 })); bar.position.set(16 + i * 5.2, 0.35, PZ + 1.8); g.add(bar);
+    const pause = textPlane("⏸ EN PAUSE", { w: 4.2, h: 1.0, px: 512, color: "#ffb36a", size: 0.55 }); pause.position.set(16 + i * 5.2, [6.4, 5.0, 8.0][i], PZ); pause.visible = false; g.add(pause);
     U.proj.push({ m, bar, pause }); }
-  U.lblP = textPlane("PROJETS DE DÉVELOPPEMENT", { w: 12, h: 1.2, px: 1024, color: "#47f0c8", size: 0.5 }); U.lblP.position.set(21, 10.5, 6); g.add(U.lblP);
+  U.lblP = new T.Group(); U.lblP.position.set(21.1, 10.2, PZ); g.add(U.lblP);
+  { const l1 = textPlane("PROJETS DE", { w: 7, h: 1.3, px: 768, color: "#47f0c8", size: 0.6 }); l1.position.y = 0.7; const l2 = textPlane("DÉVELOPPEMENT", { w: 9, h: 1.3, px: 1024, color: "#47f0c8", size: 0.6 }); l2.position.y = -0.7; U.lblP.add(l1, l2); }
 
   // ================= SCÈNE 12 : réseau =================
   const net = new T.Group(); net.position.set(NX, 0, 0); g.add(net); U.net = net;
@@ -123,10 +128,10 @@ export function update(g, t) {
   U.wall.visible = t < 41; drawWall(U, t);
   // valeur boursière : jauge qui baisse (sans valeur chiffrée)
   const lvl = 1 - 0.68 * eio(lin(t11.perd, t11.bourse + 0.2, t));
-  const gh = 9 * Math.max(0.05, lvl); U.fill.scale.set(1, gh, 1); U.fill.position.y = 18 - 4.5 + gh / 2; U.fill.material.color.setHex(lvl < 0.6 ? 0xff5a4a : 0x4aa0ff);
-  U.arrowV.visible = t > t11.perd && t < 44.5; U.arrowV.position.y = 19 - 3 * lin(t11.perd, t11.bourse, t) + 0.35 * Math.sin(t * 9);
-  const gs = eoutBack(lin(t11.cert + 0.2, t11.cert + 0.9, t)); [U.tube, U.fill, U.lblV].forEach((m) => { m.scale.setScalar(Math.max(0.001, gs)); }); U.fill.scale.set(Math.max(0.001, gs), gh, Math.max(0.001, gs)); U.lblV.userData.set("VALEUR EN BOURSE", lvl < 0.6 ? "#ff8a7d" : "#8ab4ff");
-  const gv = s11; [U.tube, U.fill, U.lblV, U.arrowV, U.lblA, U.tick, U.lblP].forEach((m) => { m.visible = m.visible && gv; }); U.tube.visible = gv; U.fill.visible = gv; U.lblV.visible = gv; U.lblA.visible = gv && t > t11.perd; U.tick.visible = U.lblA.visible; U.lblP.visible = gv && t > t11.financer - 0.3;
+  const gh = GH * Math.max(0.05, lvl); U.fill.scale.set(1, gh, 1); U.fill.position.y = GY - GH / 2 + gh / 2; U.fill.material.color.setHex(lvl < 0.6 ? 0xff5a4a : 0x4aa0ff);
+  U.arrowV.visible = t > t11.perd && t < 44.5; U.arrowV.position.y = GY + 1.2 - 2.2 * lin(t11.perd, t11.bourse, t) + 0.3 * Math.sin(t * 9);
+  const gs = eoutBack(lin(t11.cert + 0.2, t11.cert + 0.9, t)); [U.tube, U.fill, U.lblV].forEach((m) => { m.scale.setScalar(Math.max(0.001, gs)); }); U.fill.scale.set(Math.max(0.001, gs), gh * Math.max(0.001, gs), Math.max(0.001, gs)); U.fill.position.y = GY + (-GH / 2 + gh / 2) * Math.max(0.001, gs); U.lblV.userData.set("VALEUR EN BOURSE", lvl < 0.6 ? "#ff8a7d" : "#8ab4ff");
+  const gv = s11; [U.tube, U.fill, U.lblV, U.arrowV, U.lblA, U.tick, U.lblP].forEach((m) => { m.visible = m.visible && gv; }); U.tube.visible = gv; U.fill.visible = gv; U.lblV.visible = gv; U.lblA.visible = gv && t > t11.perd; U.tick.visible = U.lblA.visible; U.lblP.visible = gv && t > t11.financer; U.lblP.scale.setScalar(Math.max(0.001, eoutBack(lin(t11.financer, t11.financer + 0.35, t))));
   // activité réelle : usine qui tourne, bras, convoyeur, fumée, employés
   U.arms.forEach(([a1, a2], i) => { a1.rotation.z = Math.sin(t * 1.8 + i * 1.7) * 0.5; a2.rotation.z = -0.6 + Math.sin(t * 2.4 + i) * 0.6; a1.rotation.y = Math.sin(t * 0.9 + i) * 0.5; });
   for (let i = 0; i < 8; i++) { o.position.set(-5 + ((i * 1.4 + t * 1.5) % 11), 1.35, 0.5); o.scale.setScalar(1); o.rotation.set(0, 0, 0); o.updateMatrix(); U.crates.setMatrixAt(i, o.matrix); } U.crates.instanceMatrix.needsUpdate = true;
@@ -135,8 +140,9 @@ export function update(g, t) {
   U.desks.forEach((w, i) => { w.userData.armL.rotation.x = -0.9 + Math.sin(t * 6 + i) * 0.15; w.userData.armR.rotation.x = -0.9 + Math.sin(t * 6 + i + 1) * 0.15; });
   U.co.visible = s11; U.wall.visible = U.wall.visible && s11;
   // investisseurs : arrivent puis hésitent, certains repartent
-  U.inv.forEach((p, i) => { const s = t11.elles + 0.1 + i * 0.12; const u = lin(s, s + 1.4, t); const back = lin(t11.invest + 0.2 + i * 0.1, t11.invest + 1.6 + i * 0.1, t) * (i % 3 === 0 ? 0 : 1); const x = lerp(30, 16 - i * 0.2, eio(u)) + back * (10 + i), z = 8 + (i % 4) * 1.6 + (i > 3 ? 3 : 0);
-    p.position.set(x, 0, z); p.rotation.y = back > 0.05 ? -Math.PI / 2 : Math.PI / 2; p.visible = s11 && t > t11.elles && t < 45.2; p.userData.legL.rotation.x = Math.sin(t * 7 + i) * 0.5 * (u < 1 || back > 0 ? 1 : 0); p.userData.legR.rotation.x = -p.userData.legL.rotation.x; });
+  U.inv.forEach((p, i) => { const [xt, zt] = INV[i]; const s = t11.elles + 0.1 + i * 0.12; const u = lin(s, s + 1.4, t); const back = lin(t11.invest + 0.2 + i * 0.1, t11.invest + 1.4 + i * 0.1, t) * (i % 3 === 0 ? 0 : 1); const x = lerp(xt + 18, xt, eio(u)) + back * (18 + i);
+    p.position.set(x, 0, zt); p.rotation.y = back > 0.05 ? -Math.PI / 2 : Math.PI / 2; p.visible = s11 && t > t11.elles && back < 0.999; p.userData.legL.rotation.x = Math.sin(t * 7 + i) * 0.5 * (u < 1 || back > 0 ? 1 : 0); p.userData.legR.rotation.x = -p.userData.legL.rotation.x; });
+  { const ls = eoutBack(lin(t11.invest - 0.05, t11.invest + 0.3, t)) * (1 - sstep(t11.invest + 0.45, t11.invest + 0.75, t)); U.lblI.visible = s11 && ls > 0.01; U.lblI.scale.setScalar(Math.max(0.001, ls)); }
   // projets : apparaissent, 2 sur 3 se figent
   U.proj.forEach((pr, i) => { const s = t11.financer + 0.05 + i * 0.25; const u = eoutBack(lin(s, s + 0.45, t)); pr.m.scale.setScalar(Math.max(0.001, u)); pr.bar.scale.set(Math.max(0.001, u * (i === 2 ? lin(s, s + 1.4, t) * 0.8 + 0.2 : lin(s, s + 0.5, t) * 0.45 + 0.02)), 1, 1); pr.bar.position.x = 16 + i * 5.2 - 1.8 * (1 - pr.bar.scale.x);
     const frozen = i < 2 && t > t11.dev + 0.05; pr.m.material.color.setHex(frozen ? 0x7a8088 : 0x47f0c8); pr.bar.material.color.setHex(frozen ? 0x7a8088 : 0x47f0a0); pr.m.rotation.y = frozen ? 0.0 : t * 0.5 * (i + 1) * 0.3; pr.pause.visible = frozen && s11; pr.m.visible = pr.bar.visible = s11 && t > s; });
@@ -157,11 +163,13 @@ const E = 51.3;
 export const SHOTS = [
   // S11 : entrée face au mur de graphique (raccord), dolly latéral vers l'entreprise, suivi des deux couches
   { t: 38.46, p: [ox - 16, oy + 3.4, oz + 15], l: [ox - 16, oy + 3.2, oz + 6], f: 50, e: eio },
-  { t: 39.3, p: [ox + 0, oy + 9, oz + 34], l: [ox + 4, oy + 8, oz], f: 54, e: eio },
-  { t: t11.bourse + 0.3, p: [ox + 8, oy + 10, oz + 31], l: [ox + 4, oy + 10, oz], f: 54, e: eio },
-  { t: t11.attirer, p: [ox + 15, oy + 6, oz + 26], l: [ox + 12, oy + 3, oz + 8], f: 54, e: eio },
-  { t: t11.financer + 0.1, p: [ox + 24, oy + 7.5, oz + 26], l: [ox + 20, oy + 4, oz + 6], f: 54, e: eio },
-  { t: 45.3, p: [ox + 18, oy + 8, oz + 30], l: [ox + 18, oy + 5, oz + 6], f: 56, e: eio },
+  { t: 38.92, p: [ox + 3.8, oy + 5, oz + 37], l: [ox + 4.8, oy + 5.6, oz], f: 54, e: eio },
+  { t: t11.bourse + 0.3, p: [ox + 5.2, oy + 5, oz + 36], l: [ox + 5.2, oy + 5.6, oz], f: 54, e: eio },
+  { t: t11.attirer, p: [ox + 11, oy + 4.2, oz + 38], l: [ox + 11.5, oy + 5.4, oz], f: 54, e: eio },
+  { t: 43.9, p: [ox + 11.8, oy + 4.2, oz + 38], l: [ox + 12.3, oy + 5.4, oz], f: 54, e: eio },
+  { t: 44.55, p: [ox + 22.6, oy + 6, oz + 33], l: [ox + 22.6, oy + 5, oz + 3], f: 54 },
+  { t: 45.3, p: [ox + 23, oy + 6, oz + 33.6], l: [ox + 22.6, oy + 5, oz + 3], f: 54 },
+  { t: 45.638, p: [ox + 23.3, oy + 6, oz + 34], l: [ox + 22.6, oy + 5, oz + 3], f: 54 },
   // S12 : on arrive devant le premier écran (zone réseau), puis la caméra recule pour révéler le réseau
   { t: 45.64, p: [ox + NX - 2, oy + 14, oz + 10], l: [ox + NX - 2, oy + 14, oz - 2], f: 50 },
   { t: t12.conseq - 0.15, p: [ox + NX - 2, oy + 14.5, oz + 14], l: [ox + NX - 1, oy + 14, oz - 2], f: 52, e: eio },

@@ -52,9 +52,9 @@ export const SHOTS = [
   { t: 5.38, p: V(0, 4.1, 40.1), l: V(0, 6.2, 12.5), f: 56, e: eout },
   { t: 5.8, p: V(0, 4.15, 39.4), l: V(0, 6.0, 12.5), f: 56 },
   { t: 6.94, p: V(0, 4.2, 39.0), l: V(0, 6.0, 12.5), f: 56, e: eio },
-  { t: 7.56, p: V(0, 5.0, 26.0), l: V(0, 6.0, 12.5), f: 50, e: ein },
+  { t: 7.56, p: V(0, 5.2, 28.6), l: V(0, 6.2, 12.5), f: 50, e: ein },
   // S3 : recul spectaculaire, carte, chiffres, plongée dans un point chaud
-  { t: 7.7, p: V(0, 5.2, 26.4), l: V(0, 6.0, 12.5), f: 50, e: ein },
+  { t: 7.7, p: V(0, 5.3, 28.9), l: V(0, 6.2, 12.5), f: 50, e: ein },
   { t: 7.98, p: V(0, 12, 50), l: V(0, 8, 6), f: 54, e: eio },
   { t: 8.6, p: V(0, 40, 84), l: V(0, 6, -16), f: 58, e: eio },
   { t: 9.5, p: V(0, 84, 84), l: V(0, 2, -34), f: 58, e: eio },
@@ -191,7 +191,7 @@ export function update(g, t) {
   if (map.visible) {
     const cam = evalShots(t, TR);
     if (isC) {
-      updateMap(M, t, 3, 0); updateS3Fx(M, t); M.fB.group.visible = false; M.hero.visible = false; M.hub.visible = false; M.pBody.visible = M.pHead.visible = M.bars.visible = M.stock.visible = false;
+      updateMap(M, t, 3, 0); updateS3Fx(M, t, [cam.p[0] - ox, cam.p[1] - oy, cam.p[2] - oz]); M.fB.group.visible = false; M.hero.visible = false; M.hub.visible = false; M.pBody.visible = M.pHead.visible = M.bars.visible = M.stock.visible = false;
       nb.A.visible = nb.B.visible = t >= TM.milliers - 0.02; if (nb.A.visible) updateNumbers(nb, t, cam);
     } else {
       updateMap(M, t, 13, warm13); M.fA.group.visible = false; M.dive.visible = false; M.diveFill.visible = false; M.hub.visible = true; M.pBody.visible = M.pHead.visible = M.bars.visible = M.stock.visible = true; nb.A.visible = nb.B.visible = false;
