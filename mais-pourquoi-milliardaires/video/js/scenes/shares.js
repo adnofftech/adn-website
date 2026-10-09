@@ -5,6 +5,7 @@ import { MODULES, windowsOf, onset } from "../plan.js";
 import { shotList, evalShots } from "../shots.js";
 import { certTex } from "../shared.js";
 import { _o, mixHex, pop, popAt, put, hide, inst, lam, bas, addMat, rep, uvScale, chartTex, gridTex } from "./shares_lib.js";
+import { buildZone, updateZone, HZ } from "./shares_vault.js";
 
 export const ID = "shares";
 export const OFFSET = MODULES[ID].offset;
@@ -33,19 +34,35 @@ function spl(t, keys) {
   return a.v.map((_, j) => h00 * a.v[j] + h10 * dt * ma[j] + h01 * b.v[j] + h11 * dt * mb[j]);
 }
 const HERO_C = [0, 3, 0];                                  // billet / action / graphique (repère marché)
-const OR_T = [-8, 6.5, -26];                               // cible de regard en fin de rotation
+const OR_T = [-6, 5, -30];                               // cible de regard en fin de rotation
 const cam5 = (t) => {
-  const zoom = eio(lin(18.74, 19.02, t)), push = lin(19.02, 19.96, t);
-  const e = eio(lin(19.9, 21.17, t)), az = 2.15 * e, r0 = lerp(3.3, 2.15, zoom) - 0.3 * push, r = r0 + 21.4 * Math.pow(e, 1.35), h = 7.5 * Math.pow(e, 1.2);
+  const zoom = eio(lin(18.74, 19.02, t)), back = eio(lin(19.04, 19.55, t)), push = eio(lin(19.55, 19.96, t));
+  const e = eio(lin(19.9, 21.17, t)), az = 2.15 * e;
+  const r0 = lerp(3.3, 2.0, zoom) + 0.7 * back - 0.25 * push, r = r0 + 23.6 * Math.pow(e, 1.35), h = 15 * Math.pow(e, 1.25);
   const look = e;                                          // le regard glisse du billet vers le marché
-  const sway = 0.12 * Math.sin((t - 19.0) * 3.1) * sstep(19.02, 19.3, t) * (1 - e);
+  const sway = 0.1 * Math.sin((t - 19.0) * 3.1) * sstep(19.02, 19.3, t) * (1 - e);
   const px = HERO_C[0] + r * Math.sin(az) + sway, py = HERO_C[1] + h + 0.05 * (1 - zoom), pz = HERO_C[2] + r * Math.cos(az);
   const lx = lerp(HERO_C[0], OR_T[0], look), ly = lerp(HERO_C[1], OR_T[1], look), lz = lerp(HERO_C[2], OR_T[2], look);
-  const roll = -0.06 * Math.sin(Math.PI * zoom) * (1 - e) + 0.05 * Math.sin(Math.PI * e);
-  const fov = lerp(40, 35, zoom) + 20 * Math.pow(e, 1.3);
+  const roll = -0.05 * Math.sin(Math.PI * zoom) * (1 - e) + 0.05 * Math.sin(Math.PI * e);
+  const fov = lerp(40, 36, zoom) + 22 * Math.pow(e, 1.3);
   return [...Mw(px, py, pz), ...Mw(lx, ly, lz), fov, roll];
 };
-
+// S6 + S7 : plans clés (repère coffre -> monde)
+const K = (t, p, l, f, r = 0, z = false) => ({ t, v: [...Vw(...p), ...Vw(...l), f, r], z });
+const CAM67 = [
+  K(21.18, [9.5, 3.2, 40], [0, 13, 0], 56, 0.03),
+  K(21.8, [7.4, 4.6, 39], [0, 13, 0], 54, 0.015),
+  K(22.4, [5.0, 6.4, 38], [1.5, 12.4, 0], 52, 0),
+  K(23.0, [3.0, 8.2, 31], [0.6, 11.6, -4], 52, 0),
+  K(23.44, [0.8, 10.0, 21], [0, 10.8, -14], 56, 0),
+  K(23.62, [0, 10.5, 9], [0, 10.5, -30], 60, 0),
+  K(23.9, [0, 10.5, -22], [0, 10.5, -60], 64, 0),
+  K(24.1, [0, 14.5, -50], [0, 8, -90], 62, 0),
+  K(24.34, [0, 20, -66], [0, 6, -112], 56, 0),
+  K(24.76, [7, 13, -88], [0, 7, -112], 54, 0),
+  K(25.4, [12, 10, -86], [1, 9, -112], 50, 0),
+  K(27.64, [0, 9, -90], [0, 8, -112], 50, 0),
+];
 // ---- ENV / SHAKE
 export const ENV = (t) => {
   if (t < TM.S6 - 0.005) {
@@ -61,10 +78,9 @@ export const SHAKE = (t) => {
 };
 
 // ---- caméra complète : échantillonnée (1/60 s) en clés linéaires
-const CAM67 = [];                                          // rempli par les modules S6/S7 (stage suivant)
 function camAt(t) {
   if (t < TM.S6 - 0.004) return cam5(t);
-  return cam5(21.17);
+  return spl(t, CAM67);
 }
 function sampleShots() {
   const out = [], dt = 1 / 60;
@@ -145,11 +161,11 @@ function updateMarket(U, t, cam) {
   hero.position.set(HERO_C[0], HERO_C[1] + 0.012 * Math.sin((t - A0) * 2.4) * breath + 0.0, HERO_C[2]);
   const chartPhase = t >= EN + 0.4 + 0.05;
   M.faceA.material.map = chartPhase ? M.tex.chart : M.tex.bill; M.faceA.scale.set(1.3, chartPhase ? 0.81 : 0.58, 1);
-  M.hGlow.position.set(HERO_C[0], HERO_C[1], HERO_C[2] - 0.2 * sc);
+  M.hGlow.position.set(HERO_C[0], HERO_C[1], HERO_C[2] - 1.3 * sc);
   M.hGlow.scale.setScalar(6.2 * sc * (0.9 + 0.1 * Math.sin(t * 4)) * (1 + 0.4 * grow)); M.hGlow.material.opacity = (0.34 + 0.4 * Math.sin(Math.PI * clamp((t - EN) / 0.5)) + 0.3 * Math.sin(Math.PI * clamp((t - PB) / 0.5))) * (1 - 0.7 * grow);
   M.hGlow.material.color.setHex(t < PB + 0.1 ? 0xffd27a : 0x7fe9ff);
   // anneaux d'impact : l'arrêt (le billet se fige), puis chaque transformation
-  [[A0 + 0.02, 0.6, 3.4, 0.55], [EN + 0.17, 0.8, 4.6, 0.7], [PB + 0.17, 0.8, 5.2, 0.7]].forEach(([t0, s0, s1, o], i) => {
+  [[A0 + 0.02, 0.5, 1.7, 0.5], [EN + 0.17, 0.7, 2.3, 0.55], [PB + 0.17, 0.7, 2.5, 0.55]].forEach(([t0, s0, s1, o], i) => {
     const u = clamp((t - t0) / 0.55), m = M.rings[i]; m.visible = u > 0 && u < 1; m.position.set(HERO_C[0], HERO_C[1], HERO_C[2] - 0.03); m.scale.setScalar((s0 + (s1 - s0) * eout(u)) * 0.62 * (1 + 7.5 * grow)); m.material.opacity = o * (1 - u) * (1 - u);
   });
   // éclats
@@ -188,17 +204,24 @@ function updateMarket(U, t, cam) {
 export function build() {
   const g = new T.Group(); g.position.set(...OFFSET); const U = g.userData;
   const hemi = new T.HemisphereLight(0x8fb0ff, 0x08121c, 0.9), sun = new T.DirectionalLight(0xbfd4ff, 1.0), pt = new T.PointLight(0x6fe7ff, 0, 80, 1.5);
-  sun.position.set(-20, 40, 30); g.add(hemi, sun, pt); U.hemi = hemi; U.sun = sun; U.pt = pt;
+  sun.position.set(-20, 40, 30); g.add(hemi, sun, sun.target, pt); U.hemi = hemi; U.sun = sun; U.pt = pt;
   U.gM = buildMarket(); U.M = U.gM.userData; g.add(U.gM);
+  U.gV = buildZone(); U.gV.position.set(VX, 0, 0); U.Z = U.gV.userData; g.add(U.gV);
   return g;
 }
 export function update(g, t) {
   const U = g.userData, cam = evalShots(t, TR);
-  const inM = t < TM.S6 - 0.004;
-  U.gM.visible = inM;
+  const inM = t < TM.S6 - 0.004, inV = !inM;
+  U.gM.visible = inM; U.gV.visible = inV;
   if (inM) {
     const cold = sstep(19.2, 20.2, t), lit = 0.25 + 0.75 * cold;
-    U.hemi.color.setHex(0x8fb0ff); U.hemi.groundColor.setHex(0x0a1a2a); U.hemi.intensity = 1.0 * lit; U.sun.color.setHex(0xaecbff); U.sun.intensity = 1.1 * lit; U.sun.position.set(-20, 40, 30); U.pt.intensity = 0;
+    U.hemi.color.setHex(0x8fb0ff); U.hemi.groundColor.setHex(0x0a1a2a); U.hemi.intensity = 1.0 * lit; U.sun.color.setHex(0xaecbff); U.sun.intensity = 1.1 * lit; U.sun.position.set(-20, 40, 30); U.sun.target.position.set(0, 0, 0); U.pt.intensity = 0;
     updateMarket(U, t, cam);
+  } else {
+    const open = sstep(TM.ce + 0.1, TM.ce + 0.9, t), after = sstep(TM.juste, TM.juste + 0.5, t);
+    mixHex(0xa8bccd, 0x9fc4e8, after, U.hemi.color); U.hemi.groundColor.setHex(0x1a1a14); U.hemi.intensity = lerp(0.85, 1.05, after);
+    mixHex(0xfff0d0, 0xcfe0ff, after, U.sun.color); U.sun.intensity = 1.2; U.sun.position.set(VX - 20, 40, 40); U.sun.target.position.set(VX, 0, -20);
+    mixHex(0x7dffb2, 0xffd27a, after, U.pt.color); U.pt.position.set(VX, 10, 9); U.pt.distance = 60; U.pt.intensity = 30 * open * (1 - 0.6 * after) + 6;
+    updateZone(U.Z, t, TM, cam);
   }
 }
