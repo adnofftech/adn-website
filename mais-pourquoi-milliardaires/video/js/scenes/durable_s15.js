@@ -10,16 +10,16 @@ const o15 = (re, k = 0) => onset(15, re, k);
 export const T15 = { sauf: o15(/^sauf$/), quune: o15(/^qunune$|^quune$/), fois: o15(/^fois$/), argent: o15(/^argent$/), depense: o15(/^depense/), si: o15(/^si$/), toujours: o15(/^toujours$/), revenus: o15(/^revenus$/), stables: o15(/^stables$/), le: o15(/^le$/), probleme: o15(/^probleme$/), risque: o15(/^risque$/), de: o15(/^de$/, 1), revenir: o15(/^revenir$/) };
 export const TOP = 0.9;                       // dessus de table
 const NB = 48;
-const ICON = { logement: [-0.84, 1.68, -0.78], nourriture: [-0.28, 1.78, -0.78], energie: [0.28, 1.78, -0.78], transport: [0.84, 1.68, -0.78] };
+const ICON = { logement: [-0.89, 1.7, -0.78], nourriture: [-0.23, 1.8, -0.78], energie: [0.43, 1.8, -0.78], transport: [1.09, 1.7, -0.78] };
 const ICON_T = { logement: T15.fois + 0.0, nourriture: T15.fois + 0.05, energie: T15.fois + 0.1, transport: T15.fois + 0.15 };
-const PILE = [0.1, 0.05];
+const PILE = [0.35, -0.12];
 const CAL = { x: -0.35, yTop: 4.22, z: -1.96 };
 const FLIPS = [60.26, 61.63, 63.0], FLIP_D = 0.28;
 const PERIOD_A = [59.14, 60.52, 61.89, 63.26], RATE = 27;
 const MONTHS = ["JANVIER", "FÉVRIER", "MARS", "AVRIL"], W0 = [2, 4, 0, 3];
 const PIN_DAYS = { logement: [1], nourriture: [5, 12, 19, 26], energie: [8, 22], transport: [15] };
 const LAND_T = [T15.probleme, T15.risque, T15.de, T15.revenir];            // instants d'atterrissage des factures qui reviennent
-const LAND = [[-0.62, 0.02], [-0.2, 0.0], [0.22, 0.0], [0.64, 0.02]];       // (x, z) sur la table
+const LAND = [[-0.45, 0.04], [-0.02, 0.0], [0.41, 0.0], [0.84, 0.04]];       // (x, z) sur la table
 const PIPE = { y: 4.78, z: -1.2, x0: -2.8, xv: -0.45, xs: 0.95 };
 
 const topPlane = (w, h) => { const g = new T.PlaneGeometry(w, h); g.translate(0, -h / 2, 0); return g; };
@@ -55,7 +55,7 @@ export function buildS15(root) {
   { const tl = tableLamp(); tl.position.set(-1.18, TOP, -0.62); g.add(tl); S.tl = tl; const gl = glow(0xffc070, 2.4, 0.4); gl.position.set(-1.18, TOP + 0.4, -0.62); g.add(gl); S.tlGlow = gl; }
 
   // ---------- facture réglée (raccord avec S14) ----------
-  { const w = 0.6, h = w * 352 / 256; const inv = new T.Group(); inv.position.set(-1.05, TOP + 0.004, 0.36); inv.rotation.x = -(Math.PI / 2 - 0.6); inv.rotation.z = 0.06; g.add(inv); S.inv0 = inv;
+  { const w = 0.6, h = w * 352 / 256; const inv = new T.Group(); inv.position.set(-1.0, TOP + 0.004, 0.42); inv.rotation.x = -(Math.PI / 2 - 0.6); inv.rotation.z = 0.06; g.add(inv); S.inv0 = inv;
     inv.add(new T.Mesh(botPlane(w, h), new T.MeshLambertMaterial({ map: texInvoice("logement"), emissive: 0x6a6a60, side: T.DoubleSide })));
     const st = new T.Mesh(new T.PlaneGeometry(w * 0.9, w * 0.9 * 200 / 512), new T.MeshBasicMaterial({ map: texStamp(), transparent: true, depthWrite: false })); st.position.set(0, h * 0.34, 0.006); st.rotation.z = -0.16; inv.add(st);
     const ck = new T.Mesh(new T.PlaneGeometry(w * 0.3, w * 0.3), planeMat(texIcon("check", { fg: "#eafff1", bg: "#17a65a", ring: null }), { depthWrite: false })); ck.position.set(-w * 0.2, h * 0.64, 0.01); inv.add(ck); }
@@ -63,7 +63,7 @@ export function buildS15(root) {
   // ---------- la pile de billets (instanciée, 48 billets) ----------
   const im = new T.InstancedMesh(billBoxGeo(), billBoxMats(), NB); im.frustumCulled = false; g.add(im); S.im = im;
   const LAYERS = [[3, 5], [3, 4], [2, 4], [2, 3], [2, 2], [1, 2], [1, 1]]; const slots = [];
-  LAYERS.forEach(([nx, nz], L) => { for (let ix = 0; ix < nx; ix++) for (let iz = 0; iz < nz; iz++) { const i = slots.length; slots.push({ L, ix, iz, x: PILE[0] + (ix - (nx - 1) / 2) * 0.53 + (H(i, 1) - 0.5) * 0.05 + (L % 2 ? 0.05 : -0.03), y: TOP + 0.034 + L * 0.056, z: PILE[1] + (iz - (nz - 1) / 2) * 0.24 + (H(i, 2) - 0.5) * 0.03, yaw: (H(i, 3) - 0.5) * 0.3, s: 59.14 + 0.009 * i, tilt: (H(i, 4) - 0.5) * 2.4, spin: (H(i, 5) - 0.5) * 3 }); } });
+  LAYERS.forEach(([nx, nz], L) => { for (let ix = 0; ix < nx; ix++) for (let iz = 0; iz < nz; iz++) { const i = slots.length; slots.push({ L, ix, iz, x: PILE[0] + (ix - (nx - 1) / 2) * 0.6 + (H(i, 1) - 0.5) * 0.05 + (L % 2 ? 0.05 : -0.03), y: TOP + 0.04 + L * 0.063, z: PILE[1] + (iz - (nz - 1) / 2) * 0.27 + (H(i, 2) - 0.5) * 0.03, yaw: (H(i, 3) - 0.5) * 0.3, s: 59.14 + 0.009 * i, tilt: (H(i, 4) - 0.5) * 2.4, spin: (H(i, 5) - 0.5) * 3 }); } });
   // ordre de départ : couches du haut d'abord ; pour la couche 0, l'arrière d'abord (les 2 derniers billets restent à l'avant)
   const order = slots.map((_, i) => i).sort((a, b) => (slots[b].L - slots[a].L) || (slots[a].L === 0 ? (slots[a].z - slots[b].z) || (slots[a].x - slots[b].x) : H(a, 9) - H(b, 9)));
   const dep = new Array(NB).fill(1e9), dest = new Array(NB).fill(0);
@@ -74,15 +74,15 @@ export function buildS15(root) {
   S.icons = EXP_KEYS.map((k, n) => { const grp = new T.Group(); grp.position.set(...ICON[k]); g.add(grp);
     const bgd = new T.Mesh(new T.CircleGeometry(0.31, 28), new T.MeshBasicMaterial({ color: 0x120c08 })); bgd.position.z = -0.01; grp.add(bgd);
     const pl = iconPlane(EXP[k].kind, 0.5, { bg: EXP[k].bg }); grp.add(pl);
-    const lab = textPlane(EXP[k].label, { w: 0.78, h: 0.17, px: 320, size: 0.62, color: "#f3ecd4", bg: "rgba(10,8,6,.55)" }); lab.position.set(0, 0.42, 0.01); grp.add(lab);
+    const lab = textPlane(EXP[k].label, { w: 0.64, h: 0.15, px: 320, size: 0.5, color: "#f3ecd4", bg: "rgba(10,8,6,.6)" }); lab.position.set(0, 0.4, 0.01); grp.add(lab);
     const gl = glow(EXP[k].hex, 1.5, 0); gl.position.z = 0.03; grp.add(gl);
     return { grp, pl, lab, gl, k }; });
 
   // ---------- jauge SOLDE (10 segments) ----------
-  { const gp = new T.Group(); gp.position.set(0.15, TOP + 0.015, 0.88); gp.rotation.x = -0.5; g.add(gp); S.gauge = gp;
-    bx(2.0, 0.52, 0.06, M(0x1d1f22, 0x0a0a0c), 0, 0.26, 0, gp); bx(2.06, 0.03, 0.08, M(PAL.gold, 0x4a3808), 0, 0.535, 0, gp);
-    const seg = new T.InstancedMesh(new T.BoxGeometry(0.15, 0.22, 0.04), new T.MeshBasicMaterial({ color: 0xffffff }), 10); seg.frustumCulled = false; seg.position.set(0, 0.17, 0.05); gp.add(seg); S.seg = seg;
-    const lb = textPlane("SOLDE", { w: 0.7, h: 0.17, px: 320, size: 0.7, color: "#f3ecd4", align: "left" }); lb.position.set(-0.64, 0.4, 0.04); gp.add(lb); }
+  { const gp = new T.Group(); gp.position.set(0.35, TOP + 0.01, 1.02); gp.rotation.x = -0.95; g.add(gp); S.gauge = gp;
+    bx(1.7, 0.52, 0.06, M(0x1d1f22, 0x0a0a0c), 0, 0.26, 0, gp); bx(1.76, 0.03, 0.08, M(PAL.gold, 0x4a3808), 0, 0.535, 0, gp);
+    const seg = new T.InstancedMesh(new T.BoxGeometry(0.13, 0.22, 0.04), new T.MeshBasicMaterial({ color: 0xffffff }), 10); seg.frustumCulled = false; seg.position.set(0, 0.17, 0.05); gp.add(seg); S.seg = seg;
+    const lb = textPlane("SOLDE", { w: 0.7, h: 0.17, px: 320, size: 0.7, color: "#f3ecd4", align: "left" }); lb.position.set(-0.52, 0.4, 0.04); gp.add(lb); }
 
   // ---------- les factures qui reviennent ----------
   S.inv = EXP_KEYS.map((k, n) => { const w = 0.5, h = w * 352 / 256; const grp = new T.Group(); g.add(grp); const lean = new T.Group(); grp.add(lean); lean.rotation.x = -(Math.PI / 2 - 0.6);
@@ -135,7 +135,7 @@ export function buildS15(root) {
 
 const gaugeLevel = (S, t) => { let a = 0; for (let i = 0; i < NB; i++) a += sstep(S.slots[i].s, S.slots[i].s + 0.32, t) - sstep(S.dep[i], S.dep[i] + 0.3, t); return a / NB; };
 const GCOL = [0xff3b30, 0xff4a30, 0xff6a30, 0xff8c2a, 0xffae2a, 0xffd12a, 0xdde02a, 0xa8e03a, 0x6ae04a, 0x3ae070];
-const SC = 0.385;
+const SC = 0.45;
 
 export function updateS15(S, t) {
   const dim = sstep(61.0, 63.4, t);
@@ -176,12 +176,13 @@ export function updateS15(S, t) {
   S.inv0.position.y = TOP + 0.004; S.inv0.rotation.z = 0.06;
   // ---- jauge SOLDE
   { const lv = gaugeLevel(S, t); const blink = t > T15.probleme ? 0.65 + 0.35 * Math.sin(t * 13) : 1;
-    for (let k = 0; k < 10; k++) { const f = clamp(lv * 10 - k, 0, 1); const lit = f > 0.02; const col = lit ? GCOL[k] : 0x2a2d2f; _c.setHex(col); _c.multiplyScalar(lit ? (0.55 + 0.45 * f) * (k < 2 ? blink : 1) : 1); S.seg.setColorAt(k, _c); _o.position.set(-0.8 + 0.178 * k, 0, 0); _o.rotation.set(0, 0, 0); _o.scale.set(1, 1, 1); _o.updateMatrix(); S.seg.setMatrixAt(k, _o.matrix); }
+    for (let k = 0; k < 10; k++) { const f = clamp(lv * 10 - k, 0, 1); const lit = f > 0.02; const col = lit ? GCOL[k] : 0x2a2d2f; _c.setHex(col); _c.multiplyScalar(lit ? (0.55 + 0.45 * f) * (k < 2 ? blink : 1) : 1); S.seg.setColorAt(k, _c); _o.position.set(-0.69 + 0.153 * k, 0, 0); _o.rotation.set(0, 0, 0); _o.scale.set(1, 1, 1); _o.updateMatrix(); S.seg.setMatrixAt(k, _o.matrix); }
     S.seg.instanceColor.needsUpdate = true; S.seg.instanceMatrix.needsUpdate = true; S.gaugeLevel = lv; }
   // ---- calendrier
   S.pages.forEach((P, k) => {
-    const ft = k < 3 ? FLIPS[k] : 1e9; const fu = k < 3 ? lin(ft, ft + FLIP_D, t) : 0; const th = -Math.PI * eio(fu);
-    P.pv.rotation.x = th; P.pv.visible = !(k < 3 && fu >= 1) && (k === 0 || t >= FLIPS[k - 1] - 0.4);
+    const ft = k < 3 ? FLIPS[k] : 1e9; const fu = k < 3 ? lin(ft, ft + FLIP_D, t) : 0; const th = (Math.PI / 2) * Math.pow(fu, 1.6);
+    P.pv.scale.y = Math.max(1e-3, Math.cos(th)); P.pv.rotation.x = -0.35 * Math.sin(th * 2); P.pv.position.z = CAL.z + 0.016 * (3 - k) + 0.25 * Math.sin(th);
+    P.pv.visible = !(k < 3 && fu >= 1) && (k === 0 || t >= FLIPS[k - 1] - 0.4);
     if (!P.pv.visible) return;
     const a = PERIOD_A[k], dayf = 1 + RATE * Math.max(0, t - a), day = Math.min(30, Math.floor(dayf)); const active = t >= a && k >= 0;
     const [cx, cy2] = cell(k, day); P.today.position.set(cx, cy2, 0.004); P.today.visible = active; P.today.scale.setScalar(1 + 0.08 * Math.sin(t * 20));

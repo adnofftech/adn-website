@@ -48,23 +48,23 @@ export function buildZone() {
   // anneaux du couloir
   Z.rings = []; for (let k = 0; k < 7; k++) { const m = new T.Mesh(new T.RingGeometry(8.3, 8.9, 72), addMat(k % 2 ? 0xe8b84a : 0x47f0a0, 0.0)); m.position.set(0, axisY(-8 - k * 9), -8 - k * 9); g.add(m); Z.rings.push(m); }
   Z.tunnelGlow = glow(0xd8fff0, 38, 0.0); Z.tunnelGlow.position.set(0, 12, -86); g.add(Z.tunnelGlow);
-  // ---- réseau d'entreprises
-  Z.nb = []; const nc = [[4.2, 6], [3.8, 9], [4.6, 12], [3.6, 16]]; Z.nbI = nc.map(([w, h]) => { const im = inst(uvScale(new T.BoxGeometry(w, h, w), w / 4, h / 9.6), new T.MeshLambertMaterial({ map: wt, color: 0xffffff, emissive: 0x080c12 }), 24); g.add(im); im.userData = { w, h, n: 0 }; return im; });
-  const cols = 9, rows = 7;
+  // ---- réseau d'entreprises (autour de l'entreprise, couloir dégagé devant elle)
+  Z.nb = []; const nc = [[4.4, 6], [4.2, 9], [4.8, 12], [5.4, 16]]; Z.nbI = nc.map(([w, h]) => { const im = inst(uvScale(new T.BoxGeometry(w, h, w), w / 4, h / 9.6), new T.MeshLambertMaterial({ map: wt, color: 0xffffff, emissive: 0x080c12 }), 28); g.add(im); im.userData = { w, h, n: 0 }; return im; });
+  const cols = 9, rows = 9;
   for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-    const i = r * cols + c, x = (c - (cols - 1) / 2) * 14 + (H(i, 1) - 0.5) * 6, z = -84 - r * 13 + (H(i, 2) - 0.5) * 6;
-    if (Math.hypot(x - HZ[0], z - HZ[2]) < 25) continue;
-    const cl = Math.floor(H(i, 3) * 4), im = Z.nbI[cl], k = im.userData.n; if (k >= 24) continue; im.userData.n++;
+    const i = r * cols + c, x = (c - (cols - 1) / 2) * 13 + (H(i, 1) - 0.5) * 5, z = -78 - r * 11.5 + (H(i, 2) - 0.5) * 5;
+    if (Math.hypot(x - HZ[0], z - HZ[2]) < 27 || (Math.abs(x) < 44 && z > -100)) continue;
+    const cl = Math.floor(H(i, 3) * 4), im = Z.nbI[cl], k = im.userData.n; if (k >= 28) continue; im.userData.n++;
     im.setColorAt(k, new T.Color(PALT[Math.floor(H(i, 4) * PALT.length)]).lerp(new T.Color(0xffffff), 0.25));
-    Z.nb.push({ cl, k, x, z, h: im.userData.h, b: 23.95 + ((-z - 80) / 90) * 0.5 + H(i, 5) * 0.08, c, r });
+    Z.nb.push({ cl, k, x, z, h: im.userData.h, b: 23.7 + ((-z - 76) / 100) * 0.5 + H(i, 5) * 0.08, c, r });
   }
   // traces lumineuses au sol + impulsions + nœuds
   Z.links = []; const idx = {}; Z.nb.forEach((b, i) => { idx[b.r + "_" + b.c] = i; });
   Z.nb.forEach((b, i) => { for (const [dc, dr] of [[1, 0], [0, 1], [1, 1]]) { const j = idx[(b.r + dr) + "_" + (b.c + dc)]; if (j !== undefined && (dc + dr < 2 || H(i, 7) > 0.55)) Z.links.push([i, j]); } });
-  Z.hub = Z.links.length; Z.nb.forEach((b, i) => { if (Math.hypot(b.x - HZ[0], b.z - HZ[2]) < 38) Z.links.push([i, -1]); });
+  Z.hub = Z.links.length; Z.nb.map((b, i) => [Math.hypot(b.x - HZ[0], b.z - HZ[2]), i]).sort((a, b) => a[0] - b[0]).slice(0, 7).forEach(([, i]) => Z.links.push([i, -1]));
   Z.linkI = inst(new T.BoxGeometry(1, 1, 1), addMat(0x47f0a0, 0.75), Z.links.length); g.add(Z.linkI);
   Z.pulseI = inst(new T.SphereGeometry(0.5, 10, 8), new T.MeshBasicMaterial({ color: 0xffffff }), Z.links.length); g.add(Z.pulseI);
-  const nodeG = new T.BufferGeometry(); nodeG.setAttribute("position", new T.BufferAttribute(new Float32Array(Z.nb.length * 3), 3)); Z.nodes = new T.Points(nodeG, new T.PointsMaterial({ map: glowTex(), size: 4.2, color: 0x9fffe0, transparent: true, opacity: 0.9, depthWrite: false, blending: T.AdditiveBlending, sizeAttenuation: true })); Z.nodes.frustumCulled = false; g.add(Z.nodes);
+  const nodeG = new T.BufferGeometry(); nodeG.setAttribute("position", new T.BufferAttribute(new Float32Array(Z.nb.length * 3), 3)); Z.nodes = new T.Points(nodeG, new T.PointsMaterial({ map: glowTex(), size: 7, color: 0x9fffe0, transparent: true, opacity: 0.9, depthWrite: false, blending: T.AdditiveBlending, sizeAttenuation: true })); Z.nodes.frustumCulled = false; g.add(Z.nodes);
   g.userData = Z; return g;
 }
 
@@ -132,7 +132,7 @@ export function updateZone(Z, t, TM, cam) {
     [Z.certI, Z.coinI, Z.pieI, Z.cardI, ...Z.twI].forEach((m) => { m.instanceMatrix.needsUpdate = true; if (m.instanceColor) m.instanceColor.needsUpdate = true; });
   }
   // ---------------- réseau d'entreprises
-  const nOn = t >= 23.9; Z.nbI.forEach((m) => { m.visible = nOn; }); Z.linkI.visible = Z.pulseI.visible = Z.nodes.visible = nOn;
+  const nOn = t >= 23.65; Z.nbI.forEach((m) => { m.visible = nOn; }); Z.linkI.visible = Z.pulseI.visible = Z.nodes.visible = nOn;
   if (nOn) {
     Z.nbI.forEach((im) => { for (let k = 0; k < im.userData.n; k++) hide(im, k); });
     const npos = Z.nodes.geometry.attributes.position;
@@ -142,8 +142,8 @@ export function updateZone(Z, t, TM, cam) {
       const [ax, az, bx, bz] = linkEnds(Z, L), a = Z.nb[L[0]], b = L[1] < 0 ? { b: a.b + 0.2 } : Z.nb[L[1]], on = clamp((t - Math.max(a.b, b.b) - 0.25) / 0.35);
       if (on <= 0) { hide(Z.linkI, i); hide(Z.pulseI, i); return; }
       const dx = bx - ax, dz = bz - az, len = Math.hypot(dx, dz);
-      _o.position.set((ax + bx) / 2, 0.1, (az + bz) / 2); _o.rotation.set(0, Math.atan2(dx, dz), 0); _o.scale.set(0.5, 0.08, len * on); _o.updateMatrix(); Z.linkI.setMatrixAt(i, _o.matrix);
-      const f = (t * (0.35 + 0.25 * H(i, 3)) + H(i, 4)) % 1; put(Z.pulseI, i, ax + dx * f, 0.55, az + dz * f, 0.6 * on, 0.6 * on, 0.6 * on);
+      _o.position.set((ax + bx) / 2, 0.1, (az + bz) / 2); _o.rotation.set(0, Math.atan2(dx, dz), 0); _o.scale.set(0.7, 0.1, len * on); _o.updateMatrix(); Z.linkI.setMatrixAt(i, _o.matrix);
+      const f = (t * (0.35 + 0.25 * H(i, 3)) + H(i, 4)) % 1; put(Z.pulseI, i, ax + dx * f, 0.7, az + dz * f, 1.3 * on, 1.3 * on, 1.3 * on);
     });
     Z.linkI.instanceMatrix.needsUpdate = true; Z.pulseI.instanceMatrix.needsUpdate = true;
   }

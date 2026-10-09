@@ -59,8 +59,8 @@ export const winTex = () => rep(mk(128, 256, (g, w, h) => {
   g.fillStyle = "rgba(0,0,0,.22)"; g.fillRect(0, 0, w, 6);
 }), 1, 1);
 export const ribbonTex = () => mk(128, 128, (g, w, h) => {
-  g.fillStyle = "#f4f7fb"; g.fillRect(0, 0, w, h); g.fillStyle = "#47617c"; g.fillRect(0, h * 0.22, w, h * 0.56);
-  g.fillStyle = "rgba(200,230,255,.6)"; for (let x = 6; x < w; x += 16) g.fillRect(x, h * 0.22, 3, h * 0.56);
+  g.fillStyle = "#f4f7fb"; g.fillRect(0, 0, w, h); g.fillStyle = "#a9c9e6"; g.fillRect(0, h * 0.22, w, h * 0.56);
+  g.fillStyle = "rgba(255,255,255,.75)"; for (let x = 6; x < w; x += 16) g.fillRect(x, h * 0.22, 3, h * 0.56);
   g.fillStyle = "rgba(255,255,255,.4)"; g.fillRect(0, h * 0.22, w, 5); g.fillStyle = "rgba(0,0,0,.2)"; g.fillRect(0, h - 7, w, 7);
 });
 export const pieTex = () => mk(256, 256, (g, w, h) => {
@@ -116,13 +116,13 @@ const cy = (r, h, m, x, y, z, p, seg = 20) => { const o = new T.Mesh(new T.Cylin
 
 /** pastille d'actionnaire : fond rond + silhouette (variant : 0 buste, 1 institution à colonnes, 2 buste chignon, 3 duo) */
 export function investorIcon(col, variant = 0, size = 1) {
-  const g = new T.Group(), bgm = bas(0x0a1424), body = lam(col, 0x120c02), skin = lam(0xe8c9a6, 0x1a120a);
+  const g = new T.Group(), bgm = bas(0x0a1424), body = bas(col), skin = bas(0xf1c9a5);
   const disc = new T.Mesh(new T.CircleGeometry(1.45, 40), bgm); disc.position.z = -0.05; g.add(disc);
   const ring = new T.Mesh(new T.RingGeometry(1.45, 1.66, 48), bas(col)); ring.position.z = -0.04; g.add(ring);
-  const bust = (x, s, hair) => { const b = new T.Group(); b.position.set(x, 0, 0); b.scale.setScalar(s); const sh = new T.Mesh(new T.SphereGeometry(0.78, 18, 10, 0, 6.283, 0, 1.5708), body); sh.scale.set(1, 0.82, 0.55); sh.position.y = -0.95; b.add(sh); sphere(0.36, skin, 0, 0.05, 0.05, b); if (hair) { const hr = sphere(0.39, lam(hair), 0, 0.12, -0.02, b); hr.scale.set(1, 0.9, 1); } return b; };
-  if (variant === 0) { const b = bust(0, 1, 0x2a1a10); g.add(b); const tie = new T.Mesh(new T.ConeGeometry(0.13, 0.5, 4), lam(0xf4f1e6)); tie.rotation.x = Math.PI; tie.position.set(0, -0.6, 0.38); g.add(tie); }
-  else if (variant === 1) { bx(1.7, 0.18, 0.5, lam(col), 0, -0.82, 0, g); for (let i = 0; i < 4; i++) bx(0.24, 1.0, 0.24, lam(0xf4f1e6, 0x101010), -0.62 + i * 0.41, -0.2, 0, g); const roof = new T.Mesh(new T.ConeGeometry(1.0, 0.55, 3), lam(col)); roof.rotation.y = Math.PI / 2; roof.scale.set(1, 1, 0.5); roof.position.y = 0.58; g.add(roof); }
-  else if (variant === 2) { const b = bust(0, 1, 0x5a2d12); const bun = sphere(0.2, lam(0x5a2d12), 0, 0.5, -0.05, b); g.add(b); }
+  const bust = (x, s, hair) => { const b = new T.Group(); b.position.set(x, 0, 0); b.scale.setScalar(s); const sh = new T.Mesh(new T.SphereGeometry(0.78, 18, 10, 0, 6.283, 0, 1.5708), body); sh.scale.set(1, 0.82, 0.55); sh.position.y = -0.95; b.add(sh); sphere(0.36, skin, 0, 0.05, 0.05, b); if (hair) { const hr = sphere(0.39, bas(hair), 0, 0.12, -0.02, b); hr.scale.set(1, 0.9, 1); } return b; };
+  if (variant === 0) { const b = bust(0, 1, 0x2a1a10); g.add(b); const tie = new T.Mesh(new T.ConeGeometry(0.13, 0.5, 4), bas(0xf4f1e6)); tie.rotation.x = Math.PI; tie.position.set(0, -0.6, 0.38); g.add(tie); }
+  else if (variant === 1) { bx(1.7, 0.18, 0.5, bas(col), 0, -0.82, 0, g); for (let i = 0; i < 4; i++) bx(0.24, 1.0, 0.24, bas(0xf4f1e6), -0.62 + i * 0.41, -0.2, 0, g); const roof = new T.Mesh(new T.ConeGeometry(1.0, 0.55, 3), bas(col)); roof.rotation.y = Math.PI / 2; roof.scale.set(1, 1, 0.5); roof.position.y = 0.58; g.add(roof); }
+  else if (variant === 2) { const b = bust(0, 1, 0x5a2d12); const bun = sphere(0.2, bas(0x5a2d12), 0, 0.5, -0.05, b); g.add(b); }
   else { g.add(bust(-0.46, 0.7, 0x1a1a1a)); g.add(bust(0.46, 0.7, 0x8a5a2a)); }
   g.scale.setScalar(size); g.userData = { ring, disc }; return g;
 }

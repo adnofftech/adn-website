@@ -6,6 +6,7 @@ import { shotList, evalShots } from "../shots.js";
 import { certTex } from "../shared.js";
 import { _o, mixHex, pop, popAt, put, hide, inst, lam, bas, addMat, rep, uvScale, chartTex, gridTex } from "./shares_lib.js";
 import { buildZone, updateZone, HZ } from "./shares_vault.js";
+import { buildS7, updateS7 } from "./shares_s7.js";
 
 export const ID = "shares";
 export const OFFSET = MODULES[ID].offset;
@@ -57,11 +58,16 @@ const CAM67 = [
   K(23.44, [0.8, 10.0, 21], [0, 10.8, -14], 56, 0),
   K(23.62, [0, 10.5, 9], [0, 10.5, -30], 60, 0),
   K(23.9, [0, 10.5, -22], [0, 10.5, -60], 64, 0),
-  K(24.1, [0, 14.5, -50], [0, 8, -90], 62, 0),
-  K(24.34, [0, 20, -66], [0, 6, -112], 56, 0),
-  K(24.76, [7, 13, -88], [0, 7, -112], 54, 0),
-  K(25.4, [12, 10, -86], [1, 9, -112], 50, 0),
-  K(27.64, [0, 9, -90], [0, 8, -112], 50, 0),
+  K(24.1, [0, 24, -44], [0, 6, -90], 62, 0),
+  K(24.34, [0, 34, -58], [0, 6, -106], 60, 0),
+  K(24.76, [20, 20, -70], [0, 10, -110], 54, 0),
+  K(25.1, [23, 15, -70], [1, 11, -111], 52, 0),
+  K(25.45, [24, 15, -77], [9.25, 14.5, -103], 46, 0),
+  K(25.95, [21, 15.5, -80], [8, 15, -103], 46, 0),
+  K(26.5, [3, 14, -68], [0, 9, -110], 52, 0),
+  K(26.84, [-10, 15, -69], [0, 8, -110], 56, 0),
+  K(27.2, [-3, 12, -78], [0, 8, -106], 52, 0),
+  K(27.64, [0, 8.4, -88], [0, 8.2, -102.4], 50, 0),
 ];
 // ---- ENV / SHAKE
 export const ENV = (t) => {
@@ -207,6 +213,7 @@ export function build() {
   sun.position.set(-20, 40, 30); g.add(hemi, sun, sun.target, pt); U.hemi = hemi; U.sun = sun; U.pt = pt;
   U.gM = buildMarket(); U.M = U.gM.userData; g.add(U.gM);
   U.gV = buildZone(); U.gV.position.set(VX, 0, 0); U.Z = U.gV.userData; g.add(U.gV);
+  U.g7 = buildS7(); U.g7.position.set(HZ[0], 0, HZ[2]); U.S7 = U.g7.userData; U.gV.add(U.g7);
   return g;
 }
 export function update(g, t) {
@@ -223,5 +230,6 @@ export function update(g, t) {
     mixHex(0xfff0d0, 0xcfe0ff, after, U.sun.color); U.sun.intensity = 1.2; U.sun.position.set(VX - 20, 40, 40); U.sun.target.position.set(VX, 0, -20);
     mixHex(0x7dffb2, 0xffd27a, after, U.pt.color); U.pt.position.set(VX, 10, 9); U.pt.distance = 60; U.pt.intensity = 30 * open * (1 - 0.6 * after) + 6;
     updateZone(U.Z, t, TM, cam);
+    U.g7.visible = t >= TM.S7 - 0.05; if (U.g7.visible) updateS7(U.S7, t, TM, cam, [ox + VX + HZ[0], oy, oz + HZ[2]]);
   }
 }
