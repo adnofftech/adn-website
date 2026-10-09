@@ -6,7 +6,7 @@ const TAU = Math.PI * 2;
 export const MAPC = { kx: 0.27, kz: 0.5, lon0: 10, zN: -22, latS: -56, lonMin: -135, dLon: 3.67, dLat: 2.2, cols: 79, rows: 62 };
 export const mapXZ = (lon, lat) => [(lon - MAPC.lon0) * MAPC.kx, MAPC.zN - (lat - MAPC.latS) * MAPC.kz];
 export const HUB = new T.Vector3(-12, 1.0, -52.5);     // « système de distribution » (S13)
-export const SRC3 = new T.Vector3(0, 24, -3);          // sommet de la montagne (S3) d'où partent les flux
+export const SRC3 = new T.Vector3(0, 25.5, -3);          // sommet de la montagne (S3) d'où partent les flux
 
 // ------------------------------------------------------------------ continents (lon, lat), volontairement grossiers
 const P = (s) => s.trim().split(/\s+/).map((p) => p.split(",").map(Number));
@@ -92,7 +92,7 @@ function paintFlows(F, t, { front, base, colA, colB, pulse, coinCol, coinK, spd 
   for (let a = 0; a < arcs.length; a++) {
     const arc = arcs[a]; const f = front(a, arc); const bs = base(a, arc); const ph = H(a, 51) * 3;
     for (let j = 0; j <= N; j++) {
-      const s = j / N; let I = 0; const rt = clamp(0.22 + s * 5, 0, 1);
+      const s = j / N; let I = 0; const rt = clamp(Math.pow(s / 0.22, 1.6), 0.015, 1);
       if (f > 0 && s <= f + 0.001) { const head = Math.exp(-((f - s) * 9)); I = bs * (0.55 + 0.45 * head); if (f < 1) I += 0.7 * Math.exp(-Math.pow((f - s) * 14, 2)); }
       if (pulse) { const pp = ((t * spd + ph) % 1); I += pulse * Math.exp(-Math.pow((s - pp) * 9, 2)); }
       I = Math.min(I * rt, 0.95); c.copy(colA).lerp(colB, s); const b = (a * (N + 1) + j) * 4;
@@ -151,12 +151,13 @@ export function buildMap() {
   const hubPlate = new T.Mesh(new T.CircleGeometry(8.6, 40), new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.2, blending: T.AdditiveBlending, depthWrite: false })); hubPlate.rotation.x = -Math.PI / 2; hubPlate.position.y = 0.08; hub.add(hubPlate); M.hubPlate = hubPlate;
   // bénéficiaire (gros plan final S13)
   const hero = new T.Group(); hero.position.set(HERO_XZ[0], HERO_BASE, HERO_XZ[1]); M.hero = hero; map.add(hero);
-  const plat = new T.Mesh(new T.CylinderGeometry(2.3, 2.5, 0.3, 28), new T.MeshLambertMaterial({ color: 0xf0c050, emissive: 0x8a6012 })); plat.position.y = -0.1; hero.add(plat);
+  const plat = new T.Mesh(new T.CylinderGeometry(2.3, 2.5, 0.3, 28), new T.MeshLambertMaterial({ color: 0xd9a63a, emissive: 0x3a2808 })); plat.position.y = -0.1; hero.add(plat);
   const hp = warmPerson(2.0); hero.add(hp); M.heroP = hp;
-  M.heroGlow = glow(0xffb85c, 13, 0.0); M.heroGlow.position.set(0, 2.8, -2.2); hero.add(M.heroGlow);
+  M.heroGlow = glow(0xff9a3c, 13, 0.0); M.heroGlow.position.set(0, 2.8, -2.2); hero.add(M.heroGlow);
   M.heroBeam = new T.Mesh(gradBeam(2.0, 2.8, 34), beamMat(0xffc870, 0.0)); M.heroBeam.position.set(0, 17, -0.4); hero.add(M.heroBeam);
   M.heroCoins = new T.InstancedMesh(new T.CylinderGeometry(0.5, 0.5, 0.12, 8), new T.MeshBasicMaterial({ color: 0xffd36a }), 60); M.heroCoins.frustumCulled = false; hero.add(M.heroCoins);
-  M.dive = glow(0xffa640, 3, 0); M.dive.material.depthTest = false; M.dive.renderOrder = 20; map.add(M.dive); M.diveCell = CELLS.find((c) => c.dive);
+  M.dive = glow(0xffa640, 3, 0); M.dive.material.depthTest = false; M.dive.renderOrder = 20; map.add(M.dive);
+  M.diveFill = glow(0xff9d2e, 3, 0); M.diveFill.material.blending = T.NormalBlending; M.diveFill.material.depthTest = false; M.diveFill.renderOrder = 21; map.add(M.diveFill); M.diveCell = CELLS.find((c) => c.dive);
   return { map, M };
 }
 
@@ -167,7 +168,8 @@ const DAWN = [C(0x4f8cff), C(0x9a5cff), C(0xff6f8e), C(0xffa238), C(0xffd36a)];
 export function dawn(u, out) { const x = clamp(u) * 4, i = Math.min(3, Math.floor(x)); return out.copy(DAWN[i]).lerp(DAWN[i + 1], x - i); }
 const _k = new T.Color(), _k2 = new T.Color(), _k3 = new T.Color();
 const act = (M, c) => (c.tgt !== undefined ? M.fA.arcs[c.tgt].tl + M.fA.arcs[c.tgt].dur : 11.86 + 1.14 * (0.55 * c.dN + 0.45 * c.j));
-function cell13(u, warm, out) { const a = _k2.copy(CS.cold0).lerp(CS.cold1, u), b = _k3.copy(CS.mid0).lerp(CS.mid1, u), c = out.copy(CS.warm0).lerp(CS.warm1, u); if (warm < 0.5) return out.copy(a).lerp(b, warm * 2); return out.copy(b).lerp(c, (warm - 0.5) * 2); }
+const _k4 = new T.Color();
+function cell13(u, warm, out) { const a = _k2.copy(CS.cold0).lerp(CS.cold1, u), b = _k3.copy(CS.mid0).lerp(CS.mid1, u), c = _k4.copy(CS.warm0).lerp(CS.warm1, u); if (warm < 0.5) return out.copy(a).lerp(b, warm * 2); return out.copy(b).lerp(c, (warm - 0.5) * 2); }
 /** mode 3 : S3 (carte vert/or, révélation radiale, points allumés) ; mode 13 : S13 (réseau froid qui se réchauffe) */
 export function updateMap(M, t, mode, warm) {
   const n = M.n; const sweepZ = -22 - ((((t - 9.2) * 17) % 90) + 90) % 90; const dc = M.diveCell; const dive = sstep(12.6, 13.1, t);
@@ -187,7 +189,7 @@ export function updateMap(M, t, mode, warm) {
       if (mode === 3) { _k.copy(CS.lit).lerp(CS.gold, c.j < 0.5 ? 0.12 : 0.5 + 0.35 * c.j); if (c.dive) _k.setRGB(1, 0.72, 0.3); }
       else dawn(warm * (0.35 + 0.65 * litK), _k);
       M.plates.setColorAt(i, _k.multiplyScalar(ps));
-      const hs = (mode === 3 ? 3.4 : 2.8) * ps * (c.dive ? 1.7 : 1); put(M.halos, i, c.x, hh + 0.08, c.z, hs, 1, hs); M.halos.setColorAt(i, _k.multiplyScalar(mode === 3 ? 0.8 : 0.7));
+      const hs = (mode === 3 ? 3.4 : 2.8) * ps * (c.dive ? 1.7 : 1); put(M.halos, i, c.x, hh + 0.08, c.z, hs, 1, hs); M.halos.setColorAt(i, _k.multiplyScalar(mode === 3 ? 0.8 : 0.32));
     } else { hide(M.plates, i); hide(M.halos, i); }
   }
   for (const k of ["cols", "plates", "halos"]) { M[k].instanceMatrix.needsUpdate = true; M[k].instanceColor.needsUpdate = true; }
@@ -197,13 +199,14 @@ export function updateS3Fx(M, t) {
   const F = M.fA; const on = t > 10.55; F.group.visible = on;
   if (on) paintFlows(F, t, { front: (a, arc) => clamp((t - arc.tl) / arc.dur), base: () => 0.3, colA: _k.setRGB(0.28, 0.95, 0.62), colB: _k2.setRGB(1, 0.82, 0.42), pulse: 0.4, coinCol: new T.Color(0xffd36a), coinK: 1.1, spd: 0.8 });
   const dc = M.diveCell; const dv = sstep(12.5, 13.18, t);
-  M.dive.position.set(dc.x, dc.h + 1.0, dc.z); M.dive.scale.setScalar(lerp(3, 70, ein(dv))); M.dive.material.opacity = 0.25 + 0.75 * dv; M.dive.visible = t > 11.4;
+  M.dive.position.set(dc.x, dc.h + 1.0, dc.z); M.dive.scale.setScalar(lerp(3, 70, ein(dv))); M.dive.material.opacity = 0.25 + 0.55 * dv; M.dive.visible = t > 11.4;
+  M.diveFill.position.copy(M.dive.position); M.diveFill.scale.setScalar(90); M.diveFill.material.opacity = sstep(12.9, 13.16, t); M.diveFill.visible = t > 12.85;
 }
 
 export function updateS13Fx(M, t, warm) {
   const F = M.fB; F.group.visible = true; const burst = sstep(53.96, 54.12, t); const fade = sstep(54.45, 54.75, t);
   const colA = dawn(warm, new T.Color()), colB = dawn(Math.min(1, warm + 0.18), new T.Color()).lerp(_k2.setRGB(1, 1, 1), 0.12);
-  paintFlows(F, t, { front: () => 1, base: (a) => (a === 0 ? 0.28 + 0.4 * burst : 0.1 + 0.22 * burst * (1 - fade * 0.8)), colA, colB, pulse: 0.18 + 0.4 * burst, coinCol: new T.Color(0xffd36a), coinK: 1.0, spd: 0.5 + 0.9 * burst,
+  paintFlows(F, t, { front: () => 1, base: (a) => (a === 0 ? (0.28 + 0.4 * burst) * (1 - 0.85 * sstep(54.62, 54.77, t)) : (0.1 + 0.22 * burst) * (1 - fade * 0.95)), colA, colB, pulse: (0.18 + 0.4 * burst) * (1 - 0.9 * fade), coinCol: new T.Color(0xffd36a), coinK: 1.0, spd: 0.5 + 0.9 * burst,
     coinHead: (a, arc) => clamp((t - arc.tl) / arc.dur), coinMul: (a) => (a === 0 ? 1 : 1 - fade) });
   let m = 0;
   for (const s of M.stockData) { const u = (t - s.t0) / s.dur; if (u <= 0 || u >= 1) continue; const e = u * u * (3 - 2 * u); bez(s.p0, s.c, s.p1, e, _qa); const sc = 0.9 * Math.min(1, u / 0.1) * Math.min(1, (1 - u) / 0.15); put(M.stock, m, _qa.x, _qa.y, _qa.z, sc, sc, sc, u * 6, u * 5, 0); M.stock.setColorAt(m, _k.setRGB(0.55, 0.78, 1)); m++; }
@@ -228,7 +231,7 @@ export function updateS13Fx(M, t, warm) {
   const hp = pop((t - 53.9) / 0.4); M.hero.visible = hp > 0.01; M.hero.scale.setScalar(Math.max(0.001, hp));
   const up = sstep(54.35, 54.7, t); M.heroP.rotation.y = Math.sin(t * 1.3) * 0.1; M.heroP.userData.armL.rotation.z = lerp(0.12, -(Math.PI - 0.75), up); M.heroP.userData.armR.rotation.z = lerp(-0.12, Math.PI - 0.75, up);
   M.heroP.position.y = 0.16 * Math.abs(Math.sin(t * 7)) * sstep(54.5, 54.7, t);
-  M.heroGlow.material.opacity = 0.85 * sstep(54.1, 54.55, t); M.heroBeam.material.opacity = 0.5 * sstep(54.0, 54.4, t);
+  M.heroGlow.material.opacity = 0.5 * sstep(54.1, 54.55, t); M.heroBeam.material.opacity = 0.3 * sstep(54.0, 54.4, t);
   for (let i = 0; i < 44; i++) { const ta = 54.1 + 0.55 * H(i, 91); const u = (t - ta) / 0.85; if (u <= 0 || u >= 1) { hide(M.heroCoins, i); continue; } const a = H(i, 92) * TAU, r = 1.2 + 1.8 * H(i, 94); put(M.heroCoins, i, Math.cos(a) * r, 9 - u * 8, Math.sin(a) * r * 0.6 - 0.8, 0.3, 0.3, 0.3, u * 7 + i, u * 5, 0); }
   M.heroCoins.instanceMatrix.needsUpdate = true;
 }

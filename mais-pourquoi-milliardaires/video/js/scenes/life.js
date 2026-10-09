@@ -329,7 +329,6 @@ function updateS4(U, t) {
   const openK = sstep(T4.loger + 0.2, T4.loger + 0.55, t);
   U.spill.material.opacity = 0.7; U.spill.scale.set(1, 1, 0.2 + 0.8 * openK); U.spill.visible = openK > 0.01;
   U.doorGlow.material.opacity = 0.42 * openK; U.doorGlow.scale.setScalar(3.0 + 1.6 * openK);
-  U.keyG.rotation.z = Math.sin(t * 3) * 0.1 + 0.2 * (1 - openK); U.keyG.visible = t < T4.loger + 0.6;
   U.keyG.visible = false;
 
   // cabinet de soins : la croix s'allume, les patients arrivent, le soignant les accueille

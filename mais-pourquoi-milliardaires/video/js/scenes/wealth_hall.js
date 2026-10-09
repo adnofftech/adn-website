@@ -3,7 +3,7 @@ import { T, H, PAL, SKIN, CLOTH, clamp, lerp, sstep, lin, eio, eout, ein, eoutBa
 import { heapTex } from "../tex.js";
 import { _o, _c, _v, put, hide, pop, popAt, mixHex, bez } from "./wealth_lib.js";
 
-export const MT = { R: 10, H: 19 };
+export const MT = { R: 11, H: 22.5 };
 export const HALL = { xw: 17, h: 24, zf: 46, zb: -44 };
 const TAU = Math.PI * 2;
 export const mtnY = (r, a) => { const u = r / MT.R; if (u >= 1) return 0; return MT.H * Math.pow(1 - u * u, 1.15) * (0.97 + 0.03 * Math.sin(a * 5 + u * 8)); };
@@ -170,6 +170,10 @@ export function buildHall() {
   const back = new T.Group(); back.position.set(0, 0, HALL.zb); shell.add(back); U.back = back;
   const wb = new T.Mesh(new T.PlaneGeometry(2 * HALL.xw, HALL.h), backMat); wb.position.set(0, HALL.h / 2, 0); back.add(wb);
   [-10.5, 0, 10.5].forEach((x, k) => addScreen(back, x, 15, 0.1, 0, 9, 5, k + 10));
+  // feux de piste le long de l'allée centrale (repères de vitesse + lignes de fuite vers la montagne)
+  U.runway = new T.InstancedMesh(new T.BoxGeometry(0.5, 0.07, 1.5), new T.MeshBasicMaterial({ color: 0xffffff }), 34); U.runway.frustumCulled = false;
+  for (let k = 0; k < 17; k++) for (const sd of [-1, 1]) { const i = k * 2 + (sd > 0 ? 1 : 0); put(U.runway, i, sd * 2.7, 0.06, 70 - k * 3.1, 1, 1, 1); U.runway.setColorAt(i, _c.setRGB(0, 0, 0)); }
+  shell.add(U.runway);
   // ---- sol (partagé avec la carte) + plafond
   const ceil = new T.Group(); hall.add(ceil); U.ceil = ceil;
   const cp = new T.Mesh(new T.PlaneGeometry(2 * HALL.xw, 122), new T.MeshLambertMaterial({ color: 0x16231e, emissive: 0x08120e })); cp.rotation.x = Math.PI / 2; cp.position.set(0, HALL.h, 17); ceil.add(cp);

@@ -65,12 +65,12 @@ export const SHOTS = [
   // S13 : réseau froid vu d'en haut, descente vers le hub, un flux jusqu'au bénéficiaire
   { t: 51.3, p: V(-26, 92, 10), l: V(HUB.x, 2, HUB.z), f: 54 },
   { t: 52.4, p: V(-21, 78, -2), l: V(HUB.x, 2, HUB.z), f: 54, e: eio },
-  { t: 53.6, p: V(-16, 46, -20), l: V(HUB.x, 3, HUB.z), f: 52, e: eio },
-  { t: 53.84, p: V(-14, 30, -26), l: V(HUB.x, 3, HUB.z + 1), f: 52, e: eio },
-  { t: 54.1, p: V(-10, 18, -30), l: V(-6, 3, -50), f: 50, e: eio },
-  { t: 54.35, p: V(-2, 15, -32), l: V(3, 3, -50.5), f: 46, e: eio },
-  { t: 54.55, p: V(4.5, 12, -35), l: V(6.5, 2.8, -51), f: 42, e: eio },
-  { t: 54.77, p: V(HERO_XZ[0], 3.1, HERO_XZ[1] + 8.6), l: V(HERO_XZ[0], 2.4, HERO_XZ[1]), f: 38 },
+  { t: 53.6, p: V(-16, 50, -12), l: V(HUB.x, 3, HUB.z), f: 52, e: eio },
+  { t: 53.84, p: V(-14, 42, -14), l: V(HUB.x, 3, HUB.z + 1), f: 52, e: eio },
+  { t: 54.12, p: V(-10, 36, -17), l: V(-6, 3, -50), f: 50, e: eio },
+  { t: 54.4, p: V(-1, 22, -30), l: V(4.5, 3, -51), f: 44, e: eio },
+  { t: 54.6, p: V(6, 9, -37), l: V(7, 2.9, -51), f: 40, e: eio },
+  { t: 54.77, p: V(HERO_XZ[0], 3.2, HERO_XZ[1] + 9.4), l: V(HERO_XZ[0], 2.35, HERO_XZ[1]), f: 36 },
   // S18 : montagne vue de face, flux, puis rapprochement du « ? »
   { t: 79.16, p: V(0, 3.0, 62), l: V(0, 9.5, 0), f: 62 },
   { t: 81.0, p: V(-1.0, 4.0, 58), l: V(0, 8.6, 4), f: 60, e: eio },
@@ -87,7 +87,7 @@ export function build() {
   const hemi = new T.HemisphereLight(0xcfeee0, 0x0a2a20, 1.3), sun = new T.DirectionalLight(0xfff0cf, 1.5), pt = new T.PointLight(0xffc34d, 0, 90, 1.5);
   sun.position.set(14, 34, 32); g.add(hemi, sun, pt); U.hemi = hemi; U.sun = sun; U.pt = pt;
   // sol partagé (salle puis fond de carte)
-  const ft = floorTex(); ft.repeat.set(26, 26); const floor = new T.Mesh(new T.PlaneGeometry(290, 290), new T.MeshLambertMaterial({ map: ft, color: 0xffffff, emissive: 0x020604 })); floor.rotation.x = -Math.PI / 2; floor.position.set(0, -0.02, -30); g.add(floor); U.floor = floor;
+  const ft = floorTex(); ft.repeat.set(60, 60); const floor = new T.Mesh(new T.PlaneGeometry(660, 660), new T.MeshLambertMaterial({ map: ft, color: 0xffffff, emissive: 0x020604 })); floor.rotation.x = -Math.PI / 2; floor.position.set(0, -0.02, -30); g.add(floor); U.floor = floor;
   const { hall, U: hU } = buildHall(); g.add(hall); U.hall = hall; U.hU = hU;
   U.mtn = buildMountain(); g.add(U.mtn);
   const { map, M } = buildMap(); g.add(map); U.map = map; U.M = M;
@@ -118,9 +118,9 @@ export function update(g, t) {
     if (open > 0.5) { sun.position.set(-30, 80, 50); sun.color.setHex(0xe6fff4); sun.intensity = 1.5; hemi.intensity = 1.15; }
     pt.color.setHex(doubt > 0.5 ? 0x8fb4ff : 0xffc34d); pt.intensity = (t > S2 && t < 8.4 ? 34 * (1 - 0.5 * doubt) : 0) * (1 - open); pt.position.set(0, 7, 20);
   } else if (isB) {
-    mixHex(0x7fa6f0, 0xffdcae, warm13, hemi.color); mixHex(0x08122a, 0x2a1a08, warm13, hemi.groundColor); hemi.intensity = 0.85 + 0.25 * warm13;
-    mixHex(0xaecbff, 0xffd9a0, warm13, sun.color); sun.intensity = 0.8 + 0.5 * warm13; sun.position.set(-30, 70, 40);
-    pt.color.setHex(0xffc470); pt.position.set(HERO_XZ[0] + 2.5, 4.5, HERO_XZ[1] + 5); pt.intensity = 16 * sstep(53.95, 54.5, t); pt.distance = 40;
+    mixHex(0x7fa6f0, 0xffdcae, warm13, hemi.color); mixHex(0x08122a, 0x2a1a08, warm13, hemi.groundColor); hemi.intensity = 0.8 + 0.1 * warm13;
+    mixHex(0xaecbff, 0xffd9a0, warm13, sun.color); sun.intensity = 0.8 + 0.3 * warm13; sun.position.set(-30, 70, 40);
+    pt.color.setHex(0xffc470); pt.position.set(HERO_XZ[0] + 2.5, 4.5, HERO_XZ[1] + 5); pt.intensity = 9 * sstep(54.2, 54.6, t); pt.distance = 40;
   } else {
     const lit = 0.28 + 0.72 * sstep(79.16, 79.45, t);
     hemi.color.setHex(0xcfeee0); hemi.groundColor.setHex(0x0a2a20); hemi.intensity = 1.3 * lit; sun.color.setHex(0xfff0cf); sun.intensity = 1.6 * lit; sun.position.set(14, 34, 40);
@@ -149,6 +149,9 @@ export function update(g, t) {
     for (let i = 0; i < hU.stripRows.length; i++) { const r = hU.stripRows[i]; const on = isA ? 1 : sstep(0.02 + r * 0.018, 0.1 + r * 0.018, t); const fl = 0.85 + 0.15 * Math.sin(t * 3 + i); strips.setColorAt(i, _c.setRGB(on * fl, on * fl * 0.98, on * fl * 0.9)); }
     strips.instanceColor.needsUpdate = true;
     hU.beams.forEach((b, i) => { b.material.opacity = 0.055 * (isA ? 1 : sstep(0.05 + i * 0.04, 0.3 + i * 0.04, t)) * (1 - 0.5 * sstep(TM.non, TM.non + 0.4, t)); });
+    // feux de piste : chenillard vers la montagne
+    for (let k = 0; k < 17; k++) for (let sd = 0; sd < 2; sd++) { const i = k * 2 + sd; const on = isA ? 1 : sstep(0.1 + k * 0.012, 0.3 + k * 0.012, t); const ch = 0.35 + 0.65 * Math.pow(0.5 + 0.5 * Math.sin(t * 7 - k * 0.7), 2); const gold = (k % 4 === 0); hU.runway.setColorAt(i, gold ? _c.setRGB(1 * ch * on, 0.78 * ch * on, 0.3 * ch * on) : _c.setRGB(0.25 * ch * on, 0.95 * ch * on, 0.6 * ch * on)); }
+    hU.runway.instanceColor.needsUpdate = true;
     // écrans à chiffres : défilement type compteur
     hU.screens.forEach((s) => { s.tx.offset.y = ((t * (0.55 + 0.25 * s.ph) + s.ph) % 1); });
     hU.riches.userData.setAll(hU.riches.userData.cashI, hU.riches.userData.cash, isA ? 99 : t);
@@ -190,7 +193,7 @@ export function update(g, t) {
       updateMap(M, t, 3, 0); updateS3Fx(M, t); M.fB.group.visible = false; M.hero.visible = false; M.hub.visible = false; M.pBody.visible = M.pHead.visible = M.bars.visible = M.stock.visible = false;
       nb.A.visible = nb.B.visible = t >= TM.milliers - 0.02; if (nb.A.visible) updateNumbers(nb, t, cam);
     } else {
-      updateMap(M, t, 13, warm13); M.fA.group.visible = false; M.dive.visible = false; M.hub.visible = true; M.pBody.visible = M.pHead.visible = M.bars.visible = M.stock.visible = true; nb.A.visible = nb.B.visible = false;
+      updateMap(M, t, 13, warm13); M.fA.group.visible = false; M.dive.visible = false; M.diveFill.visible = false; M.hub.visible = true; M.pBody.visible = M.pHead.visible = M.bars.visible = M.stock.visible = true; nb.A.visible = nb.B.visible = false;
       updateS13Fx(M, t, warm13);
     }
   } else { nb.A.visible = nb.B.visible = false; }
