@@ -225,11 +225,11 @@ export const SHOTS = [
   { t: 35.66, p: [ox + BX, oy + 13, oz + 8], l: [ox + BX - 2, oy + 13, oz - 12], f: 52, e: eio },
 ];
 // suivi de la pointe de la courbe : clés linéaires (pas d'easing : sinon la caméra accélère/freine par saccades), pas de 0,05 s autour de la chute.
-// La visée est SOUS la pointe (lead) pour que le point reste dans le tiers haut du cadre, sans anticipation excessive.
+// La visée est SOUS la pointe (lead) : le point reste dans la moitié haute du cadre (sous le titre du monteur, y>700), sans anticipation excessive.
 const trk = []; for (let tt = 36.3; tt < T10E - 0.25; tt += 0.1) trk.push(tt); for (let tt = T10E - 0.25; tt < T10E + 0.95; tt += 0.05) trk.push(tt); for (let tt = T10E + 0.95; tt <= EN - 0.02; tt += 0.1) trk.push(tt);
 for (const tt of trk) {
   const [tx, ty] = tipAt(tt + 0.03); const k = sstep(T10E - 0.7, T10E + 0.15, tt);
-  const dist = lerp(17, 10.5, k); const lead = -lerp(1.0, 1.5, sstep(T10E - 0.5, T10E - 0.05, tt));
+  const dist = lerp(17, 10.5, k); const lead = -lerp(0.8, 1.05, sstep(T10E - 0.5, T10E - 0.05, tt));
   SHOTS.push({ t: +tt.toFixed(3), p: [ox + BX + tx * 0.92, oy + ty + lead + 2.2, oz - 12 + dist], l: [ox + BX + tx, oy + ty + lead, oz - 12], f: lerp(46, 50, sstep(T10E - 0.3, T10E + 0.1, tt)) });
 }
 
