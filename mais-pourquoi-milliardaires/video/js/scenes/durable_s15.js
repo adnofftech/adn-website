@@ -19,7 +19,7 @@ const PERIOD_A = [59.14, 60.52, 61.89, 63.26], RATE = 27;
 const MONTHS = ["JANVIER", "FÉVRIER", "MARS", "AVRIL"], W0 = [2, 4, 0, 3];
 const PIN_DAYS = { logement: [1], nourriture: [5, 12, 19, 26], energie: [8, 22], transport: [15] };
 const LAND_T = [T15.probleme, T15.risque, T15.de, T15.revenir];            // instants d'atterrissage des factures qui reviennent
-const LAND = [[-0.45, 0.04], [-0.02, 0.0], [0.41, 0.0], [0.84, 0.04]];       // (x, z) sur la table
+const LAND = [[-0.52, 0.04], [0.0, 0.0], [0.52, 0.05], [1.04, 0.0]];       // (x, z) sur la table
 const PIPE = { y: 4.78, z: -1.2, x0: -2.8, xv: -0.45, xs: 0.95 };
 
 const topPlane = (w, h) => { const g = new T.PlaneGeometry(w, h); g.translate(0, -h / 2, 0); return g; };
@@ -48,14 +48,14 @@ export function buildS15(root) {
   { const f1 = new T.Group(); bx(0.62, 0.8, 0.05, M(0x5a3a1c), 0, 0, 0, f1); const pic = new T.Mesh(new T.PlaneGeometry(0.5, 0.68), new T.MeshLambertMaterial({ map: mk(64, 80, (c, w, h) => { const gr = c.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "#ffd9a0"); gr.addColorStop(1, "#f29f5c"); c.fillStyle = gr; c.fillRect(0, 0, w, h); c.fillStyle = "#fff0b0"; c.beginPath(); c.arc(w * 0.68, h * 0.34, 10, 0, 7); c.fill(); c.fillStyle = "rgba(20,70,50,.8)"; c.beginPath(); c.moveTo(0, h); c.lineTo(0, h * 0.7); c.quadraticCurveTo(w * 0.3, h * 0.45, w * 0.55, h * 0.72); c.quadraticCurveTo(w * 0.8, h * 0.6, w, h * 0.75); c.lineTo(w, h); c.fill(); }), emissive: 0x2a2218 })); pic.position.z = 0.03; f1.add(pic); f1.position.set(1.28, 3.0, -2.02); g.add(f1); }
 
   // ---------- table ----------
-  { const tb = new T.Group(); bx(2.9, 0.07, 1.8, M(0xb9824f, 0x1e1006), 0, TOP - 0.035, 0, tb); bx(2.66, 0.1, 1.56, M(0x8b5a33), 0, TOP - 0.12, 0, tb);
-    const cloth = new T.Mesh(new T.PlaneGeometry(2.94, 1.84), new T.MeshLambertMaterial({ map: texGingham(), emissive: 0x2a1810 })); cloth.rotation.x = -Math.PI / 2; cloth.position.y = TOP + 0.003; tb.add(cloth);
-    for (const sx of [-1, 1]) for (const sz of [-1, 1]) bx(0.1, TOP - 0.07, 0.1, M(0x8b5a33), sx * 1.36, (TOP - 0.07) / 2, sz * 0.8, tb); g.add(tb); }
+  { const tb = new T.Group(); bx(2.9, 0.07, 2.3, M(0xb9824f, 0x1e1006), 0, TOP - 0.035, 0.25, tb); bx(2.66, 0.1, 2.06, M(0x8b5a33), 0, TOP - 0.12, 0.25, tb);
+    const cloth = new T.Mesh(new T.PlaneGeometry(2.94, 2.34), new T.MeshLambertMaterial({ map: texGingham(), emissive: 0x2a1810 })); cloth.rotation.x = -Math.PI / 2; cloth.position.set(0, TOP + 0.003, 0.25); tb.add(cloth);
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) bx(0.1, TOP - 0.07, 0.1, M(0x8b5a33), sx * 1.36, (TOP - 0.07) / 2, sz * 1.05 + 0.25, tb); g.add(tb); }
   // lampe de table (raccord life)
   { const tl = tableLamp(); tl.position.set(-1.18, TOP, -0.62); g.add(tl); S.tl = tl; const gl = glow(0xffc070, 2.4, 0.4); gl.position.set(-1.18, TOP + 0.4, -0.62); g.add(gl); S.tlGlow = gl; }
 
   // ---------- facture réglée (raccord avec S14) ----------
-  { const w = 0.6, h = w * 352 / 256; const inv = new T.Group(); inv.position.set(-1.0, TOP + 0.004, 0.42); inv.rotation.x = -(Math.PI / 2 - 0.6); inv.rotation.z = 0.06; g.add(inv); S.inv0 = inv;
+  { const w = 0.6, h = w * 352 / 256; const inv = new T.Group(); inv.position.set(-1.15, TOP + 0.004, 0.45); inv.rotation.x = -(Math.PI / 2 - 0.6); inv.rotation.z = 0.06; g.add(inv); S.inv0 = inv;
     inv.add(new T.Mesh(botPlane(w, h), new T.MeshLambertMaterial({ map: texInvoice("logement"), emissive: 0x6a6a60, side: T.DoubleSide })));
     const st = new T.Mesh(new T.PlaneGeometry(w * 0.9, w * 0.9 * 200 / 512), new T.MeshBasicMaterial({ map: texStamp(), transparent: true, depthWrite: false })); st.position.set(0, h * 0.34, 0.006); st.rotation.z = -0.16; inv.add(st);
     const ck = new T.Mesh(new T.PlaneGeometry(w * 0.3, w * 0.3), planeMat(texIcon("check", { fg: "#eafff1", bg: "#17a65a", ring: null }), { depthWrite: false })); ck.position.set(-w * 0.2, h * 0.64, 0.01); inv.add(ck); }
@@ -65,7 +65,7 @@ export function buildS15(root) {
   const LAYERS = [[3, 5], [3, 4], [2, 4], [2, 3], [2, 2], [1, 2], [1, 1]]; const slots = [];
   LAYERS.forEach(([nx, nz], L) => { for (let ix = 0; ix < nx; ix++) for (let iz = 0; iz < nz; iz++) { const i = slots.length; slots.push({ L, ix, iz, x: PILE[0] + (ix - (nx - 1) / 2) * 0.6 + (H(i, 1) - 0.5) * 0.05 + (L % 2 ? 0.05 : -0.03), y: TOP + 0.04 + L * 0.063, z: PILE[1] + (iz - (nz - 1) / 2) * 0.27 + (H(i, 2) - 0.5) * 0.03, yaw: (H(i, 3) - 0.5) * 0.3, s: 59.14 + 0.009 * i, tilt: (H(i, 4) - 0.5) * 2.4, spin: (H(i, 5) - 0.5) * 3 }); } });
   // ordre de départ : couches du haut d'abord ; pour la couche 0, l'arrière d'abord (les 2 derniers billets restent à l'avant)
-  const order = slots.map((_, i) => i).sort((a, b) => (slots[b].L - slots[a].L) || (slots[a].L === 0 ? (slots[a].z - slots[b].z) || (slots[a].x - slots[b].x) : H(a, 9) - H(b, 9)));
+  const order = slots.map((_, i) => i).sort((a, b) => (slots[b].L - slots[a].L) || (slots[a].L === 0 ? (slots[a].x - slots[b].x) || (slots[a].z - slots[b].z) : H(a, 9) - H(b, 9)));
   const dep = new Array(NB).fill(1e9), dest = new Array(NB).fill(0);
   order.forEach((i, k) => { dep[i] = k < 8 ? 59.88 + k * 0.055 : k < 43 ? 60.4 + (k - 8) * 0.0155 : k === 43 ? 61.95 : k === 44 ? 62.55 : k === 45 ? 63.3 : 1e9; dest[i] = (k + Math.floor(H(k, 7) * 2)) % 4; });
   S.slots = slots; S.dep = dep; S.dest = dest; S.dur = slots.map((_, i) => 0.5 + 0.16 * H(i, 11));
@@ -79,14 +79,14 @@ export function buildS15(root) {
     return { grp, pl, lab, gl, k }; });
 
   // ---------- jauge SOLDE (10 segments) ----------
-  { const gp = new T.Group(); gp.position.set(0.35, TOP + 0.01, 1.2); gp.rotation.x = -1.12; g.add(gp); S.gauge = gp;
+  { const gp = new T.Group(); gp.position.set(0.05, TOP + 0.01, 1.32); gp.rotation.x = -1.12; g.add(gp); S.gauge = gp;
     bx(1.7, 0.52, 0.06, M(0x1d1f22, 0x0a0a0c), 0, 0.26, 0, gp); bx(1.76, 0.03, 0.08, M(PAL.gold, 0x4a3808), 0, 0.535, 0, gp);
     const seg = new T.InstancedMesh(new T.BoxGeometry(0.13, 0.22, 0.04), new T.MeshBasicMaterial({ color: 0xffffff }), 10); seg.frustumCulled = false; seg.position.set(0, 0.17, 0.05); gp.add(seg); S.seg = seg;
     const lb = textPlane("SOLDE", { w: 0.7, h: 0.17, px: 320, size: 0.7, color: "#f3ecd4", align: "left" }); lb.position.set(-0.52, 0.4, 0.04); gp.add(lb); }
 
   // ---------- les factures qui reviennent ----------
   S.inv = EXP_KEYS.map((k, n) => { const w = 0.5, h = w * 352 / 256; const grp = new T.Group(); g.add(grp); const lean = new T.Group(); grp.add(lean); lean.rotation.x = -(Math.PI / 2 - 0.6);
-    lean.add(new T.Mesh(botPlane(w, h), new T.MeshLambertMaterial({ map: texInvoice(k), emissive: 0x6a6a60, side: T.DoubleSide })));
+    lean.add(new T.Mesh(botPlane(w, h), new T.MeshLambertMaterial({ map: texInvoice(k), emissive: 0x4e4e46, side: T.DoubleSide })));
     const tag = new T.Mesh(new T.PlaneGeometry(w * 0.72, w * 0.72 * 96 / 320), new T.MeshBasicMaterial({ map: texTag(), transparent: true, depthWrite: false })); tag.position.set(w * 0.08, h * 0.3, 0.008); tag.rotation.z = 0.12; lean.add(tag);
     grp.visible = false; return { grp, lean, tag, w, h, k, n }; });
 
@@ -121,8 +121,8 @@ export function buildS15(root) {
     // coude + bec
     const sx = PIPE.xs - PIPE.x0; sp(0.14, steel, sx, 0, 0, pg, 12, 8); cy(0.1, 0.1, 0.5, steel, sx, -0.27, 0, pg, 12); cy(0.1, 0.07, 0.16, steel, sx, -0.6, 0, pg, 12); S.spout = [sx, -0.7];
     // plaque « REVENU STABLE » + étiquette FERMÉ
-    const pl = textPlane("REVENU STABLE", { w: 1.15, h: 0.26, px: 512, size: 0.56, color: "#b4c0ba", bg: "#202624", border: "#6a7570" }); pl.position.set(0.28 - PIPE.x0, -0.46, 0.06); pg.add(pl); S.plaque = pl;
-    const fm = textPlane("FERMÉ", { w: 0.62, h: 0.24, px: 320, size: 0.66, color: "#fff7ee", bg: "#d8382b" }); fm.position.set(vx, -0.38, 0.22); pg.add(fm); S.closed = fm; }
+    const pl = textPlane("REVENU STABLE", { w: 1.1, h: 0.26, px: 512, size: 0.42, color: "#b4c0ba", bg: "#202624", border: "#6a7570" }); pl.position.set(0.5 - PIPE.x0, 0.36, 0.06); pg.add(pl); S.plaque = pl;
+    const fm = textPlane("FERMÉ", { w: 0.62, h: 0.24, px: 320, size: 0.66, color: "#fff7ee", bg: "#d8382b" }); fm.position.set(vx - 0.75, 0.0, 0.2); pg.add(fm); S.closed = fm; }
   // pointillé gris du flux absent (de la sortie du bec jusqu'à la pile)
   { S.dots = []; const A = [PIPE.xs, PIPE.y - 0.82, PIPE.z], B = [PILE[0] + 0.1, 1.38, PILE[1] - 0.05], C = [PIPE.xs - 0.1, 2.4, -0.4]; const tmp = new T.Vector3();
     for (let i = 0; i < 14; i++) { const u = i / 13; bez(A, C, B, u, tmp); const d = sp(0.045, new T.MeshBasicMaterial({ color: 0x9aa6a0, transparent: true, opacity: 0.5 }), tmp.x, tmp.y, tmp.z, g, 8, 6); d.userData.u = u; S.dots.push(d); } }
@@ -130,7 +130,7 @@ export function buildS15(root) {
   S.pulses = [0, 1, 2].map(() => { const m = sp(0.075, new T.MeshBasicMaterial({ color: 0xe8b84a, transparent: true, opacity: 0.8 }), 0, 0, 0, g, 8, 6); m.visible = false; return m; });
   S.valveFlash = glow(0xff5a3a, 1.2, 0); S.valveFlash.position.set(PIPE.xv - 0.24, PIPE.y, PIPE.z + 0.1); g.add(S.valveFlash);
   S.spark = glow(0xffe6a0, 1.0, 0); g.add(S.spark);
-  S.lowGlow = glow(0xff4a30, 1.6, 0); S.lowGlow.position.set(PILE[0] + 0.3, TOP + 0.2, 0.5); g.add(S.lowGlow);
+  S.lowGlow = glow(0xff4a30, 1.6, 0); S.lowGlow.position.set(PILE[0] + 0.6, TOP + 0.2, 0.3); g.add(S.lowGlow);
   return S;
 }
 
@@ -174,7 +174,7 @@ export function updateS15(S, t) {
     const tg = land ? pop(t, lt + 0.02, 0.22) : 0; setS(iv.tag, tg); iv.tag.visible = tg > 0.01;
   });
   // ---- facture réglée : discrète pendant l'urgence, légèrement relevée en fin
-  S.inv0.position.y = TOP + 0.004; S.inv0.rotation.z = 0.06;
+  { const ex = eio(lin(T15.le - 0.04, T15.le + 0.34, t)); S.inv0.position.x = -1.15 - 1.3 * ex; S.inv0.position.y = TOP + 0.004 + 0.25 * Math.sin(ex * Math.PI); S.inv0.rotation.z = 0.06 + 0.5 * ex; S.inv0.scale.setScalar(1 - 0.35 * ex); S.inv0.visible = ex < 0.999; }
   // ---- jauge SOLDE
   { const lv = gaugeLevel(S, t); const blink = t > T15.probleme ? 0.65 + 0.35 * Math.sin(t * 13) : 1;
     for (let k = 0; k < 10; k++) { const f = clamp(lv * 10 - k, 0, 1); const lit = f > 0.02; const col = lit ? GCOL[k] : 0x2a2d2f; _c.setHex(col); _c.multiplyScalar(lit ? (0.55 + 0.45 * f) * (k < 2 ? blink : 1) : 1); S.seg.setColorAt(k, _c); _o.position.set(-0.69 + 0.153 * k, 0, 0); _o.rotation.set(0, 0, 0); _o.scale.set(1, 1, 1); _o.updateMatrix(); S.seg.setMatrixAt(k, _o.matrix); }

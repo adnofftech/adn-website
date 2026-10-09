@@ -10,14 +10,14 @@ const o16 = (re, k = 0) => onset(16, re, k);
 export const T16 = { redistribuer: o16(/^redistribuer$/), fortune: o16(/^fortune$/), aider: o16(/^aider$/), enormement: o16(/^enormement$/), personnes: o16(/^personnes$/), mais: o16(/^mais$/), suffit: o16(/^suffit$/), forcement: o16(/^forcement$/), supprimer: o16(/^supprimer$/), durablement: o16(/^durablement$/), pauvrete: o16(/^pauvrete$/) };
 const TILE_T = [T16.mais, T16.suffit, T16.forcement, T16.supprimer, T16.durablement, T16.pauvrete];
 const TILES = [
-  { id: "revenus", label: "REVENUS", icon: "coin", hex: 0xe8b84a, x: 1.85, z: 1.9 },
-  { id: "emplois", label: "EMPLOIS", icon: "case", hex: 0x2d6cc0, x: 4.35, z: 1.9 },
-  { id: "logements", label: "LOGEMENTS", icon: "house", hex: 0xd98f3a, x: 1.85, z: -1.2 },
-  { id: "soins", label: "SOINS", icon: "cross", hex: 0xe0453a, x: 4.35, z: -1.2 },
-  { id: "education", label: "ÉDUCATION", icon: "cap", hex: 0x8a4fb5, x: 1.85, z: -4.3 },
-  { id: "services", label: "SERVICES", icon: "bus", hex: 0x2a9d8f, x: 4.35, z: -4.3 },
+  { id: "revenus", label: "REVENUS", icon: "coin", hex: 0xe8b84a, x: 1.85, z: 2.2 },
+  { id: "emplois", label: "EMPLOIS", icon: "case", hex: 0x2d6cc0, x: 4.35, z: 2.2 },
+  { id: "logements", label: "LOGEMENTS", icon: "house", hex: 0xd98f3a, x: 1.85, z: -1.5 },
+  { id: "soins", label: "SOINS", icon: "cross", hex: 0xe0453a, x: 4.35, z: -1.5 },
+  { id: "education", label: "ÉDUCATION", icon: "cap", hex: 0x8a4fb5, x: 1.85, z: -5.2 },
+  { id: "services", label: "SERVICES", icon: "bus", hex: 0x2a9d8f, x: 4.35, z: -5.2 },
 ];
-const LX = -3.1, MZ = -0.8;                              // centre du tas (côté gauche)
+const LX = -3.1, MZ = 0.9;                              // centre du tas (côté gauche)
 // ---- pluie de billets : débit = pic puis retombée (fonction déterministe de t), inversée en dates d'apparition
 const NR = 640, R0 = 63.3, R1 = 66.95;
 export const rain = (t) => (0.3 + Math.exp(-Math.pow((t - 65.95) / (t < 65.95 ? 0.85 : 0.45), 2))) * (1 - sstep(66.35, 66.9, t)) * sstep(R0, R0 + 0.3, t);
@@ -59,9 +59,9 @@ export function buildS16(root) {
   const g = new T.Group(); root.add(g); const S = { g };
   // sol sombre + plateformes
   { const ft = floorTex(); ft.repeat.set(48, 30); const fl = new T.Mesh(new T.PlaneGeometry(190, 120), new T.MeshLambertMaterial({ map: ft, emissive: 0x030a06 })); fl.rotation.x = -Math.PI / 2; fl.position.set(0, -0.32, -10); g.add(fl); }
-  S.platL = bx(5.5, 0.3, 10.6, M(0x0f3a24, 0x0c3220), LX, -0.15, -0.5, g); S.platR = bx(5.5, 0.3, 10.6, M(0x1a2a36, 0x0e1822), 3.1, -0.15, -0.5, g);
-  for (const [x, c] of [[LX, 0x47f0a0], [3.1, 0x9fb4c8]]) { bx(5.5, 0.05, 0.08, MB(c), x, 0.0, 4.8, g); bx(5.5, 0.05, 0.08, MB(c), x, 0.0, -5.8, g); }
-  S.divider = bx(0.1, 0.06, 11.0, MB(0xe8b84a), 0, 0.02, -0.5, g); S.divGlow = glow(0xffd27a, 7, 0.0); S.divGlow.position.set(0, 0.6, 1.2); g.add(S.divGlow);
+  S.platL = bx(5.5, 0.3, 12.4, M(0x0f3a24, 0x0c3220), LX, -0.15, -0.9, g); S.platR = bx(5.5, 0.3, 12.4, M(0x1a2a36, 0x0e1822), 3.1, -0.15, -0.9, g);
+  for (const [x, c] of [[LX, 0x47f0a0], [3.1, 0x9fb4c8]]) { bx(5.5, 0.05, 0.08, MB(c), x, 0.0, 5.3, g); bx(5.5, 0.05, 0.08, MB(c), x, 0.0, -7.1, g); }
+  S.divider = bx(0.1, 0.06, 12.2, MB(0xe8b84a), 0, 0.02, -0.9, g); S.divGlow = glow(0xffd27a, 7, 0.0); S.divGlow.position.set(0, 0.6, 1.2); g.add(S.divGlow);
   // —— côté gauche : tas de billets, pluie, personnes, étiquette
   { const prof = []; const SEG = 36; for (let i = 0; i <= SEG; i++) { const r = i / SEG; prof.push(new T.Vector2(Math.max(0.0001, r), 1 - r * r)); }
     const hg = new T.LatheGeometry(prof.reverse(), 64); const pos = hg.attributes.position;
@@ -71,17 +71,20 @@ export function buildS16(root) {
   S.rain = new T.InstancedMesh(billBoxGeo(), billBoxMats(), NR); S.rain.frustumCulled = false; g.add(S.rain);
   { const NP = 36; S.crowd = makeCrowd(NP, { bodyH: 0.7 }); g.add(S.crowd.bodies, S.crowd.heads); S.people = [];
     for (let i = 0; i < NP; i++) { const a = -0.15 * Math.PI + H(i, 31) * 1.3 * Math.PI, r = 2.7 + 0.9 * H(i, 32); let x = LX + Math.cos(a) * r, z = MZ + Math.sin(a) * r * 0.95; x = clamp(x, LX - 2.5, LX + 2.45); z = clamp(z, -4.6, 4.3); S.people.push({ x, z, ph: H(i, 33) * 6.28, t0: T16.personnes + 0.02 * i, ry: Math.atan2(LX - x, MZ - z) }); } }
+  S.peakRing = new T.Mesh(new T.RingGeometry(1, 1.12, 64), new T.MeshBasicMaterial({ color: 0xffe6a0, transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); S.peakRing.rotation.x = -Math.PI / 2; S.peakRing.position.set(LX, 0.08, MZ); g.add(S.peakRing);
+  { const n = 150, pos = new Float32Array(n * 3), col = new Float32Array(n * 3); const geo = new T.BufferGeometry(); geo.setAttribute("position", new T.BufferAttribute(pos, 3)); geo.setAttribute("color", new T.BufferAttribute(col, 3));
+    const pts = new T.Points(geo, new T.PointsMaterial({ size: 0.5, map: glowTex(), vertexColors: true, transparent: true, depthWrite: false, blending: T.AdditiveBlending })); pts.frustumCulled = false; g.add(pts); S.dust = { pos, col, n, geo }; }
   S.labL = textPlane("ARGENT IMMÉDIAT", { w: 4.2, h: 0.7, px: 640, size: 0.5, color: "#fff4cf", bg: "rgba(8,28,18,.7)", border: "#47f0a0" }); S.labL.position.set(LX, 4.6, MZ + 1.6); g.add(S.labL);
   // —— côté droit : six emplacements fantômes + éléments durables
   S.tiles = TILES.map((d, i) => { const grp = new T.Group(); grp.position.set(d.x, 0, d.z); g.add(grp);
     const ghost = new T.Mesh(new T.PlaneGeometry(2.5, 2.5), new T.MeshBasicMaterial({ map: texSocket(d.icon), transparent: true, depthWrite: false })); ghost.rotation.x = -Math.PI / 2; ghost.position.y = 0.03; grp.add(ghost);
     const plinth = new T.Group(); grp.add(plinth); cy(1.0, 1.05, 0.3, M(0x1d2a33, 0x0a1218), 0, 0.15, 0, plinth, 28); const rim = cy(1.03, 1.03, 0.05, MB(d.hex), 0, 0.32, 0, plinth, 28); const prop = PROPS[d.id](); prop.position.y = 0.3; prop.userData.s0 = 1.2; grp.add(prop);
     const lab = textPlane(d.label, { w: 2.1, h: 0.46, px: 480, size: 0.58, color: "#ffffff", bg: "rgba(10,18,24,.78)", border: "#" + d.hex.toString(16).padStart(6, "0") }); lab.position.set(0, 3.5, 0.5); grp.add(lab);
-    const beam = new T.Mesh(new T.CylinderGeometry(0.85, 1.0, 4.4, 20, 1, true), new T.MeshBasicMaterial({ color: d.hex, map: texBeam(), transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); beam.position.y = 2.2; grp.add(beam);
+    const beam = new T.Mesh(new T.CylinderGeometry(0.7, 0.95, 4.4, 20, 1, true), new T.MeshBasicMaterial({ color: d.hex, map: texBeam(), transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); beam.position.y = 2.2; grp.add(beam);
     const shock = new T.Mesh(new T.RingGeometry(1, 1.12, 40), new T.MeshBasicMaterial({ color: d.hex, transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); shock.rotation.x = -Math.PI / 2; shock.position.y = 0.06; grp.add(shock);
     const gl = glow(d.hex, 4.5, 0); gl.position.set(0, 1.4, 0.6); grp.add(gl);
     return { grp, ghost, plinth, prop, lab, beam, shock, gl, rim, d, t0: TILE_T[i] }; });
-  S.labR = textPlane("STABILITÉ DURABLE", { w: 4.4, h: 0.7, px: 640, size: 0.5, color: "#e8f4ff", bg: "rgba(12,22,32,.72)", border: "#9fb4c8" }); S.labR.position.set(3.1, 5.4, 0.2); g.add(S.labR);
+  S.labR = textPlane("STABILITÉ DURABLE", { w: 4.4, h: 0.7, px: 640, size: 0.5, color: "#e8f4ff", bg: "rgba(12,22,32,.72)", border: "#9fb4c8" }); S.labR.position.set(3.1, 3.8, -7.4); g.add(S.labR);
   // chaîne dorée entre les éléments (se tisse au fur et à mesure) + impulsions régulières
   S.links = []; for (let i = 0; i < 5; i++) { const a = TILES[i], b = TILES[i + 1]; const len = Math.hypot(b.x - a.x, b.z - a.z); const m = bx(0.16, 0.07, 1, MB(0xe8b84a), 0, 0.1, 0, g); m.position.set((a.x + b.x) / 2, 0.1, (a.z + b.z) / 2); m.rotation.y = Math.atan2(b.x - a.x, b.z - a.z); m.userData = { len, a, b }; S.links.push(m); }
   S.pulse = new T.InstancedMesh(new T.SphereGeometry(0.16, 8, 6), new T.MeshBasicMaterial({ color: 0xffe6a0 }), 20); S.pulse.frustumCulled = false; g.add(S.pulse);
@@ -103,6 +106,8 @@ export function updateS16(S, t) {
     S.rain.setColorAt(j, _c.setScalar(1 - 0.6 * sstep(7, 14, y)));
   }
   S.rain.instanceMatrix.needsUpdate = true; if (S.rain.instanceColor) S.rain.instanceColor.needsUpdate = true;
+  { const m = S.dust; const k = 0.5 + 0.5 * sstep(T16.mais, T16.mais + 1, t); for (let i = 0; i < m.n; i++) { const x = -12 + 24 * H(i, 71) + Math.sin(t * 0.4 + i) * 0.4, y = 1 + ((H(i, 72) * 20 + t * (0.3 + 0.4 * H(i, 73))) % 20), z = -14 + 18 * H(i, 74); m.pos[i * 3] = x; m.pos[i * 3 + 1] = y; m.pos[i * 3 + 2] = z; const b = (0.3 + 0.3 * Math.sin(t * 1.6 + i * 1.7)) * k * (1 - 0.7 * sstep(10, 20, y)); m.col[i * 3] = b; m.col[i * 3 + 1] = 0.82 * b; m.col[i * 3 + 2] = 0.42 * b; } m.geo.attributes.position.needsUpdate = true; m.geo.attributes.color.needsUpdate = true; }
+  { const u = clamp((t - T16.enormement) / 0.9); S.peakRing.visible = u > 0 && u < 1; S.peakRing.scale.setScalar(1.2 + 5.5 * eout(u)); S.peakRing.material.opacity = 0.85 * (1 - u); }
   // ---- tas
   { const c = landed; const hh = heapH(c), rr = heapR(c); S.heap.scale.set(rr, hh, rr); S.heapGlow.position.y = hh + 1.4; S.heapGlow.material.opacity = 0.12 + 0.3 * rt + 0.1 * Math.sin(t * 3); S.heapGlow.scale.setScalar(7 + 3 * rt); }
   // ---- personnes aidées (apparaissent sur « personnes », sautillent de joie)
@@ -115,7 +120,7 @@ export function updateS16(S, t) {
     P.ghost.material.opacity = (0.55 + 0.1 * Math.sin(t * 2 + i)) * (1 - sstep(t0 - 0.02, t0 + 0.25, t));
     P.plinth.scale.set(Math.max(1e-4, on), Math.max(1e-4, on), Math.max(1e-4, on)); P.plinth.visible = on > 0.01; P.prop.scale.setScalar(Math.max(1e-4, onP * 1.2)); P.prop.visible = onP > 0.01;
     const lp = pop(t, t0 + 0.12, 0.3); P.lab.visible = lp > 0.01; P.lab.scale.set(Math.max(1e-4, lp), Math.max(1e-4, lp), 1);
-    P.beam.material.opacity = dt > 0 ? 0.8 * Math.exp(-dt * 3.2) : 0; P.beam.visible = dt > 0 && dt < 1.2; P.beam.scale.set(1 + 0.4 * dt, 1, 1 + 0.4 * dt);
+    P.beam.material.opacity = dt > 0 ? 0.5 * Math.exp(-dt * 3.4) : 0; P.beam.visible = dt > 0 && dt < 1.2; P.beam.scale.set(1 + 0.4 * dt, 1, 1 + 0.4 * dt);
     const su = clamp(dt / 0.7); P.shock.visible = dt > 0 && dt < 0.75; P.shock.scale.setScalar(1 + 2.4 * eout(su)); P.shock.material.opacity = 0.8 * (1 - su);
     P.gl.material.opacity = dt > 0 ? clamp(0.5 * Math.exp(-dt * 3) + 0.1, 0, 0.6) : 0;
     // animations d'usage

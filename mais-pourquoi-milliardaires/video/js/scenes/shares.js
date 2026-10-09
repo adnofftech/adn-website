@@ -231,7 +231,7 @@ export function update(g, t) {
     mixHex(0xa8bccd, 0x9fc4e8, after, U.hemi.color); U.hemi.groundColor.setHex(0x1a1a14); U.hemi.intensity = lerp(0.85, 1.05, after);
     mixHex(0xfff0d0, 0xcfe0ff, after, U.sun.color); U.sun.intensity = 1.2; U.sun.position.set(VX - 20, 40, 40); U.sun.target.position.set(VX, 0, -20);
     mixHex(0x7dffb2, 0xffd27a, after, U.pt.color); U.pt.position.set(VX, 10, 9); U.pt.distance = 60; U.pt.intensity = 30 * open * (1 - 0.6 * after) + 6;
-    updateZone(U.Z, t, TM, cam);
+    updateZone(U.Z, t, TM, cam, [cam.p[0] - ox - VX, cam.p[1] - oy, cam.p[2] - oz]);
     U.g7.visible = t >= TM.S7 - 0.05; if (U.g7.visible) updateS7(U.S7, t, TM, cam, [ox + VX + HZ[0], oy, oz + HZ[2]]);
   }
 }

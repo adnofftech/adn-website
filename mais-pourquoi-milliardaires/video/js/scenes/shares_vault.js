@@ -73,8 +73,8 @@ export function buildZone() {
 
 export const linkEnds = (Z, L) => { const a = Z.nb[L[0]], b = L[1] < 0 ? { x: HZ[0], z: HZ[2] } : Z.nb[L[1]]; return [a.x, a.z, b.x, b.z]; };
 
-export function updateZone(Z, t, TM, cam) {
-  const V = Z.V;
+export function updateZone(Z, t, TM, cam, cl) {
+  const V = Z.V, nearK = (x, y, z) => sstep(2.6, 7.0, Math.hypot(x - cl[0], y - cl[1], z - cl[2]));   // aucun objet ne traverse la caméra : réduction à l'approche
   // ---------------- porte
   const ajar = 0.6, open = 1.72;
   const unlock = lin(TM.milliardaires - 0.1, TM.ce + 0.12, t), swing = eio(lin(TM.ce + 0.02, TM.ce + 1.0, t)), settle = Math.exp(-Math.max(0, t - (TM.ce + 1.0)) * 6) * Math.sin(Math.max(0, t - (TM.ce + 1.0)) * 14) * 0.03;
@@ -91,8 +91,10 @@ export function updateZone(Z, t, TM, cam) {
     for (let i = 0; i < Z.wN; i++) {
       const w = Z.w[i], th2 = Math.PI * eio(lin(w.tf, w.tf + 0.34, t)), sc = eout(lin(w.tf + 0.28, w.tf + 1.15, t));
       const x = lerp(w.x, w.sx, sc), y = lerp(w.y, w.sy, sc), z = lerp(WALL_Z, w.sz, sc), spin = 0.35 * Math.sin(t * 0.9 + w.ph) * sc, tilt = 0.25 * Math.sin(t * 0.7 + w.ph * 1.3) * sc;
-      if (th2 < Math.PI / 2) { put(Z.wFront, i, x, y, z, 2.1 * (1 - 0.15 * sc), 0.94, 1, tilt, th2 + spin, 0); hide(Z.wBack, i); }
-      else { hide(Z.wFront, i); put(Z.wBack, i, x, y, z, 1.62 * (1 + 0.1 * sc), 1.0 * (1 + 0.1 * sc), 1, tilt, th2 + Math.PI + spin, 0); }
+      const nk = nearK(x, y, z);
+      if (nk < 0.02) { hide(Z.wFront, i); hide(Z.wBack, i); continue; }
+      if (th2 < Math.PI / 2) { put(Z.wFront, i, x, y, z, 2.1 * (1 - 0.15 * sc) * nk, 0.94 * nk, 1, tilt, th2 + spin, 0); hide(Z.wBack, i); }
+      else { hide(Z.wFront, i); put(Z.wBack, i, x, y, z, 1.62 * (1 + 0.1 * sc) * nk, 1.0 * (1 + 0.1 * sc) * nk, 1, tilt, th2 + Math.PI + spin, 0); }
     }
     Z.wFront.instanceMatrix.needsUpdate = true; Z.wBack.instanceMatrix.needsUpdate = true;
   }
@@ -118,21 +120,22 @@ export function updateZone(Z, t, TM, cam) {
     for (let i = 0; i < Z.rain.length; i++) {
       const r = Z.rain[i], y = 34 - ((t * r.sp + r.ph) % 34), tf = TM.juste + 0.08 + H(i, 8) * 0.35, k = lin(tf, tf + 0.2, t), bf = 1 - k;
       const rx = t * 1.6 + i, rz = Math.sin(t * 1.3 + i) * 0.6, fl = Math.PI * eio(k);
-      if (k < 0.5) put(Z.rBill, i, r.x, y, r.z, 1.5 * r.s * (1 - 0.0), 0.66 * r.s, 1, rx * 0.5, fl + 0.3 * Math.sin(t + i), rz); else hide(Z.rBill, i);
-      if (k >= 0.5) put(Z.rCert, i, r.x, y, r.z, 1.25 * r.s, 0.78 * r.s, 1, rx * 0.4, fl + Math.PI + 0.3 * Math.sin(t + i), rz); else hide(Z.rCert, i);
+      const nk = nearK(r.x, y, r.z);
+      if (k < 0.5) put(Z.rBill, i, r.x, y, r.z, 1.5 * r.s * nk, 0.66 * r.s * nk, 1, rx * 0.5, fl + 0.3 * Math.sin(t + i), rz); else hide(Z.rBill, i);
+      if (k >= 0.5) put(Z.rCert, i, r.x, y, r.z, 1.25 * r.s * nk, 0.78 * r.s * nk, 1, rx * 0.4, fl + Math.PI + 0.3 * Math.sin(t + i), rz); else hide(Z.rCert, i);
     }
     Z.rBill.instanceMatrix.needsUpdate = true; Z.rCert.instanceMatrix.needsUpdate = true;
   }
   // ---------------- univers flottant
-  const uOn = t >= TM.juste + 0.0 && t < 24.4, fadeU = 1 - sstep(24.02, 24.3, t); Z.certI.visible = Z.coinI.visible = Z.pieI.visible = Z.cardI.visible = uOn; Z.twI.forEach((m) => { m.visible = uOn; });
+  const uOn = t >= TM.juste + 0.0 && t < 24.4, fadeU = 1 - sstep(23.98, 24.28, t); Z.certI.visible = Z.coinI.visible = Z.pieI.visible = Z.cardI.visible = uOn; Z.twI.forEach((m) => { m.visible = uOn; });
   Z.rings.forEach((m, k) => { const b = TM.juste + 0.12 + k * 0.05, s = pop((t - b) / 0.4); m.visible = s > 0.01 && fadeU > 0.01; m.material.opacity = 0.55 * Math.min(1, s) * fadeU; m.scale.setScalar(1 + 0.02 * Math.sin(t * 3 + k)); });
   Z.tags.forEach((m) => { const k = pop((t - (TM.juste + 0.3 + m.userData.d)) / 0.25) * (1 - sstep(23.55, 23.68, t)); m.visible = k > 0.01; m.scale.setScalar(Math.max(0.001, k)); });
   Z.tunnelGlow.material.opacity = 0.0 + 0.55 * sstep(TM.juste + 0.15, TM.juste + 0.7, t) * (1 - sstep(23.9, 24.25, t)); Z.tunnelGlow.visible = Z.tunnelGlow.material.opacity > 0.01;
   if (uOn) {
-    Z.certs.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU; if (s < 0.01) { hide(Z.certI, i); return; } put(Z.certI, i, c.x + 0.4 * Math.sin(t * 0.7 + c.ph), c.y + 0.5 * Math.sin(t * 0.9 + c.ph * 1.7), c.z, s, s, s, 0.2 * Math.sin(t * 0.6 + c.ph), 0.5 * Math.sin(t * 0.5 + c.ph) + (c.x > 0 ? -0.35 : 0.35), 0.18 * Math.sin(t * 0.8 + c.ph)); });
-    Z.coins.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU; if (s < 0.01) { hide(Z.coinI, i); return; } put(Z.coinI, i, c.x, c.y + 0.5 * Math.sin(t * 1.1 + c.ph), c.z, s, s, s, 0.4 * Math.sin(t + c.ph), t * 2.2 + c.ph, 0); });
-    Z.pies.forEach((c, i) => { const s = pop((t - c.b) / 0.45) * c.s * fadeU; if (s < 0.01) { hide(Z.pieI, i); return; } put(Z.pieI, i, c.x, c.y + 0.4 * Math.sin(t * 0.8 + c.ph), c.z, s, s, s, 0.15 * Math.sin(t + c.ph) + (c.y > axisY(c.z) ? 0.25 : -0.25), 0.4 * Math.sin(t * 0.7 + c.ph) + (c.x > 0 ? -0.4 : 0.4), t * 0.9 + c.ph); });
-    Z.cards.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU; if (s < 0.01) { hide(Z.cardI, i); return; } put(Z.cardI, i, c.x, c.y + 0.4 * Math.sin(t * 0.9 + c.ph), c.z, s, s, s, 0, (c.x > 0 ? -0.45 : 0.45) + 0.12 * Math.sin(t * 0.6 + c.ph), 0); });
+    Z.certs.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU * nearK(c.x, c.y, c.z); if (s < 0.01) { hide(Z.certI, i); return; } put(Z.certI, i, c.x + 0.4 * Math.sin(t * 0.7 + c.ph), c.y + 0.5 * Math.sin(t * 0.9 + c.ph * 1.7), c.z, s, s, s, 0.2 * Math.sin(t * 0.6 + c.ph), 0.5 * Math.sin(t * 0.5 + c.ph) + (c.x > 0 ? -0.35 : 0.35), 0.18 * Math.sin(t * 0.8 + c.ph)); });
+    Z.coins.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU * nearK(c.x, c.y, c.z); if (s < 0.01) { hide(Z.coinI, i); return; } put(Z.coinI, i, c.x, c.y + 0.5 * Math.sin(t * 1.1 + c.ph), c.z, s, s, s, 0.4 * Math.sin(t + c.ph), t * 2.2 + c.ph, 0); });
+    Z.pies.forEach((c, i) => { const s = pop((t - c.b) / 0.45) * c.s * fadeU * nearK(c.x, c.y, c.z); if (s < 0.01) { hide(Z.pieI, i); return; } put(Z.pieI, i, c.x, c.y + 0.4 * Math.sin(t * 0.8 + c.ph), c.z, s, s, s, 0.15 * Math.sin(t + c.ph) + (c.y > axisY(c.z) ? 0.25 : -0.25), 0.4 * Math.sin(t * 0.7 + c.ph) + (c.x > 0 ? -0.4 : 0.4), t * 0.9 + c.ph); });
+    Z.cards.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU * nearK(c.x, c.y, c.z); if (s < 0.01) { hide(Z.cardI, i); return; } put(Z.cardI, i, c.x, c.y + 0.4 * Math.sin(t * 0.9 + c.ph), c.z, s, s, s, 0, (c.x > 0 ? -0.45 : 0.45) + 0.12 * Math.sin(t * 0.6 + c.ph), 0); });
     Z.twI.forEach((im) => { for (let k = 0; k < 8; k++) hide(im, k); });
     Z.tw.forEach((b) => { const s = pop((t - b.b) / 0.5) * fadeU; if (s < 0.005) return; put(Z.twI[b.c], b.k, b.x, (Z.twI[b.c].userData.h * s) / 2, b.z, 1, s, 1); });
     [Z.certI, Z.coinI, Z.pieI, Z.cardI, ...Z.twI].forEach((m) => { m.instanceMatrix.needsUpdate = true; if (m.instanceColor) m.instanceColor.needsUpdate = true; });
