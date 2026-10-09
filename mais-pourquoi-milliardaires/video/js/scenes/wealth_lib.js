@@ -36,10 +36,12 @@ export function makeQuestion({ depth = 0.62 } = {}) {
   const g2 = new T.ExtrudeGeometry(dotS, ext); g2.translate(0, 0, -depth / 2);
   const gt = mk(256, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, w, h); gr.addColorStop(0, "#fff0b8"); gr.addColorStop(0.35, "#f6c755"); gr.addColorStop(0.7, "#d9962a"); gr.addColorStop(1, "#a96f14"); g.fillStyle = gr; g.fillRect(0, 0, w, h);
     g.fillStyle = "rgba(255,255,255,.22)"; for (const [x0, wd] of [[0.2, 0.05], [0.55, 0.12]]) { g.beginPath(); g.moveTo(w * x0, 0); g.lineTo(w * (x0 + wd), 0); g.lineTo(w * (x0 + wd - 0.35), h); g.lineTo(w * (x0 - 0.35), h); g.fill(); } }, { repeat: [0.34, 0.34] }); gt.offset.set(0.3, 0.28);
+  const st = mk(256, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, w, h); gr.addColorStop(0, "#f2f7ff"); gr.addColorStop(0.35, "#b9cdee"); gr.addColorStop(0.7, "#7f98c4"); gr.addColorStop(1, "#4d6490"); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    g.fillStyle = "rgba(255,255,255,.3)"; for (const [x0, wd] of [[0.2, 0.05], [0.55, 0.12]]) { g.beginPath(); g.moveTo(w * x0, 0); g.lineTo(w * (x0 + wd), 0); g.lineTo(w * (x0 + wd - 0.35), h); g.lineTo(w * (x0 - 0.35), h); g.fill(); } }, { repeat: [0.34, 0.34] }); st.offset.set(0.3, 0.28);
   const front = new T.MeshLambertMaterial({ map: gt, color: 0xffffff, emissive: 0x5a3d06 });
   const side = new T.MeshLambertMaterial({ color: 0xb98524, emissive: 0x2c1c02 });
   const grp = new T.Group(); const body = new T.Mesh(g1, [front, side]); const dot = new T.Mesh(g2, [front, side]); grp.add(body, dot);
-  grp.userData = { front, side, body, dot };
+  grp.userData = { front, side, body, dot, goldMap: gt, steelMap: st };
   return grp;
 }
 

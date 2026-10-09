@@ -40,13 +40,11 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#030605}
   <!-- S1 -->
   <section class="clip" id="s-hook" data-start="0" data-duration="5.3" data-track-index="3"><div class="ov" style="top:215px">
     <div class="tt"><span id="h1">Et si on</span></div>
-    <div class="tt gold" style="font-size:118px"><span id="h2">redistribuait</span></div>
+    <div class="tt gold" style="font-size:100px"><span id="h2">redistribuait</span></div>
     <div class="tt"><span id="h3">tout&nbsp;?</span></div>
   </div></section>
   <!-- S2 -->
   <section class="clip" id="s-vrai" data-start="6.7" data-duration="1.05" data-track-index="3"><div class="ov" style="top:300px"><div class="tt red" id="vrai" style="font-size:150px"><span>Vraiment&nbsp;?</span></div></div></section>
-  <!-- S3 : source discrète des chiffres (FACTS.md F1 F2 F5) -->
-  <section class="clip" id="s-src3" data-start="9.0" data-duration="4.1" data-track-index="3"><div class="src mono" id="src3" style="top:1235px">Forbes (valeurs au 1er mars 2026), converti au taux BCE du 09/10/2026 · Banque mondiale (2024) · Scénario hypothétique, chiffres arrondis</div></section>
   <!-- S5 -->
   <section class="clip" id="s-prob" data-start="18.52" data-duration="2.66" data-track-index="3"><div class="ov" style="top:245px">
     <div class="tt"><span id="p1">Mais il y a</span></div>
@@ -109,7 +107,6 @@ out("#s-hook .ov", 5.15, 0.2, -50);
 // S2 « VRAIMENT ? »
 const tn = on(2, /non/); tl.fromTo("#vrai", { scale: 0.3, opacity: 0, rotation: -14 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.36, ease: "back.out(2.4)" }, tn - 0.04); tl.to("#vrai", { scale: 1.08, duration: 0.3, yoyo: true, repeat: 1 }, tn + 0.4);
 // S3 source discrète
-fade("#src3", 9.05, 0.9); out("#src3", 12.9, 0.2, 0);
 // S5 « MAIS IL Y A UN PROBLÈME… »
 slam("#p1", 18.55, { y: 80 }); slam("#p2", on(5, /problème/) - 0.1, { y: 80, s: 1.8 }); tl.to("#p2", { x: 6, duration: 0.05, yoyo: true, repeat: 5, ease: "none" }, on(5, /problème/) + 0.35);
 out("#s-prob .ov", 21.0, 0.2);

@@ -9,7 +9,8 @@ const scene = new T.Scene(); scene.background = new T.Color(0x030605); scene.fog
 const cam = new T.PerspectiveCamera(42, W / H, 0.1, 600);
 const mods = {};
 for (const id of Object.keys(MODULES)) {
-  const m = await import(`./scenes/${id}.js`); const g = m.build(); g.visible = false; scene.add(g);
+  let m; try { m = await import(`./scenes/${id}.js`); } catch (e) { console.error("module manquant :", id, e.message); m = { build: () => new T.Group(), update() {}, SHOTS: [{ t: 0, p: [0, 5, 20], l: [0, 2, 0], f: 45 }] }; }
+  const g = m.build(); g.visible = false; scene.add(g);
   mods[id] = { m, g, tr: shotList(m.SHOTS) };
 }
 let lastId = null;

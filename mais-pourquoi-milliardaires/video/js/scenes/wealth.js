@@ -69,14 +69,14 @@ export const SHOTS = [
   { t: 53.84, p: V(-14, 42, -14), l: V(HUB.x, 3, HUB.z + 1), f: 52, e: eio },
   { t: 54.12, p: V(-10, 36, -17), l: V(-6, 3, -50), f: 50, e: eio },
   { t: 54.4, p: V(-1, 22, -30), l: V(4.5, 3, -51), f: 44, e: eio },
-  { t: 54.6, p: V(6, 9, -37), l: V(7, 2.9, -51), f: 40, e: eio },
-  { t: 54.77, p: V(HERO_XZ[0], 3.2, HERO_XZ[1] + 9.4), l: V(HERO_XZ[0], 2.35, HERO_XZ[1]), f: 36 },
+  { t: 54.6, p: V(6, 9.5, -38), l: V(7, 2.9, -51), f: 42, e: eio },
+  { t: 54.77, p: V(HERO_XZ[0], 3.3, HERO_XZ[1] + 11.8), l: V(HERO_XZ[0], 2.0, HERO_XZ[1]), f: 40 },
   // S18 : montagne vue de face, flux, puis rapprochement du « ? »
   { t: 79.16, p: V(0, 3.0, 62), l: V(0, 9.5, 0), f: 62 },
   { t: 81.0, p: V(-1.0, 4.0, 58), l: V(0, 8.6, 4), f: 60, e: eio },
-  { t: 82.5, p: V(0.8, 4.6, 54), l: V(0, 7.2, 12.5), f: 56, e: eio },
-  { t: 83.5, p: V(0, 4.6, 49), l: V(0, 7.6, 12.5), f: 50, e: eio },
-  { t: 83.95, p: V(0, 4.5, 48), l: V(0, 7.6, 12.5), f: 49 },
+  { t: 82.5, p: V(0.8, 4.6, 54), l: V(0, 7.0, 12.5), f: 56, e: eio },
+  { t: 83.5, p: V(0, 4.5, 47), l: V(0, 5.9, 12.5), f: 50, e: eio },
+  { t: 83.95, p: V(0, 4.5, 46), l: V(0, 5.7, 12.5), f: 49 },
 ];
 const TR = shotList(SHOTS);
 const camPos = (t) => evalShots(t, TR).p;
@@ -110,7 +110,7 @@ export function update(g, t) {
 
   // ---------------- lumières
   if (isC) {
-    const lamp = 0.42 + 0.58 * sstep(0, 0.3, t); const doubt = sstep(TM.non, TM.non + 0.4, t) * (1 - sstep(7.9, 8.6, t)); const open = sstep(8.0, 9.4, t);
+    const lamp = 0.55 + 0.45 * sstep(0, 0.3, t); const doubt = sstep(TM.non, TM.non + 0.4, t) * (1 - sstep(7.9, 8.6, t)); const open = sstep(8.0, 9.4, t);
     const goldK = sstep(S2, S2 + 0.3, t) * (1 - sstep(TM.non - 0.02, TM.non + 0.2, t));
     mixHex(0xcfeee0, 0xbfe9d8, open, hemi.color); mixHex(hemi.color.getHex(), 0xffe6b8, goldK * 0.5, hemi.color); mixHex(hemi.color.getHex(), 0x9db8e0, doubt, hemi.color);
     hemi.groundColor.setHex(0x0a2a20); hemi.intensity = (1.25 + 0.2 * goldK - 0.25 * doubt) * lamp;
@@ -139,18 +139,18 @@ export function update(g, t) {
   hU.shell.visible = shellY > -31; hU.ceil.visible = ceilY < 45;
 
   // ---------------- montagne
-  if (isC) { const s = (1 + 0.15 * eio(lin(7.9, 9.4, t))) * (1 - 0.22 * eio(lin(10.7, 13, t))); mtn.scale.setScalar(s); }
+  if (isC) { const s = (1 + 0.3 * eio(lin(7.9, 9.4, t))) * (1 - 0.1 * eio(lin(10.7, 13, t))); mtn.scale.setScalar(s); }
   else if (isA) { const m = eio(lin(79.2, 82.6, t)); mtn.scale.set(1 - 0.08 * m, 1 - 0.24 * m, 1 - 0.08 * m); }
 
   // ---------------- salle
   if (hallVis) {
     // plafond : les rangées s'allument en 0,3 s à l'ouverture
     const strips = hU.strips; const lampT = isA ? 1 : sstep(0, 0.3, t);
-    for (let i = 0; i < hU.stripRows.length; i++) { const r = hU.stripRows[i]; const on = isA ? 1 : sstep(0.02 + r * 0.018, 0.1 + r * 0.018, t); const fl = 0.85 + 0.15 * Math.sin(t * 3 + i); strips.setColorAt(i, _c.setRGB(on * fl, on * fl * 0.98, on * fl * 0.9)); }
+    for (let i = 0; i < hU.stripRows.length; i++) { const r = hU.stripRows[i]; const on = isA ? 1 : 0.14 + 0.86 * sstep(0.02 + r * 0.018, 0.1 + r * 0.018, t); const fl = (0.8 + 0.12 * Math.sin(t * 3 + i)) * 0.9; strips.setColorAt(i, _c.setRGB(on * fl, on * fl * 0.98, on * fl * 0.9)); }
     strips.instanceColor.needsUpdate = true;
     hU.beams.forEach((b, i) => { b.material.opacity = 0.055 * (isA ? 1 : sstep(0.05 + i * 0.04, 0.3 + i * 0.04, t)) * (1 - 0.5 * sstep(TM.non, TM.non + 0.4, t)); });
     // feux de piste : chenillard vers la montagne
-    for (let k = 0; k < 17; k++) for (let sd = 0; sd < 2; sd++) { const i = k * 2 + sd; const on = isA ? 1 : sstep(0.1 + k * 0.012, 0.3 + k * 0.012, t); const ch = 0.35 + 0.65 * Math.pow(0.5 + 0.5 * Math.sin(t * 7 - k * 0.7), 2); const gold = (k % 4 === 0); hU.runway.setColorAt(i, gold ? _c.setRGB(1 * ch * on, 0.78 * ch * on, 0.3 * ch * on) : _c.setRGB(0.25 * ch * on, 0.95 * ch * on, 0.6 * ch * on)); }
+    for (let k = 0; k < 17; k++) for (let sd = 0; sd < 2; sd++) { const i = k * 2 + sd; const on = isA ? 1 : 0.1 + 0.9 * sstep(0.1 + k * 0.012, 0.3 + k * 0.012, t); const ch = 0.35 + 0.65 * Math.pow(0.5 + 0.5 * Math.sin(t * 7 - k * 0.7), 2); const gold = (k % 4 === 0); hU.runway.setColorAt(i, gold ? _c.setRGB(1 * ch * on, 0.78 * ch * on, 0.3 * ch * on) : _c.setRGB(0.25 * ch * on, 0.95 * ch * on, 0.6 * ch * on)); }
     hU.runway.instanceColor.needsUpdate = true;
     // écrans à chiffres : défilement type compteur
     hU.screens.forEach((s) => { s.tx.offset.y = ((t * (0.55 + 0.25 * s.ph) + s.ph) % 1); });
@@ -178,7 +178,8 @@ export function update(g, t) {
     const shrink = q1 ? 1 - eio(lin(7.95, 8.4, t)) : 1; sc *= Math.max(0.001, shrink);
     const bob = q1 && t < TM.non ? 0.12 * Math.sin(t * 2.3) : 0;
     qm.scale.set(sc, sc * squash, sc); qm.position.set(QPOS[0], 0.55 + 0.875 * sc * squash + yo + bob, QPOS[1]); qm.rotation.set(0, ry, 0);
-    const { front, side } = qm.userData; mixHex(0xffffff, 0x8ea6cf, doubt, front.color); mixHex(0x5a3d06, 0x0c1a32, doubt, front.emissive); mixHex(0xb98524, 0x55688a, doubt, side.color); mixHex(0x2c1c02, 0x08101e, doubt, side.emissive);
+    const { front, side } = qm.userData; const cold = doubt > 0.35; const nm = cold ? qm.userData.steelMap : qm.userData.goldMap; if (front.map !== nm) { front.map = nm; front.needsUpdate = true; } const fl = q1 ? Math.exp(-Math.pow((t - TM.non - 0.06) / 0.07, 2)) : 0;
+    mixHex(0xffffff, 0xdfe9ff, doubt, front.color); mixHex(0x5a3d06, 0x16253f, doubt, front.emissive); front.emissive.lerp(_c.setRGB(0.6, 0.6, 0.7), 0.45 * fl); mixHex(0xb98524, 0x55688a, doubt, side.color); mixHex(0x2c1c02, 0x08101e, doubt, side.emissive);
     qs.position.set(QPOS[0], 0.55 + 0.875 * sc + 1.5 * sc, QPOS[1] - 1.6); qs.scale.setScalar(sBase * 6.4 * Math.max(0.001, shrink)); qs.material.opacity = (0.48 + 0.3 * doubt) * Math.min(1, dt / 0.3);
     qg.position.set(QPOS[0], 0.55 + 0.875 * sc + 1.3 * sc, QPOS[1] + 1.2); qg.scale.setScalar(sBase * 5.2 * Math.max(0.001, shrink)); qg.material.opacity = 0.32 * (1 - doubt) * Math.min(1, dt / 0.3) + 0.12 * doubt; qg.material.color.setHex(doubt > 0.5 ? 0x9bbcff : 0xffc34d);
     const su = clamp(imp / 0.55); shock.position.set(QPOS[0], 0.12, QPOS[1]); shock.scale.setScalar(1 + 13 * eout(su)); shock.material.opacity = fall >= 1 ? 0.9 * (1 - su) : 0;
