@@ -21,8 +21,10 @@ export const moduleAt = (t) => Object.keys(MODULES).find((id) => inWindows(id, t
 export const wordsOf = (n) => scene(n).words;
 /** instant de début du k-ième mot de la scène n dont le texte (minuscules, sans ponctuation) correspond à re ; ex. onset(8, /vendre/) */
 export function onset(n, re, k = 0) {
+  const strip = (x) => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   const norm = (x) => x.toLowerCase().replace(/[^a-zàâçéèêëîïôûùüÿœ0-9']/g, "");
-  const hits = scene(n).words.filter((w) => re.test(norm(w[2]))); if (!hits[k]) throw new Error(`onset: mot introuvable scène ${n} ${re}`); return hits[k][0];
+  const re2 = new RegExp(strip(re.source), re.flags);          // accepte les motifs avec ou sans accents
+  const hits = scene(n).words.filter((w) => re.test(norm(w[2])) || re2.test(strip(norm(w[2])))); if (!hits[k]) throw new Error(`onset: mot introuvable scène ${n} ${re}`); return hits[k][0];
 }
 export const endOf = (n) => scene(n).end;
 export const startOf = (n) => scene(n).start;
