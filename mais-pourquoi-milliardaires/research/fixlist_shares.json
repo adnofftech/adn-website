@@ -1,0 +1,58 @@
+[
+ {
+  "scene": 6,
+  "severity": "majeur",
+  "t": 23.3,
+  "what": "Collision titre HTML / texte diégétique. Entre ≈23,15 et 23,55 s, « DU CASH » (y≈700-800) recouvre l'étiquette 3D « ACTIONS » (x 220-540, y 712-800), qui devient illisible (« …CIONS »). C'est le mot le plus important de la phrase pour la suite (S7 : actions). Le « ≠ » passe aussi sur l'anneau du coffre. « DU CASH » en menthe est sur le mur de billets verts, donc peu contrasté. Vérifié sur un rendu composite à 23,4 s.",
+  "where": "video/js/scenes/shares_vault.js (ligne 52, tableau Z.tags : y des trois étiquettes)",
+  "suggested_fix": "Descendre les étiquettes sous la zone titre (y>850 px) : ACTIONS y 14.3 -> 11.7, BÂTIMENTS y 10.6 -> 9.2, PARTICIPATIONS y 6.9 -> 6.6 (x inchangés, elles restent dans l'ouverture du coffre). Option complémentaire : mettre « DU CASH » (#c3) en doré ou en blanc avec contour sombre pour sortir du vert."
+ },
+ {
+  "scene": 6,
+  "severity": "mineur",
+  "t": 21.3,
+  "what": "L'enseigne « COFFRE-FORT » est coupée par le haut de la porte de 21,2 à 22,3 s (on lit « OFFRE-FORT »). Dès 22,35 s le titre « UNE / ≠ » la recouvre (« COF…RE-FORT » à 22,9 et 23,4 s).",
+  "where": "video/js/scenes/shares_lib.js (ligne 116, plaque plq : position y 18.2) et video/js/scenes/shares_vault.js (updateZone)",
+  "suggested_fix": "Remonter la plaque (y 18.2 -> 19.6) pour qu'elle ne soit plus masquée par la porte. La faire disparaître quand le titre arrive (opacité 1 -> 0 entre 22,3 et 22,7 s, via un champ V.plq exposé dans buildVault). Sinon, plus simple : plq.visible = t < 22.6."
+ },
+ {
+  "scene": 6,
+  "severity": "mineur",
+  "t": 24.04,
+  "what": "Fin de S6 : le sous-titre « L'ARGENT DANS UN COFFRE. » passe sur de gros certificats crème et un anneau doré. Le mot surligné « COFFRE. » (doré) est sur fond crème ou doré, avec un contraste faible, et le texte du certificat (« ACTION », « PART DU ») traverse « L'ARGENT ». Le texte reste lisible grâce à l'ombre, mais c'est fragile sur téléphone.",
+  "where": "video/index.html (zone #caps ; ajouter un voile) ou video/js/scenes/shares_vault.js (réduction de nearK pour les certificats dans la bande basse)",
+  "suggested_fix": "Ajouter un dégradé sombre discret derrière les sous-titres, juste avant #caps : <div class=\"fx\" style=\"top:1290px;height:280px;bottom:auto;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.4) 25%,rgba(0,0,0,.4) 75%,rgba(0,0,0,0))\"></div>. Ce voile est global, donc à valider avec les autres relecteurs."
+ },
+ {
+  "scene": 7,
+  "severity": "majeur",
+  "t": 27.34,
+  "what": "Pendant « sous forme d'actions », le panneau 3D « ENTREPRISE » (cadre doré) traverse la zone des sous-titres. À 27,34 s il est superposé à « SOUS FORME ». À 27,55 s il touche encore « D'ACTIONS. ». Deux textes se chevauchent au moment clé de la phrase, et les sous-titres perdent en lisibilité entre environ 27,2 et 27,64 s.",
+  "where": "video/js/scenes/shares_s7.js, fonction updateS7, ligne du panneau S.sign (positionné à y=2,2, z=7,4, donc au ras du sol devant la tour). Le plan caméra de shares.js autour de 27,64 s l'amène dans la zone y 1330-1530.",
+  "suggested_fix": "Faire disparaître le panneau quand « sous » démarre : S.sign.visible = k>0.01 && t < TM.sous (ou le multiplier par 1 - sstep(TM.sous-0.1, TM.sous+0.2, t)). À défaut, le relever à y≈12-13, au-dessus de la tour, hors de la bande des sous-titres."
+ },
+ {
+  "scene": 7,
+  "severity": "mineur",
+  "t": 26.7,
+  "what": "Sur « entreprises », le panneau « ENTREPRISE » est barré par les traits cyan et les impulsions blanches qui convergent vers la tour : les lettres PR sont hachées. Les étiquettes SALARIÉS et PRODUITS sont placées derrière les deux piles (z=-9,5). Elles sont lues « SALARI… » et « …DUITS », voire « RODUITS » à 27,34 s. Leurs icônes sont petites et en partie cachées. À 26,3 s, une étiquette est coupée au bord gauche du cadre. Le haut du cadre (environ 20 %) reste vide.",
+  "where": "video/js/scenes/shares_s7.js (const ICONS : positions de « salaries » et « produits » ; S.sign ; S.traces/S.pulses) et plans caméra de shares.js entre 26,1 et 27,4 s.",
+  "suggested_fix": "Remonter S.sign à y≈3,4. Faire passer salariés et produits à z≈+3…+9 (devant ou sur les côtés, x=±8,6), pas derrière les tours. Agrandir les étiquettes d'environ 20 %. Faire s'arrêter les traits à 1 m du panneau."
+ },
+ {
+  "scene": 7,
+  "severity": "mineur",
+  "t": 26,
+  "what": "La barre F3 (73 %/26 %) n'est pleinement lisible que pendant environ 0,7 s : elle surgit à 25,45 s et s'efface à partir de 25,9 s. C'est court pour deux chiffres et une source. Elle masque aussi la moitié basse de la part dorée qu'on vient de mettre en évidence. La ligne de source (22 px) touche le bord droit du cadre. Le « % » de « ~26 % » déborde presque du segment doré.",
+  "where": "video/js/scenes/shares_s7.js : hudTex() et le bloc « barre F3 » (facteur 1 - sstep(TM.entreprises-0.2, TM.entreprises+0.05, t)).",
+  "suggested_fix": "Prolonger le maintien jusqu'à TM.entreprises+0.35 (environ 26,45 s). Réduire la ligne de source à 20 px ou la raccourcir (« Altrata 2026 (données 2025) · moyenne »). Mettre « ~26 % » à 54 px."
+ },
+ {
+  "scene": 7,
+  "severity": "mineur",
+  "t": 25.99,
+  "what": "Des icônes d'actionnaires se superposent. À 25,99 s, l'icône rouge est cachée derrière le cercle doré de l'investisseur (un arc rouge dépasse). À 26,7 s, le cercle teal « groupe » recouvre le cercle bleu « banque ». Sous l'investisseur doré, la pile de pièces vue de tranche forme une tache jaune informe.",
+  "where": "video/js/scenes/shares_s7.js, bloc S.inv (positions tx/tz/iy des icônes non dorées) et bloc « pièces ».",
+  "suggested_fix": "Décaler les icônes non dorées en hauteur (iy +1,8 pour B/T) et latéralement. Orienter les pièces (rotation x) pour qu'elles se lisent comme des disques, ou réduire leur nombre à 6."
+ }
+]

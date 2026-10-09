@@ -1,0 +1,90 @@
+[
+ {
+  "scene": 2,
+  "severity": "majeur",
+  "t": 7.1,
+  "what": "« VRAIMENT ? » est trop large pour le cadre : à t=7,40 il va de x≈40 à x≈1045 (≈1005 px pour une zone de titre de 960 px et une marge droite de 150 px à respecter). L'animation ajoute en plus un dépassement (back.out 2,4 : échelle ≈1,12 vers t≈7,09, soit ≈1130 px) puis une pulsation à 1,08 vers t≈7,64 (≈1085 px). Le V et le ? sont donc coupés ou collés au bord du cadre pendant ces instants.",
+  "where": "video/index.html (section #s-vrai, div #vrai, style font-size:150px ; tween GSAP « S2 VRAIMENT ? »)",
+  "suggested_fix": "Passer #vrai de font-size:150px à 118px (largeur ≈790 px, ≈890 px au pic de dépassement, donc dans la zone sûre). Option : réduire l'overshoot à back.out(1.7) et la pulsation à scale 1.05."
+ },
+ {
+  "scene": 2,
+  "severity": "mineur",
+  "t": 7.4,
+  "what": "Rouge (#ff4a3d) sur le bleu saturé du « ? » : les deux ont une luminance proche, le titre vibre un peu. Il reste lisible grâce à l'ombre portée, mais c'est le point le plus faible en lisibilité du titre.",
+  "where": "video/index.html (CSS .tt.red ou style de #vrai)",
+  "suggested_fix": "Ajouter un contour sombre au titre (par exemple -webkit-text-stroke: 5px #04100b avec paint-order: stroke fill) ou une ombre plus dense, uniquement pour #vrai."
+ },
+ {
+  "scene": 3,
+  "severity": "mineur",
+  "t": 10.44,
+  "what": "La mention légale F5 (« Scénario hypothétique. Chiffres arrondis : Forbes (1er mars 2026), Banque mondiale (2024), Altrata (2025). ») prévue par FACTS pour « S3 et fin » n'apparaît pas en S3 (le commentaire « S3 source discrète » d'index.html est vide ; #legal n'est affiché que de 79,4 à 83,96).",
+  "where": "video/index.html (nouvelle section clip « legal » pour S3 + tween fade)",
+  "suggested_fix": "Ajouter un second bloc .src mono (copie de #legal) de data-start=\"8.9\" à \"12.4\", positionné sous les sous-titres (top:1560px) pour ne pas heurter la ligne source du panneau 824 M (~y 1270 à 1310), avec un fade-in/out de 0,3 s."
+ },
+ {
+  "scene": 5,
+  "severity": "mineur",
+  "t": 19.85,
+  "what": "Le titre est coupé en 3 lignes (« MAIS IL Y A / UN / PROBLÈME… »), avec « UN » orphelin sur sa ligne. « PROBLÈME… » va de x≈108 à x≈975, au-delà de la marge droite de 150 px (x>930). Entre 19,85 et 21,0 s le titre occupe y 250-610 et recouvre le haut de l'écran BOURSE puis l'écran MARCHÉ (20,3 à 21,0 s). Le rouge sur les chandeliers bordeaux est un peu faible.",
+  "where": "video/index.html (section #s-prob : #p1, #p2, classe .tt ; font-size 128px)",
+  "suggested_fix": "Passer à deux lignes : <div class=\"tt\" style=\"font-size:104px\"><span id=\"p1\">Mais il y a un</span></div> puis <div class=\"tt red\" style=\"font-size:116px\"><span id=\"p2\">problème…</span></div>. Le texte reste identique, il n'y a plus d'orphelin et le titre tient dans les marges (≈ y 250-520). Garder les slams et timings actuels (p1 à 18,55 s, p2 à on(5,/problème/)-0.1)."
+ },
+ {
+  "scene": 5,
+  "severity": "mineur",
+  "t": 20,
+  "what": "Le sous-titre sépare la négation : la page « ÉNORME PROBLÈME AUQUEL ON NE » (19,02 à 20,46 s) puis « PENSE PAS. » (20,46 à 21,18 s). « ne » est lu seul en fin de page, avant « pense pas ».",
+  "where": "scripts/make_captions.py (regroupement des mots de la scène 5), puis régénérer video/js/captions.js",
+  "suggested_fix": "Regrouper en « ÉNORME PROBLÈME » (19,02 à 19,94 s) puis « AUQUEL ON NE PENSE PAS. » (19,94 à 21,18 s). Le texte prononcé n'est pas modifié."
+ },
+ {
+  "scene": 6,
+  "severity": "mineur",
+  "t": 22.76,
+  "what": "Le sous-titre « CE N'EST PAS JUSTE DE » se coupe en laissant « DE » seul sur la 2e ligne (de 22,4 à 23,2 s), ce qui donne une typographie orpheline.",
+  "where": "scripts/make_captions.py (regroupement de la scène 6), puis régénérer video/js/captions.js",
+  "suggested_fix": "Forcer une coupure avant « DE » : page « CE N'EST PAS JUSTE » (22,4 à 23,02 s), puis « DE L'ARGENT DANS UN COFFRE. » (23,02 à 24,34 s). Le texte prononcé n'est pas modifié."
+ },
+ {
+  "scene": 8,
+  "severity": "mineur",
+  "t": 30.1,
+  "what": "Sous-titre : « LES » et « MILLIARDAIRES » sont collés (« LESMILLIARDAIRES », sans espace visible). Le mot en surbrillance passe à l'échelle 1,07 et son grand débord mange l'espace de 24 px de la ligne. Le même risque existe pour d'autres mots longs mis en surbrillance, dans toute la vidéo.",
+  "where": "video/index.html : règle .cap (gap:4px 24px) et la tween de surbrillance (scale 1.07, dans le forEach des captions).",
+  "suggested_fix": "Passer l'échelle de surbrillance à 1,03. Ou ajouter .cap i{margin:0 8px} et gap 32px. Ou utiliser transform-origin:center bottom avec un scale de 1,04 maximum."
+ },
+ {
+  "scene": 9,
+  "severity": "mineur",
+  "t": 35.36,
+  "what": "Le sous-titre « FORCÉMENT ASSEZ D'ACHETEURS. RÉSULTAT ? » affiche le premier mot de la scène 10 (« RÉSULTAT ? ») dès 34,26 s, soit environ 1,4 s avant qu'il soit prononcé (35,66 s). Le bloc chevauche la frontière des scènes 9 et 10 et dévoile la suite.",
+  "where": "scripts/make_captions.py (regroupement des mots en blocs) puis video/js/captions.js régénéré.",
+  "suggested_fix": "Forcer une coupure de bloc aux fins de phrase (mot finissant par . ? … ou changement de scène dans timing.json). « RÉSULTAT ? » démarre alors un nouveau bloc à 35,66 s."
+ },
+ {
+  "scene": 16,
+  "severity": "mineur",
+  "t": 65.02,
+  "what": "Sous-titre « REDISTRIBUERUNE FORTUNE PEUT » : l'espace entre REDISTRIBUER et UNE disparaît. Le mot actif est agrandi à 1.07, et comme il est très long (~570 px) il dévore le gap de 24 px. À 67,81 les espaces sont corrects.",
+  "where": "video/index.html ligne 149 (scale: 1.07) et CSS .cap gap (ligne 26)",
+  "suggested_fix": "Mettre le scale du mot actif à 1.03, ou passer .cap à gap:4px 34px. Alternative : transform-origin bas et marge horizontale sur .cap i."
+ },
+ {
+  "scene": 18,
+  "severity": "majeur",
+  "t": 83.66,
+  "what": "Doublon de texte à l'écran : « TU LE FERAIS ? » apparaît deux fois en même temps, en gros titre (haut, y≈310–590) et en sous-titre karaoké (y≈1430). Ça dure de ~82,67 à ~83,79 : le titre slamme à 82,67, le dernier chunk de sous-titres est affiché de 82,6 à 83,79. Pour la composition finale que la directive veut « forte et immédiatement lisible », la répétition affaiblit l'effet.",
+  "where": "video/index.html, boucle des sous-titres (lignes 144-151) et lignes 127-129",
+  "suggested_fix": "Ne pas créer le dernier chunk de sous-titres, dont le texte est exactement celui du titre, par exemple en tête de boucle : if (c.w.map(x=>x[2]).join(' ') === 'TU LE FERAIS ?') return; Le titre cinétique (Tu le / ferais ?) joue le rôle de sous-titre synchronisé. Variante : garder le sous-titre jusqu'à 82,6 et ne glisser le titre qu'à la fin de la voix (~83,36), ce qui raccourcit son temps d'affichage."
+ },
+ {
+  "scene": 18,
+  "severity": "mineur",
+  "t": 83.66,
+  "what": "La mention F5 (23 px) manque de contraste : à 81,44 sa première partie est crème sur le pilier de pièces beige, et à 83,66 elle passe sur la figurine blanche et les billets. Elle frôle aussi le point du « ? » 3D juste au-dessus. Elle reste lisible grâce à l'ombre, mais elle est fragile sur téléphone.",
+  "where": "video/index.html, CSS .src (ligne 28) et #legal (ligne 82)",
+  "suggested_fix": "Ajouter un fond discret, par exemple background:rgba(4,16,11,.55); padding:6px 14px; border-radius:10px; ou renforcer le text-shadow. Descendre légèrement #legal (top:1255→1275) pour dégager le « ? »."
+ }
+]

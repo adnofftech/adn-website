@@ -8,18 +8,33 @@ chunks, cur = [], []
 def flush():
     global cur
     if cur: chunks.append(cur); cur = []
+# scène de chaque mot (pour ne jamais faire déborder un groupe sur la scène suivante)
+scene_of = [sc["n"] if "n" in sc else i + 1 for i, sc in enumerate(T["scenes"]) for _ in sc["words"]]
+# coupures voulues avant un mot (scène, mot déjà en majuscules) : évite « NE » ou « DE » seuls en fin de ligne
+BREAK_BEFORE = {(5, "AUQUEL"), (6, "DE")}
+MAXC = 28  # 2 lignes maximum à 66 px dans 860 px de large
+seen_break = set()
 for n, w in enumerate(words):
+    up = w[2].upper()
+    if cur:
+        txt0 = " ".join(x[2] for x in cur)
+        newscene = scene_of[n] != scene_of[n - 1]
+        brk = (scene_of[n], up) in BREAK_BEFORE and (scene_of[n], up) not in seen_break and (scene_of[n] != 6 or cur[-1][2].upper().startswith("JUSTE"))
+        toolong = len(cur) >= 3 and len(txt0) + 1 + len(w[2]) > MAXC and not (endp(w[2]) and len(txt0) + 1 + len(w[2]) <= MAXC + 6)
+        if newscene or brk or toolong:
+            if brk: seen_break.add((scene_of[n], up))
+            flush()
     cur.append(w); txt = " ".join(x[2] for x in cur)
     nxt = words[n + 1][2] if n + 1 < len(words) else ""
     absorb = endp(nxt) or nxt.endswith(",")
     if endp(w[2]): flush()
     elif w[2].endswith(",") and len(cur) >= 3: flush()
-    elif (len(cur) >= 5 or len(txt) > 26) and not absorb: flush()
-    elif len(cur) >= 6 or len(txt) > 34: flush()
+    elif (len(cur) >= 5 or len(txt) > 22) and not absorb: flush()
+    elif len(cur) >= 6 or len(txt) > MAXC: flush()
 flush()
 merged = []
 for c in chunks:
-    if merged and len(c) == 1 and len(merged[-1]) <= 5 and c[0][0] - merged[-1][-1][1] < 0.5: merged[-1] += c
+    if merged and len(c) == 1 and len(merged[-1]) <= 5 and c[0][0] - merged[-1][-1][1] < 0.5 and not endp(merged[-1][-1][2]): merged[-1] += c
     else: merged.append(c)
 out = []
 for k, c in enumerate(merged):

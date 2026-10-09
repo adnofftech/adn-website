@@ -1,0 +1,74 @@
+[
+ {
+  "scene": 11,
+  "severity": "majeur",
+  "t": 42.05,
+  "what": "Les sous-titres (y 1330-1550) masquent le bas du plan, qui est justement la 2e couche voulue par la directive : machines, convoyeur et employés. À 42.05 les têtes et torses des 5 employés sont derrière « ELLES POURRAIENT ». Sur mes rendus 3D à 40.5 et 41.2, convoyeur, caisses et employés occupent y≈1400-1640 et le pied des bras y≈1300-1450. Pendant presque toute la phrase, « les machines et employés continuent » est partiellement caché. La jauge occupe aussi le haut (label à y<100, hors zone de sécurité, voir ci-dessous).",
+  "where": "video/js/scenes/impact.js : SHOTS de S11 (clés t11.bourse+0.3, t11.attirer, t11.financer+0.1, 45.3) + position de la jauge (gx/gy, lblV, lblA)",
+  "suggested_fix": "Resserrer la mise en page verticale pour que l'usine soit dans y≈700-1300 px. Raccourcir la jauge (tube h 9 → 6) et la baisser (gy 18 → ~14). Descendre l'étiquette lblV (gy+6.2 → gy+4.5) et lblA (y 9.2 → 8.2). Viser plus bas sur ces clés (l.y et p.y d'environ -4 à -5 unités). Valider par capture à 40.5, 42.05 et 44.4 : employés au-dessus de y≈1300 et « VALEUR EN BOURSE » sous y≈200."
+ },
+ {
+  "scene": 11,
+  "severity": "majeur",
+  "t": 45.34,
+  "what": "Le libellé « PROJETS DE DÉVELOPPEMENT » est tronqué par le bord droit : « PROJETS DE DÉVELOPPEMEN » à 45.34, et déjà à 44.4 sur mon rendu 3D. Le 3e projet vert est coupé à droite et un fragment « E » d'« ACTIVITÉ RÉELLE » reste collé au bord gauche. Le texte est coupé sur plus d'une seconde, pendant les derniers mots de la phrase.",
+  "where": "video/js/scenes/impact.js : U.lblP = textPlane('PROJETS DE DÉVELOPPEMENT', {w:12, size:0.5}) et clés SHOTS t11.financer+0.1 et 45.3 (p.x=24 puis 18)",
+  "suggested_fix": "Mettre le libellé sur 2 lignes (« PROJETS DE / DÉVELOPPEMENT ») ou le réduire (w 8, size ≈0.36). Centrer la caméra sur les projets (p.x = l.x = 21) et reculer (p.z 26 → ~34) pour que les 3 projets (x 16 à 26.4) et leur label tiennent dans le cadre."
+ },
+ {
+  "scene": 11,
+  "severity": "mineur",
+  "t": 41.8,
+  "what": "Le label « VALEUR EN BOURSE » sort du cadre par le haut. À 41.8 il est à moitié coupé, à 42.05 il est absent, alors que la jauge rouge et la flèche restent visibles sans légende. À 40.5 il est à y≈55-105 et chevauche le badge « MAIS POURQUOI ? ». Il est donc hors de la zone de sécurité (y<260) pendant « Elles pourraient avoir plus de mal à attirer… ».",
+  "where": "video/js/scenes/impact.js : U.lblV.position (gy+6.2) + clés SHOTS 41.32 et 42.82",
+  "suggested_fix": "Même correctif que ci-dessus : rapprocher le label de la jauge (gy+4.5) et garder y_label ≥ 260 px dans toutes les clés. Au minimum, garder le label visible jusqu'à 42.6."
+ },
+ {
+  "scene": 11,
+  "severity": "mineur",
+  "t": 38.76,
+  "what": "Entrée de la scène : à 38.76, pendant « Certaines entreprises », l'image est surtout un mur de graphique sombre avec sa grille, un bout de courbe rouge sous les sous-titres et un liseré doré du bâtiment à droite. L'entreprise n'est identifiable qu'à partir d'environ 38.9 (tour de bureaux et usine visibles sur mon rendu). Il y a 0,4 s de plan peu lisible au début de la phrase.",
+  "where": "video/js/scenes/impact.js : SHOTS, 1re clé (38.46) et 2e clé (39.3)",
+  "suggested_fix": "Avancer la 2e clé de 39.3 à ~38.85, ou démarrer plus large (p [ox-8,5,24], l [ox-2,5,0]) avec le mur rouge en avant-plan gauche, pour que la tour et l'usine soient déjà dans le cadre à « entreprises » (38.82)."
+ },
+ {
+  "scene": 11,
+  "severity": "mineur",
+  "t": 43.5,
+  "what": "Les 7 silhouettes « investisseurs » sont translucides (opacité 0.55) et se superposent en file : sur mes rendus à 43.5 et 44.4, des corps fantômes s'empilent. Aucune légende ne dit qu'il s'agit d'investisseurs, alors que « investisseurs » est dit à 43.28-43.98. Le sens (ils s'éloignent ou hésitent) reste ambigu.",
+  "where": "video/js/scenes/impact.js : U.inv (opacité 0.55, positions z = 8+(i%4)*1.6)",
+  "suggested_fix": "Passer l'opacité à ~0.85 et espacer les silhouettes en x et z pour éviter la superposition. Ajouter une étiquette discrète « INVESTISSEURS » (textPlane) au-dessus du groupe entre onset(11,/investisseurs/) et +1,2 s."
+ },
+ {
+  "scene": 12,
+  "severity": "majeur",
+  "t": 50.3,
+  "what": "La contagion paraît uniforme, ce que la directive interdit (« les lignes ne doivent pas suggérer que chaque acteur est touché de la même manière »). À 49.6, 50.3 et 51.0, les 7 écrans sont tous rouges avec des courbes qui chutent presque pareil. Banques, usines, maisons et personnes ne changent pas d'apparence, et tous les liens ont la même couleur et la même épaisseur. Cause : tous les nœuds « screen » ont inten ≥ 0.5, donc a > 0.15 et la courbe passe au rouge, et les nœuds non-écran n'ont aucun rendu dépendant de act().",
+  "where": "video/js/scenes/impact.js : NODE_DEF.inten (écrans aux indices 0,1,5,9,12,14,19), seuil `a > 0.15` dans drawScreen(), matériaux des nœuds bank/firm/activity/investor",
+  "suggested_fix": "Baisser inten à 0.10-0.18 pour 2 ou 3 écrans périphériques (par exemple idx 5, 12, 19) afin qu'ils restent verts ou quasi plats à la fin. Pour les non-écrans, moduler la couleur selon act(i,t) (légèrement rougie ou assombrie si inten élevé, neutre sinon). Faire varier la teinte des liens selon max(act). Résultat attendu : quelques acteurs touchés fortement, d'autres peu ou pas."
+ },
+ {
+  "scene": 12,
+  "severity": "mineur",
+  "t": 51,
+  "what": "À 51.0, les sous-titres (y 1330-1550) recouvrent les torses des 4 milliardaires, qui sont pourtant le référent des deux derniers mots. Le label 3D « MILLIARDAIRES » (y≈1235) fait doublon avec le mot du sous-titre 230 px plus bas, et il passe sur la tête d'un nœud « investisseur » bleu, ce qui donne « MILL▮ARDAIRES ». Les 25 % supérieurs du cadre (y<350) sont vides alors que le réseau est petit.",
+  "where": "video/js/scenes/impact.js : 2 dernières clés SHOTS (t12.seuls et E-0.01), U.bill / U.lblB",
+  "suggested_fix": "Remonter l'ensemble : l.y 14.5 → ~9 et p.y 15.5 → ~10 sur ces 2 clés, pour décaler le réseau d'environ 180-200 px vers le haut. Les milliardaires passent alors au-dessus de y≈1300 et le haut du cadre est utilisé. Décaler lblB (x ou y) pour qu'il ne chevauche pas le nœud investisseur, ou le supprimer puisque le sous-titre le dit."
+ },
+ {
+  "scene": 12,
+  "severity": "mineur",
+  "t": 49.6,
+  "what": "Lisibilité du réseau final. Les « entreprises » sont des cubes bleu marine unis avec une cheminée, très sombres, peu identifiables. Les liens sont des lignes d'un pixel presque invisibles à taille téléphone : seules les billes crème se voient, ce qui rend l'« onde » et les « lignes lumineuses » peu lisibles. Les personnes ordinaires sont rares (2 ou 3 silhouettes bleues, dont une cachée derrière un écran) face aux 4 milliardaires au premier plan, ce qui affaiblit « bien plus de monde ».",
+  "where": "video/js/scenes/impact.js : build() (nœuds kind 'firm', U.links LineSegments, liste kinds)",
+  "suggested_fix": "Donner aux entreprises la texture de fenêtres winTex() et un emissive léger, comme la tour de S11. Remplacer ou doubler les liens par de fins cylindres instanciés (rayon ≈0.05, additifs). Ajouter 6 à 8 petites silhouettes civiles (makePerson scale ≈0.9) près des maisons et usines. Un anneau lumineux qui s'étend depuis le nœud 0 rendrait l'onde plus lisible."
+ },
+ {
+  "scene": 12,
+  "severity": "mineur",
+  "t": 45.45,
+  "what": "Trou noir au raccord S11 vers S12. La caméra interpole de 45.3 à 45.64 (eio) sur environ 70 unités de sol vide, sans cut ni flash. À 45.45 l'image est entièrement noire (ciel et grille presque invisibles), pendant environ 3 à 4 images, avec seulement le sous-titre « LEUR DÉVELOPPEMENT. » par-dessus.",
+  "where": "video/js/scenes/impact.js : SHOTS, clés 45.3 et 45.64 ; video/index.html : flashs de transition",
+  "suggested_fix": "Faire un vrai cut : ajouter {t:45.63, même pose que la clé 45.3} juste avant {t:45.64, ...}, et un flash(45.64, '#ff9a8a', 0.3, 0.2) dans index.html pour l'habiller, comme à 38.46 et 51.3."
+ }
+]

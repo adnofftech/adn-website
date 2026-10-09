@@ -1,0 +1,74 @@
+[
+ {
+  "scene": 15,
+  "severity": "mineur",
+  "t": 64.42,
+  "what": "Les en-têtes de facture sont tronqués par la largeur du papier : « NOURRITURI » et « TRANSPOR » coupés à droite, « LOGEMENT » qui touche le bord, et « ÉNERGIE » presque illisible (texte blanc sur en-tête orange pâle et grisé). Le même défaut est déjà visible sur la petite facture « LOGEMENT » à 59,74 s. Les en-têtes sont aussi petits pour un téléphone.",
+  "where": "video/js/scenes/durable_kit.js (fonction texInvoice, ligne du fillText de l'étiquette)",
+  "suggested_fix": "Dimensionner la police par mesure : g.font = 900 ${s}px ; réduire s tant que g.measureText(label).width > w - 82 - 10. Environ 22 px pour NOURRITURE et TRANSPORT, 26 px pour LOGEMENT. Assombrir un peu l'en-tête d'ÉNERGIE pour garder le contraste avec le blanc."
+ },
+ {
+  "scene": 15,
+  "severity": "mineur",
+  "t": 59.74,
+  "what": "Incohérence de logique au tout début. Le calendrier démarre à 59,14 s, soit 0,3 s avant le début de la scène, à 27 jours par seconde. Au premier plan visible, JANVIER a déjà ses jours barrés jusqu'au 16 (QC 59,74 s), alors que la pile est encore pleine et la jauge « SOLDE » à 100 % (le rendu 3D à 59,5 s montre même la jauge en train de se remplir). Le temps semble avancer sans que l'argent baisse. Les billets ne partent qu'à partir de 59,88 s.",
+  "where": "video/js/scenes/durable_s15.js (constantes PERIOD_A et RATE, FLIPS)",
+  "suggested_fix": "Faire commencer le décompte vers 59,6 à 59,8 s, c'est-à-dire PERIOD_A[0] ≈ 59.7, puis accélérer RATE du premier mois (≈ 45 j/s) pour que JANVIER finisse toujours au flip de 60,26 s. Ou masquer les croix du calendrier tant que la pile n'est pas complète."
+ },
+ {
+  "scene": 15,
+  "severity": "mineur",
+  "t": 62.08,
+  "what": "La plaque « REVENU STABLE » est trop petite pour un écran de téléphone (lettres d'environ 18 px de haut dans un cadre 1080 px de large), sombre sur sombre, et elle n'est pas encore là à l'instant du QC (elle apparaît à 62,12 s, sur « revenus »). Au moment échantillonné, le tuyau seul porte une étiquette « FERMÉ » sans mention de ce qu'il représente. Le tuyau est aussi coupé par le bord gauche du cadre.",
+  "where": "video/js/scenes/durable_s15.js (textPlane « REVENU STABLE », la ligne PIPE, et la fonction pop sur T15.revenus)",
+  "suggested_fix": "Agrandir la plaque (w 1,1 à 1,8, h 0,26 à 0,42), éclaircir son fond et sa bordure, et la faire apparaître sur « toujours » (T15.toujours, 61,58 s) au lieu de « revenus ». Décaler PIPE.x0 de -2,8 à -2,2 pour que le robinet soit plus central dans le cadre."
+ },
+ {
+  "scene": 15,
+  "severity": "mineur",
+  "t": 64.42,
+  "what": "Le plan final recadre le calendrier d'avril, qui est coupé par le haut du cadre. Le badge « MAIS POURQUOI ? » se superpose aux croix rouges et aux icônes du calendrier : encombrement visuel et texte du badge moins net.",
+  "where": "video/js/scenes/durable.js (dernière clé de SHOTS pour S15, t = B15 - 0.01) ou durable_s15.js (visibilité du calendrier en fin de scène)",
+  "suggested_fix": "Baisser légèrement la cible de la dernière clé caméra (l.y de 1,1 à 0,8) pour sortir le calendrier du haut du cadre, ou faire disparaître le calendrier (échelle ou opacité) à partir d'environ 64,0 s pour que seuls le solde et les factures restent à l'image."
+ },
+ {
+  "scene": 16,
+  "severity": "majeur",
+  "t": 70.6,
+  "what": "Les titres HTML et les étiquettes 3D se chevauchent. Les bandeaux lointains « STABILITÉ DURABLE », « ÉDUCATION » et « SERVICES » passent juste derrière « RÉSOUDRE » et « DURABLEMENT ». On voit des textes fantômes (« ST▢B▢LIT▢… », « ÉD…TI… S…C… ») qui salissent le titre et sont illisibles, alors que l'éducation et les services sont justement des éléments demandés par la directive. Le titre occupe y≈250–735 px, et la plateforme est trop haute dans le cadre au dernier plan.",
+  "where": "video/index.html (section #s-aider, lignes 71-76) et video/js/scenes/durable.js (clés SHOTS S16 à t=70.25 et B16-0.01) ; accessoirement video/js/scenes/durable_s16.js (S.labR, ligne 87)",
+  "suggested_fix": "Rendre le titre plus compact et plus haut pour que son bas soit ≤ ~580 px, au-dessus du premier bandeau 3D. Par exemple #s-aider .ov top:150px, tailles a1≈112px, a2≈140px, a3≈90px, a4≈86px. Faire disparaître S.labR (« STABILITÉ DURABLE ») dès T16.durablement+0.3, puisqu'il répète le titre. Si on préfère décaler la caméra, viser plus loin (l z ≈ -4.5 sur les deux dernières clés) mais surveiller que les accessoires ne descendent pas sous le sous-titre à y≈1400. Revérifier à 69,6 et 70,6."
+ },
+ {
+  "scene": 16,
+  "severity": "majeur",
+  "t": 70.6,
+  "what": "Les étiquettes des tuiles sont mal associées à leurs objets dans la composition finale (caméra haute et étiquettes flottant à y=3.5). « LOGEMENTS » est posé sur le mortier de diplôme (éducation), « SOINS » sur le bus (services), « REVENUS » sous la maison, et « EMPLOIS » sous l'hôpital à croix rouge. Le spectateur lit « diplôme = logements » et « maison = revenus ». C'est une erreur de sens au moment de la conclusion visuelle.",
+  "where": "video/js/scenes/durable_s16.js ligne 82 : lab.position.set(0, 3.5, 0.5)",
+  "suggested_fix": "Rapprocher chaque étiquette de son propre socle : par exemple lab.position.set(0, 1.4, 1.5), devant et au pied du socle. On peut aussi ajouter un petit trait vertical entre l'étiquette et l'objet, ou diminuer la hauteur d'accroche. Vérifier qu'à 68,6 et 69,7 (caméra plus basse) l'étiquette n'est pas masquée par la rangée de tuiles qui est devant."
+ },
+ {
+  "scene": 16,
+  "severity": "mineur",
+  "t": 67.81,
+  "what": "Le bandeau « ARGENT IMMÉDIAT » est coupé par le bord gauche du cadre (on lit « RGENT IMMÉDIAT ») pendant le traveling vers la ligne de partage. Le petit libellé « REVENUS » sur la plateforme de droite est minuscule et illisible à cet instant. Dans le code, le setS qui réduit le bandeau après « Mais » est écrasé par le S.labL.scale.set(pop,pop,1) de la ligne suivante, donc le bandeau garde sa pleine taille.",
+  "where": "video/js/scenes/durable_s16.js ligne 115 (S.labL)",
+  "suggested_fix": "Retirer le second scale.set (ou le multiplier par le facteur de réduction) pour que le bandeau rétrécisse après « Mais ». Sinon le masquer à T16.mais+0.4, ou le décaler à x = LX+1.2. Il est déjà lu à 65,02."
+ },
+ {
+  "scene": 16,
+  "severity": "mineur",
+  "t": 65.02,
+  "what": "Les sous-titres (y≈1330–1530) recouvrent le bas du tas de billets à 65,02, et le bas des personnes et de la ligne de partage dorée à 67,81. Ce sont les éléments clés du côté gauche. Rien de fatal, car le texte reste lisible grâce à l'ombre.",
+  "where": "video/js/scenes/durable.js, clés SHOTS S16 à B15, 65.9 et 67.0",
+  "suggested_fix": "Remonter le cadrage de ~120–150 px : baisser un peu l.y du point visé (3.4→2.6) sur les trois premières clés S16, pour que le tas et le groupe de personnes restent au-dessus de y≈1330."
+ },
+ {
+  "scene": 17,
+  "severity": "mineur",
+  "t": 78.86,
+  "what": "Dans le plan final, quelques étiquettes se chevauchent légèrement avec les objets voisins : « LOGEMENTS » mord sur la base de l'hôpital, « BIENS » recouvre le pied de la tour EMPLOIS et ses salariés. Les étiquettes sont aussi petites (~24 px de haut) pour un téléphone. Les objets restent identifiables, donc ce n'est pas bloquant.",
+  "where": "video/js/scenes/durable_s17.js (NODE_DEF : valeurs top de logements/biens, taille de textPlane) ",
+  "suggested_fix": "Remonter « LOGEMENTS » et « BIENS » de ~0.5 (top 2.7→3.2) ou agrandir les étiquettes d'environ 15 % pour la dernière prise de vue. Vérifier à 77,9."
+ }
+]
