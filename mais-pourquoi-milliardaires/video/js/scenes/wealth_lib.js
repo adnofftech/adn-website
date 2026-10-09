@@ -1,5 +1,5 @@
 // Utilitaires du module « wealth » : matrices instanciées, point d'interrogation extrudé, afficheur 7 segments 3D, texte épais.
-import { T, H, lerp, clamp, sstep, lin, eio, eoutBack, textPlane, FONT, MONO } from "../shared.js";
+import { T, H, lerp, clamp, sstep, lin, eio, eoutBack, textPlane, FONT, MONO, mk } from "../shared.js";
 
 export const _o = new T.Object3D();
 export const _c = new T.Color();
@@ -34,7 +34,9 @@ export function makeQuestion({ depth = 0.62 } = {}) {
   const g1 = new T.ExtrudeGeometry(new T.Shape(poly), ext); g1.translate(0, 0, -depth / 2);
   const dotS = new T.Shape(); dotS.absarc(0, -0.56, 0.255, 0, Math.PI * 2, false);
   const g2 = new T.ExtrudeGeometry(dotS, ext); g2.translate(0, 0, -depth / 2);
-  const front = new T.MeshLambertMaterial({ color: 0xf2c24e, emissive: 0x6d4a08 });
+  const gt = mk(256, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, w, h); gr.addColorStop(0, "#fff0b8"); gr.addColorStop(0.35, "#f6c755"); gr.addColorStop(0.7, "#d9962a"); gr.addColorStop(1, "#a96f14"); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    g.fillStyle = "rgba(255,255,255,.22)"; for (const [x0, wd] of [[0.2, 0.05], [0.55, 0.12]]) { g.beginPath(); g.moveTo(w * x0, 0); g.lineTo(w * (x0 + wd), 0); g.lineTo(w * (x0 + wd - 0.35), h); g.lineTo(w * (x0 - 0.35), h); g.fill(); } }, { repeat: [0.34, 0.34] }); gt.offset.set(0.3, 0.28);
+  const front = new T.MeshLambertMaterial({ map: gt, color: 0xffffff, emissive: 0x5a3d06 });
   const side = new T.MeshLambertMaterial({ color: 0xb98524, emissive: 0x2c1c02 });
   const grp = new T.Group(); const body = new T.Mesh(g1, [front, side]); const dot = new T.Mesh(g2, [front, side]); grp.add(body, dot);
   grp.userData = { front, side, body, dot };

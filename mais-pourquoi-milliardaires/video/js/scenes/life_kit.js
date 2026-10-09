@@ -61,7 +61,7 @@ export const texFloor = (rep = [14, 4]) => mk(256, 256, (g, w, h) => {
   g.fillStyle = "#a9754a"; g.fillRect(0, 0, w, h);
   for (let r = 0; r < 4; r++) { for (let c = 0; c < 2; c++) { const x = c * 128 + (r % 2 ? 64 : 0) - 64 + (c ? 0 : 0); const sh = 150 + ((r * 7 + c * 13) % 5) * 7; g.fillStyle = `rgb(${sh + 25},${sh - 20},${sh - 70})`; g.fillRect(x + 2, r * 64 + 2, 124, 60); g.strokeStyle = "rgba(60,30,10,.35)"; g.lineWidth = 2; g.strokeRect(x + 2, r * 64 + 2, 124, 60); for (let k = 0; k < 4; k++) { g.strokeStyle = "rgba(90,50,20,.18)"; g.beginPath(); g.moveTo(x + 6, r * 64 + 14 + k * 12); g.lineTo(x + 120, r * 64 + 14 + k * 12 + (k % 2 ? 2 : -2)); g.stroke(); } } }
 }, { repeat: rep });
-export const texWall = (base, stripe, rep = [10, 1]) => mk(64, 64, (g, w, h) => { g.fillStyle = base; g.fillRect(0, 0, w, h); g.fillStyle = stripe; g.fillRect(0, 0, 7, h); g.fillStyle = "rgba(255,255,255,.05)"; g.fillRect(32, 0, 3, h); }, { repeat: rep });
+export const texWall = (base, stripe, rep = [10, 1]) => mk(64, 64, (g, w, h) => { g.fillStyle = base; g.fillRect(0, 0, w, h); g.fillStyle = stripe; g.fillRect(0, 0, 5, h); g.fillStyle = "rgba(255,255,255,.025)"; g.fillRect(32, 0, 2, h); }, { repeat: rep });
 export const texTag = () => once("tag", () => mk(384, 112, (g, w, h) => { g.fillStyle = "#d8382b"; g.beginPath(); g.roundRect(4, 4, w - 8, h - 8, 26); g.fill(); g.strokeStyle = "#ffd6cf"; g.lineWidth = 5; g.stroke(); g.fillStyle = "#fff7ee"; g.font = `900 66px ${FONT}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("À PAYER", w / 2, h / 2 + 4); }));
 export const texStamp = () => once("stamp", () => mk(512, 200, (g, w, h) => {
   g.clearRect(0, 0, w, h); g.strokeStyle = "#17a65a"; g.fillStyle = "#17a65a"; g.lineWidth = 12; g.beginPath(); g.roundRect(8, 8, w - 16, h - 16, 24); g.stroke(); g.lineWidth = 4; g.beginPath(); g.roundRect(26, 26, w - 52, h - 52, 14); g.stroke();
@@ -81,7 +81,7 @@ export const texInvoice = (kind) => once("inv" + kind, () => mk(512, 704, (g, w,
   g.fillStyle = "rgba(40,40,40,.55)"; g.fillRect(36, 610, 150, 26); g.fillStyle = "rgba(40,40,40,.8)"; g.fillRect(w - 36 - 170, 606, 170, 34);
 }));
 export const texInterior = () => once("interior", () => mk(256, 512, (g, w, h) => {
-  const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "#ffe7b0"); gr.addColorStop(0.55, "#ffc66e"); gr.addColorStop(1, "#e2873a"); g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "#f5c27a"); gr.addColorStop(0.55, "#e89a48"); gr.addColorStop(1, "#b9672a"); g.fillStyle = gr; g.fillRect(0, 0, w, h);
   const r = g.createRadialGradient(128, 190, 6, 128, 190, 150); r.addColorStop(0, "rgba(255,255,230,.95)"); r.addColorStop(1, "rgba(255,230,160,0)"); g.fillStyle = r; g.fillRect(0, 0, w, h);
   g.fillStyle = "rgba(120,60,20,.55)"; g.fillRect(22, 330, 212, 56); g.fillRect(22, 300, 60, 40); g.fillRect(172, 300, 62, 40);
   g.fillStyle = "rgba(90,45,15,.5)"; g.fillRect(100, 280, 8, 52); g.beginPath(); g.moveTo(80, 282); g.lineTo(130, 282); g.lineTo(118, 250); g.lineTo(92, 250); g.fill();
@@ -89,6 +89,7 @@ export const texInterior = () => once("interior", () => mk(256, 512, (g, w, h) =
   g.fillStyle = "rgba(255,255,255,.55)"; g.fillRect(30, 90, 70, 90); g.fillStyle = "rgba(160,110,60,.8)"; g.fillRect(64, 90, 4, 90); g.fillRect(30, 133, 70, 4);
 }));
 export const texArt = (a, b, c) => mk(128, 160, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, a); gr.addColorStop(1, b); g.fillStyle = gr; g.fillRect(0, 0, w, h); g.fillStyle = c; g.beginPath(); g.arc(w * 0.68, h * 0.34, 20, 0, 7); g.fill(); g.fillStyle = "rgba(20,70,50,.8)"; g.beginPath(); g.moveTo(0, h); g.lineTo(0, h * 0.7); g.quadraticCurveTo(w * 0.3, h * 0.45, w * 0.55, h * 0.72); g.quadraticCurveTo(w * 0.8, h * 0.6, w, h * 0.75); g.lineTo(w, h); g.fill(); });
+export const texTiles = () => once("tiles", () => mk(128, 128, (g, w, h) => { g.fillStyle = "#bdb09c"; g.fillRect(0, 0, w, h); g.strokeStyle = "rgba(70,55,40,.35)"; g.lineWidth = 3; g.strokeRect(1, 1, 126, 126); g.beginPath(); g.moveTo(64, 0); g.lineTo(64, 128); g.moveTo(0, 64); g.lineTo(128, 64); g.stroke(); }, { repeat: [6, 3] }));
 export const texSky = () => once("sky", () => mk(128, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "#ffb86b"); gr.addColorStop(0.6, "#ffd9a0"); gr.addColorStop(1, "#fff1cf"); g.fillStyle = gr; g.fillRect(0, 0, w, h); g.fillStyle = "rgba(120,170,90,.7)"; g.beginPath(); g.moveTo(0, h); g.lineTo(0, h * 0.82); g.quadraticCurveTo(w * 0.4, h * 0.7, w, h * 0.84); g.lineTo(w, h); g.fill(); }));
 
 /* ---------- personnages ---------- */
@@ -104,7 +105,7 @@ export function person(o = {}) {
   for (const s of [-1, 1]) { const b = sp(0.04, MB(0xe58f7c), s * 0.15, 1.738, 0.188, g, 8, 6); b.scale.z = 0.3; b.material = new T.MeshBasicMaterial({ color: 0xe58f7c, transparent: true, opacity: 0.45 }); }
   if (style === "bun") sp(0.1, hm, 0, 2.03, -0.07, g, 10, 8);
   else if (style === "long") { const h2 = sp(1, hm, 0, 1.66, -0.1, g, 12, 10); h2.scale.set(0.27, 0.38, 0.17); }
-  else if (style === "curly") sp(0.32, hm, 0, 1.85, -0.03, g, 12, 9);
+  else if (style === "curly") sp(0.3, hm, 0, 1.9, -0.1, g, 12, 9);
   else if (style === "pigtails") for (const s of [-1, 1]) sp(0.085, hm, s * 0.26, 1.78, -0.04, g, 8, 6);
   if (dress) cy(0.3, 0.47, 0.66, M(dress), 0, 0.68, 0, g, 16);
   if (coat) { cy(0.345, 0.44, 1.0, M(coat), 0, 0.98, 0, g, 16); const ring = mesh(new T.TorusGeometry(0.15, 0.016, 6, 16), M(0x3a3f44), 0, 1.55, 0.06, g); ring.rotation.x = Math.PI / 2; sp(0.045, M(0xb8c2c8), 0.0, 1.18, 0.34, g, 8, 6); }
@@ -206,14 +207,23 @@ export function medCross(s = 1) {
   bx(1.78 * s, 0.56 * s, 0.2, inner, 0, 0, 0.02, g); bx(0.56 * s, 1.78 * s, 0.2, inner, 0, 0, 0.02, g); g.userData.inner = inner; return g;
 }
 export function bus() {
-  const g = new T.Group(); const yel = M(0xf2b61d), dk = M(0x2a2a2a);
-  bx(5.2, 1.7, 2.1, yel, 0, 1.15, 0, g); bx(5.0, 0.12, 2.1, M(0xd99a10), 0, 2.03, 0, g); bx(5.22, 0.16, 2.12, dk, 0, 0.44, 0, g);
-  const win = new T.MeshBasicMaterial({ color: 0xffe9b0, transparent: true, opacity: 0.5, depthWrite: false });
-  for (let i = 0; i < 4; i++) { const w = bx(0.8, 0.62, 0.02, win, -1.35 + i * 1.0 + (i > 1 ? 0.15 : 0), 1.55, 1.06, g); bx(0.88, 0.7, 0.01, dk, w.position.x, 1.55, 1.052, g); }
-  const dm = new T.MeshBasicMaterial({ color: 0xffe9b0, transparent: true, opacity: 0.55, depthWrite: false }); const door = bx(0.78, 1.3, 0.02, dm, 2.0, 1.1, 1.07, g); bx(0.86, 1.38, 0.01, dk, 2.0, 1.1, 1.05, g);
-  g.userData.door = door; g.userData.winMat = win;
+  const g = new T.Group(); const yel = M(0xf8c42c), yel2 = M(0xeab01a), dk = M(0x2a2a2a);
+  // coque creuse : flanc côté quai (z=+1) avec fenêtres et porte ouvertes, intérieur visible (l'enfant monte à bord)
+  bx(4.2, 0.85, 0.1, yel, -0.5, 0.775, 1.0, g); bx(0.2, 0.85, 0.1, yel, 2.5, 0.775, 1.0, g);                   // bas du flanc, hors porte
+  bx(5.2, 1.6, 0.1, yel, 0, 1.15, -1.0, g); bx(0.1, 1.6, 2.1, yel, -2.6, 1.15, 0, g); bx(0.1, 0.85, 2.1, yel, 2.6, 0.775, 0, g);
+  bx(5.0, 0.08, 1.9, M(0x3a3a3e), 0, 0.64, 0, g); bx(5.22, 0.14, 2.12, dk, 0, 0.42, 0, g);
+  bx(5.3, 0.16, 2.2, yel2, 0, 2.03, 0, g);
+  for (const x of [-2.5, -1.4, -0.4, 0.6, 1.55, 2.5]) bx(0.2, 0.75, 0.1, yel, x, 1.575, 1.0, g);                     // montants
+  bx(5.22, 0.07, 0.11, M(0x1f1f1f), 0, 0.9, 1.02, g);                                                          // bande noire
+  for (const x of [-1.9, -0.9, 0.1, 1.05]) bx(0.8, 0.5, 0.5, M(0x8a2a2a), x, 0.95, -0.55, g);                  // banquettes
+  const pane = new T.MeshBasicMaterial({ color: 0xffe9b0, transparent: true, opacity: 0.22, depthWrite: false });
+  for (const x of [-1.9, -0.9, 0.1, 1.05]) { const w = new T.Mesh(new T.PlaneGeometry(0.82, 0.74), pane); w.position.set(x, 1.575, 1.03); g.add(w); }
+  const ws = new T.Mesh(new T.PlaneGeometry(2.0, 0.75), pane); ws.rotation.y = Math.PI / 2; ws.position.set(2.62, 1.575, 0); g.add(ws);
+  const dm = new T.MeshBasicMaterial({ color: 0xffe9b0, transparent: true, opacity: 0.4, depthWrite: false });
+  const doorPivot = new T.Group(); doorPivot.position.set(1.6, 0, 1.04); g.add(doorPivot); const door = new T.Mesh(new T.PlaneGeometry(0.8, 1.3), dm); door.position.set(0.4, 1.3, 0); doorPivot.add(door);
+  g.userData.doorPivot = doorPivot; g.userData.door = door;
   for (const sx of [-1.7, 1.7]) for (const sz of [-1, 1]) { const w = cy(0.46, 0.46, 0.3, MB(0x111111), sx, 0.46, sz * 1.0, g, 16); w.rotation.x = Math.PI / 2; const h = cy(0.2, 0.2, 0.32, M(0xb8c0c4), sx, 0.46, sz * 1.0, g, 10); h.rotation.x = Math.PI / 2; }
-  sp(0.12, MB(0xfff1b8), 2.62, 0.85, 0.7, g, 8, 6); sp(0.12, MB(0xfff1b8), 2.62, 0.85, -0.7, g, 8, 6);
-  const stripe = bx(5.22, 0.1, 2.12, M(0x1f1f1f), 0, 0.86, 0, g);
+  sp(0.12, MB(0xfff1b8), 2.64, 0.95, 0.7, g, 8, 6); sp(0.12, MB(0xfff1b8), 2.64, 0.95, -0.7, g, 8, 6);
+  const light = sp(0.09, MB(0x2ee08a), 1.55, 2.15, 1.05, g, 8, 6); g.userData.lamp = light;
   return g;
 }
