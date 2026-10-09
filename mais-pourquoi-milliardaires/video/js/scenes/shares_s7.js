@@ -7,7 +7,7 @@ const FH = 1.7, BW = 4.5, NF = 8, QX = [1, -1, -1, 1], QZ = [1, 1, -1, -1];     
 const COL = { G: 0xf0b93a, B: 0x3b82d6, C: 0xf0654f, T: 0x25b8a3, W: 0xc9d3dc };
 //  OWN[étage][quadrant] : G = l'investisseur mis en évidence, B/C/T = autres actionnaires, W = autres porteurs
 const OWN = ["WWTW", "WBTC", "GBWC", "GWTC", "GWTW", "GBTC", "GBWC", "WBWC"];
-const ICONS = [["usine", -8.6, 11.5, "USINE"], ["bureaux", 8.6, 11.5, "BUREAUX"], ["salaries", -8.6, -9.5, "SALARIÉS"], ["produits", 8.6, -9.5, "PRODUITS"]];
+const ICONS = [["usine", -7.0, 11.0, "USINE"], ["bureaux", 7.0, 11.0, "BUREAUX"], ["salaries", -10.4, 0.8, "SALARIÉS"], ["produits", 10.4, 0.8, "PRODUITS"]];
 
 export function buildS7() {
   const g = new T.Group(), S = {};
@@ -30,13 +30,13 @@ export function buildS7() {
     const disc = new T.Mesh(new T.CircleGeometry(3.9, 40), bas(0x0a1424)); disc.rotation.x = -Math.PI / 2; disc.position.y = 0.06; w.add(disc);
     const ring = new T.Mesh(new T.RingGeometry(3.9, 4.35, 48), bas(0x47f0a0)); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.07; w.add(ring);
     const model = k === "usine" ? buildFactory() : k === "bureaux" ? buildOffice(chartTex(5, "COURS")) : k === "salaries" ? buildWorkers() : buildProducts(); model.scale.setScalar(1.5); w.add(model);
-    const tag = textPlane(label, { w: 5.6, h: 1.25, px: 512, color: "#f3ecd4", bg: "rgba(8,14,24,.88)", border: "#47f0a0", size: 0.5 }); tag.position.set(0, 7.4, 0); w.add(tag);
+    const tag = textPlane(label, { w: 5.6, h: 1.25, px: 512, color: "#f3ecd4", bg: "rgba(8,14,24,.88)", border: "#47f0a0", size: 0.5 }); tag.position.set(0, 7.9, 0); tag.scale.setScalar(1.2); w.add(tag);
     const halo = glow(0x47f0a0, 12, 0.0); halo.position.y = 3.5; w.add(halo);
     g.add(w); return { k, w, model, tag, halo, ring, x, z };
   });
-  S.traces = inst(new T.BoxGeometry(1, 1, 1), addMat(0x47f0a0, 0.7), 4); g.add(S.traces);
+  S.traces = inst(new T.BoxGeometry(1, 1, 1), addMat(0x47f0a0, 0.7), 4); S.traces.renderOrder = 1; g.add(S.traces);
   S.pulses = inst(new T.SphereGeometry(0.6, 10, 8), new T.MeshBasicMaterial({ color: 0xffffff }), 12); g.add(S.pulses);
-  S.sign = textPlane("ENTREPRISE", { w: 9.6, h: 1.9, px: 512, color: "#f3ecd4", bg: "rgba(8,14,24,.9)", border: "#e8b84a", size: 0.5 }); S.sign.position.set(0, 2.2, 7.4); g.add(S.sign);
+  S.sign = textPlane("ENTREPRISE", { w: 9.6, h: 1.9, px: 512, color: "#f3ecd4", bg: "rgba(8,14,24,.9)", border: "#e8b84a", size: 0.5 }); S.sign.position.set(0, 4.4, 7.4); S.sign.renderOrder = 4; g.add(S.sign);
   // certificat final
   S.cert = new T.Mesh(new T.PlaneGeometry(1, 1), new T.MeshBasicMaterial({ map: shareCert(), side: T.DoubleSide })); S.cert.scale.set(5.6, 3.5, 1); g.add(S.cert);
   S.certGlow = glow(0xffd25a, 16, 0); g.add(S.certGlow);
@@ -50,9 +50,9 @@ function hudTex() {
     g.fillStyle = "#bfeaff"; g.font = `700 27px ${MONO}`; g.textAlign = "left"; g.textBaseline = "alphabetic"; g.fillText("PATRIMOINE D'UN MILLIARDAIRE · EN MOYENNE", 28, 46);
     const x0 = 28, bw = w - 56, y0 = 66, bh = 110, w73 = bw * 0.73, w26 = bw * 0.26;
     g.fillStyle = "#1f8a4c"; g.fillRect(x0, y0, w73, bh); g.fillStyle = "#e8b84a"; g.fillRect(x0 + w73 + 4, y0, w26 - 4, bh);
-    g.fillStyle = "#f3ecd4"; g.font = `900 76px ${FONT}`; g.textAlign = "center"; g.fillText("~73 %", x0 + w73 / 2, y0 + 82); g.font = `900 62px ${FONT}`; g.fillStyle = "#1a1203"; g.fillText("~26 %", x0 + w73 + 4 + (w26 - 4) / 2, y0 + 82);
+    g.fillStyle = "#f3ecd4"; g.font = `900 76px ${FONT}`; g.textAlign = "center"; g.fillText("~73 %", x0 + w73 / 2, y0 + 82); g.font = `900 54px ${FONT}`; g.fillStyle = "#1a1203"; g.fillText("~26 %", x0 + w73 + 4 + (w26 - 4) / 2, y0 + 82);
     g.font = `700 31px ${MONO}`; g.fillStyle = "#6dffb8"; g.fillText("parts d'entreprises", x0 + w73 / 2, y0 + bh + 38); g.fillStyle = "#ffd25a"; g.fillText("liquide", x0 + w73 + 4 + (w26 - 4) / 2, y0 + bh + 38);
-    g.fillStyle = "rgba(243,236,212,.7)"; g.font = `700 22px ${MONO}`; g.textAlign = "left"; g.fillText("Altrata, Billionaire Census 2026 (données 2025) · moyenne par milliardaire", 28, h - 14);
+    g.fillStyle = "rgba(243,236,212,.7)"; g.font = `700 22px ${MONO}`; g.textAlign = "left"; g.fillText("Altrata, Billionaire Census 2026 (données 2025) · moyenne", 28, h - 14);
   });
 }
 
@@ -93,10 +93,10 @@ export function updateS7(S, t, TM, cam, base) {
   // pièces qui « investissent » : de l'investisseur vers la part (investie)
   { const inv = S.inv[0], p0 = inv.ic.position, on = t >= TM.investie - 0.02 && t < TM.investie + 0.95;
     for (let i = 0; i < 16; i++) {
-      const u = ((t - TM.investie) / 0.5 - i * 0.12) % 1.6, uu = u / 0.6;
-      if (!on || u < 0 || uu > 1) { hide(S.coins, i); continue; }
+      const u = ((t - TM.investie) / 0.5 - i * 0.2) % 1.6, uu = u / 0.6;
+      if (!on || i >= 8 || u < 0 || uu > 1) { hide(S.coins, i); continue; }
       const k = eio(uu), sx = p0.x + (H(i, 1) - 0.5) * 1.6, sy = p0.y - 3.0, sz = p0.z + (H(i, 2) - 0.5) * 1.2, ex = gx + (H(i, 3) - 0.5) * 2.4, ey = gy + 1 + (H(i, 4) - 0.5) * 6, ez = gx + (H(i, 5) - 0.5) * 2.4;
-      put(S.coins, i, lerp(sx, ex, k), lerp(sy, ey, k) + 1.5 * Math.sin(Math.PI * k), lerp(sz, ez, k), 1.25 - 0.45 * k, 1.25 - 0.45 * k, 1.25 - 0.45 * k, 0, t * 6 + i, 0);
+      const cx = lerp(sx, ex, k), cz = lerp(sz, ez, k); put(S.coins, i, cx, lerp(sy, ey, k) + 1.5 * Math.sin(Math.PI * k), cz, 1.25 - 0.45 * k, 1.25 - 0.45 * k, 1.25 - 0.45 * k, 0, face(cx, cz) + 0.55 * Math.sin(t * 7 + i * 1.9), 0);
     }
     S.coins.instanceMatrix.needsUpdate = true; }
   // ---- icônes (usine, bureaux, salariés, produits)
@@ -130,7 +130,7 @@ export function updateS7(S, t, TM, cam, base) {
     S.cert.position.set(lerp(sx, ex, k), lerp(sy, ey, k) + 1.5 * Math.sin(Math.PI * k), lerp(sz, ez, k)); S.cert.scale.set(5.6, 3.5, 1).multiplyScalar(Math.max(0.001, 0.15 + 0.85 * pop(u * 1.0))); S.cert.rotation.set(0, (1 - k) * 0.9 + 0.0, (1 - k) * -0.25);
     S.certGlow.position.set(S.cert.position.x, S.cert.position.y, S.cert.position.z - 0.6); S.certGlow.scale.setScalar(15 * (0.4 + 0.6 * k)); S.certGlow.material.opacity = 0.55 * Math.sin(Math.PI * clamp(u * 0.9)) + 0.18 * k; }
   // ---- barre F3 : hologramme calé en bas du cadre (entre le sujet et les sous-titres)
-  { const k = pop((t - (TM.investie + 0.05)) / 0.35) * (1 - sstep(TM.entreprises - 0.2, TM.entreprises + 0.05, t)); S.hud.visible = k > 0.01;
+  { const k = pop((t - (TM.investie + 0.05)) / 0.35) * (1 - sstep(TM.entreprises + 0.2, TM.entreprises + 0.45, t)); S.hud.visible = k > 0.01;
     if (S.hud.visible) {
       _f.set(cam.l[0] - cam.p[0], cam.l[1] - cam.p[1], cam.l[2] - cam.p[2]).normalize(); _r.crossVectors(_f, _up).normalize(); _u.crossVectors(_r, _f).normalize();
       const D = 4, hh = D * Math.tan((cam.fov * Math.PI) / 360), ww = hh * (1080 / 1920) * 2, pw = ww * 0.8;

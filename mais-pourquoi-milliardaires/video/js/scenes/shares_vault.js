@@ -3,6 +3,7 @@
 import { T, H, clamp, lerp, sstep, lin, eio, eout, ein, eoutBack, billTex, glowTex, certTex, FONT, MONO, textPlane, glow, makePerson } from "../shared.js";
 import { shareCert, _o, mixHex, pop, put, hide, inst, lam, bas, addMat, rep, uvScale, chartTex, gridTex, pieTex, winTex, buildVault } from "./shares_lib.js";
 
+const _tc = new T.Color(), _cf = new T.Vector3(), _cr = new T.Vector3(), _cu = new T.Vector3(), _cup = new T.Vector3(0, 1, 0);
 export const HZ = [0, 0, -112];                              // centre de l'entreprise (S7) dans le réseau
 export const axisY = (z) => (z > -22 ? 10.5 : z > -44 ? lerp(10.5, 24, (-22 - z) / 22) : lerp(24, 34, clamp((-44 - z) / 14)));
 const PALT = [0x2ee6a6, 0x3b82d6, 0xe8b84a, 0xf0654f, 0x9a6bd6, 0xe9eef2, 0x25b8a3];
@@ -40,7 +41,7 @@ export function buildZone() {
   Z.rBill = inst(pg, new T.MeshBasicMaterial({ map: billTex(), side: T.DoubleSide }), NR); Z.rCert = inst(pg, new T.MeshBasicMaterial({ map: shareCert(), side: T.DoubleSide }), NR); g.add(Z.rBill, Z.rCert);
   // ---- univers flottant : certificats, pièces, parts, graphiques, tours au sol, anneaux
   const gen = (n, k, zmin, zspan, rmin, rspan) => { const a = []; for (let i = 0; i < n; i++) { const z = zmin - H(i, k) * zspan, r = rmin + H(i, k + 1) * rspan, an = H(i, k + 2) * 6.283; let x = Math.cos(an) * r, y = axisY(z) + Math.sin(an) * r * 0.85; y = Math.max(1.6, y); [x, y] = clearOfAxis(x, y, z, 5); y = Math.max(1.6, y); a.push({ x, y, z, b: 22.86 + (-z - 20) / 70 + H(i, k + 3) * 0.12, ph: H(i, k + 4) * 6.283, s: 0.75 + H(i, k + 5) * 0.6, i }); } return a; };
-  Z.certs = gen(90, 20, -20, 56, 5.5, 17); Z.certI = inst(new T.PlaneGeometry(1.7, 1.06), new T.MeshBasicMaterial({ map: shareCert(), side: T.DoubleSide }), Z.certs.length); g.add(Z.certI);
+  Z.certs = gen(90, 20, -20, 56, 5.5, 17); Z.certI = inst(new T.PlaneGeometry(1.7, 1.06), new T.MeshBasicMaterial({ map: shareCert(), side: T.DoubleSide }), Z.certs.length); { const wc = new T.Color(1, 1, 1); for (let i = 0; i < Z.certs.length; i++) Z.certI.setColorAt(i, wc); } g.add(Z.certI);
   Z.coins = gen(36, 40, -20, 56, 5.5, 18); Z.coinI = inst((() => { const c = new T.CylinderGeometry(0.62, 0.62, 0.14, 24); c.rotateX(Math.PI / 2); return c; })(), new T.MeshLambertMaterial({ color: 0xe8b84a, emissive: 0x5a3c00 }), Z.coins.length); g.add(Z.coinI);
   Z.pies = gen(12, 60, -22, 46, 6, 14); Z.pieI = inst((() => { const c = new T.CylinderGeometry(1.35, 1.35, 0.24, 36); c.rotateX(Math.PI / 2); return c; })(), new T.MeshLambertMaterial({ map: pieTex(), emissive: 0x0b1a2a }), Z.pies.length); g.add(Z.pieI);
   Z.cards = gen(14, 80, -22, 50, 6, 14); Z.cardI = inst(new T.PlaneGeometry(3.4, 2.1), new T.MeshBasicMaterial({ map: chartTex(3, "COURS"), side: T.DoubleSide }), Z.cards.length); g.add(Z.cardI);
@@ -49,7 +50,7 @@ export function buildZone() {
   for (let i = 0; i < 28; i++) { const c = Math.floor(H(i, 90) * 4), im = Z.twI[c], k = im.userData.n; if (k >= 8) continue; im.userData.n++; const z = -26 - H(i, 91) * 44, x = (H(i, 92) < 0.5 ? -1 : 1) * (7.5 + H(i, 93) * 24); im.setColorAt(k, new T.Color(PALT[Math.floor(H(i, 94) * PALT.length)])); Z.tw.push({ c, k, x, z, b: 22.95 + (-z - 26) / 60 + H(i, 95) * 0.1 }); }
   // anneaux du couloir
   Z.rings = []; for (let k = 0; k < 7; k++) { const m = new T.Mesh(new T.RingGeometry(8.3, 8.9, 72), addMat(k % 2 ? 0xe8b84a : 0x47f0a0, 0.0)); m.position.set(0, axisY(-8 - k * 9), -8 - k * 9); g.add(m); Z.rings.push(m); }
-  Z.tags = [["ACTIONS", -2.6, 14.3, -9, "#e8b84a", 0.0], ["BÂTIMENTS", 2.8, 10.6, -9, "#6fa8ff", 0.1], ["PARTICIPATIONS", -1.2, 6.9, -9, "#47f0a0", 0.2]].map(([txt, x, y, z, col, d]) => { const m = textPlane(txt, { w: txt.length > 10 ? 8.6 : 5.6, h: 1.55, px: 1024, color: col, bg: "rgba(6,12,22,.9)", border: col, size: 0.4 }); m.position.set(x, y, z); m.userData.d = d; g.add(m); return m; });
+  Z.tags = [["ACTIONS", -2.6, 11.7, -9, "#e8b84a", 0.0], ["BÂTIMENTS", 2.8, 9.2, -9, "#6fa8ff", 0.1], ["PARTICIPATIONS", -1.2, 6.9, -9, "#47f0a0", 0.2]].map(([txt, x, y, z, col, d]) => { const m = textPlane(txt, { w: txt.length > 10 ? 8.6 : 5.6, h: 1.55, px: 1024, color: col, bg: "rgba(6,12,22,.9)", border: col, size: 0.4 }); m.position.set(x, y, z); m.userData.d = d; g.add(m); return m; });
   Z.tunnelGlow = glow(0xd8fff0, 38, 0.0); Z.tunnelGlow.position.set(0, 12, -86); g.add(Z.tunnelGlow);
   // ---- réseau d'entreprises (autour de l'entreprise, couloir dégagé devant elle)
   Z.nb = []; const nc = [[4.4, 6], [4.2, 9], [4.8, 12], [5.4, 16]]; Z.nbI = nc.map(([w, h]) => { const im = inst(uvScale(new T.BoxGeometry(w, h, w), w / 4, h / 9.6), new T.MeshLambertMaterial({ map: wt, color: 0xffffff, emissive: 0x080c12 }), 36); g.add(im); im.userData = { w, h, n: 0 }; return im; });
@@ -83,6 +84,7 @@ export function updateZone(Z, t, TM, cam, cl) {
   const ajarK = 1 - sstep(TM.ce, TM.ce + 0.8, t);
   Z.spill.material.opacity = 0.55 * ajarK * (0.85 + 0.15 * Math.sin(t * 5)); Z.spill.visible = ajarK > 0.01;
   { const p = Z.person.userData, hd = -0.18 * sstep(21.18, 21.9, t) * (1 - sstep(TM.ce + 0.5, TM.ce + 1.0, t)); p.head.rotation.x = hd; p.armR.rotation.z = -0.12 - 0.25 * sstep(TM.ce + 0.1, TM.ce + 0.6, t); Z.person.visible = t < 23.75; }
+  { const pk = 1 - sstep(22.25, 22.5, t); V.plq.visible = pk > 0.01; V.plq.material.opacity = pk; }
   V.seam.material.opacity = 0.5 * ajarK * (0.8 + 0.2 * Math.sin(t * 7)); Z.inGlow.material.opacity = 0.55 + 0.25 * Math.sin(t * 3) * ajarK;
   Z.warm.material.opacity = 0.32 * sstep(21.18, 22.6, t) * (1 - sstep(TM.juste, TM.juste + 0.6, t));
   // ---------------- mur : les billets se retournent en certificats puis se dispersent
@@ -127,12 +129,15 @@ export function updateZone(Z, t, TM, cam, cl) {
     Z.rBill.instanceMatrix.needsUpdate = true; Z.rCert.instanceMatrix.needsUpdate = true;
   }
   // ---------------- univers flottant
+  // bande des sous-titres (y 1330-1530 px) : un certificat crème y fait perdre le contraste du mot doré -> on l'assombrit (projection écran de la caméra)
+  const cap = sstep(23.0, 23.25, t) * (1 - sstep(24.2, 24.34, t)), cf = _cf.set(cam.l[0] - cam.p[0], cam.l[1] - cam.p[1], cam.l[2] - cam.p[2]).normalize(), cr = _cr.crossVectors(cf, _cup).normalize(), cu = _cu.crossVectors(cr, cf).normalize(), tn = Math.tan((cam.fov * Math.PI) / 360);
+  const capDim = (x, y, z) => { if (cap < 0.01) return 1; const dx = x - cl[0], dy = y - cl[1], dz = z - cl[2], zc = dx * cf.x + dy * cf.y + dz * cf.z; if (zc < 0.5) return 1; const sy = (0.5 - 0.5 * ((dx * cu.x + dy * cu.y + dz * cu.z) / (zc * tn))) * 1920; return 1 - 0.58 * cap * sstep(1230, 1340, sy) * (1 - sstep(1540, 1650, sy)); };
   const uOn = t >= TM.juste + 0.0 && t < 24.4, fadeU = 1 - sstep(23.98, 24.28, t); Z.certI.visible = Z.coinI.visible = Z.pieI.visible = Z.cardI.visible = uOn; Z.twI.forEach((m) => { m.visible = uOn; });
   Z.rings.forEach((m, k) => { const b = TM.juste + 0.12 + k * 0.05, s = pop((t - b) / 0.4); m.visible = s > 0.01 && fadeU > 0.01; m.material.opacity = 0.55 * Math.min(1, s) * fadeU; m.scale.setScalar(1 + 0.02 * Math.sin(t * 3 + k)); });
   Z.tags.forEach((m) => { const k = pop((t - (TM.juste + 0.3 + m.userData.d)) / 0.25) * (1 - sstep(23.55, 23.68, t)); m.visible = k > 0.01; m.scale.setScalar(Math.max(0.001, k)); });
   Z.tunnelGlow.material.opacity = 0.0 + 0.55 * sstep(TM.juste + 0.15, TM.juste + 0.7, t) * (1 - sstep(23.9, 24.25, t)); Z.tunnelGlow.visible = Z.tunnelGlow.material.opacity > 0.01;
   if (uOn) {
-    Z.certs.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU * nearK(c.x, c.y, c.z); if (s < 0.01) { hide(Z.certI, i); return; } put(Z.certI, i, c.x + 0.4 * Math.sin(t * 0.7 + c.ph), c.y + 0.5 * Math.sin(t * 0.9 + c.ph * 1.7), c.z, s, s, s, 0.2 * Math.sin(t * 0.6 + c.ph), 0.5 * Math.sin(t * 0.5 + c.ph) + (c.x > 0 ? -0.35 : 0.35), 0.18 * Math.sin(t * 0.8 + c.ph)); });
+    Z.certs.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU * nearK(c.x, c.y, c.z); if (s < 0.01) { hide(Z.certI, i); return; } Z.certI.setColorAt(i, _tc.setScalar(capDim(c.x, c.y, c.z))); put(Z.certI, i, c.x + 0.4 * Math.sin(t * 0.7 + c.ph), c.y + 0.5 * Math.sin(t * 0.9 + c.ph * 1.7), c.z, s, s, s, 0.2 * Math.sin(t * 0.6 + c.ph), 0.5 * Math.sin(t * 0.5 + c.ph) + (c.x > 0 ? -0.35 : 0.35), 0.18 * Math.sin(t * 0.8 + c.ph)); });
     Z.coins.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU * nearK(c.x, c.y, c.z); if (s < 0.01) { hide(Z.coinI, i); return; } put(Z.coinI, i, c.x, c.y + 0.5 * Math.sin(t * 1.1 + c.ph), c.z, s, s, s, 0.4 * Math.sin(t + c.ph), t * 2.2 + c.ph, 0); });
     Z.pies.forEach((c, i) => { const s = pop((t - c.b) / 0.45) * c.s * fadeU * nearK(c.x, c.y, c.z); if (s < 0.01) { hide(Z.pieI, i); return; } put(Z.pieI, i, c.x, c.y + 0.4 * Math.sin(t * 0.8 + c.ph), c.z, s, s, s, 0.15 * Math.sin(t + c.ph) + (c.y > axisY(c.z) ? 0.25 : -0.25), 0.4 * Math.sin(t * 0.7 + c.ph) + (c.x > 0 ? -0.4 : 0.4), t * 0.9 + c.ph); });
     Z.cards.forEach((c, i) => { const s = pop((t - c.b) / 0.4) * c.s * fadeU * nearK(c.x, c.y, c.z); if (s < 0.01) { hide(Z.cardI, i); return; } put(Z.cardI, i, c.x, c.y + 0.4 * Math.sin(t * 0.9 + c.ph), c.z, s, s, s, 0, (c.x > 0 ? -0.45 : 0.45) + 0.12 * Math.sin(t * 0.6 + c.ph), 0); });
