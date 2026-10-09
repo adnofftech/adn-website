@@ -107,7 +107,7 @@ export function updateS16(S, t) {
   }
   S.rain.instanceMatrix.needsUpdate = true; if (S.rain.instanceColor) S.rain.instanceColor.needsUpdate = true;
   { const m = S.dust; const k = 0.5 + 0.5 * sstep(T16.mais, T16.mais + 1, t); for (let i = 0; i < m.n; i++) { const x = -12 + 24 * H(i, 71) + Math.sin(t * 0.4 + i) * 0.4, y = 1 + ((H(i, 72) * 20 + t * (0.3 + 0.4 * H(i, 73))) % 20), z = -14 + 18 * H(i, 74); m.pos[i * 3] = x; m.pos[i * 3 + 1] = y; m.pos[i * 3 + 2] = z; const b = (0.3 + 0.3 * Math.sin(t * 1.6 + i * 1.7)) * k * (1 - 0.7 * sstep(10, 20, y)); m.col[i * 3] = b; m.col[i * 3 + 1] = 0.82 * b; m.col[i * 3 + 2] = 0.42 * b; } m.geo.attributes.position.needsUpdate = true; m.geo.attributes.color.needsUpdate = true; }
-  { const u = clamp((t - T16.enormement) / 0.9); S.peakRing.visible = u > 0 && u < 1; S.peakRing.scale.setScalar(1.2 + 5.5 * eout(u)); S.peakRing.material.opacity = 0.85 * (1 - u); }
+  { const u = clamp((t - T16.enormement) / 0.9); S.peakRing.visible = u > 0 && u < 1; S.peakRing.scale.setScalar(1.2 + 3.4 * eout(u)); S.peakRing.material.opacity = 0.5 * (1 - u) * (1 - u); }
   // ---- tas
   { const c = landed; const hh = heapH(c), rr = heapR(c); S.heap.scale.set(rr, hh, rr); S.heapGlow.position.y = hh + 1.4; S.heapGlow.material.opacity = 0.12 + 0.3 * rt + 0.1 * Math.sin(t * 3); S.heapGlow.scale.setScalar(7 + 3 * rt); }
   // ---- personnes aidées (apparaissent sur « personnes », sautillent de joie)

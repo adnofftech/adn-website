@@ -42,5 +42,5 @@ export const box = (w, h, d, mat, x = 0, y = 0, z = 0, parent) => { const m = ne
 export const cyl = (r, h, mat, x = 0, y = 0, z = 0, parent, seg = 20) => { const m = new T.Mesh(new T.CylinderGeometry(r, r, h, seg), mat); m.position.set(x, y, z); parent?.add(m); return m; };
 /** Certificat d'action stylisé (texte fictif) */
 export function certTex(label = "ACTION") { return mk(512, 320, (g, w, h) => { g.fillStyle = "#f3ecd4"; g.fillRect(0, 0, w, h); g.strokeStyle = "#1f8a4c"; g.lineWidth = 10; g.strokeRect(12, 12, w - 24, h - 24); g.lineWidth = 3; g.strokeRect(30, 30, w - 60, h - 60);
-  g.fillStyle = "#1f8a4c"; g.font = `900 70px ${FONT}`; g.textAlign = "center"; g.fillText(label, w / 2, 120); g.font = `700 28px ${MONO}`; g.fillStyle = "#555"; g.fillText("PART DU CAPITAL · SOCIÉTÉ FICTIVE", w / 2, 170);
+  g.fillStyle = "#1f8a4c"; g.font = `900 70px ${FONT}`; g.textAlign = "center"; g.fillText(label, w / 2, 120); g.font = `700 21px ${MONO}`; g.fillStyle = "#555"; g.fillText("PART DU CAPITAL · SOCIÉTÉ FICTIVE", w / 2, 172);
   g.fillStyle = "#e8b84a"; g.beginPath(); g.arc(w / 2, 240, 42, 0, 7); g.fill(); g.fillStyle = "#1f8a4c"; g.font = `900 40px ${FONT}`; g.fillText("%", w / 2, 254); }); }
