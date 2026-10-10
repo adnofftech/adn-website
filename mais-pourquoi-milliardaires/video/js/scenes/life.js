@@ -63,11 +63,11 @@ export function build() {
   const wBl = wallPanel(6.4, 10, 0xffffff, 0x6a3a30, texWall("#e9a98a", "#dd9a79", [3, 1])); wBl.position.set(10.2, 0, WZ); g4.add(wBl);       // x 7..13.4
   const wBr = wallPanel(6.4, 10, 0xffffff, 0x6a3a30, texWall("#e9a98a", "#dd9a79", [3, 1])); wBr.position.set(17.8, 0, WZ); g4.add(wBr);       // x 14.6..21
   const wBt = wallPanel(1.2, 7.5, 0xffffff, 0x6a3a30, texWall("#e9a98a", "#dd9a79", [1, 1])); wBt.position.set(14, 2.5, WZ); g4.add(wBt);
-  const wC = wallPanel(18, 10, 0xffffff, 0x6f9c8e, texWall("#e4f6ef", "#d3ede3", [9, 1])); wC.position.set(30, 0, WZ); g4.add(wC);
+  const wC = wallPanel(18, 10, 0xffffff, 0x9a7a5c, texWall("#f6e6cc", "#ecd5b0", [9, 1])); wC.position.set(30, 0, WZ); g4.add(wC);
   // plinthes / lambris
   bx(18, 1.1, 0.12, M(0xb98156), -2, 0.55, WZ + 0.08, g4); bx(18, 0.07, 0.16, M(0xf3e6c8), -2, 1.13, WZ + 0.08, g4);
   bx(6.4, 1.1, 0.12, M(0x8b4f3a), 10.2, 0.55, WZ + 0.08, g4); bx(6.4, 1.1, 0.12, M(0x8b4f3a), 17.8, 0.55, WZ + 0.08, g4); bx(6.4, 0.07, 0.16, M(0xf3e6c8), 10.2, 1.13, WZ + 0.08, g4); bx(6.4, 0.07, 0.16, M(0xf3e6c8), 17.8, 1.13, WZ + 0.08, g4);
-  bx(18, 1.1, 0.12, M(0xa9d4c6), 30, 0.55, WZ + 0.08, g4); bx(18, 0.07, 0.16, M(0xffffff), 30, 1.13, WZ + 0.08, g4);
+  bx(18, 1.1, 0.12, M(0xc9d8c0), 30, 0.55, WZ + 0.08, g4); bx(18, 0.07, 0.16, M(0xffffff), 30, 1.13, WZ + 0.08, g4);
 
   /* ===== A : cuisine ===== */
   const rug = cy(2.1, 2.1, 0.02, M(0xa8483a), 0, 0.012, 0.5, g4, 40); cy(1.65, 1.65, 0.024, M(0xe0a85e), 0, 0.014, 0.5, g4, 40); cy(1.35, 1.35, 0.028, M(0xa8483a), 0, 0.016, 0.5, g4, 40);
@@ -92,9 +92,9 @@ export function build() {
 
   // famille (4 personnes)
   const mum = person({ skin: SKIN[3], shirt: 0xf4f1e6, dress: 0xd9703a, hair: 0x1a120c, style: "curly" });
-  const dad = person({ skin: SKIN[2], shirt: 0x2d6cc0, pants: 0x2b3a4a, hair: 0x15100c });
+  const dad = person({ skin: SKIN[1], shirt: 0x2d6cc0, pants: 0x2b3a4a, hair: 0x15100c });
   const girl = person({ skin: SKIN[3], shirt: 0xf2c230, dress: 0xf2c230, hair: 0x1a120c, style: "pigtails", kind: "child" });
-  const boy = person({ skin: SKIN[2], shirt: 0x3aa65c, pants: 0x3a4a6a, hair: 0x2a1a10, kind: "child", scale: 1.25 });
+  const boy = person({ skin: 0xb98258, shirt: 0x3aa65c, pants: 0x3a4a6a, hair: 0x2a1a10, kind: "child", scale: 1.25 });
   const fam = [[mum, -0.85, -0.7, 0.28, T4.certaines - 0.04], [dad, 0.85, -0.7, -0.28, T4.certaines + 0.08], [girl, -1.6, 0.55, 0.7, T4.familles - 0.1], [boy, 1.55, 0.55, -0.7, T4.familles + 0.0]];
   U.fam = fam.map(([p, x, z, ry, t0], i) => { p.position.set(x, 0, z); p.rotation.y = ry; p.userData.s0 = p.scale.x; p.userData.x0 = x; p.userData.z0 = z; p.userData.ry0 = ry; p.userData.t0 = t0; p.userData.ph = i * 1.7; g4.add(p); blob(g4, x, z, 0.42 * (i > 1 ? 0.75 : 1)); return p; });
   U.mum = mum; U.dad = dad; U.girl = girl; U.boy = boy;
@@ -194,8 +194,8 @@ const S4_SHOTS = [
   shot(T4.loger + 0.25, [14.05, 2.35, 3.7], [14, 1.35, -1.5], 42, { dy: 0.1, e: eio }),
   shot(T4.se2 - 0.12, [14.0, 1.85, 1.7], [14, 1.5, -2.7], 50, { dy: 0.05 }),
   shot(T4.se2 - 0.08, [14.0, 1.85, 1.3], [14, 1.5, -2.8], 50, { dy: 0.05, e: eio }),
-  shot(T4.soigner - 0.03, [28.65, 2.5, 5.8], [28.55, 2.45, -1.4], 46, { dy: 0.08 }),
-  shot(T4.soigner + 0.36, [28.6, 2.4, 5.2], [28.5, 2.3, -0.7], 46, { dy: 0.08, e: eio }),
+  shot(T4.soigner - 0.03, [28.65, 2.5, 5.8], [28.55, 2.45, -1.4], 46, { dy: 0.2 }),
+  shot(T4.soigner + 0.36, [28.6, 2.4, 5.2], [28.5, 2.3, -0.7], 46, { dy: 0.2, e: eio }),
   shot(b4 - 0.01, [28.5, 2.35, 4.3], [28.5, 2.35, 1.0], 40, { dy: 0.02 }),
 ];
 const S14S = S14_SHOTS(ox, oz);
@@ -246,12 +246,12 @@ export function update(g, t) {
   if (!inW14) {
     const warm = sstep(a4, b4 - 0.5, t);
     U.hemi.color.setHex(mixHex(0xfff2e2, 0xffe6c8, warm)); U.hemi.groundColor.setHex(0x6a4a34);
-    U.hemi.intensity = kf(t, [[a4, 0.03], [a4 + 0.25, 0.08], [a4 + 0.9, 0.55], [T4.changer, 0.72], [T4.soigner + 0.2, 0.78], [b4 - 0.5, 0.78], [b4, 0.12]]);
-    U.dir.color.setHex(mixHex(0xfff0dc, 0xffdcae, warm)); U.dir.intensity = kf(t, [[a4, 0.0], [a4 + 0.3, 0.1], [a4 + 0.95, 0.6], [T4.changer, 0.8], [b4 - 0.5, 0.8], [b4, 0.1]]);
+    U.hemi.intensity = kf(t, [[a4, 0.03], [a4 + 0.25, 0.08], [a4 + 0.9, 0.55], [T4.changer, 0.72], [T4.soigner + 0.2, 0.78], [b4 - 0.3, 0.78], [b4, 0.12]]);
+    U.dir.color.setHex(mixHex(0xfff0dc, 0xffdcae, warm)); U.dir.intensity = kf(t, [[a4, 0.0], [a4 + 0.3, 0.1], [a4 + 0.95, 0.6], [T4.changer, 0.8], [b4 - 0.3, 0.8], [b4, 0.1]]);
     const px = kf(t, [[a4, 0], [T4.faim + 0.1, 0, eio], [T4.se1 + 0.04, 14], [T4.se2 - 0.04, 14, eio], [T4.soigner + 0.08, 28]]);
     U.pt.position.set(px, kf(t, [[a4, 3.2], [T4.se1, 2.9], [T4.soigner, 3.0]]), kf(t, [[a4, 0.8], [T4.se1, -0.2], [T4.soigner, 0.4]]));
-    U.pt.intensity = kf(t, [[a4, 0.0], [a4 + 0.2, 6], [a4 + 0.8, 6, eout], [T4.changer, 6.5], [T4.se1, 6], [T4.soigner + 0.1, 7], [b4 - 0.5, 6], [b4, 0.3]]);
-    U.pt.color.setHex(0xffb25a);
+    U.pt.intensity = kf(t, [[a4, 0.0], [a4 + 0.2, 5], [a4 + 0.8, 5, eout], [T4.changer, 5.4], [T4.se1, 5], [T4.soigner + 0.1, 6], [b4 - 0.3, 5.4], [b4, 0.3]]);
+    U.pt.color.setHex(0xffc27c);
     updateS4(U, t);
   } else {
     const L = S14_LIGHTS(t); U.hemi.color.setHex(L.hemiC); U.hemi.groundColor.setHex(L.hemiG); U.hemi.intensity = L.hemi; U.dir.color.setHex(L.dirC); U.dir.intensity = L.dir; U.dir.position.set(...L.dirP); U.dir.target.position.set(0, 0, ZS);
@@ -349,6 +349,6 @@ function updateS4(U, t) {
   U.ghosts2.forEach((gm, i) => { const tt = t - 0.04 * (i + 1); const s2 = track(tt, [{ t: e0, v: [Cx + 0.05, 3.75, -1.7, 0.1, 0.2, 0.3, 0.6] }, { t: fin, v: [28.5, 2.36, 1.0, 0.62, 0.0, 0.0, 0.0], e: eout }]); placeBill(gm, s2, tt > e0 && t < fin - 0.08 ? 1 : 0); });
   U.bill2Glow.position.set(bs[0], bs[1], bs[2] - 0.05); U.bill2Glow.material.opacity = vis2 * lin(e0, fin, t) * 0.8; U.bill2Glow.scale.setScalar(2.4 + 2.6 * lin(e0, fin, t));
   // la salle s'éteint doucement pour isoler le billet (raccord)
-  U.crossHalo.material.opacity *= 1 - lin(b4 - 0.5, b4 - 0.1, t);
-  const dimO = 0.9 * sstep(T4.soigner + 0.4, b4 - 0.12, t); U.dim.material.opacity = dimO; U.dim.visible = dimO > 0.004;
+  U.crossHalo.material.opacity *= 1 - lin(b4 - 0.34, b4 - 0.08, t);
+  const dimO = 0.9 * sstep(T4.soigner + 0.55, b4 - 0.06, t); U.dim.material.opacity = dimO; U.dim.visible = dimO > 0.004;
 }

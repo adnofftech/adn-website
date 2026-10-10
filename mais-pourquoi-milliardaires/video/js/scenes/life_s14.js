@@ -40,11 +40,11 @@ export function buildS14(root, fx) {
   const ben = person({ ...BENEFICIARY }); ben.userData.s0 = ben.scale.x; ben.position.set(0, -0.22, -0.9); g.add(ben); S.ben = ben;
   blob(g, 0, -0.9, 0.5);
   // facture centrale (électricité) : « À PAYER » -> « RÉGLÉE »
-  const inv1 = invoice("elec", 0.8); inv1.g.position.set(-0.1, TOP + 0.004, 0.55); inv1.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv1.g); S.inv1 = inv1;
+  const inv1 = invoice("elec", 0.8); inv1.g.position.set(0.02, TOP + 0.004, 0.55); inv1.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv1.g); S.inv1 = inv1;
   const tool1 = stampTool(); tool1.rotation.x = Math.PI / 2; tool1.scale.setScalar(0.8); tool1.position.set(0.04, inv1.h * 0.3, 1.0); inv1.g.add(tool1); S.tool1 = tool1;
   // loyer : maison miniature + facture « LOYER »
   const hs = houseMini(); hs.position.set(-0.82, TOP, -0.22); hs.scale.setScalar(1.05); g.add(hs); S.house = hs;
-  const inv2 = invoice("loyer", 0.5); inv2.g.position.set(-0.66, TOP + 0.004, 0.62); inv2.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv2.g); S.inv2 = inv2;
+  const inv2 = invoice("loyer", 0.5); inv2.g.position.set(-0.74, TOP + 0.004, 0.62); inv2.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv2.g); S.inv2 = inv2;
   const tool2 = stampTool(); tool2.rotation.x = Math.PI / 2; tool2.scale.setScalar(0.5); tool2.position.set(0.03, inv2.h * 0.3, 0.7); inv2.g.add(tool2); S.tool2 = tool2;
   const chk = new T.Mesh(new T.PlaneGeometry(0.2, 0.2), new T.MeshBasicMaterial({ map: texCheck(), transparent: true, depthWrite: false })); chk.position.set(-0.82, TOP + 0.66, -0.15); g.add(chk); S.chk = chk;
   // panier
@@ -59,7 +59,7 @@ export function buildS14(root, fx) {
   S.basketItems = bi; S.bsk = bsk;
   // lampe de table + tasse
   const tl = tableLamp(); tl.position.set(1.0, TOP, -0.3); g.add(tl); S.tl = tl; const tlGlow = glowSprite(0xffc070, 2.2, 0); tlGlow.position.set(1.0, TOP + 0.4, -0.3); g.add(tlGlow); S.tlGlow = tlGlow;
-  { const mug = new T.Group(); cy(0.055, 0.05, 0.1, M(0xf3ecd4), 0, 0.05, 0, mug, 12); const hd = mesh(new T.TorusGeometry(0.035, 0.01, 6, 10), M(0xf3ecd4), 0.06, 0.05, 0, mug); mug.position.set(0.4, TOP, 0.0); g.add(mug); }
+  { const mug = new T.Group(); cy(0.055, 0.05, 0.1, M(0xf3ecd4), 0, 0.05, 0, mug, 12); const hd = mesh(new T.TorusGeometry(0.035, 0.01, 6, 10), M(0xf3ecd4), 0.06, 0.05, 0, mug); mug.position.set(0.52, TOP, 0.0); g.add(mug); }
 
   /* ---- la foule douce (instances) ---- */
   const crowd = []; for (let r = 0; r < 18; r++) { const z = -4.4 - r * 1.55, W = 3.4 + 0.55 * (-z); for (let x = -W; x <= W; x += 1.75) { const i = crowd.length; crowd.push({ x: x + (H(i, 1) - 0.5) * 0.7, z: z + (H(i, 2) - 0.5) * 0.6, child: H(i, 3) < 0.24, ph: H(i, 4) * 6.28, ci: Math.floor(H(i, 5) * 8), si: Math.floor(H(i, 6) * 6) }); } }
@@ -124,20 +124,20 @@ export function updateS14(S, t, U) {
   // foule : apparition en vague, du plus proche au plus lointain
   const N = S.crowdN; const popAll = 1;
   for (let i = 0; i < N; i++) {
-    const p = S.crowd[i]; const t0 = T14.millions + 0.02 + p.d * 0.0095; const k = pop(t, t0, 0.34); const s = (p.child ? 0.62 : 0.9 + H(i, 9) * 0.18) * Math.max(0, k);
+    const p = S.crowd[i]; const t0 = T14.millions - 0.12 + p.d * 0.0095; const k = pop(t, t0, 0.34); const s = (p.child ? 0.62 : 0.9 + H(i, 9) * 0.18) * Math.max(0, k);
     const sway = Math.sin(t * 1.8 + p.ph) * 0.04; const bob = Math.abs(Math.sin(t * 2.6 + p.ph)) * 0.035;
     o.position.set(p.x, bob * (p.child ? 0.8 : 1), p.z); o.rotation.set(0, Math.sin(p.ph) * 0.5, sway); o.scale.set(s, s * (1 + 0.02 * Math.sin(t * 3 + p.ph)), s); if (s < 0.002) o.scale.set(1e-4, 1e-4, 1e-4); o.updateMatrix(); S.bodies.setMatrixAt(i, o.matrix); S.heads.setMatrixAt(i, o.matrix);
   }
   S.bodies.instanceMatrix.needsUpdate = true; S.heads.instanceMatrix.needsUpdate = true;
-  S.groundGlow.opacity = 0.2 * pop(t, T14.millions + 0.2, 0.5) * (1 - sstep(COZY - 0.1, COZY + 0.2, t));
+  S.groundGlow.opacity = 0.2 * pop(t, T14.millions + 0.0, 0.5) * (1 - sstep(COZY - 0.1, COZY + 0.2, t));
   // lucioles chaudes
-  { const m = S.motes; for (let i = 0; i < m.n; i++) { const a = H(i, 31) * 6.283, r = 2 + H(i, 32) * 22; m.pos[i * 3] = Math.cos(a) * r * 0.9 + Math.sin(t * 0.6 + i) * 0.4; m.pos[i * 3 + 1] = 0.6 + ((H(i, 33) * 5 + t * (0.25 + H(i, 34) * 0.3)) % 5); m.pos[i * 3 + 2] = -3 - Math.abs(Math.sin(a)) * r * 1.2; const f = pop(t, T14.millions + 0.35, 0.5) * (0.5 + 0.5 * Math.sin(t * 3 + i)) * 0.7; m.col[i * 3] = 1 * f; m.col[i * 3 + 1] = 0.78 * f; m.col[i * 3 + 2] = 0.42 * f; } m.geo.attributes.position.needsUpdate = true; m.geo.attributes.color.needsUpdate = true; }
-  S.sun.material.opacity = (0.42 + 0.2 * sstep(T14.pourraient, b14, t)) * sstep(T14.millions + 0.1, T14.pourraient, t);
+  { const m = S.motes; for (let i = 0; i < m.n; i++) { const a = H(i, 31) * 6.283, r = 2 + H(i, 32) * 22; m.pos[i * 3] = Math.cos(a) * r * 0.9 + Math.sin(t * 0.6 + i) * 0.4; m.pos[i * 3 + 1] = 0.6 + ((H(i, 33) * 5 + t * (0.25 + H(i, 34) * 0.3)) % 5); m.pos[i * 3 + 2] = -3 - Math.abs(Math.sin(a)) * r * 1.2; const f = pop(t, T14.millions + 0.1, 0.5) * (0.5 + 0.5 * Math.sin(t * 3 + i)) * 0.7; m.col[i * 3] = 1 * f; m.col[i * 3 + 1] = 0.78 * f; m.col[i * 3 + 2] = 0.42 * f; } m.geo.attributes.position.needsUpdate = true; m.geo.attributes.color.needsUpdate = true; }
+  S.sun.material.opacity = (0.42 + 0.2 * sstep(T14.pourraient, b14, t)) * (0.55 + 0.45 * sstep(T14.millions + 0.1, T14.pourraient, t));
 
   // facture 1 : À PAYER -> RÉGLÉE
   const i1 = S.inv1, tc = T14.payer + 0.02, st1 = t >= tc;
-  const tr = t < tc ? 1.2 * Math.pow(1 - lin(tc - 0.3, tc, t), 1.6) : 1.2 * eout(lin(tc + 0.06, tc + 0.3, t));
-  S.tool1.position.z = 0.04 + tr; S.tool1.visible = t >= tc - 0.31 && t < tc + 0.34;
+  const tr = t < tc ? 0.7 * Math.pow(1 - lin(tc - 0.3, tc, t), 1.6) : 0.7 * eout(lin(tc + 0.05, tc + 0.22, t));
+  S.tool1.position.z = 0.04 + tr; S.tool1.visible = t >= tc - 0.31 && t < tc + 0.24;
   i1.tag.scale.setScalar(Math.max(1e-4, st1 ? 1 - lin(tc, tc + 0.1, t) : 1)); i1.tag.visible = !st1 || t < tc + 0.1;
   i1.stamp.scale.setScalar(Math.max(1e-4, st1 ? 1 + 0.9 * (1 - eout(lin(tc, tc + 0.18, t))) : 0)); i1.stamp.visible = st1;
   const ck1 = st1 ? pop(t, tc + 0.08, 0.26) : 0; i1.check.scale.setScalar(Math.max(1e-4, ck1)); i1.check.visible = ck1 > 0.01;
@@ -181,7 +181,7 @@ export function updateS14(S, t, U) {
   setS(kid, kid.userData.s0 * (t > tD - 0.5 ? 1 : 0)); if (t <= tD - 0.5) kid.visible = false;
   const m2 = S.mum2; m2.position.set(BX + 0.1, 0, 3.4); m2.rotation.y = 0.25 + 0.2 * wave; setS(m2, m2.userData.s0 * pop(t, tD - 0.3, 0.3)); if (t < tD - 0.3) m2.visible = false;
   m2.userData.armR.rotation.set(-2.5 * wave, 0, -0.12 * (1 - wave) + 0.35 * wave + 0.3 * wvv * wave); m2.userData.armL.rotation.z = 0.12; m2.userData.legL.rotation.x = 0; m2.userData.legR.rotation.x = 0;
-  { const sk = sstep(T14.millions + 0.1, T14.pourraient, t); S.skyM.color.setScalar(sk); S.skyM.visible = sk > 0.01; S.sun.visible = sk > 0.01; } S.far.forEach((m, i) => { const k = pop(t, T14.millions + 0.34 + i * 0.07, 0.4); m.scale.y = Math.max(1e-4, k); m.position.y = 2.5 * k - 0.1; m.visible = k > 0.003 && t < T14.ameliorer + 0.3; });
+  { const sk = 0.5 + 0.5 * sstep(T14.millions + 0.1, T14.pourraient, t); S.skyM.color.setScalar(sk); S.skyM.visible = true; S.sun.visible = true; } S.far.forEach((m, i) => { const k = pop(t, T14.millions + 0.14 + i * 0.07, 0.4); m.scale.y = Math.max(1e-4, k); m.position.y = 2.5 * k - 0.1; m.visible = k > 0.003 && t < T14.ameliorer + 0.3; });
 
   // intérieur : se construit autour de la table
   for (const k of S.K) {
@@ -198,13 +198,13 @@ export const S14_LIGHTS = (t) => {
   const cozy = sstep(T14.ameliorer + 0.3, T14.quotidien + 0.2, t);
   const onBus = sstep(T14.et - 0.02, T14.ameliorer - 0.05, t) * (1 - sstep(T14.ameliorer + 0.46, T14.ameliorer + 0.62, t));
   return {
-    hemiC: mixHex(0xfff4ea, 0xffe3c0, cozy), hemiG: 0x6a4a34, hemi: kf(t, [[a14, 0.6], [T14.millions + 0.3, 0.95], [T14.ameliorer + 0.2, 1.0], [T14.quotidien + 0.1, 1.2]]),
-    dirC: mixHex(0xfff0e0, 0xffd4a0, cozy), dir: kf(t, [[a14, 0.55], [T14.millions + 0.3, 1.25], [T14.ameliorer + 0.3, 1.2], [T14.quotidien, 0.8]]), dirP: [-8, 12, ZS + 16],
+    hemiC: mixHex(0xfff4ea, 0xffe3c0, cozy), hemiG: 0x6a4a34, hemi: kf(t, [[a14, 0.85], [T14.millions + 0.3, 0.98], [T14.ameliorer + 0.2, 1.0], [T14.quotidien + 0.1, 1.2]]),
+    dirC: mixHex(0xfff0e0, 0xffd4a0, cozy), dir: kf(t, [[a14, 0.95], [T14.millions + 0.3, 1.25], [T14.ameliorer + 0.3, 1.2], [T14.quotidien, 0.8]]), dirP: [-8, 12, ZS + 16],
     ptC: 0xffb866, ptP: [lerp(0.6, BX + 1.6, onBus), lerp(3.0, 3.0, onBus), ZS + lerp(0.9, 3.6, onBus)],
-    pt: kf(t, [[a14, 6], [T14.pourraient, 7], [T14.ameliorer - 0.1, 9], [T14.quotidien - 0.02, 8], [T14.quotidien + 0.18, 14], [b14, 16]]),
+    pt: kf(t, [[a14, 8], [T14.pourraient, 8], [T14.ameliorer - 0.1, 9], [T14.quotidien - 0.02, 8], [T14.quotidien + 0.18, 14], [b14, 16]]),
   };
 };
-export const S14_ENV = (t) => ({ bg: keyHex(t, [[a14, 0x160c07], [T14.millions + 0.5, 0x2a190f], [T14.ameliorer, 0x30200f], [T14.quotidien + 0.2, 0x3c2514], [b14, 0x402816]]), fog: kf(t, [[a14, 0.035], [T14.millions + 0.7, 0.014], [T14.ameliorer + 0.3, 0.014], [T14.quotidien + 0.1, 0.022]]) });
+export const S14_ENV = (t) => ({ bg: keyHex(t, [[a14, 0x3a2314], [T14.millions + 0.5, 0x36210f], [T14.ameliorer, 0x30200f], [T14.quotidien + 0.2, 0x3c2514], [b14, 0x402816]]), fog: kf(t, [[a14, 0.02], [T14.millions + 0.7, 0.014], [T14.ameliorer + 0.3, 0.014], [T14.quotidien + 0.1, 0.022]]) });
 export const S14_SHAKE = (t, bump) => Math.max(bump(T14.payer + 0.03, 0.04), bump(T14.factures + 0.45, 0.02));
 
 /* ---------- caméra (coordonnées monde) ---------- */
