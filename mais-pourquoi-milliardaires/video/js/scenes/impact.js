@@ -9,6 +9,7 @@ const NX = 90;                                  // zone du réseau (scène 12) d
 const GX = 5.5, GY = 14, GH = 6;               // jauge « valeur en bourse » (centre x, centre y, hauteur du tube)
 const PZ = 3;                                    // profondeur (z) des projets de développement
 const INV = [[12.6, 7.0], [14.0, 9.4], [15.4, 7.0], [16.8, 9.4], [18.2, 7.0], [19.6, 9.4], [21.0, 7.0]];   // position d'arrivée des 7 investisseurs (x, z) : deux rangées espacées
+const LANE = [0, 3.5, -3.2, 0, 5.5, -5.2, 0];   // dérive en z des investisseurs qui repartent (chacun son couloir)
 const t11 = { cert: onset(11, /certaines/), perd: onset(11, /perdraient/), valeur: onset(11, /valeur/), bourse: onset(11, /bourse/), elles: onset(11, /elles/), attirer: onset(11, /attirer/), invest: onset(11, /investisseurs/), financer: onset(11, /financer/), dev: onset(11, /developpement/) };
 const t12 = { et: onset(12, /^et$/), panique: onset(12, /panique/), propag: onset(12, /propageait/), marches: onset(12, /marches/), conseq: onset(12, /consequences/), toucher: onset(12, /toucher/), plus: onset(12, /^plus$/), seuls: onset(12, /seuls/), milliardaires: onset(12, /milliardaires/) };
 export const ENV = (t) => ({ bg: t < 45.6 ? 0x070d1a : 0x050a14, fog: 0.007 });
@@ -68,7 +69,7 @@ export function build() {
   // (4) investisseurs (silhouettes bien visibles, espacées en deux rangées) qui hésitent
   U.inv = []; for (let i = 0; i < 7; i++) { const p = makePerson({ skin: SKIN[i % SKIN.length], shirt: 0x6a9cff, pants: 0x2a3a6a, scale: 1.2 }); p.traverse((m) => { if (m.material) { m.material = m.material.clone(); m.material.transparent = true; m.material.opacity = 0.9; } }); g.add(p); U.inv.push(p);
     const case_ = new T.Mesh(new T.BoxGeometry(0.5, 0.38, 0.14), new T.MeshBasicMaterial({ color: PAL.gold })); case_.position.set(0.55, 0.9, 0); p.add(case_); }
-  U.lblI = textPlane("INVESTISSEURS", { w: 7, h: 1.1, px: 768, color: "#9ec0ff", size: 0.56 }); U.lblI.position.set(16.8, 4.0, 8.2); g.add(U.lblI);
+  U.lblI = textPlane("INVESTISSEURS", { w: 7, h: 1.1, px: 768, color: "#9ec0ff", size: 0.56 }); U.lblI.position.set(15.0, 4.0, 8.2); g.add(U.lblI);
   // (5) projets de développement (hologrammes)
   U.proj = []; for (let i = 0; i < 3; i++) { const geo = new T.EdgesGeometry(new T.BoxGeometry(4.2, [5.5, 3.8, 7][i], 3.2)); const m = new T.LineSegments(geo, new T.LineBasicMaterial({ color: 0x47f0c8, transparent: true, opacity: 0.9 })); m.position.set(16 + i * 5.2, [2.75, 1.9, 3.5][i], PZ); g.add(m);
     const bar = new T.Mesh(new T.BoxGeometry(3.6, 0.35, 0.3), new T.MeshBasicMaterial({ color: 0x47f0a0 })); bar.position.set(16 + i * 5.2, 0.35, PZ + 1.8); g.add(bar);
@@ -95,7 +96,7 @@ export function build() {
   U.bill = new T.Group(); U.bill.position.set(-5, 0.8, 3); U.bill.scale.setScalar(1.7); net.add(U.bill);
   for (let k = 0; k < 4; k++) { const p = makePerson({ skin: SKIN[k], shirt: 0x15151c, pants: 0x101018, scale: 1.2 }); p.position.set(k * 1.0, 0, (k % 2) * 0.5); U.bill.add(p); }
   const bh = glow(PAL.gold, 9, 0.5); bh.position.set(1.5, 1.5, 0); U.bill.add(bh); U.billH = bh;
-  U.lblB = textPlane("MILLIARDAIRES", { w: 8, h: 1.1, px: 768, color: "#e8b84a", size: 0.55 }); U.lblB.position.set(5.2, 4.3, 0); U.bill.add(U.lblB);
+  U.lblB = textPlane("MILLIARDAIRES", { w: 8, h: 1.1, px: 768, color: "#e8b84a", size: 0.46 }); U.lblB.position.set(6.0, 0.7, 0); U.bill.add(U.lblB);
   // liens (fines barres lumineuses, plus lisibles que des lignes d'un pixel) + impulsions + anneaux d'onde
   U.linkBars = new T.InstancedMesh(new T.BoxGeometry(1, 1, 1), new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, blending: T.AdditiveBlending, depthWrite: false }), LINKS.length); U.linkBars.frustumCulled = false; net.add(U.linkBars);
   U.rings = [0, 1].map(() => { const m = new T.Mesh(new T.RingGeometry(0.975, 1, 80), new T.MeshBasicMaterial({ color: 0xff7a62, transparent: true, opacity: 0, side: T.DoubleSide, blending: T.AdditiveBlending, depthWrite: false })); m.position.set(NODE_DEF[0].x, NODE_DEF[0].y, NODE_DEF[0].z - 0.6); net.add(m); return m; });
@@ -132,7 +133,7 @@ export function update(g, t) {
   const lvl = 1 - 0.68 * eio(lin(t11.perd, t11.bourse + 0.2, t));
   const gh = GH * Math.max(0.05, lvl); U.fill.scale.set(1, gh, 1); U.fill.position.y = GY - GH / 2 + gh / 2; U.fill.material.color.setHex(lvl < 0.6 ? 0xff5a4a : 0x4aa0ff);
   U.arrowV.visible = t > t11.perd && t < 44.5; U.arrowV.position.y = GY + 1.2 - 2.2 * lin(t11.perd, t11.bourse, t) + 0.3 * Math.sin(t * 9);
-  const gs = eoutBack(lin(t11.cert + 0.2, t11.cert + 0.9, t)); [U.tube, U.fill, U.lblV].forEach((m) => { m.scale.setScalar(Math.max(0.001, gs)); }); U.fill.scale.set(Math.max(0.001, gs), gh * Math.max(0.001, gs), Math.max(0.001, gs)); U.fill.position.y = GY + (-GH / 2 + gh / 2) * Math.max(0.001, gs); U.lblV.userData.set("VALEUR EN BOURSE", lvl < 0.6 ? "#ff8a7d" : "#8ab4ff");
+  const gs = eoutBack(lin(t11.cert + 0.2, t11.cert + 0.9, t)); [U.tube, U.fill].forEach((m) => { m.scale.setScalar(Math.max(0.001, gs)); }); U.lblV.scale.setScalar(Math.max(0.001, eoutBack(lin(38.95, 39.5, t)))); U.fill.scale.set(Math.max(0.001, gs), gh * Math.max(0.001, gs), Math.max(0.001, gs)); U.fill.position.y = GY + (-GH / 2 + gh / 2) * Math.max(0.001, gs); U.lblV.userData.set("VALEUR EN BOURSE", lvl < 0.6 ? "#ff8a7d" : "#8ab4ff");
   const gv = s11; [U.tube, U.fill, U.lblV, U.arrowV, U.lblA, U.tick, U.lblP].forEach((m) => { m.visible = m.visible && gv; }); U.tube.visible = gv; U.fill.visible = gv; U.lblV.visible = gv; U.lblA.visible = gv && t > t11.perd; U.tick.visible = U.lblA.visible; U.lblP.visible = gv && t > t11.financer; U.lblP.scale.setScalar(Math.max(0.001, eoutBack(lin(t11.financer, t11.financer + 0.35, t))));
   // activité réelle : usine qui tourne, bras, convoyeur, fumée, employés
   U.arms.forEach(([a1, a2], i) => { a1.rotation.z = Math.sin(t * 1.8 + i * 1.7) * 0.5; a2.rotation.z = -0.6 + Math.sin(t * 2.4 + i) * 0.6; a1.rotation.y = Math.sin(t * 0.9 + i) * 0.5; });
@@ -143,7 +144,7 @@ export function update(g, t) {
   U.co.visible = s11; U.wall.visible = U.wall.visible && s11;
   // investisseurs : arrivent puis hésitent, certains repartent
   U.inv.forEach((p, i) => { const [xt, zt] = INV[i]; const s = t11.elles + 0.1 + i * 0.12; const u = lin(s, s + 1.4, t); const back = lin(t11.invest + 0.2 + i * 0.1, t11.invest + 1.4 + i * 0.1, t) * (i % 3 === 0 ? 0 : 1); const x = lerp(xt + 18, xt, eio(u)) + back * (18 + i);
-    p.position.set(x, 0, zt); p.rotation.y = back > 0.05 ? -Math.PI / 2 : Math.PI / 2; p.visible = s11 && t > t11.elles && back < 0.999; p.userData.legL.rotation.x = Math.sin(t * 7 + i) * 0.5 * (u < 1 || back > 0 ? 1 : 0); p.userData.legR.rotation.x = -p.userData.legL.rotation.x; });
+    p.position.set(x, 0, zt + back * LANE[i]); p.rotation.y = back > 0.05 ? -Math.PI / 2 : Math.PI / 2; p.visible = s11 && t > t11.elles && back < 0.999; p.userData.legL.rotation.x = Math.sin(t * 7 + i) * 0.5 * (u < 1 || back > 0 ? 1 : 0); p.userData.legR.rotation.x = -p.userData.legL.rotation.x; });
   { const ls = eoutBack(lin(t11.invest - 0.05, t11.invest + 0.3, t)) * (1 - sstep(t11.invest + 0.45, t11.invest + 0.75, t)); U.lblI.visible = s11 && ls > 0.01; U.lblI.scale.setScalar(Math.max(0.001, ls)); }
   // projets : apparaissent, 2 sur 3 se figent
   U.proj.forEach((pr, i) => { const s = t11.financer + 0.05 + i * 0.25; const u = eoutBack(lin(s, s + 0.45, t)); pr.m.scale.setScalar(Math.max(0.001, u)); pr.bar.scale.set(Math.max(0.001, u * (i === 2 ? lin(s, s + 1.4, t) * 0.8 + 0.2 : lin(s, s + 0.5, t) * 0.45 + 0.02)), 1, 1); pr.bar.position.x = 16 + i * 5.2 - 1.8 * (1 - pr.bar.scale.x);
@@ -151,7 +152,7 @@ export function update(g, t) {
   // ===== S12
   U.net.visible = s12; U.warm.visible = s11; const nt = t >= 45.0;
   U.nodes.forEach((nd, i) => { const a = act(i, t); nd.halo.material.color.setRGB(1.0, 0.55 - 0.4 * a, 0.35 - 0.3 * a); nd.halo.material.opacity = 0.55 * Math.min(1, a * 1.4) * (nt ? 1 : 0); if (nd.c) drawScreen(nd, i, t); const sc = 1 + 0.12 * Math.min(1, a) * Math.sin(t * 8); nd.grp.scale.setScalar(sc * eoutBack(lin(45.4 + i * 0.03, 46.0 + i * 0.03, t)));
-    if (nd.tint) { const k = Math.min(1, a * 1.8); for (const [m, c0, e0] of nd.tint) { m.color.copy(c0).lerp(RED, 0.5 * k); m.emissive.setRGB(e0.r + 0.3 * k, e0.g + 0.02 * k, e0.b + 0.01 * k); } } });
+    if (nd.tint) { const k = clamp((a - 0.03) / 0.3, 0, 1); for (const [m, c0, e0] of nd.tint) { m.color.copy(c0).lerp(RED, 0.62 * k); m.emissive.setRGB(e0.r + 0.3 * k, e0.g + 0.02 * k, e0.b + 0.01 * k); } } });
   // anneaux d'onde qui partent du premier écran
   { const r0 = (t - (t12.panique + 0.1)) * WAVE_V; U.rings.forEach((m, k) => { const R = r0 - k * 3.2; const vis = s12 && R > 0.6 && R < 24; m.visible = vis; if (vis) { m.scale.setScalar(R); m.material.opacity = 0.75 * Math.pow(1 - R / 24, 1.3) * (k ? 0.55 : 1); } }); }
   // liens : teinte selon l'intensité de l'onde (froids et bleus si les deux bouts sont peu touchés, rouges si l'un est très touché)

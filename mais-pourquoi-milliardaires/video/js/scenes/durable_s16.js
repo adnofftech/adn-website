@@ -79,12 +79,12 @@ export function buildS16(root) {
   S.tiles = TILES.map((d, i) => { const grp = new T.Group(); grp.position.set(d.x, 0, d.z); g.add(grp);
     const ghost = new T.Mesh(new T.PlaneGeometry(2.5, 2.5), new T.MeshBasicMaterial({ map: texSocket(d.icon), transparent: true, depthWrite: false })); ghost.rotation.x = -Math.PI / 2; ghost.position.y = 0.03; grp.add(ghost);
     const plinth = new T.Group(); grp.add(plinth); cy(1.0, 1.05, 0.3, M(0x1d2a33, 0x0a1218), 0, 0.15, 0, plinth, 28); const rim = cy(1.03, 1.03, 0.05, MB(d.hex), 0, 0.32, 0, plinth, 28); const prop = PROPS[d.id](); prop.position.y = 0.3; prop.userData.s0 = 1.2; grp.add(prop);
-    const lab = textPlane(d.label, { w: 2.1, h: 0.46, px: 480, size: 0.58, color: "#ffffff", bg: "rgba(10,18,24,.78)", border: "#" + d.hex.toString(16).padStart(6, "0") }); lab.position.set(0, 3.5, 0.5); grp.add(lab);
+    const lab = textPlane(d.label, { w: 2.3, h: 0.58, px: 512, size: 0.52, color: "#ffffff", bg: "rgba(10,18,24,.88)", border: "#" + d.hex.toString(16).padStart(6, "0") }); lab.position.set(0, 0.62, 1.7); lab.rotation.x = -0.5; grp.add(lab);
     const beam = new T.Mesh(new T.CylinderGeometry(0.7, 0.95, 4.4, 20, 1, true), new T.MeshBasicMaterial({ color: d.hex, map: texBeam(), transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); beam.position.y = 2.2; grp.add(beam);
     const shock = new T.Mesh(new T.RingGeometry(1, 1.12, 40), new T.MeshBasicMaterial({ color: d.hex, transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); shock.rotation.x = -Math.PI / 2; shock.position.y = 0.06; grp.add(shock);
     const gl = glow(d.hex, 4.5, 0); gl.position.set(0, 1.4, 0.6); grp.add(gl);
     return { grp, ghost, plinth, prop, lab, beam, shock, gl, rim, d, t0: TILE_T[i] }; });
-  S.labR = textPlane("STABILITÉ DURABLE", { w: 4.4, h: 0.7, px: 640, size: 0.5, color: "#e8f4ff", bg: "rgba(12,22,32,.72)", border: "#9fb4c8" }); S.labR.position.set(3.1, 3.8, -7.4); g.add(S.labR);
+  S.labR = textPlane("STABILITÉ DURABLE", { w: 4.4, h: 0.7, px: 640, size: 0.5, color: "#e8f4ff", bg: "rgba(12,22,32,.72)", border: "#9fb4c8" }); S.labR.position.set(3.1, 2.7, -7.2); g.add(S.labR);
   // chaîne dorée entre les éléments (se tisse au fur et à mesure) + impulsions régulières
   S.links = []; for (let i = 0; i < 5; i++) { const a = TILES[i], b = TILES[i + 1]; const len = Math.hypot(b.x - a.x, b.z - a.z); const m = bx(0.16, 0.07, 1, MB(0xe8b84a), 0, 0.1, 0, g); m.position.set((a.x + b.x) / 2, 0.1, (a.z + b.z) / 2); m.rotation.y = Math.atan2(b.x - a.x, b.z - a.z); m.userData = { len, a, b }; S.links.push(m); }
   S.pulse = new T.InstancedMesh(new T.SphereGeometry(0.16, 8, 6), new T.MeshBasicMaterial({ color: 0xffe6a0 }), 20); S.pulse.frustumCulled = false; g.add(S.pulse);
@@ -112,7 +112,7 @@ export function updateS16(S, t) {
   { const c = landed; const hh = heapH(c), rr = heapR(c); S.heap.scale.set(rr, hh, rr); S.heapGlow.position.y = hh + 1.4; S.heapGlow.material.opacity = 0.12 + 0.3 * rt + 0.1 * Math.sin(t * 3); S.heapGlow.scale.setScalar(7 + 3 * rt); }
   // ---- personnes aidées (apparaissent sur « personnes », sautillent de joie)
   { const cr = S.crowd; S.people.forEach((p, i) => { const k = pop(t, p.t0, 0.3); const jump = Math.abs(Math.sin(t * 5.2 + p.ph)) * 0.22 * sstep(p.t0, p.t0 + 0.6, t) * (1 - 0.6 * sstep(T16.mais, T16.mais + 0.5, t)); setCrowd(cr, i, p.x, jump, p.z, 0.7 * k, p.ry, 0.06 * Math.sin(t * 3 + p.ph)); }); flushCrowd(cr); }
-  S.labL.visible = t > 64.8; setS(S.labL, pop(t, 64.85, 0.3) * (1 - 0.55 * sstep(T16.mais, T16.mais + 0.5, t))); S.labL.scale.set(Math.max(1e-4, pop(t, 64.85, 0.3)), Math.max(1e-4, pop(t, 64.85, 0.3)), 1);
+  { const v = pop(t, 64.85, 0.3) * (t < 69.9 ? 1 - sstep(T16.mais, T16.mais + 0.35, t) : pop(t, 70.4, 0.3)); S.labL.visible = v > 0.01; S.labL.scale.set(Math.max(1e-4, v), Math.max(1e-4, v), 1); }
   // ---- ligne de partage : éclair sur « Mais »
   { const f = Math.exp(-Math.pow((t - T16.mais - 0.05) / 0.16, 2)); S.divider.scale.set(1 + 5 * f, 1 + 2 * f, 1); S.divGlow.material.opacity = 0.18 + 0.7 * f; S.divGlow.scale.set(7 + 9 * f, 3 + 3 * f, 1); }
   // ---- six éléments durables
@@ -131,7 +131,7 @@ export function updateS16(S, t) {
     if (ud.cap) { ud.cap.position.y = 0.72 + 0.06 * Math.sin(t * 2.2); ud.cap.rotation.y = 0.3 * Math.sin(t * 1.1); }
     if (ud.wheels) { ud.wheels.forEach((w) => { w.rotation.y = 0; }); pr.position.x = 0.0 + 0.05 * Math.sin(t * 2.5); pr.position.y = 0.3 + 0.015 * Math.abs(Math.sin(t * 9)); }
   });
-  S.labR.visible = t > T16.mais + 0.2; { const v = pop(t, T16.mais + 0.2, 0.32); S.labR.scale.set(Math.max(1e-4, v), Math.max(1e-4, v), 1); }
+  { const v = pop(t, T16.mais + 0.2, 0.32) * (1 - sstep(T16.durablement - 0.05, T16.durablement + 0.2, t)); S.labR.visible = v > 0.01; S.labR.scale.set(Math.max(1e-4, v), Math.max(1e-4, v), 1); }
   // ---- chaîne et impulsions régulières (flux durable)
   S.links.forEach((m, i) => { const a = S.tiles[i].t0, b = S.tiles[i + 1].t0; const u = eio(lin(Math.max(a, b) + 0.12, Math.max(a, b) + 0.5, t)); const len = m.userData.len; m.visible = u > 0.005; m.scale.set(1, 1, Math.max(1e-3, (len - 2.2) * u)); const A = m.userData.a, B = m.userData.b; const dx = B.x - A.x, dz = B.z - A.z, l2 = Math.hypot(dx, dz); const s = (1.1 + ((len - 2.2) * u) / 2) / l2; m.position.set(A.x + dx * s, 0.1, A.z + dz * s); m.scale.z = Math.max(1e-3, len - 2.2) * u; });
   { let k = 0; const live = lin(T16.pauvrete, T16.pauvrete + 0.4, t); for (let i = 0; i < 5; i++) { const m = S.links[i]; const A = m.userData.a, B = m.userData.b; const lenN = m.userData.len; for (let j = 0; j < 4; j++) { if (k >= 20) break; const f = ((t * 0.55 + j / 4 + i * 0.13) % 1); const x = lerp(A.x, B.x, f), z = lerp(A.z, B.z, f); const vis = i < 5 && live > 0 && f > 0.1 && f < 0.9; if (vis) put(S.pulse, k, x, 0.2, z, 1, 1, 1); else hide(S.pulse, k); k++; } } for (; k < 20; k++) hide(S.pulse, k); S.pulse.instanceMatrix.needsUpdate = true; }

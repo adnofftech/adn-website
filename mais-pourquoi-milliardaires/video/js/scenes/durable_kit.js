@@ -82,12 +82,17 @@ export const texStamp = () => once("stamp", () => mk(512, 200, (g, w, h) => {
   g.font = `900 104px ${FONT}`; g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("RÉGLÉE", w / 2, h / 2 + 6);
 }));
 /** facture générique : aucune somme (barres grises seulement). kind: clé de EXP, ou "reglee" (neutre) */
+// en-têtes de facture : mêmes teintes que les pastilles mais assez foncées pour porter du texte blanc lisible
+const INV_HEAD = { logement: "#245ca8", nourriture: "#b4651a", energie: "#a06c0c", transport: "#1b7a6f" };
 export const texInvoice = (kind) => once("inv" + kind, () => mk(256, 352, (g, w, h) => {
-  const ex = EXP[kind]; const head = ex ? ex.bg : "#e1a92c";
+  const ex = EXP[kind]; const head = ex ? INV_HEAD[kind] : "#a06c0c";
   g.fillStyle = "#f6efdb"; g.fillRect(0, 0, w, h); g.strokeStyle = "rgba(0,0,0,.14)"; g.lineWidth = 4; g.strokeRect(2, 2, w - 4, h - 4);
   g.fillStyle = head; g.fillRect(0, 0, w, 84);
-  drawIcon(g, ex ? ex.kind : "bolt", 44, 42, 26, "#ffffff", head);
-  g.fillStyle = "#fff"; g.font = `900 ${kind === "nourriture" ? 24 : 28}px ${FONT}`; g.textAlign = "left"; g.textBaseline = "middle"; g.fillText(ex ? ex.label : "FACTURE", 82, 44);
+  drawIcon(g, ex ? ex.kind : "bolt", 36, 42, 22, "#ffffff", head);
+  // libellé dimensionné par mesure : jamais tronqué par le bord du papier (taille réduite, puis léger resserrement horizontal si besoin)
+  { const label = ex ? ex.label : "FACTURE", x0 = 68, avail = w - x0 - 10; g.fillStyle = "#fff"; g.textAlign = "left"; g.textBaseline = "middle";
+    let s = 31; g.font = `900 ${s}px ${FONT}`; while (s > 18 && g.measureText(label).width > avail / 0.86) { s -= 1; g.font = `900 ${s}px ${FONT}`; }
+    const sx = Math.min(1, avail / g.measureText(label).width); g.save(); g.translate(x0, 44); g.scale(sx, 1); g.fillText(label, 0, 0); g.restore(); }
   for (let i = 0; i < 5; i++) { const y = 112 + i * 36; g.fillStyle = "rgba(60,60,60,.22)"; g.fillRect(20, y, 96 + (i % 3) * 22, 11); g.fillStyle = "rgba(60,60,60,.42)"; g.fillRect(w - 20 - 56 - (i % 2) * 14, y, 56 + (i % 2) * 14, 11); }
   g.strokeStyle = "rgba(60,60,60,.35)"; g.lineWidth = 2; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(20, 304); g.lineTo(w - 20, 304); g.stroke(); g.setLineDash([]);
   g.fillStyle = "rgba(40,40,40,.55)"; g.fillRect(20, 318, 80, 14); g.fillStyle = "rgba(40,40,40,.8)"; g.fillRect(w - 20 - 90, 314, 90, 20);

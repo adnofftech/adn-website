@@ -15,12 +15,13 @@ const ICON_T = { logement: T15.fois + 0.0, nourriture: T15.fois + 0.05, energie:
 const PILE = [0.35, -0.12];
 const CAL = { x: -0.35, yTop: 4.22, z: -1.96 };
 const FLIPS = [60.26, 61.63, 63.0], FLIP_D = 0.28;
-const PERIOD_A = [59.14, 60.52, 61.89, 63.26], RATE = 27;
+const PERIOD_A = [59.72, 60.52, 61.89, 63.26], RATE = 27;
+const RATE_OF = (k) => (k === 0 ? 56 : RATE);                    // janvier : décompte accéléré, il démarre avec les premiers billets et finit au même basculement (60,26 s)
 const MONTHS = ["JANVIER", "FÉVRIER", "MARS", "AVRIL"], W0 = [2, 4, 0, 3];
 const PIN_DAYS = { logement: [1], nourriture: [5, 12, 19, 26], energie: [8, 22], transport: [15] };
 const LAND_T = [T15.probleme, T15.risque, T15.de, T15.revenir];            // instants d'atterrissage des factures qui reviennent
 const LAND = [[-0.52, 0.04], [0.0, 0.0], [0.52, 0.05], [1.04, 0.0]];       // (x, z) sur la table
-const PIPE = { y: 4.78, z: -1.2, x0: -2.8, xv: -0.45, xs: 0.95 };
+const PIPE = { y: 4.78, z: -1.2, x0: -1.95, xv: -0.45, xs: 0.95 };
 
 const topPlane = (w, h) => { const g = new T.PlaneGeometry(w, h); g.translate(0, -h / 2, 0); return g; };
 const botPlane = (w, h) => { const g = new T.PlaneGeometry(w, h); g.translate(0, h / 2, 0); return g; };
@@ -101,18 +102,18 @@ export function buildS15(root) {
     pv.add(new T.Mesh(geo, new T.MeshLambertMaterial({ color: 0xe6dcc4, emissive: 0x3a362c, side: T.BackSide })));
     const today = new T.Mesh(new T.PlaneGeometry(0.2, 0.2), new T.MeshBasicMaterial({ map: todayTex, transparent: true, depthWrite: false })); today.position.z = 0.004; pv.add(today);
     const xs = new T.InstancedMesh(new T.PlaneGeometry(0.15, 0.15), new T.MeshBasicMaterial({ map: xTex, transparent: true, alphaTest: 0.3 }), 30); xs.frustumCulled = false; xs.position.z = 0.006; pv.add(xs);
-    const pins = []; for (const key of EXP_KEYS) for (const d of PIN_DAYS[key]) { const p = iconPlane(EXP[key].kind, 0.18, { bg: EXP[key].bg }); const [cx, cy2] = cell(k, d); p.position.set(cx, cy2, 0.012); pv.add(p); pins.push({ p, d, t0: PERIOD_A[k] + (d - 1) / RATE }); }
+    const pins = []; for (const key of EXP_KEYS) for (const d of PIN_DAYS[key]) { const p = iconPlane(EXP[key].kind, 0.18, { bg: EXP[key].bg }); const [cx, cy2] = cell(k, d); p.position.set(cx, cy2, 0.012); pv.add(p); pins.push({ p, d, t0: PERIOD_A[k] + (d - 1) / RATE_OF(k) }); }
     S.pages.push({ pv, today, xs, pins, k }); }
 
   // ---------- tuyau du revenu stable : ABSENT (vide, robinet fermé, pointillé grisé) ----------
   { const pg = new T.Group(); pg.position.set(PIPE.x0, PIPE.y, PIPE.z); g.add(pg); S.pipeG = pg;
     const steel = M(0x95a8a0, 0x1a2a26), dark = M(0x1a1f1e);
     const len = PIPE.xs - PIPE.x0; const main = cy(0.1, 0.1, len, steel, len / 2, 0, 0, pg, 14); main.rotation.z = Math.PI / 2; S.pipeMain = main;
-    for (const x of [0.4, len * 0.45, len - 0.35]) { const fl = cy(0.15, 0.15, 0.06, steel, x, 0, 0, pg, 14); fl.rotation.z = Math.PI / 2; }
+    for (const x of [0.04, 0.62, len - 0.35]) { const fl = cy(0.15, 0.15, 0.06, steel, x, 0, 0, pg, 14); fl.rotation.z = Math.PI / 2; }
     // intérieur sombre visible à l'extrémité gauche (tuyau vide)
     { const tube = mesh(new T.CylinderGeometry(0.085, 0.085, len - 0.02, 12, 1, true), new T.MeshBasicMaterial({ color: 0x050808, side: T.BackSide }), len / 2, 0, 0, pg); tube.rotation.z = Math.PI / 2; }
     // supports muraux
-    for (const x of [0.9, len * 0.7]) { bx(0.1, 0.1, 0.9, M(0x4a5552), x, 0, -0.45, pg); }
+    for (const x of [0.33, len * 0.72]) { bx(0.1, 0.1, 0.9, M(0x4a5552), x, 0, -0.45, pg); }
     // robinet fermé
     const vx = PIPE.xv - PIPE.x0; const val = new T.Group(); val.position.set(vx, 0, 0); pg.add(val); S.valve = val;
     bx(0.34, 0.3, 0.34, steel, 0, 0, 0, val); cy(0.04, 0.04, 0.3, steel, 0, 0.28, 0, val, 8);
@@ -121,7 +122,7 @@ export function buildS15(root) {
     // coude + bec
     const sx = PIPE.xs - PIPE.x0; sp(0.14, steel, sx, 0, 0, pg, 12, 8); cy(0.1, 0.1, 0.5, steel, sx, -0.27, 0, pg, 12); cy(0.1, 0.07, 0.16, steel, sx, -0.6, 0, pg, 12); S.spout = [sx, -0.7];
     // plaque « REVENU STABLE » + étiquette FERMÉ
-    const pl = textPlane("REVENU STABLE", { w: 1.1, h: 0.26, px: 512, size: 0.42, color: "#b4c0ba", bg: "#202624", border: "#6a7570" }); pl.position.set(0.5 - PIPE.x0, 0.36, 0.06); pg.add(pl); S.plaque = pl;
+    const pl = textPlane("REVENU STABLE", { w: 1.7, h: 0.4, px: 768, size: 0.5, color: "#2a1c08", bg: "#f0e2b0", border: "#a8782a" }); pl.position.set(0.55 - PIPE.x0, 0.54, 0.06); pg.add(pl); S.plaque = pl;
     const fm = textPlane("FERMÉ", { w: 0.62, h: 0.24, px: 320, size: 0.66, color: "#fff7ee", bg: "#d8382b" }); fm.position.set(vx - 0.75, 0.0, 0.2); pg.add(fm); S.closed = fm; }
   // pointillé gris du flux absent (de la sortie du bec jusqu'à la pile)
   { S.dots = []; const A = [PIPE.xs, PIPE.y - 0.82, PIPE.z], B = [PILE[0] + 0.1, 1.38, PILE[1] - 0.05], C = [PIPE.xs - 0.1, 2.4, -0.4]; const tmp = new T.Vector3();
@@ -185,7 +186,7 @@ export function updateS15(S, t) {
     P.pv.scale.y = Math.max(1e-3, Math.cos(th)); P.pv.rotation.x = -0.35 * Math.sin(th * 2); P.pv.position.z = CAL.z + 0.016 * (3 - k) + 0.25 * Math.sin(th);
     P.pv.visible = !(k < 3 && fu >= 1) && (k === 0 || t >= FLIPS[k - 1] - 0.4);
     if (!P.pv.visible) return;
-    const a = PERIOD_A[k], dayf = 1 + RATE * Math.max(0, t - a), day = Math.min(30, Math.floor(dayf)); const active = t >= a && k >= 0;
+    const a = PERIOD_A[k], dayf = 1 + RATE_OF(k) * Math.max(0, t - a), day = Math.min(30, Math.floor(dayf)); const active = t >= a && k >= 0;
     const [cx, cy2] = cell(k, day); P.today.position.set(cx, cy2, 0.004); P.today.visible = active; P.today.scale.setScalar(1 + 0.08 * Math.sin(t * 20));
     for (let d = 1; d <= 30; d++) { if (active && d < day) { const [x, y] = cell(k, d); put(P.xs, d - 1, x, y, 0, 1, 1, 1, 0, 0, 0.1 * (H(d + k * 31, 3) - 0.5)); } else hide(P.xs, d - 1); }
     P.xs.instanceMatrix.needsUpdate = true;
@@ -193,7 +194,7 @@ export function updateS15(S, t) {
   });
   // ---- tuyau absent
   { const g0 = lin(61.2, 61.62, t); const pgS = eio(g0); S.pipeG.visible = g0 > 0.001; S.pipeG.scale.x = Math.max(1e-3, pgS);
-    S.plaque.visible = t >= T15.revenus; setS(S.plaque, pop(t, T15.revenus, 0.28)); S.plaque.scale.set(Math.max(1e-4, pop(t, T15.revenus, 0.28)), Math.max(1e-4, pop(t, T15.revenus, 0.28)), 1);
+    { const pp = pop(t, T15.toujours, 0.3) * (1 + 0.08 * Math.exp(-Math.max(0, t - T15.revenus) * 9) * (t >= T15.revenus ? 1 : 0)); S.plaque.visible = pp > 0.01; S.plaque.scale.set(Math.max(1e-4, pp), Math.max(1e-4, pp), 1); }
     const w = pop(t, 61.55, 0.3); S.valve.scale.setScalar(Math.max(1e-4, w)); S.valve.visible = w > 0.01;
     S.wheel.rotation.y = -(2.2 * Math.PI) * eout(lin(61.62, 62.0, t)) + 0.9;       // le robinet se ferme (rotation puis blocage)
     const fm = pop(t, 62.0, 0.26); S.closed.visible = fm > 0.01; S.closed.scale.setScalar(Math.max(1e-4, fm)); S.closed.rotation.z = 0.06 * Math.sin(t * 5) * fm;

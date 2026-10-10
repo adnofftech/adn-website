@@ -114,7 +114,7 @@ export function buildVault() {
   for (let i = 0; i < 6; i++) { const sp = new T.Group(); sp.rotation.z = (i / 6) * 6.283; const b = new T.Mesh(new T.BoxGeometry(0.3, 2.7, 0.3), gold); b.position.y = 1.4; sp.add(b); const k = new T.Mesh(new T.SphereGeometry(0.36, 14, 10), gold); k.position.y = 2.95; sp.add(k); V.wheel.add(sp); }
   // plaque gravée
   // (remontée à y 19.1 : la porte entrouverte, vue d'en bas, ne la rogne plus ; exposée pour s'effacer quand le titre HTML arrive)
-  const plq = textPlane("COFFRE-FORT", { w: 8.6, h: 1.5, px: 512, color: "#f1d58a", bg: "#10161b", border: "#d9a63a", size: 0.5 }); plq.position.set(0, 19.1, 0.06); g.add(plq); V.plq = plq;
+  const plq = textPlane("COFFRE-FORT", { w: 8.6, h: 1.5, px: 512, color: "#f1d58a", bg: "#10161b", border: "#d9a63a", size: 0.5 }); plq.position.set(0, 19.1, 0.06); plq.material.depthTest = false; plq.renderOrder = 6; g.add(plq); V.plq = plq;   // dessinée par-dessus les billets qui tombent
   // lueur d'interstice (anneau additif) + halo derrière la porte
   V.seam = new T.Mesh(new T.RingGeometry(6.0, 7.5, 72), addMat(0x7dffb2, 0)); V.seam.position.set(0, 10, 0.3); g.add(V.seam);
   g.userData = V; return g;
