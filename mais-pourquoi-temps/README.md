@@ -15,3 +15,7 @@ Narration de 8 min 07 s, voix « Léo – Energetic & Engaging » (ElevenLabs, m
 
 ## Contrôle
 * Transcription locale ≈ 96 % identique au texte ; les écarts relevés sont des pluriels inaudibles, « 24h » lu « 24 heures », des noms propres épelés autrement par le transcripteur (Wittmann, Ornstein, Draaisma) et quelques « ne » / « il y a » possiblement ajoutés. Non vérifié à l'écoute.
+
+## Mini-vidéos stickman (plan de plans)
+* `PLAN_CLIPS.md` — 94 clips d'environ 5 s calés sur la narration (début/fin, texte dit, idée de visuel, prompt anglais prêt à coller) ; `prompts_clips.txt` — les prompts seuls ; `plan_clips.json` — les mêmes données pour un traitement automatique ; `scripts/plan_clips.py` — génération.
+* Les clips eux-mêmes ne sont PAS générés : la génération sur vibes.ai demande un accès à l'ordinateur de l'utilisateur, impossible depuis cette session cloud.
