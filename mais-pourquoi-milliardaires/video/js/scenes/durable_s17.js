@@ -11,9 +11,9 @@ export const T17 = { argent: o17(/^largent$/), seulement: o17(/^seulement$/), ce
 const R = 6.3;
 const NODE_DEF = [
   { id: "entreprises", label: "ENTREPRISES", a: -90, t: T17.entreprises, top: 3.9 },
-  { id: "emplois", label: "EMPLOIS", a: -18, t: T17.emplois, top: 4.4, lx: -0.7 },
-  { id: "biens", label: "BIENS", a: 54, t: T17.biens, top: 2.7, front: 3.2 },
-  { id: "logements", label: "LOGEMENTS", a: 126, t: T17.emplois + 0.46, top: 2.7, front: 3.2 },
+  { id: "emplois", label: "EMPLOIS", a: -18, t: T17.emplois, top: 4.4, lx: -1.0 },
+  { id: "biens", label: "BIENS", a: 54, t: T17.biens, top: 2.7, front: 3.8, lx: -0.8 },
+  { id: "logements", label: "LOGEMENTS", a: 126, t: T17.emplois + 0.46, top: 2.7, front: 3.8 },
   { id: "services", label: "SERVICES", a: 198, t: T17.services, top: 3.2 },
 ];
 NODE_DEF.forEach((n) => { n.x = Math.cos(n.a * Math.PI / 180) * R; n.z = Math.sin(n.a * Math.PI / 180) * R; });
@@ -125,7 +125,7 @@ export function updateS17(S, t) {
     const hint = sstep(T17.il, T17.il + 0.5, t); N.ring.material.opacity = (0.2 + 0.12 * hint) * (1 - 0.7 * lit) + 0.25 * lit; N.ring.material.color.setHex(lit > 0.5 ? 0xffe6a0 : 0xe8b84a);
     const dt = t - t0; const fu = clamp(dt / 0.8); N.flash.visible = dt > 0 && dt < 0.85; N.flash.scale.setScalar(1.5 + 2.4 * eout(fu)); N.flash.material.opacity = 0.85 * (1 - fu);
     N.gl.material.opacity = clamp(0.55 * Math.exp(-Math.max(0, dt) * 2.2) * (dt > -0.05 ? 1 : 0) + 0.12 * lit, 0, 0.7); const bp = pop(t, t0 - 0.02, 0.4); N.grp.visible = t > t0 - 0.06; N.grp.scale.set(0.5 + 0.5 * bp, 0.2 + 0.8 * bp, 0.5 + 0.5 * bp);
-    const lp = pop(t, t0 + 0.08, 0.3) * labScale; N.lab.visible = lp > 0.01; N.lab.scale.set(Math.max(1e-4, lp), Math.max(1e-4, lp), 1); if (N.d.front) N.lab.position.set(N.d.x, 1.2 + 0.4 * (labScale - 1), N.d.z + N.d.front); else N.lab.position.set(N.d.x + (N.d.lx || 0), N.d.top * 1.15 + 0.9 + 0.4 * (labScale - 1), N.d.z + 0.6);
+    const lp = pop(t, t0 + 0.08, 0.3) * labScale; N.lab.visible = lp > 0.01; N.lab.scale.set(Math.max(1e-4, lp), Math.max(1e-4, lp), 1); if (N.d.front) N.lab.position.set(N.d.x + (N.d.lx || 0), 1.2 + 0.4 * (labScale - 1), N.d.z + N.d.front); else N.lab.position.set(N.d.x + (N.d.lx || 0), N.d.top * 1.15 + 0.9 + 0.4 * (labScale - 1), N.d.z + 0.6);
     if (N.body.userData.cross) { N.body.userData.cross.rotation.y = t * 1.5; N.body.userData.cross.position.y = 2.2 + 0.08 * Math.sin(t * 2.3); } });
   // ---- fumée des cheminées (usine allumée)
   { const N0 = S.nodes[0]; const on = sstep(N0.d.t, N0.d.t + 0.4, t); S.smoke.forEach((m, k) => { const ch = k % 2, f = ((t * 0.28 + k / 8 + ch * 0.2) % 1); const sc = (0.4 + 1.1 * f) * on; m.visible = sc > 0.02; m.position.set(NODE_DEF[0].x + (ch ? 1.5 : 1.05) * 1.15 + 0.6 * f, 2.3 * 1.15 + 2.2 * f, NODE_DEF[0].z - 0.55 * 1.15); m.scale.setScalar(Math.max(1e-3, sc)); m.material.opacity = 0.42 * (1 - f) * on; }); }

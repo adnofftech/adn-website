@@ -44,7 +44,7 @@ export function buildS14(root, fx) {
   const tool1 = stampTool(); tool1.rotation.x = Math.PI / 2; tool1.scale.setScalar(0.8); tool1.position.set(0.04, inv1.h * 0.3, 1.0); inv1.g.add(tool1); S.tool1 = tool1;
   // loyer : maison miniature + facture « LOYER »
   const hs = houseMini(); hs.position.set(-0.82, TOP, -0.22); hs.scale.setScalar(1.05); g.add(hs); S.house = hs;
-  const inv2 = invoice("loyer", 0.5); inv2.g.position.set(-0.71, TOP + 0.004, 0.62); inv2.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv2.g); S.inv2 = inv2;
+  const inv2 = invoice("loyer", 0.5); inv2.g.position.set(-0.64, TOP + 0.004, 0.62); inv2.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv2.g); S.inv2 = inv2;
   const tool2 = stampTool(); tool2.rotation.x = Math.PI / 2; tool2.scale.setScalar(0.5); tool2.position.set(0.03, inv2.h * 0.3, 0.7); inv2.g.add(tool2); S.tool2 = tool2;
   const chk = new T.Mesh(new T.PlaneGeometry(0.2, 0.2), new T.MeshBasicMaterial({ map: texCheck(), transparent: true, depthWrite: false })); chk.position.set(-0.82, TOP + 0.66, -0.15); g.add(chk); S.chk = chk;
   // panier
@@ -137,7 +137,7 @@ export function updateS14(S, t, U) {
   // facture 1 : À PAYER -> RÉGLÉE
   const i1 = S.inv1, tc = T14.payer + 0.02, st1 = t >= tc;
   const tr = t < tc ? 0.7 * Math.pow(1 - lin(tc - 0.3, tc, t), 1.6) : 0.7 * eout(lin(tc + 0.05, tc + 0.2, t)); const tx1 = t < tc ? 0 : 0.5 * eout(lin(tc + 0.05, tc + 0.2, t));
-  S.tool1.position.set(0.04 + tx1, i1.h * 0.3, 0.04 + tr); S.tool1.scale.setScalar(0.8 * (t < tc ? 1 : 1 - 0.9 * lin(tc + 0.1, tc + 0.2, t))); S.tool1.visible = t >= tc - 0.31 && t < tc + 0.2;
+  S.tool1.position.set(0.04 + tx1, i1.h * 0.3, 0.04 + tr); S.tool1.scale.setScalar(0.8 * (t < tc ? 1 : 1 - 0.9 * lin(tc + 0.06, tc + 0.16, t))); S.tool1.visible = t >= tc - 0.31 && t < tc + 0.16;
   i1.tag.scale.setScalar(Math.max(1e-4, st1 ? 1 - lin(tc, tc + 0.1, t) : 1)); i1.tag.visible = !st1 || t < tc + 0.1;
   i1.stamp.scale.setScalar(Math.max(1e-4, st1 ? 1 + 0.9 * (1 - eout(lin(tc, tc + 0.18, t))) : 0)); i1.stamp.visible = st1;
   const ck1 = st1 ? pop(t, tc + 0.08, 0.26) : 0; i1.check.scale.setScalar(Math.max(1e-4, ck1)); i1.check.visible = ck1 > 0.01;

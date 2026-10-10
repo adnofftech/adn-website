@@ -195,7 +195,8 @@ const S4_SHOTS = [
   shot(T4.se2 - 0.12, [14.0, 1.85, 1.7], [14, 1.5, -2.7], 50, { dy: 0.05 }),
   shot(T4.se2 - 0.08, [14.0, 1.85, 1.3], [14, 1.5, -2.8], 50, { dy: 0.05, e: eio }),
   shot(T4.soigner - 0.03, [28.65, 2.5, 5.8], [28.55, 2.45, -1.4], 46, { dy: 0.2 }),
-  shot(T4.soigner + 0.36, [28.6, 2.4, 5.2], [28.5, 2.3, -0.7], 46, { dy: 0.2, e: eio }),
+  shot(T4.soigner + 0.36, [28.6, 2.4, 5.2], [28.5, 2.3, -0.7], 46, { dy: 0.2 }),
+  shot(T4.soigner + 0.55, [28.6, 2.4, 5.2], [28.5, 2.3, -0.7], 46, { dy: 0.2, e: eio }),
   shot(b4 - 0.01, [28.5, 2.35, 4.3], [28.5, 2.35, 1.0], 40, { dy: 0.02 }),
 ];
 const S14S = S14_SHOTS(ox, oz);
@@ -245,13 +246,13 @@ export function update(g, t) {
   // éclairage : reconstitué à chaque image
   if (!inW14) {
     const warm = sstep(a4, b4 - 0.5, t);
-    U.hemi.color.setHex(mixHex(0xfff2e2, 0xffe6c8, warm)); U.hemi.groundColor.setHex(0x6a4a34);
+    U.hemi.color.setHex(mixHex(0xfff4ea, 0xffeedc, warm)); U.hemi.groundColor.setHex(0x6a4a34);
     U.hemi.intensity = kf(t, [[a4, 0.03], [a4 + 0.25, 0.08], [a4 + 0.9, 0.55], [T4.changer, 0.72], [T4.soigner + 0.2, 0.78], [b4 - 0.3, 0.78], [b4, 0.12]]);
-    U.dir.color.setHex(mixHex(0xfff0dc, 0xffdcae, warm)); U.dir.intensity = kf(t, [[a4, 0.0], [a4 + 0.3, 0.1], [a4 + 0.95, 0.6], [T4.changer, 0.8], [b4 - 0.3, 0.8], [b4, 0.1]]);
+    U.dir.color.setHex(mixHex(0xfff2e4, 0xffe8cc, warm)); U.dir.intensity = kf(t, [[a4, 0.0], [a4 + 0.3, 0.1], [a4 + 0.95, 0.6], [T4.changer, 0.8], [b4 - 0.3, 0.8], [b4, 0.1]]);
     const px = kf(t, [[a4, 0], [T4.faim + 0.1, 0, eio], [T4.se1 + 0.04, 14], [T4.se2 - 0.04, 14, eio], [T4.soigner + 0.08, 28]]);
     U.pt.position.set(px, kf(t, [[a4, 3.2], [T4.se1, 2.9], [T4.soigner, 3.0]]), kf(t, [[a4, 0.8], [T4.se1, -0.2], [T4.soigner, 0.4]]));
     U.pt.intensity = kf(t, [[a4, 0.0], [a4 + 0.2, 5], [a4 + 0.8, 5, eout], [T4.changer, 5.4], [T4.se1, 5], [T4.soigner + 0.1, 6], [b4 - 0.3, 5.4], [b4, 0.3]]);
-    U.pt.color.setHex(0xffc27c);
+    U.pt.color.setHex(0xffd09a);
     updateS4(U, t);
   } else {
     const L = S14_LIGHTS(t); U.hemi.color.setHex(L.hemiC); U.hemi.groundColor.setHex(L.hemiG); U.hemi.intensity = L.hemi; U.dir.color.setHex(L.dirC); U.dir.intensity = L.dir; U.dir.position.set(...L.dirP); U.dir.target.position.set(0, 0, ZS);

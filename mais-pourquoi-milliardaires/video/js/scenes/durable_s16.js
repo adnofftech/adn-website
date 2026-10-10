@@ -112,14 +112,17 @@ export function updateS16(S, t) {
   { const c = landed; const hh = heapH(c), rr = heapR(c); S.heap.scale.set(rr, hh, rr); S.heapGlow.position.y = hh + 1.4; S.heapGlow.material.opacity = 0.12 + 0.3 * rt + 0.1 * Math.sin(t * 3); S.heapGlow.scale.setScalar(7 + 3 * rt); }
   // ---- personnes aidées (apparaissent sur « personnes », sautillent de joie)
   { const cr = S.crowd; S.people.forEach((p, i) => { const k = pop(t, p.t0, 0.3); const jump = Math.abs(Math.sin(t * 5.2 + p.ph)) * 0.22 * sstep(p.t0, p.t0 + 0.6, t) * (1 - 0.6 * sstep(T16.mais, T16.mais + 0.5, t)); setCrowd(cr, i, p.x, jump, p.z, 0.7 * k, p.ry, 0.06 * Math.sin(t * 3 + p.ph)); }); flushCrowd(cr); }
-  { const v = pop(t, 64.85, 0.3) * (t < 69.9 ? 1 - sstep(T16.mais, T16.mais + 0.35, t) : pop(t, 70.4, 0.3)); S.labL.visible = v > 0.01; S.labL.scale.set(Math.max(1e-4, v), Math.max(1e-4, v), 1); }
+  { const end = t >= 69.9;   // avant : au-dessus du tas, s'efface avant que le traveling ne le fasse sortir du cadre ; fin de plan : derrière le tas (vue plongeante), il revient sans couvrir les personnes
+    const v = pop(t, 64.85, 0.3) * (end ? pop(t, 70.4, 0.3) : 1 - sstep(67.25, 67.6, t));
+    if (end) { S.labL.position.set(LX, 1.3, MZ - 3.5); S.labL.rotation.x = -(0.45 + 0.4 * sstep(69.8, 70.8, t)); } else { S.labL.position.set(LX, 4.6, MZ + 1.6); S.labL.rotation.x = 0; }
+    S.labL.visible = v > 0.01; S.labL.scale.set(Math.max(1e-4, v), Math.max(1e-4, v), 1); }
   // ---- ligne de partage : éclair sur « Mais »
   { const f = Math.exp(-Math.pow((t - T16.mais - 0.05) / 0.16, 2)); S.divider.scale.set(1 + 5 * f, 1 + 2 * f, 1); S.divGlow.material.opacity = 0.18 + 0.7 * f; S.divGlow.scale.set(7 + 9 * f, 3 + 3 * f, 1); }
   // ---- six éléments durables
   S.tiles.forEach((P, i) => { const t0 = P.t0; const dt = t - t0; const on = pop(t, t0, 0.32), onP = pop(t, t0 + 0.06, 0.4);
     P.ghost.material.opacity = (0.55 + 0.1 * Math.sin(t * 2 + i)) * (1 - sstep(t0 - 0.02, t0 + 0.25, t));
     P.plinth.scale.set(Math.max(1e-4, on), Math.max(1e-4, on), Math.max(1e-4, on)); P.plinth.visible = on > 0.01; P.prop.scale.setScalar(Math.max(1e-4, onP * 1.2)); P.prop.visible = onP > 0.01;
-    P.lab.rotation.x = -(0.45 + 0.4 * sstep(69.8, 70.8, t)); const lp = pop(t, t0 + 0.12, 0.3); P.lab.visible = lp > 0.01; P.lab.scale.set(Math.max(1e-4, lp), Math.max(1e-4, lp), 1);
+    P.lab.rotation.x = -(0.45 + 0.4 * sstep(69.8, 70.8, t)); const lp = pop(t, t0 + 0.03, 0.22); P.lab.visible = lp > 0.01; P.lab.scale.set(Math.max(1e-4, lp), Math.max(1e-4, lp), 1);
     P.beam.material.opacity = dt > 0 ? 0.5 * Math.exp(-dt * 3.4) : 0; P.beam.visible = dt > 0 && dt < 1.2; P.beam.scale.set(1 + 0.4 * dt, 1, 1 + 0.4 * dt);
     const su = clamp(dt / 0.7); P.shock.visible = dt > 0 && dt < 0.75; P.shock.scale.setScalar(1 + 2.4 * eout(su)); P.shock.material.opacity = 0.8 * (1 - su);
     P.gl.material.opacity = dt > 0 ? clamp(0.5 * Math.exp(-dt * 3) + 0.1, 0, 0.6) : 0;

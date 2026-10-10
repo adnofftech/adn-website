@@ -122,7 +122,7 @@ export function buildS15(root) {
     // coude + bec
     const sx = PIPE.xs - PIPE.x0; sp(0.14, steel, sx, 0, 0, pg, 12, 8); cy(0.1, 0.1, 0.5, steel, sx, -0.27, 0, pg, 12); cy(0.1, 0.07, 0.16, steel, sx, -0.6, 0, pg, 12); S.spout = [sx, -0.7];
     // plaque « REVENU STABLE » + étiquette FERMÉ
-    const pl = textPlane("REVENU STABLE", { w: 1.7, h: 0.4, px: 768, size: 0.5, color: "#2a1c08", bg: "#f0e2b0", border: "#a8782a" }); pl.position.set(0.55 - PIPE.x0, 0.54, 0.06); pg.add(pl); S.plaque = pl;
+    const pl = textPlane("REVENU STABLE", { w: 2.0, h: 0.4, px: 900, size: 0.4, color: "#2a1c08", bg: "#f0e2b0", border: "#a8782a" }); pl.position.set(0.8 - PIPE.x0, 0.56, 0.06); pg.add(pl); S.plaque = pl;
     const fm = textPlane("FERMÉ", { w: 0.62, h: 0.24, px: 320, size: 0.66, color: "#fff7ee", bg: "#d8382b" }); fm.position.set(vx - 0.75, 0.0, 0.2); pg.add(fm); S.closed = fm; }
   // pointillé gris du flux absent (de la sortie du bec jusqu'à la pile)
   { S.dots = []; const A = [PIPE.xs, PIPE.y - 0.82, PIPE.z], B = [PILE[0] + 0.1, 1.38, PILE[1] - 0.05], C = [PIPE.xs - 0.1, 2.4, -0.4]; const tmp = new T.Vector3();
