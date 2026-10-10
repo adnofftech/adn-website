@@ -10,8 +10,11 @@ Vidéo verticale 1080 × 1920, 30 i/s, 83,97 s, voix de Léo (ElevenLabs), motio
 ```bash
 cd video
 npx --yes hyperframes@0.8.143 render --quality delivery --fps 30 --output ../final/mais-pourquoi-milliardaires-complet.mp4
-# puis remplacer l'audio par le mix final (voix ×2 + musique/effets ×0,75, +3 dB, limiteur) :
-python3 ../scripts/make_sound.py   # -> audio/final_mix.wav
+# mix final : voix x2 + musique/effets x0,75 (make_sound.py) -> audio/final_mix.wav
+python3 ../scripts/make_sound.py
+# +3 dB avec limiteur, puis remplacement de la piste audio du rendu
+ffmpeg -i ../audio/final_mix.wav -af "volume=3dB,alimiter=limit=0.891:attack=5:release=60:level=disabled" -ar 48000 -ac 2 /tmp/mix_loud.wav
+ffmpeg -i ../final/mais-pourquoi-milliardaires-complet.mp4 -i /tmp/mix_loud.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart ../final/tmp.mp4
 ```
 
 ## Contenu du dossier
