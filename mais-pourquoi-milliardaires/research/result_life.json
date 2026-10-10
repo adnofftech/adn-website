@@ -1,0 +1,312 @@
+{
+ "module": "life",
+ "files_written": [
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/life.js",
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/life_kit.js",
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/life_s14.js"
+ ],
+ "scenes": [
+  {
+   "n": 4,
+   "shown": "Un décor continu en coupe (cuisine, entrée du logement, cabinet de soins) que la caméra parcourt en suivant un billet. Entrée sur un point lumineux chaud (lampe suspendue) dans le noir. La lumière monte et révèle une famille de 4 personnes (teintes de peau variées, visages souriants). Un billet naît de l'ampoule, tombe en traînée dans les mains de la mère, est levé à « changer » (éclat, enfants qui sautent), se pose sur la table et se change en pain, lait, fruits et sac « COURSES ». Le billet file vers une facture « LOYER / À PAYER » tamponnée « RÉGLÉE » (coche), puis la porte s'ouvre sur une lumière chaude. Cabinet de soins : croix médicale lumineuse, panneau « SANTÉ », soignant bienveillant qui salue un parent et son enfant. Un billet unique naît de la croix et monte au centre du cadre, salle assombrie.",
+   "beats": [
+    {
+     "t": 13.18,
+     "word": "Pour",
+     "event": "Point lumineux chaud (lampe) sur fond quasi noir, halo et étincelles : raccord d'entrée. Les lumières montent ensuite."
+    },
+    {
+     "t": 13.26,
+     "word": "certaines",
+     "event": "La mère apparaît dans la lueur (pop). Le père à 13,38."
+    },
+    {
+     "t": 13.54,
+     "word": "familles",
+     "event": "Les deux enfants apparaissent (13,44 la fille, 13,54 le garçon) : la famille est au complet autour de la table."
+    },
+    {
+     "t": 14.22,
+     "word": "cet",
+     "event": "Un billet naît de l'ampoule et descend en cascade (traînée de billets) vers la mère."
+    },
+    {
+     "t": 14.82,
+     "word": "tout",
+     "event": "Le billet arrive dans les mains de la mère (étincelles)."
+    },
+    {
+     "t": 15.1,
+     "word": "changer",
+     "event": "Éclat de lumière chaude, étincelles, bras levés et sauts des enfants, billet levé haut ; très légère secousse de caméra."
+    },
+    {
+     "t": 15.9,
+     "word": "manger",
+     "event": "Le billet se pose sur la table ; un petit billet se transforme en pain (baguette + boule) qui tombe avec rebond."
+    },
+    {
+     "t": 16.12,
+     "word": "à",
+     "event": "Un carton de lait apparaît sur la table."
+    },
+    {
+     "t": 16.24,
+     "word": "leur",
+     "event": "Une corbeille de fruits apparaît."
+    },
+    {
+     "t": 16.38,
+     "word": "faim",
+     "event": "Un sac « COURSES » plein de légumes apparaît ; les enfants applaudissent à chaque dépôt."
+    },
+    {
+     "t": 16.55,
+     "word": "faim",
+     "event": "La caméra file avec le billet vers l'entrée du logement."
+    },
+    {
+     "t": 16.88,
+     "word": "se",
+     "event": "Le billet devient une facture « LOYER » avec pastille rouge « À PAYER »."
+    },
+    {
+     "t": 17.02,
+     "word": "loger",
+     "event": "Tampon vert « RÉGLÉE » + coche, étincelles vertes, légère secousse."
+    },
+    {
+     "t": 17.22,
+     "word": "loger",
+     "event": "La facture s'envole et la porte s'ouvre (jusqu'à 17,54) sur un intérieur baigné de lumière chaude."
+    },
+    {
+     "t": 17.46,
+     "word": "(pause)",
+     "event": "Travelling latéral rapide vers le cabinet de soins."
+    },
+    {
+     "t": 17.7,
+     "word": "soigner",
+     "event": "La croix médicale s'allume (vert menthe, halo, étincelles), panneau « SANTÉ » ; le soignant salue de la main, l'enfant lui répond."
+    },
+    {
+     "t": 18.05,
+     "word": "soigner",
+     "event": "Un billet unique naît du centre de la croix et monte vers la caméra."
+    },
+    {
+     "t": 18.5,
+     "word": "(fin)",
+     "event": "Fin de fenêtre : billet unique centré, grand, face caméra, avec lueur dorée ; le cabinet est assombri (raccord shares)."
+    }
+   ]
+  },
+  {
+   "n": 14,
+   "shown": "Raccord sur la bénéficiaire en gros plan à sa table avec sa facture « À PAYER ». Recul/montée de caméra : une foule instanciée d'environ 280 personnes (adultes et enfants) apparaît en vague, prolongée jusqu'à l'horizon par 3 bandeaux de silhouettes, sous un ciel de fin de journée. La caméra replonge sur la table : tampon « RÉGLÉE » sur la facture, panier qui se remplit, loyer tamponné avec petite maison qui s'éclaire. Un bus s'arrête, l'enfant (cartable) monte et salue sa mère à la fenêtre. Un intérieur confortable se construit autour de la table (murs, fenêtre, plantes, cadres, étagère, guirlande, lampes) ; fin sur la bénéficiaire, factures « RÉGLÉE » visibles et panier plein.",
+   "beats": [
+    {
+     "t": 54.78,
+     "word": "Des",
+     "event": "Gros plan sur la bénéficiaire (chignon, haut vert d'eau, sourire) et sa facture « À PAYER » (raccord wealth)."
+    },
+    {
+     "t": 55.24,
+     "word": "millions",
+     "event": "Recul rapide et montée de caméra ; la foule surgit en vague du plus proche au plus lointain, lueurs chaudes au sol et lucioles ; le ciel apparaît."
+    },
+    {
+     "t": 55.84,
+     "word": "personnes",
+     "event": "Plan large : foule à perte de vue, la bénéficiaire reste au premier plan."
+    },
+    {
+     "t": 56.16,
+     "word": "pourraient",
+     "event": "La caméra replonge vers la table."
+    },
+    {
+     "t": 56.58,
+     "word": "enfin",
+     "event": "Plan sur la facture ; le tampon descend."
+    },
+    {
+     "t": 56.92,
+     "word": "payer",
+     "event": "Tampon vert « RÉGLÉE » + coche, éclat vert, légère secousse ; la bénéficiaire lève les bras."
+    },
+    {
+     "t": 57.38,
+     "word": "factures",
+     "event": "Le panier se remplit : pain 57,38, lait 57,49, fruits 57,60, légumes 57,71."
+    },
+    {
+     "t": 57.78,
+     "word": "factures",
+     "event": "La facture « LOYER » est tamponnée « RÉGLÉE », la maison miniature s'éclaire et une coche verte apparaît."
+    },
+    {
+     "t": 57.86,
+     "word": "et",
+     "event": "Travelling rapide vers l'arrêt de bus."
+    },
+    {
+     "t": 58.04,
+     "word": "améliorer",
+     "event": "Le bus est à quai, la porte s'ouvre (voyant vert), l'enfant monte (58,24 à 58,36) puis salue sa mère à la fenêtre (58,5)."
+    },
+    {
+     "t": 58.5,
+     "word": "améliorer",
+     "event": "La caméra revient vers la table ; les murs, la fenêtre, les plantes et les cadres se construisent autour d'elle."
+    },
+    {
+     "t": 58.68,
+     "word": "quotidien",
+     "event": "Éclat chaud, lampes et guirlande allumées : intérieur confortable."
+    },
+    {
+     "t": 59.4,
+     "word": "(fin)",
+     "event": "Intérieur confortable : bénéficiaire souriante, facture « RÉGLÉE » et loyer « RÉGLÉE » visibles, panier plein (raccord durable)."
+    }
+   ]
+  }
+ ],
+ "sfx_events": [
+  {
+   "t": 13.18,
+   "kind": "swell",
+   "note": "Ouverture chaude : la lampe s'allume, la lumière monte"
+  },
+  {
+   "t": 13.3,
+   "kind": "tick",
+   "note": "Pops doux d'apparition de la famille (13,26 / 13,38 / 13,44 / 13,54)"
+  },
+  {
+   "t": 14.22,
+   "kind": "whoosh",
+   "note": "Le billet naît de l'ampoule et descend en cascade jusqu'aux mains (14,22 à 14,82)"
+  },
+  {
+   "t": 14.82,
+   "kind": "ding",
+   "note": "Le billet arrive dans les mains de la mère"
+  },
+  {
+   "t": 15.1,
+   "kind": "stinger",
+   "note": "« tout changer » : éclat chaud, joie de la famille"
+  },
+  {
+   "t": 16,
+   "kind": "tick",
+   "note": "Dépôts de courses sur la table : pain 15,90, lait 16,12, fruits 16,24, sac COURSES 16,38 (impact mat à environ +0,12 s)"
+  },
+  {
+   "t": 16.55,
+   "kind": "whoosh",
+   "note": "Travelling vers la porte avec le billet (16,55 à 16,9)"
+  },
+  {
+   "t": 16.88,
+   "kind": "rustle",
+   "note": "Le billet devient une facture papier LOYER"
+  },
+  {
+   "t": 17.02,
+   "kind": "impact",
+   "note": "Tampon RÉGLÉE sur la facture, suivi d'un ding de validation à 17,08"
+  },
+  {
+   "t": 17.3,
+   "kind": "swell",
+   "note": "La porte du logement s'ouvre sur la lumière chaude (17,22 à 17,54), léger grincement"
+  },
+  {
+   "t": 17.48,
+   "kind": "whoosh",
+   "note": "Travelling rapide vers le cabinet de soins (17,46 à 17,67)"
+  },
+  {
+   "t": 17.7,
+   "kind": "ding",
+   "note": "Tintement médical doux : la croix s'allume"
+  },
+  {
+   "t": 18.05,
+   "kind": "riser",
+   "note": "Le billet unique monte vers le centre du cadre jusqu'à 18,5 (raccord shares)"
+  },
+  {
+   "t": 55.24,
+   "kind": "rustle",
+   "note": "La foule apparaît en vague (55,24 à 56,0), avec une montée douce"
+  },
+  {
+   "t": 56.1,
+   "kind": "whoosh",
+   "note": "Replongée de caméra vers la table"
+  },
+  {
+   "t": 56.92,
+   "kind": "impact",
+   "note": "Tampon RÉGLÉE sur la facture, ding de validation à 56,98"
+  },
+  {
+   "t": 57.38,
+   "kind": "coin",
+   "note": "Le panier se remplit : 4 ticks à 57,38 / 57,49 / 57,60 / 57,71"
+  },
+  {
+   "t": 57.78,
+   "kind": "impact",
+   "note": "Tampon RÉGLÉE sur la facture LOYER (plus léger) + ding"
+  },
+  {
+   "t": 57.88,
+   "kind": "whoosh",
+   "note": "Travelling vers le bus (57,86 à 58,0)"
+  },
+  {
+   "t": 58.04,
+   "kind": "ding",
+   "note": "Le bus s'arrête, porte pneumatique et voyant vert"
+  },
+  {
+   "t": 58.5,
+   "kind": "whoosh",
+   "note": "Retour de caméra vers l'intérieur (58,5 à 58,66)"
+  },
+  {
+   "t": 58.68,
+   "kind": "swell",
+   "note": "« quotidien » : lampes et guirlande allumées, résolution chaleureuse"
+  }
+ ],
+ "perf": {
+  "avg_ms": 750,
+  "max_ms": 1150
+ },
+ "screenshots_dir": "/tmp/claude-0/shots-life",
+ "known_issues": [
+  "Mesures en régime établi : environ 0,33 à 1,15 s par image, moyenne d'environ 0,75 s, PNG compris. La première image d'une session (compilation des shaders) prend 1,7 à 3,9 s : coût de démarrage, pas un coût par image.",
+  "Je n'ai pas pu aligner le look de la bénéficiaire avec le module wealth, qui n'était pas lisible (encore le gabarit à ma lecture). Elle est définie dans BENEFICIARY, exporté par life_s14.js : peau 0xcf9468, haut 0x2a9d8f, cheveux 0x1a120c, coiffure chignon. Au raccord de 54,78, wealth doit reprendre ces valeurs, sinon la personne ne sera pas la même.",
+  "Personnages stylisés : bras en boudins, pas de mains, la foule est faite de silhouettes sans visage. Sous la lumière chaude, les teintes de peau tirent vers l'orange.",
+  "Le billet texturé de tex.js affiche « 100 » (texture fictive partagée, « BANQUE DE FICTION »). Ce n'est pas un montant des FACTS, mais un chiffre visible sur les billets de S4. Les textes que j'ai ajoutés sont uniquement À PAYER, RÉGLÉE, LOYER, COURSES, SANTÉ.",
+  "Les travellings rapides (17,46 à 17,67 ; 57,86 à 58,0 ; 58,5 à 58,66) n'ont pas de flou de mouvement. Ils traversent des zones simples (mur continu ou place vide) et durent 0,15 à 0,2 s. Les images intermédiaires peuvent sembler vides.",
+  "Le billet final de S4 est centré, face caméra, environ 60 % de la largeur à 18,5, sur un fond assombri (voile noir derrière lui). Je n'ai pas pu vérifier la taille ni la position du billet suspendu dans shares : ce raccord est à ajuster à la main si besoin.",
+  "Plans larges de S14 (55,8 à 56,2) : la table et la bénéficiaire sont petites et basses dans le cadre, à l'extrémité de la zone des sous-titres. C'est un moment de transition de 0,3 s environ.",
+  "Entrée de S4 : volontairement quasi noire autour du point lumineux (13,18). L'image n'est lisible qu'à partir d'environ 13,4.",
+  "Les helpers de caméra en clés denses (4 images sur 100 ms) sont générés par lissage de Hermite dans life.js. Ne pas retoucher SHOTS à la main : modifier S4_SHOTS ou S14_SHOTS."
+ ],
+ "not_done": [
+  "Aucun rendu Hyperframes complet (consigne), donc aucune vérification dans le montage final : pas de contrôle du raccord réel avec wealth (54,78), shares (18,52) et durable (59,44).",
+  "Contrôle fait uniquement sur images fixes : environ 70 captures 1080x1920 que j'ai ouvertes, dont les bornes 13,18 / 13,23 / 18,47 et 54,78 / 54,83 / 59,39 / 59,44. Je n'ai pas vu les mouvements en lecture continue ni jugé la fluidité réelle.",
+  "Pas de mesure du temps de rendu seul : le banc affiche le temps par image PNG compris. Je n'ai pas non plus mesuré le triangle count visible. La foule (environ 280 instances de 36 + 36 triangles) a été dimensionnée pour rester sous le budget.",
+  "Pas de service « école » ou « soin » en S14 : le service choisi est le transport (bus et enfant qui monte). Le soin est traité en S4.",
+  "Pas de faits chiffrés ni de mention F5 à l'écran : cette scène n'en demande pas, aucun nombre n'est affiché."
+ ]
+}

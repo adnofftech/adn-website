@@ -1,0 +1,58 @@
+[
+ {
+  "scene": 4,
+  "severity": "mineur",
+  "t": 18.22,
+  "what": "Le dernier plan (cabinet de soins) est vert-olive et sombre, plus froid que la cuisine et la porte dorée. Cela contredit « lumière progressivement plus chaleureuse ». À 18,22 s l'image est terne et olive avant le noir de S5. Le mur du cabinet est vert menthe (#e4f6ef).",
+  "where": "video/js/scenes/life.js (mur wC, texWall(\"#e4f6ef\",\"#d3ede3\") ; intensités U.pt / U.dir ; dimO en fin de updateS4)",
+  "suggested_fix": "Réchauffer le mur du cabinet (texWall(\"#f6e6cc\",\"#ecd5b0\")) et garder la croix verte comme seul accent froid. Commencer l'assombrissement final plus tard (sstep(T4.soigner+0.7, b4-0.12, t)) pour que le cabinet reste doré jusqu'à 18,1 s."
+ },
+ {
+  "scene": 4,
+  "severity": "mineur",
+  "t": 17.8,
+  "what": "Le sous-titre « SE LOGER, SE SOIGNER. » passe sur le visage de la patiente en violet (têtes à y≈1310-1440, de 17,7 à 18,5 s). Ce sont les yeux et la bouche d'un personnage, que le sous-titre masque.",
+  "where": "video/js/scenes/life.js (positions finales U.kid / U.par dans updateS4 : kidX = lerp(28.75, 32.0, walk) ; plans S4_SHOTS soigner)",
+  "suggested_fix": "Décaler les patients vers la droite hors de la bande sous-titres (x 250 à 750), par exemple kidX final 29.7 et parX final 30.5. Sinon baisser légèrement le look-at du plan T4.soigner+0.36 pour que les têtes passent au-dessus de y=1300."
+ },
+ {
+  "scene": 4,
+  "severity": "mineur",
+  "t": 14.3,
+  "what": "La peau du père et du garçon (SKIN[2] = 0xc68642) devient orange vif sous le point de lumière chaud (0xffb25a, intensité 6 à 6,5). Les visages ressemblent à des jouets oranges, face au brun profond de la mère et de la fille. Cela peut sembler caricatural, alors que la directive demande un style humain et respectueux.",
+  "where": "video/js/scenes/life.js (création de dad et boy : skin: SKIN[2] ; U.pt.intensity)",
+  "suggested_fix": "Passer dad et boy à SKIN[1] (0xe0ac82) ou à une teinte moins saturée (≈0xb98258). Réduire U.pt.intensity à environ 5 de 14 à 16 s."
+ },
+ {
+  "scene": 14,
+  "severity": "majeur",
+  "t": 55.08,
+  "what": "Le premier groupe de sous-titres, « DES MILLIONS DE PERSONNES POURRAIENT » (5 mots, 36 caractères, de 54,78 à 56,58 s), passe sur trois lignes. La ligne du bas (« POURRAIENT ») touche le haut du tampon rouge « À PAYER » et la masque en partie (crop à 55,08 s). « À PAYER » est l'état de départ de la transformation que la voix va décrire. Les deux premières lignes sont posées sur le papier crème de la facture avec un texte crème, donc seule l'ombre portée assure le contraste. Le bloc déborde aussi au-dessus de la zone prévue de 2 lignes, qui commence à y = 1330.",
+  "where": "scripts/make_captions.py (règle de découpage des groupes), puis régénération de video/js/captions.js. Éventuellement le cadrage de la première clé caméra de S14, dans video/js/scenes/life_s14.js.",
+  "suggested_fix": "Limiter tout groupe à 2 lignes, soit environ 28 caractères maximum. Dans make_captions.py, flusher aussi quand len(txt) + 1 + len(mot_suivant) > 28 et len(cur) >= 3. On obtient « DES MILLIONS DE PERSONNES » puis « POURRAIENT ENFIN PAYER », avec le texte du script inchangé. Optionnel : ajouter un léger voile sombre derrière les sous-titres (ombre plus large) ou remonter la facture dans le cadre pour la sortir de la zone y = 1330 à 1540."
+ },
+ {
+  "scene": 14,
+  "severity": "mineur",
+  "t": 57.11,
+  "what": "Le « R » de « RÉGLÉE » est partiellement caché sur la grande facture. La petite facture « LOYER », qui est devant, recouvre son bord gauche (cadrages à 57,11 et 59,14 s). Le mot se lit « ÉGLÉE » à première vue, ce qui affaiblit le mot qu'il faut comprendre en une seconde.",
+  "where": "video/js/scenes/life_s14.js (position de inv2, dans la ligne qui définit inv2.g.position)",
+  "suggested_fix": "Décaler inv2 vers la gauche et vers l'avant, par exemple de x = -0,66 à -0,82 et z de 0,62 à 0,66. Ou réduire légèrement l'échelle du tampon sur inv1 pour qu'il reste à l'intérieur du papier."
+ },
+ {
+  "scene": 14,
+  "severity": "mineur",
+  "t": 57.11,
+  "what": "Au moment du tampon (57,11 s), la tête de tampon est un gros bloc noir flottant en haut du cadre. Il est coupé par le bord supérieur, touche le badge « MAIS POURQUOI ? » et n'est relié à aucun corps cohérent (un bout de bras brun). Il disparaît à 57,5 s. Le plan se lit comme un rectangle noir inexpliqué pendant environ 0,3 s.",
+  "where": "video/js/scenes/life_s14.js (stampTool, position tool1, caméra à T14.et - 0,02)",
+  "suggested_fix": "Cadrer un peu plus large ou plus bas pendant le coup de tampon (caméra y -0,15) pour garder le tampon dans le cadre sous le badge, ou le faire sortir du champ plus vite après l'impact (au lieu de le laisser lever)."
+ },
+ {
+  "scene": 14,
+  "severity": "mineur",
+  "t": 55.08,
+  "what": "Pendant les 0,5 premières secondes (voix « Des »), le plan est sombre et terne, fond brun foncé, sans foule ni lumière. La directive demande un ton positif. La foule n'apparaît qu'à environ 55,6 s, quasi à la fin du mot « millions ».",
+  "where": "video/js/scenes/life_s14.js (S14_LIGHTS, S14_ENV et le pop de la foule lointaine, ligne S.far)",
+  "suggested_fix": "Avancer le lever de lumière et l'apparition de la foule de 0,3 s (pop sur T14.millions - 0,15 au lieu de T14.millions + 0,34) et relever la lumière hémisphérique de départ (0,6 vers 0,8)."
+ }
+]

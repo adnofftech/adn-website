@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><style>*{margin:0}body{width:1280px;height:720px;overflow:hidden;background:#1f4a8e}svg{display:block}</style>
+<svg id="s" viewBox="0 0 1920 1080" width="1280" height="720"><rect width="1920" height="1080" fill="#1f4a8e"/></svg>
+<script src="gsap.min.js"></script><script src="rig.js"></script><script>
+const R=RIG,P=R.props,s=document.getElementById('s'),Y='#ffd92e',O='#ff8a1f';
+R.text(s,'LE TEMPS ACCÉLÈRE ?',960,205,138,Y,{stroke:R.INK,'stroke-width':22,'paint-order':'stroke'});
+// mouvement autour du réveil
+for(let i=0;i<9;i++){const a=-2.6+i*.65,r=395+(i%2)*40;R.path(s,`M${960+Math.cos(a)*r} ${690+Math.sin(a)*r} A${r} ${r} 0 0 1 ${960+Math.cos(a+.35)*r} ${690+Math.sin(a+.35)*r}`,{stroke:Y,'stroke-width':9});}
+// réveil
+const g=R.g(s);gsap.set(g,{x:960,y:660});
+R.circle(g,-175,-250,70,O,{'stroke-width':10});R.circle(g,175,-250,70,O,{'stroke-width':10});R.rect(g,-30,-330,60,40,O,{rx:8});
+R.circle(g,0,0,300,O,{'stroke-width':12});R.circle(g,0,0,235,'#fff',{'stroke-width':10});
+for(let i=0;i<12;i++){const a=i*Math.PI/6;R.line(g,Math.sin(a)*190,-Math.cos(a)*190,Math.sin(a)*215,-Math.cos(a)*215,{'stroke-width':8});}
+R.line(g,0,0,-120,-110,{'stroke-width':14});R.line(g,0,0,150,-35,{'stroke-width':10});R.circle(g,0,0,16,R.INK);
+R.line(g,-250,-160,-330,-190,{stroke:Y,'stroke-width':8});R.line(g,250,-160,330,-190,{stroke:Y,'stroke-width':8});
+// enfant (gauche)
+const k=R.stick(s,{x:300,y:820,s:1.35,color:'#fff3c4'});k.set({aL:55,eL:-75,aR:-55,eR:75,face:'big'});
+R.cap(k,R.pal.red);R.circle(k.lean,0,-70,36,'#d9a85b',{'stroke-width':7});
+// adulte (droite)
+const a=R.stick(s,{x:1620,y:810,s:1.6});a.set({aL:30,eL:12,aR:-30,eR:-12,lL:6,lR:-6,face:'surprised'});
+</script>

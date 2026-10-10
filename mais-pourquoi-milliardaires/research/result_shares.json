@@ -1,0 +1,294 @@
+{
+ "module": "shares",
+ "files_written": [
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/shares.js",
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/shares_lib.js",
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/shares_vault.js",
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/shares_s7.js"
+ ],
+ "scenes": [
+  {
+   "n": 5,
+   "shown": "Un billet fictif unique, immobile au centre du cadre, sur fond sombre avec un bokeh chaud gelé. J'ai comparé sa taille (~59 % de la largeur) et sa position avec la dernière image du module life : elles correspondent à environ 2 % près. Zoom rapide sur le billet. Il se retourne en certificat d'action, puis en graphique boursier (chandeliers). Ce graphique devient un écran du marché. La caméra pivote et recule vers un marché stylisé bleu-nuit et vert froid : forêt de chandeliers néon, sol quadrillé réfléchissant, écrans de cotation, étincelles. Elle termine en vue plongeante.",
+   "beats": [
+    {
+     "t": 18.52,
+     "word": "Mais",
+     "event": "Coupure : billet centré et immobile, décor sombre. Anneau d'impact discret à 18.54, tremblement très léger."
+    },
+    {
+     "t": 18.74,
+     "word": "il y a un",
+     "event": "Zoom rapide sur le billet (0,28 s) : il remplit la largeur du cadre."
+    },
+    {
+     "t": 19.02,
+     "word": "énorme",
+     "event": "Le billet se retourne en certificat « ACTION » : flip de 0,4 s, éclats verts, anneau, halo."
+    },
+    {
+     "t": 19.58,
+     "word": "problème",
+     "event": "Le certificat se retourne en graphique financier « BOURSE » : éclats crème et cyan. Le décor devient bleu-nuit."
+    },
+    {
+     "t": 19.55,
+     "word": "(problème)",
+     "event": "Les chandeliers du marché montent en vague de l'intérieur vers l'extérieur ; les écrans de cotation apparaissent de 19.75 à 20.1."
+    },
+    {
+     "t": 19.94,
+     "word": "auquel",
+     "event": "Rotation de caméra autour du graphique (qui grandit et devient un écran) et recul vers le marché."
+    },
+    {
+     "t": 20.46,
+     "word": "pense pas",
+     "event": "Vue plongeante sur le marché (chandeliers néon, reflets, écran MARCHÉ) qui se pose lentement jusqu'à la coupe de 21.18."
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "shown": "Coupe sur un immense coffre-fort : plaque d'acier rivetée de 22 sur 20 unités, porte ronde à roue dorée, entrouverte, lueur verte qui fuit, pluie de billets, liasses, et un petit personnage qui donne l'échelle. La roue se déverrouille, puis la porte s'ouvre lourdement sur un mur de billets. Les billets se retournent en vague en certificats d'actions. Les liasses du sol deviennent des immeubles. Des étiquettes ACTIONS, BÂTIMENTS et PARTICIPATIONS apparaissent. Un univers flottant se forme : certificats, pièces, parts en camembert, graphiques, tours, anneaux dorés et verts. La caméra plonge dans le coffre, traverse le couloir d'anneaux et découvre un réseau d'entreprises (immeubles colorés reliés par des traces lumineuses, impulsions).",
+   "beats": [
+    {
+     "t": 21.18,
+     "word": "La",
+     "event": "Coupe : coffre immense, porte entrouverte, lueur verte, billets qui tombent ; travelling d'approche continu."
+    },
+    {
+     "t": 21.72,
+     "word": "milliardaires",
+     "event": "La roue dorée tourne (déverrouillage) de 21.6 à 22.5, avec une lueur sur le sol."
+    },
+    {
+     "t": 22.4,
+     "word": "ce",
+     "event": "La porte commence à s'ouvrir lourdement (22.42 à 23.4, rebond final) ; le mur de billets apparaît."
+    },
+    {
+     "t": 22.9,
+     "word": "juste",
+     "event": "Les billets se retournent en certificats d'actions en vague depuis le centre ; la pluie de billets devient pluie de certificats."
+    },
+    {
+     "t": 22.95,
+     "word": "pas juste",
+     "event": "Les piles de liasses se changent en bâtiments (anneau d'impact au sol), de 22.95 à 23.4."
+    },
+    {
+     "t": 23.12,
+     "word": "de l'argent",
+     "event": "Étiquettes ACTIONS (23.12), BÂTIMENTS (23.22), PARTICIPATIONS (23.32), visibles jusqu'à 23.6 ; l'univers flottant se forme."
+    },
+    {
+     "t": 23.44,
+     "word": "dans",
+     "event": "La caméra accélère vers la porte."
+    },
+    {
+     "t": 23.78,
+     "word": "coffre",
+     "event": "Traversée du coffre dans un couloir d'anneaux et d'actifs flottants (les objets proches de la caméra s'effacent)."
+    },
+    {
+     "t": 24,
+     "word": "(fin de phrase)",
+     "event": "Sortie du couloir : réseau d'entreprises découvert, immeubles qui montent, traces lumineuses et impulsions."
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "shown": "Une tour d'entreprise tombe étage par étage au centre du réseau. Elle s'éclate en maquette : étages séparés, blocs colorés par actionnaire (or, bleu, corail, turquoise, gris), avec une icône d'actionnaire au-dessus de chaque colonne (investisseur, fonds à colonnes, personne, duo). Une seule part, en or, est tirée vers la caméra avec un contour doré, l'icône de l'investisseur et l'étiquette « UNE PART DU CAPITAL » ; jamais la totalité de l'entreprise. Des pièces vont de l'investisseur à cette part. La barre F3 (~73 % parts d'entreprises, ~26 % liquide, avec la source Altrata) s'affiche en bas du cadre. La caméra recule sur l'entreprise entière : usine, bureaux, salariés et produits apparaissent sur des socles, avec l'enseigne ENTREPRISE. Les éléments se reconnectent (tour reformée, traces vers les icônes). Un certificat naît de la part et vient se centrer devant la façade pour la fin de fenêtre.",
+   "beats": [
+    {
+     "t": 24.2,
+     "word": "Une",
+     "event": "La tour d'entreprise tombe étage par étage (24.2 à 24.75), anneau d'atterrissage."
+    },
+    {
+     "t": 24.5,
+     "word": "grande",
+     "event": "Maquette éclatée : étages qui se séparent, parts colorées par actionnaire ; icônes d'actionnaires de 24.85 à 25.05."
+    },
+    {
+     "t": 24.74,
+     "word": "partie",
+     "event": "Une part en or sort vers la caméra, contour doré, icône de l'investisseur (24.79), étiquette « UNE PART DU CAPITAL »."
+    },
+    {
+     "t": 25.1,
+     "word": "est",
+     "event": "Plan large de la maquette éclatée, puis rapprochement sur la part et son investisseur."
+    },
+    {
+     "t": 25.4,
+     "word": "investie",
+     "event": "Pièces qui vont de l'investisseur vers la part ; barre F3 73 % / 26 % (25.45 à 26.0)."
+    },
+    {
+     "t": 26.08,
+     "word": "entreprises",
+     "event": "La part se rétracte, la caméra recule sur l'entreprise entière ; icônes usine (26.08), bureaux (26.25), salariés (26.42), produits (26.59) ; enseigne ENTREPRISE (26.18)."
+    },
+    {
+     "t": 26.84,
+     "word": "sous",
+     "event": "Reconnexion : les étages se recollent (26.84 à 27.24), traces lumineuses et impulsions vers les icônes ; les icônes d'actionnaires se retirent."
+    },
+    {
+     "t": 27.2,
+     "word": "d'actions",
+     "event": "Un certificat « ACTION » naît de la part en or et vient se centrer devant la façade ; la caméra s'en approche."
+    },
+    {
+     "t": 27.63,
+     "word": "(fin)",
+     "event": "Dernière image : certificat centré sur la façade, avec l'enseigne ENTREPRISE en bas, comme raccord vers le module market."
+    }
+   ]
+  }
+ ],
+ "sfx_events": [
+  {
+   "t": 18.52,
+   "kind": "silence",
+   "note": "Coupure nette de la musique, billet suspendu immobile"
+  },
+  {
+   "t": 18.54,
+   "kind": "impact",
+   "note": "Impact subtil à l'arrêt (anneau d'impact discret, tremblement très léger)"
+  },
+  {
+   "t": 18.74,
+   "kind": "riser",
+   "note": "Montée tendue pendant le zoom rapide sur le billet (18.74 à 19.02)"
+  },
+  {
+   "t": 19.02,
+   "kind": "stinger",
+   "note": "Billet → certificat d'action : flip et éclats, aigu métallique"
+  },
+  {
+   "t": 19.58,
+   "kind": "stinger",
+   "note": "Certificat → graphique boursier : flip et éclats cyan"
+  },
+  {
+   "t": 19.55,
+   "kind": "tick",
+   "note": "Chandeliers qui montent (19.55 à 20.6), tics rapides"
+  },
+  {
+   "t": 19.94,
+   "kind": "whoosh",
+   "note": "Rotation et recul de caméra vers le marché (19.94 à 21.17)"
+  },
+  {
+   "t": 21.18,
+   "kind": "impact",
+   "note": "Coupe sur le coffre-fort (impact grave)"
+  },
+  {
+   "t": 21.62,
+   "kind": "tick",
+   "note": "Roue du coffre qui tourne : cliquetis de déverrouillage (21.62 à 22.5)"
+  },
+  {
+   "t": 22.42,
+   "kind": "vault",
+   "note": "Ouverture lourde de la porte (22.42 à 23.4), grincement puis clang d'arrêt à 23.4"
+  },
+  {
+   "t": 22.9,
+   "kind": "rustle",
+   "note": "Billets qui se retournent en vague en certificats (22.9 à 23.3)"
+  },
+  {
+   "t": 22.95,
+   "kind": "ding",
+   "note": "Liasses → immeubles : 5 pops espacés de 0,07 s (22.95 à 23.35)"
+  },
+  {
+   "t": 23.12,
+   "kind": "tick",
+   "note": "Étiquettes ACTIONS, BÂTIMENTS, PARTICIPATIONS (23.12, 23.22, 23.32)"
+  },
+  {
+   "t": 23.44,
+   "kind": "swell",
+   "note": "Plongée dans le coffre (23.44 à 24.1), montée de tension puis souffle"
+  },
+  {
+   "t": 23.9,
+   "kind": "whoosh",
+   "note": "Traversée à pleine vitesse du couloir d'anneaux (23.8 à 24.1)"
+  },
+  {
+   "t": 24.2,
+   "kind": "impact",
+   "note": "Étages de la tour qui tombent (24.2 à 24.75), onde d'atterrissage à 24.45"
+  },
+  {
+   "t": 24.5,
+   "kind": "whoosh",
+   "note": "Éclatement de la maquette : séparation mécanique des étages (24.5 à 25.05)"
+  },
+  {
+   "t": 24.79,
+   "kind": "ding",
+   "note": "Part en or mise en évidence, icône de l'investisseur"
+  },
+  {
+   "t": 25.4,
+   "kind": "coin",
+   "note": "Pièces de l'investisseur vers la part (25.4 à 26.0)"
+  },
+  {
+   "t": 26.08,
+   "kind": "tick",
+   "note": "Icônes usine 26.08, bureaux 26.25, salariés 26.42, produits 26.59"
+  },
+  {
+   "t": 26.84,
+   "kind": "swell",
+   "note": "Reconnexion des éléments (26.84 à 27.24)"
+  },
+  {
+   "t": 27.2,
+   "kind": "ding",
+   "note": "Certificat « ACTION » qui naît de la part et se centre"
+  },
+  {
+   "t": 27.55,
+   "kind": "stinger",
+   "note": "Fin de fenêtre sur le certificat centré (raccord vers market)"
+  }
+ ],
+ "perf": {
+  "avg_ms": 676,
+  "max_ms": 1052
+ },
+ "screenshots_dir": "/tmp/claude-0/shots-shares",
+ "known_issues": [
+  "Mesures de performance : le banc d'essai donne le temps d'évaluation et de capture d'écran. La moyenne de 676 ms porte sur 18 images, hors première image de chaque lancement. Le maximum est 1052 ms (t=21.18, premier plan du coffre). La première image de chaque lancement coûte 2,0 à 2,8 s (compilation des shaders, chauffe), ce qui dépasse le seuil de 1,5 s du contrat. Dans un rendu complet, ce surcoût ne devrait compter qu'une fois par module, mais je ne l'ai pas vérifié.",
+  "Je n'ai relu qu'un échantillon d'environ 100 captures sur les 9,1 s de la fenêtre. Je n'ai pas relu image par image, donc un artefact d'une ou deux images peut m'avoir échappé.",
+  "La barre F3 de S7 est un panneau collé à la caméra : il ne montre pas de parallaxe. Les textes de S6 et S7 sont lisibles à l'échelle téléphone, sauf la ligne de source, très petite (~18 px).",
+  "Le texte de S6 (titre HTML « UNE FORTUNE ≠ DU CASH », de 22.3 à 24.3) se superposera à la moitié haute de la porte et aux étiquettes ACTIONS, BÂTIMENTS et PARTICIPATIONS. Je n'ai pas testé ce rendu composé.",
+  "La coupe S5 → S6 à 21.175 est franche, sans flash dans mon module (le monteur peut en ajouter un). Les quelques images où le marché passe entre le graphique et les chandeliers (autour de 20.3 à 20.5) sont chargées : de gros chandeliers très proches de la caméra pendant ~0,3 s.",
+  "Dans le plan large de S7 (26.4 à 27.0), les icônes usine, bureaux, salariés et produits sont petites ; les deux icônes arrière sont partiellement masquées par la tour. Les étiquettes (USINE, BUREAUX, SALARIÉS, PRODUITS) restent lisibles. Le réseau d'entreprises vu à 24.2 est assez clairsemé.",
+  "Le certificat est ma propre texture (shareCert) au lieu de certTex de shared.js : le texte de certTex déborde de son canvas et la mention « PART DU CAPITAL · SOCIÉTÉ FICTIVE » y est coupée. Les billets sont ceux de billTex (« BANQUE DE FICTION »).",
+  "Le contour doré de la part est une coque inversée (BackSide) légèrement agrandie : il se lit comme un liseré épais, pas comme un halo fin. Seul tremblement de caméra : 0,03 à 18.54 et 0,2 à 23.38 (3 dixièmes de seconde).",
+  "Le champ de vue monte jusqu'à 62° pendant la plongée de S6, dans les limites du contrat (40–62°), à la limite haute. Il atteint 60° à la fin de S5."
+ ],
+ "not_done": [
+  "Pas de rendu Hyperframes complet ni test dans main.js avec les autres modules : je n'ai utilisé que le banc d'essai (scripts/shot.mjs). Je n'ai pas vérifié la cohérence entre mon plan final et le début de market, ni le fondu entre life et mon billet. J'ai seulement comparé à la dernière image de life, capturée à t=18.5.",
+  "Aucun test du son, ni de la synchronisation avec les sous-titres et titres HTML. Les instants de synchronisation viennent de timing.json via onset() ; je les ai vérifiés par captures à quelques instants, pas image par image.",
+  "F3 en S6 (« ~1/4 en liquidités ») non affiché : seule la barre complète de S7 est présente. Je n'ai pas fait la variante optionnelle du texte discret du coffre.",
+  "Pas de captures systématiques à l'intérieur de chaque fenêtre de 0,05 s autour des cuts d'effets (flips, ouverture de la porte) ; vérifié seulement au début (18.52, 18.57), à la coupe (21.17/21.18) et à la fin (27.59, 27.63).",
+  "Je n'ai pas modifié les autres fichiers du projet. git status montre durable_s16.js modifié, ce qui n'est pas de mon fait. Les fichiers shares*.js semblent avoir été commités par la chaîne de travail avant ma fin ; je n'ai rien commité moi-même."
+ ]
+}
