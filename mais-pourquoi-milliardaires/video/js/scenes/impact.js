@@ -21,7 +21,7 @@ const noise = (u, s) => Math.sin(u * 37 + s) * 0.35 + Math.sin(u * 91 + s * 2) *
 // ------------------------------------------------------------- réseau (scène 12) : positions déterministes
 const NODE_DEF = [];   // {x,y,z,kind}
 { const kinds = ["screen", "screen", "bank", "firm", "investor", "screen", "firm", "activity", "bank", "screen", "investor", "firm", "screen", "activity", "screen", "bank", "firm", "investor", "activity", "screen", "firm", "bank"];
-  kinds.forEach((k, i) => { const a = i * 2.399 + 0.5, r = 3 + 11 * Math.sqrt(H(i, 1)); NODE_DEF.push({ x: Math.cos(a) * r * 0.95, y: 3 + H(i, 2) * 25, z: Math.sin(a) * r * 0.6 - 4, kind: k, inten: [1, 0.75, 0.35, 0.9, 0.15, 0.55, 0.8, 0.25, 0.65, 1, 0.3, 0.7, 0.5, 0.2, 0.85, 0.4, 0.6, 0.1, 0.35, 0.8, 0.45, 0.55][i] }); });
+  kinds.forEach((k, i) => { const a = i * 2.399 + 0.5, r = 3 + 11 * Math.sqrt(H(i, 1)); NODE_DEF.push({ x: Math.cos(a) * r * 0.95, y: 3 + H(i, 2) * 25, z: Math.sin(a) * r * 0.6 - 4, kind: k, inten: [1, 0.75, 0.2, 0.9, 0.3, 0.3, 0.8, 0.45, 0.8, 0.95, 0.6, 0.35, 0.12, 0.15, 0.7, 0.5, 0.2, 0.2, 0.55, 0.1, 0.3, 0.3][i] }); });
   NODE_DEF[0].x = -2; NODE_DEF[0].y = 14; NODE_DEF[0].z = -2; NODE_DEF[0].kind = "screen"; NODE_DEF[0].inten = 1; }
 const LINKS = []; { NODE_DEF.forEach((a, i) => { const d = NODE_DEF.map((b, j) => [j, Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z)]).filter(([j]) => j !== i).sort((p, q) => p[1] - q[1]).slice(0, 2 + (i % 2)); d.forEach(([j]) => { if (!LINKS.some(([p, q]) => (p === i && q === j) || (p === j && q === i))) LINKS.push([i, j]); }); }); }
 const nodeDist = NODE_DEF.map((n) => Math.hypot(n.x - NODE_DEF[0].x, n.y - NODE_DEF[0].y, n.z - NODE_DEF[0].z));
@@ -79,24 +79,26 @@ export function build() {
 
   // ================= SCÈNE 12 : réseau =================
   const net = new T.Group(); net.position.set(NX, 0, 0); g.add(net); U.net = net;
+  const FIRM_TEX = winTex(); const CIV = [0xf0b429, 0xe0653a, 0x47c9a0, 0xdfe6ff, 0xd77aa3, 0xff9a5a];
+  const civ = (grp, k, x, y, z) => { const p = makePerson({ skin: SKIN[(k + 2) % SKIN.length], shirt: CIV[k % CIV.length], pants: 0x2b3a4a, scale: 0.9 }); p.position.set(x, y, z); p.rotation.y = Math.PI; grp.add(p); };   // personnes ordinaires près des maisons et des usines
   U.nodes = NODE_DEF.map((n, i) => {
     const grp = new T.Group(); grp.position.set(n.x, n.y, n.z); net.add(grp); const o = {};
     if (n.kind === "screen") { const c = canvasTex(256, 192); const mesh = new T.Mesh(new T.PlaneGeometry(i === 0 ? 8 : 4.4, i === 0 ? 6 : 3.3), new T.MeshBasicMaterial({ map: c.tx })); grp.add(mesh); o.c = c; const fr = new T.Mesh(new T.BoxGeometry(i === 0 ? 8.3 : 4.7, i === 0 ? 6.3 : 3.6, 0.2), lam(0x0b1226)); fr.position.z = -0.15; grp.add(fr); }
     else if (n.kind === "bank") { grp.add(Object.assign(new T.Mesh(new T.BoxGeometry(3, 1.8, 2), lam(0xe9dfc3)), {})); for (let k = 0; k < 4; k++) { const col = new T.Mesh(new T.CylinderGeometry(0.16, 0.16, 1.8, 8), lam(PAL.gold)); col.position.set(-1.1 + k * 0.73, 0, 1.05); grp.add(col); } const pe = new T.Mesh(new T.ConeGeometry(1.8, 0.9, 3), lam(PAL.gold)); pe.position.y = 1.35; pe.rotation.y = Math.PI / 2; pe.scale.set(1, 1, 0.5); grp.add(pe); }
-    else if (n.kind === "firm") { grp.add(new T.Mesh(new T.BoxGeometry(2.6, 2.6, 2), lam(0x4a6b8a))); const ch = new T.Mesh(new T.CylinderGeometry(0.25, 0.3, 1.8, 8), lam(0x8a4a3a)); ch.position.set(0.8, 2, 0); grp.add(ch); }
+    else if (n.kind === "firm") { const bd = new T.Mesh(new T.BoxGeometry(2.4, 3.4, 2.2), new T.MeshLambertMaterial({ map: FIRM_TEX, emissive: 0x3a2e16 })); bd.position.y = 0.4; grp.add(bd); const rf = new T.Mesh(new T.BoxGeometry(2.6, 0.3, 2.4), lam(0x4a5a7a)); rf.position.y = 2.25; grp.add(rf); const ch = new T.Mesh(new T.CylinderGeometry(0.25, 0.3, 1.8, 8), lam(0x8a4a3a)); ch.position.set(0.7, 3.1, 0); grp.add(ch); if (i === 3 || i === 6) civ(grp, i, 2.0, -1.3, 1.3); }
     else if (n.kind === "investor") { const p = makePerson({ skin: SKIN[i % SKIN.length], shirt: 0x6a9cff, pants: 0x2a3a6a, scale: 1.5 }); p.position.y = -1.4; grp.add(p); }
-    else { grp.add(new T.Mesh(new T.BoxGeometry(2.4, 1.6, 2.2), lam(0x8a7a4a))); const rf = new T.Mesh(new T.ConeGeometry(1.8, 1, 4), lam(0xb5432e)); rf.position.y = 1.3; rf.rotation.y = Math.PI / 4; grp.add(rf); }
+    else { grp.add(new T.Mesh(new T.BoxGeometry(2.4, 1.6, 2.2), lam(0x8a7a4a))); const rf = new T.Mesh(new T.ConeGeometry(1.8, 1, 4), lam(0xb5432e)); rf.position.y = 1.3; rf.rotation.y = Math.PI / 4; grp.add(rf); civ(grp, i, 1.9, -0.8, 1.3); civ(grp, i + 7, -1.8, -0.8, 1.1); }
+    if (n.kind !== "screen") { o.tint = []; grp.traverse((m) => { if (m.isMesh && m.material && m.material.emissive) o.tint.push([m.material, m.material.color.clone(), m.material.emissive.clone()]); }); }
     o.halo = glow(0xffffff, n.kind === "screen" ? 9 : 6, 0); o.halo.position.z = -0.3; grp.add(o.halo); o.grp = grp; return o;
   });
   // petit groupe de milliardaires (une petite partie du réseau)
   U.bill = new T.Group(); U.bill.position.set(-5, 0.8, 3); U.bill.scale.setScalar(1.7); net.add(U.bill);
   for (let k = 0; k < 4; k++) { const p = makePerson({ skin: SKIN[k], shirt: 0x15151c, pants: 0x101018, scale: 1.2 }); p.position.set(k * 1.0, 0, (k % 2) * 0.5); U.bill.add(p); }
   const bh = glow(PAL.gold, 9, 0.5); bh.position.set(1.5, 1.5, 0); U.bill.add(bh); U.billH = bh;
-  U.lblB = textPlane("MILLIARDAIRES", { w: 8, h: 1.1, px: 768, color: "#e8b84a", size: 0.55 }); U.lblB.position.set(1.5, 3.6, 0); U.bill.add(U.lblB);
-  // liens + impulsions
-  const pos = new Float32Array(LINKS.length * 6); const col = new Float32Array(LINKS.length * 6);
-  U.linkGeo = new T.BufferGeometry(); U.linkGeo.setAttribute("position", new T.BufferAttribute(pos, 3)); U.linkGeo.setAttribute("color", new T.BufferAttribute(col, 3));
-  U.links = new T.LineSegments(U.linkGeo, new T.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.95 })); U.links.frustumCulled = false; net.add(U.links);
+  U.lblB = textPlane("MILLIARDAIRES", { w: 8, h: 1.1, px: 768, color: "#e8b84a", size: 0.55 }); U.lblB.position.set(5.2, 4.3, 0); U.bill.add(U.lblB);
+  // liens (fines barres lumineuses, plus lisibles que des lignes d'un pixel) + impulsions + anneaux d'onde
+  U.linkBars = new T.InstancedMesh(new T.BoxGeometry(1, 1, 1), new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, blending: T.AdditiveBlending, depthWrite: false }), LINKS.length); U.linkBars.frustumCulled = false; net.add(U.linkBars);
+  U.rings = [0, 1].map(() => { const m = new T.Mesh(new T.RingGeometry(0.975, 1, 80), new T.MeshBasicMaterial({ color: 0xff7a62, transparent: true, opacity: 0, side: T.DoubleSide, blending: T.AdditiveBlending, depthWrite: false })); m.position.set(NODE_DEF[0].x, NODE_DEF[0].y, NODE_DEF[0].z - 0.6); net.add(m); return m; });
   U.pulses = new T.InstancedMesh(new T.SphereGeometry(0.3, 8, 6), new T.MeshBasicMaterial({ color: 0xffffff }), LINKS.length * 3); U.pulses.frustumCulled = false; net.add(U.pulses);
   return g;
 }
@@ -115,13 +117,13 @@ function drawScreen(n, i, t) {
   c.fillStyle = a > 0.05 ? `rgb(${12 + 70 * a | 0},12,${28 - 10 * a | 0})` : "#0a1226"; c.fillRect(0, 0, W, Hh);
   c.strokeStyle = "rgba(120,160,255,.2)"; c.lineWidth = 1; for (let k = 1; k < 5; k++) { c.beginPath(); c.moveTo(0, k * Hh / 5); c.lineTo(W, k * Hh / 5); c.stroke(); }
   const arr = arrival(i); const u0 = (t - arr);
-  c.strokeStyle = a > 0.15 ? "#ff5a4a" : "#47f0a0"; c.lineWidth = 5; c.beginPath();
+  c.strokeStyle = a > 0.2 ? "#ff5a4a" : a > 0.075 ? "#ffb347" : "#47f0a0"; c.lineWidth = 5; c.beginPath();
   for (let k = 0; k <= 48; k++) { const u = k / 48; const drop = u > 0.45 ? NODE_DEF[i].inten * 80 * (sstep(0, 1.1, u0 - (1 - u) * 0.7) ) : 0; const y = 70 + 14 * noise(u * 3, i) + drop * (u - 0.45) * 1.4; k ? c.lineTo(8 + u * 240, y) : c.moveTo(8, y); }
   c.stroke(); n.c.tx.needsUpdate = true;
 }
 
 // ------------------------------------------------------------- mise à jour
-const o = new T.Object3D(); const col = new T.Color();
+const o = new T.Object3D(); const col = new T.Color(); const RED = new T.Color(0xff5a4a);
 export function update(g, t) {
   const U = g.userData; const s11 = t < 45.64; const s12 = !s11 || t >= 45.0;
   // ===== S11
@@ -148,11 +150,16 @@ export function update(g, t) {
     const frozen = i < 2 && t > t11.dev + 0.05; pr.m.material.color.setHex(frozen ? 0x7a8088 : 0x47f0c8); pr.bar.material.color.setHex(frozen ? 0x7a8088 : 0x47f0a0); pr.m.rotation.y = frozen ? 0.0 : t * 0.5 * (i + 1) * 0.3; pr.pause.visible = frozen && s11; pr.m.visible = pr.bar.visible = s11 && t > s; });
   // ===== S12
   U.net.visible = s12; U.warm.visible = s11; const nt = t >= 45.0;
-  U.nodes.forEach((nd, i) => { const a = act(i, t); nd.halo.material.color.setRGB(1.0, 0.55 - 0.4 * a, 0.35 - 0.3 * a); nd.halo.material.opacity = 0.55 * Math.min(1, a * 1.4) * (nt ? 1 : 0); if (nd.c) drawScreen(nd, i, t); const sc = 1 + 0.12 * Math.min(1, a) * Math.sin(t * 8); nd.grp.scale.setScalar(sc * eoutBack(lin(45.4 + i * 0.03, 46.0 + i * 0.03, t))); });
-  // liens : couleur selon l'intensité de l'onde (certains nœuds peu touchés)
-  const P = U.linkGeo.attributes.position, C = U.linkGeo.attributes.color;
-  LINKS.forEach(([i, j], k) => { const a = NODE_DEF[i], b = NODE_DEF[j]; P.setXYZ(k * 2, a.x, a.y, a.z); P.setXYZ(k * 2 + 1, b.x, b.y, b.z); const ai = act(i, t), aj = act(j, t); const m = Math.max(ai, aj); const base = 0.25 + 0.5 * lin(45.8, 47.0, t);
-    for (const [idx, aa] of [[k * 2, ai], [k * 2 + 1, aj]]) C.setXYZ(idx, base * (0.35 + 0.65 * Math.min(1, aa * 1.6)) * (1 + 1.2 * Math.min(1, aa)), base * (0.6 - 0.35 * Math.min(1, aa)), base * (1 - 0.6 * Math.min(1, aa))); }); P.needsUpdate = true; C.needsUpdate = true;
+  U.nodes.forEach((nd, i) => { const a = act(i, t); nd.halo.material.color.setRGB(1.0, 0.55 - 0.4 * a, 0.35 - 0.3 * a); nd.halo.material.opacity = 0.55 * Math.min(1, a * 1.4) * (nt ? 1 : 0); if (nd.c) drawScreen(nd, i, t); const sc = 1 + 0.12 * Math.min(1, a) * Math.sin(t * 8); nd.grp.scale.setScalar(sc * eoutBack(lin(45.4 + i * 0.03, 46.0 + i * 0.03, t)));
+    if (nd.tint) { const k = Math.min(1, a * 1.8); for (const [m, c0, e0] of nd.tint) { m.color.copy(c0).lerp(RED, 0.5 * k); m.emissive.setRGB(e0.r + 0.3 * k, e0.g + 0.02 * k, e0.b + 0.01 * k); } } });
+  // anneaux d'onde qui partent du premier écran
+  { const r0 = (t - (t12.panique + 0.1)) * WAVE_V; U.rings.forEach((m, k) => { const R = r0 - k * 3.2; const vis = s12 && R > 0.6 && R < 24; m.visible = vis; if (vis) { m.scale.setScalar(R); m.material.opacity = 0.75 * Math.pow(1 - R / 24, 1.3) * (k ? 0.55 : 1); } }); }
+  // liens : teinte selon l'intensité de l'onde (froids et bleus si les deux bouts sont peu touchés, rouges si l'un est très touché)
+  { const bright = 0.4 + 0.6 * lin(45.8, 47.0, t);
+    LINKS.forEach(([i, j], k) => { const a = NODE_DEF[i], b = NODE_DEF[j]; const m = Math.max(act(i, t), act(j, t)); const hot = Math.min(1, m * 2.2); const len = Math.hypot(b.x - a.x, b.y - a.y, b.z - a.z);
+      o.position.set((a.x + b.x) / 2, (a.y + b.y) / 2, (a.z + b.z) / 2); o.rotation.set(0, 0, 0); o.scale.set(1, 1, 1); o.lookAt(b.x, b.y, b.z); o.scale.set(0.13, 0.13, len); o.updateMatrix(); U.linkBars.setMatrixAt(k, o.matrix);
+      U.linkBars.setColorAt(k, col.setRGB(lerp(0.3, 1.0, hot) * bright, lerp(0.58, 0.3, hot) * bright, lerp(1.0, 0.22, hot) * bright)); });
+    U.linkBars.instanceMatrix.needsUpdate = true; if (U.linkBars.instanceColor) U.linkBars.instanceColor.needsUpdate = true; }
   let np = 0; LINKS.forEach(([i, j], k) => { const a = NODE_DEF[i], b = NODE_DEF[j]; const m = Math.max(act(i, t), act(j, t)); for (let q = 0; q < 3; q++) { const u = (t * (0.25 + 0.2 * m) + q / 3 + H(k, 9)) % 1; o.position.set(lerp(a.x, b.x, u), lerp(a.y, b.y, u), lerp(a.z, b.z, u)); o.scale.setScalar(0.45 + 0.55 * m); o.rotation.set(0, 0, 0); o.updateMatrix(); U.pulses.setMatrixAt(np, o.matrix); U.pulses.setColorAt(np, col.setRGB(1, 0.8 - 0.55 * Math.min(1, m), 0.5 - 0.4 * Math.min(1, m))); np++; } });
   U.pulses.count = np; U.pulses.instanceMatrix.needsUpdate = true; if (U.pulses.instanceColor) U.pulses.instanceColor.needsUpdate = true;
   U.bill.visible = t > t12.toucher; U.billH.material.opacity = 0.5 * lin(t12.seuls - 0.2, t12.seuls + 0.5, t); U.lblB.visible = t > t12.seuls - 0.2;
@@ -173,6 +180,6 @@ export const SHOTS = [
   // S12 : on arrive devant le premier écran (zone réseau), puis la caméra recule pour révéler le réseau
   { t: 45.64, p: [ox + NX - 2, oy + 14, oz + 10], l: [ox + NX - 2, oy + 14, oz - 2], f: 50 },
   { t: t12.conseq - 0.15, p: [ox + NX - 2, oy + 14.5, oz + 14], l: [ox + NX - 1, oy + 14, oz - 2], f: 52, e: eio },
-  { t: t12.seuls, p: [ox + NX + 1, oy + 15, oz + 44], l: [ox + NX, oy + 14.5, oz - 4], f: 58, e: eio },
-  { t: E - 0.01, p: [ox + NX + 2, oy + 15.5, oz + 50], l: [ox + NX, oy + 14.5, oz - 4], f: 60 },
+  { t: t12.seuls, p: [ox + NX + 1, oy + 10, oz + 44], l: [ox + NX, oy + 9, oz - 4], f: 58, e: eio },
+  { t: E - 0.01, p: [ox + NX + 2, oy + 10.5, oz + 50], l: [ox + NX, oy + 9, oz - 4], f: 60 },
 ];
