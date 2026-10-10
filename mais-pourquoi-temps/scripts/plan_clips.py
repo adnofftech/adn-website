@@ -32,6 +32,7 @@ for n, off in ((1, 0.0), (2, OFF2)):
         last = tm[i][1]
     allw += [(w, tm[i][0] + off, tm[i][1] + off) for i, w in enumerate(ref)]
 
+json.dump([[w,round(a,2),round(b,2)] for w,a,b in allw],open(f"{ROOT}/words_2d.json","w",encoding="utf-8"),ensure_ascii=False)
 # 2) séquences de ~5 s sur frontières de phrase
 sents, cur = [], []
 for w in allw:
