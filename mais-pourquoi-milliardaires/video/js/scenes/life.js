@@ -67,7 +67,7 @@ export function build() {
   // plinthes / lambris
   bx(18, 1.1, 0.12, M(0xb98156), -2, 0.55, WZ + 0.08, g4); bx(18, 0.07, 0.16, M(0xf3e6c8), -2, 1.13, WZ + 0.08, g4);
   bx(6.4, 1.1, 0.12, M(0x8b4f3a), 10.2, 0.55, WZ + 0.08, g4); bx(6.4, 1.1, 0.12, M(0x8b4f3a), 17.8, 0.55, WZ + 0.08, g4); bx(6.4, 0.07, 0.16, M(0xf3e6c8), 10.2, 1.13, WZ + 0.08, g4); bx(6.4, 0.07, 0.16, M(0xf3e6c8), 17.8, 1.13, WZ + 0.08, g4);
-  bx(18, 1.1, 0.12, M(0xc9d8c0), 30, 0.55, WZ + 0.08, g4); bx(18, 0.07, 0.16, M(0xffffff), 30, 1.13, WZ + 0.08, g4);
+  bx(18, 1.1, 0.12, M(0xe0d2b4), 30, 0.55, WZ + 0.08, g4); bx(18, 0.07, 0.16, M(0xffffff), 30, 1.13, WZ + 0.08, g4);
 
   /* ===== A : cuisine ===== */
   const rug = cy(2.1, 2.1, 0.02, M(0xa8483a), 0, 0.012, 0.5, g4, 40); cy(1.65, 1.65, 0.024, M(0xe0a85e), 0, 0.014, 0.5, g4, 40); cy(1.35, 1.35, 0.028, M(0xa8483a), 0, 0.016, 0.5, g4, 40);
@@ -92,7 +92,7 @@ export function build() {
 
   // famille (4 personnes)
   const mum = person({ skin: SKIN[3], shirt: 0xf4f1e6, dress: 0xd9703a, hair: 0x1a120c, style: "curly" });
-  const dad = person({ skin: SKIN[1], shirt: 0x2d6cc0, pants: 0x2b3a4a, hair: 0x15100c });
+  const dad = person({ skin: 0xb98258, shirt: 0x2d6cc0, pants: 0x2b3a4a, hair: 0x15100c });
   const girl = person({ skin: SKIN[3], shirt: 0xf2c230, dress: 0xf2c230, hair: 0x1a120c, style: "pigtails", kind: "child" });
   const boy = person({ skin: 0xb98258, shirt: 0x3aa65c, pants: 0x3a4a6a, hair: 0x2a1a10, kind: "child", scale: 1.25 });
   const fam = [[mum, -0.85, -0.7, 0.28, T4.certaines - 0.04], [dad, 0.85, -0.7, -0.28, T4.certaines + 0.08], [girl, -1.6, 0.55, 0.7, T4.familles - 0.1], [boy, 1.55, 0.55, -0.7, T4.familles + 0.0]];
@@ -334,7 +334,7 @@ function updateS4(U, t) {
   // cabinet de soins : la croix s'allume, les patients arrivent, le soignant les accueille
   const on = lin(T4.soigner - 0.02, T4.soigner + 0.12, t);
   U.cross.userData.inner.color.setHex(mixHex(0x1c6a46, 0x34e07c, on)); U.cross.scale.setScalar(1 + 0.1 * Math.max(0, Math.sin((t - T4.soigner) * 9)) * Math.exp(-(t - T4.soigner) * 3));
-  U.crossHalo.material.opacity = 0.75 * on * (0.85 + 0.15 * Math.sin(t * 5)); U.crossHalo.scale.setScalar(5.6 + 1.2 * Math.sin(t * 3));
+  U.crossHalo.material.opacity = 0.58 * on * (0.85 + 0.15 * Math.sin(t * 5)); U.crossHalo.scale.setScalar(5.6 + 1.2 * Math.sin(t * 3));
   const Cx = 28, arriveU = eio(lin(T4.se1 + 0.1, T4.se2 + 0.0, t)); const walk = 1 - arriveU;
   const parX = lerp(29.55, 32.8, walk), kidX = lerp(28.75, 32.0, walk);
   U.par.position.set(parX, Math.abs(Math.sin(t * 9)) * 0.03 * (walk > 0.01 ? 1 : 0), 0.1); U.par.rotation.y = -1.1; U.kid.position.set(kidX, Math.abs(Math.sin(t * 9 + 1)) * 0.03 * (walk > 0.01 ? 1 : 0), 0.3); U.kid.rotation.y = -0.85;

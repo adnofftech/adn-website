@@ -40,11 +40,11 @@ export function buildS14(root, fx) {
   const ben = person({ ...BENEFICIARY }); ben.userData.s0 = ben.scale.x; ben.position.set(0, -0.22, -0.9); g.add(ben); S.ben = ben;
   blob(g, 0, -0.9, 0.5);
   // facture centrale (électricité) : « À PAYER » -> « RÉGLÉE »
-  const inv1 = invoice("elec", 0.8); inv1.g.position.set(0.02, TOP + 0.004, 0.55); inv1.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv1.g); S.inv1 = inv1;
+  const inv1 = invoice("elec", 0.8); inv1.g.position.set(0.0, TOP + 0.004, 0.55); inv1.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv1.g); S.inv1 = inv1;
   const tool1 = stampTool(); tool1.rotation.x = Math.PI / 2; tool1.scale.setScalar(0.8); tool1.position.set(0.04, inv1.h * 0.3, 1.0); inv1.g.add(tool1); S.tool1 = tool1;
   // loyer : maison miniature + facture « LOYER »
   const hs = houseMini(); hs.position.set(-0.82, TOP, -0.22); hs.scale.setScalar(1.05); g.add(hs); S.house = hs;
-  const inv2 = invoice("loyer", 0.5); inv2.g.position.set(-0.74, TOP + 0.004, 0.62); inv2.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv2.g); S.inv2 = inv2;
+  const inv2 = invoice("loyer", 0.5); inv2.g.position.set(-0.71, TOP + 0.004, 0.62); inv2.g.rotation.x = -(Math.PI / 2 - 0.5); g.add(inv2.g); S.inv2 = inv2;
   const tool2 = stampTool(); tool2.rotation.x = Math.PI / 2; tool2.scale.setScalar(0.5); tool2.position.set(0.03, inv2.h * 0.3, 0.7); inv2.g.add(tool2); S.tool2 = tool2;
   const chk = new T.Mesh(new T.PlaneGeometry(0.2, 0.2), new T.MeshBasicMaterial({ map: texCheck(), transparent: true, depthWrite: false })); chk.position.set(-0.82, TOP + 0.66, -0.15); g.add(chk); S.chk = chk;
   // panier
@@ -136,8 +136,8 @@ export function updateS14(S, t, U) {
 
   // facture 1 : À PAYER -> RÉGLÉE
   const i1 = S.inv1, tc = T14.payer + 0.02, st1 = t >= tc;
-  const tr = t < tc ? 0.7 * Math.pow(1 - lin(tc - 0.3, tc, t), 1.6) : 0.7 * eout(lin(tc + 0.05, tc + 0.22, t));
-  S.tool1.position.z = 0.04 + tr; S.tool1.visible = t >= tc - 0.31 && t < tc + 0.24;
+  const tr = t < tc ? 0.7 * Math.pow(1 - lin(tc - 0.3, tc, t), 1.6) : 0.7 * eout(lin(tc + 0.05, tc + 0.2, t)); const tx1 = t < tc ? 0 : 0.5 * eout(lin(tc + 0.05, tc + 0.2, t));
+  S.tool1.position.set(0.04 + tx1, i1.h * 0.3, 0.04 + tr); S.tool1.scale.setScalar(0.8 * (t < tc ? 1 : 1 - 0.9 * lin(tc + 0.1, tc + 0.2, t))); S.tool1.visible = t >= tc - 0.31 && t < tc + 0.2;
   i1.tag.scale.setScalar(Math.max(1e-4, st1 ? 1 - lin(tc, tc + 0.1, t) : 1)); i1.tag.visible = !st1 || t < tc + 0.1;
   i1.stamp.scale.setScalar(Math.max(1e-4, st1 ? 1 + 0.9 * (1 - eout(lin(tc, tc + 0.18, t))) : 0)); i1.stamp.visible = st1;
   const ck1 = st1 ? pop(t, tc + 0.08, 0.26) : 0; i1.check.scale.setScalar(Math.max(1e-4, ck1)); i1.check.visible = ck1 > 0.01;
@@ -200,8 +200,8 @@ export const S14_LIGHTS = (t) => {
   return {
     hemiC: mixHex(0xfff4ea, 0xffe3c0, cozy), hemiG: 0x6a4a34, hemi: kf(t, [[a14, 0.85], [T14.millions + 0.3, 0.98], [T14.ameliorer + 0.2, 1.0], [T14.quotidien + 0.1, 1.2]]),
     dirC: mixHex(0xfff0e0, 0xffd4a0, cozy), dir: kf(t, [[a14, 0.95], [T14.millions + 0.3, 1.25], [T14.ameliorer + 0.3, 1.2], [T14.quotidien, 0.8]]), dirP: [-8, 12, ZS + 16],
-    ptC: 0xffb866, ptP: [lerp(0.6, BX + 1.6, onBus), lerp(3.0, 3.0, onBus), ZS + lerp(0.9, 3.6, onBus)],
-    pt: kf(t, [[a14, 8], [T14.pourraient, 8], [T14.ameliorer - 0.1, 9], [T14.quotidien - 0.02, 8], [T14.quotidien + 0.18, 14], [b14, 16]]),
+    ptC: 0xffc27c, ptP: [lerp(0.6, BX + 1.6, onBus), lerp(3.0, 3.0, onBus), ZS + lerp(0.9, 3.6, onBus)],
+    pt: kf(t, [[a14, 8], [T14.pourraient, 8], [T14.ameliorer - 0.1, 9], [T14.quotidien - 0.02, 8], [T14.quotidien + 0.18, 12], [b14, 13]]),
   };
 };
 export const S14_ENV = (t) => ({ bg: keyHex(t, [[a14, 0x3a2314], [T14.millions + 0.5, 0x36210f], [T14.ameliorer, 0x30200f], [T14.quotidien + 0.2, 0x3c2514], [b14, 0x402816]]), fog: kf(t, [[a14, 0.02], [T14.millions + 0.7, 0.014], [T14.ameliorer + 0.3, 0.014], [T14.quotidien + 0.1, 0.022]]) });
@@ -212,11 +212,11 @@ const TN = (f) => Math.tan(f * Math.PI / 360);
 export function S14_SHOTS(ox, oz) {
   const sh = (t, p, s, f = 46, o = {}) => { const d = Math.hypot(s[0] - p[0], s[1] - p[1], s[2] - p[2]); const dy = o.dy ?? 0.1; const h = dy * d * TN(f); return { t, p: [p[0] + ox, p[1], p[2] + oz + ZS], l: [s[0] + ox + (o.dx ?? 0), s[1] - h, s[2] + oz + ZS], f, r: o.r ?? 0, e: o.e }; };
   return [
-    sh(a14, [0.3, 1.9, 2.6], [0.0, 1.35, -0.6], 40, { dy: 0.1 }),
-    sh(T14.millions - 0.04, [0.18, 1.8, 2.2], [0.0, 1.3, -0.6], 38, { dy: 0.1, e: eio }),
+    sh(a14, [0.3, 1.9, 2.6], [0.0, 1.35, -0.6], 40, { dy: 0.02 }),
+    sh(T14.millions - 0.04, [0.18, 1.8, 2.2], [0.0, 1.3, -0.6], 38, { dy: 0.03, e: eio }),
     sh(T14.pourraient - 0.06, [3.4, 8.8, 11.5], [0.0, 1.2, -10], 56, { dy: -0.03, r: 0.03, e: eio }),
-    sh(T14.enfin + 0.0, [0.35, 2.7, 3.1], [-0.05, 1.0, 0.1], 42, { dy: 0.13 }),
-    sh(T14.payer + 0.04, [0.28, 2.45, 2.7], [-0.08, 0.98, 0.18], 40, { dy: 0.11, e: eio }),
+    sh(T14.enfin + 0.0, [0.29, 2.7, 3.1], [-0.11, 1.0, 0.1], 42, { dy: 0.13 }),
+    sh(T14.payer + 0.04, [0.22, 2.45, 2.7], [-0.14, 0.98, 0.18], 40, { dy: 0.11, e: eio }),
     sh(T14.factures - 0.04, [-0.05, 2.6, 4.9], [-0.05, 1.05, 0.1], 46, { dy: 0.15 }),
     sh(T14.et - 0.02, [0.0, 2.55, 4.8], [-0.02, 1.05, 0.1], 46, { dy: 0.15, e: eio }),
     sh(T14.ameliorer - 0.04, [BX + 1.6, 1.8, 8.4], [BX + 0.7, 1.35, 1.8], 50, { dy: 0.06 }),

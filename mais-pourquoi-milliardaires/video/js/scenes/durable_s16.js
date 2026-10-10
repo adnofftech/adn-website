@@ -79,7 +79,7 @@ export function buildS16(root) {
   S.tiles = TILES.map((d, i) => { const grp = new T.Group(); grp.position.set(d.x, 0, d.z); g.add(grp);
     const ghost = new T.Mesh(new T.PlaneGeometry(2.5, 2.5), new T.MeshBasicMaterial({ map: texSocket(d.icon), transparent: true, depthWrite: false })); ghost.rotation.x = -Math.PI / 2; ghost.position.y = 0.03; grp.add(ghost);
     const plinth = new T.Group(); grp.add(plinth); cy(1.0, 1.05, 0.3, M(0x1d2a33, 0x0a1218), 0, 0.15, 0, plinth, 28); const rim = cy(1.03, 1.03, 0.05, MB(d.hex), 0, 0.32, 0, plinth, 28); const prop = PROPS[d.id](); prop.position.y = 0.3; prop.userData.s0 = 1.2; grp.add(prop);
-    const lab = textPlane(d.label, { w: 2.3, h: 0.58, px: 512, size: 0.52, color: "#ffffff", bg: "rgba(10,18,24,.88)", border: "#" + d.hex.toString(16).padStart(6, "0") }); lab.position.set(0, 0.62, 1.7); lab.rotation.x = -0.5; grp.add(lab);
+    const lab = textPlane(d.label, { w: 2.3, h: 0.58, px: 512, size: 0.52, color: "#ffffff", bg: "rgba(10,18,24,.88)", border: "#" + d.hex.toString(16).padStart(6, "0") }); lab.position.set(0, 0.62, 1.6); lab.material.depthTest = false; lab.renderOrder = 6; grp.add(lab);
     const beam = new T.Mesh(new T.CylinderGeometry(0.7, 0.95, 4.4, 20, 1, true), new T.MeshBasicMaterial({ color: d.hex, map: texBeam(), transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); beam.position.y = 2.2; grp.add(beam);
     const shock = new T.Mesh(new T.RingGeometry(1, 1.12, 40), new T.MeshBasicMaterial({ color: d.hex, transparent: true, opacity: 0, blending: T.AdditiveBlending, depthWrite: false, side: T.DoubleSide })); shock.rotation.x = -Math.PI / 2; shock.position.y = 0.06; grp.add(shock);
     const gl = glow(d.hex, 4.5, 0); gl.position.set(0, 1.4, 0.6); grp.add(gl);
@@ -119,7 +119,7 @@ export function updateS16(S, t) {
   S.tiles.forEach((P, i) => { const t0 = P.t0; const dt = t - t0; const on = pop(t, t0, 0.32), onP = pop(t, t0 + 0.06, 0.4);
     P.ghost.material.opacity = (0.55 + 0.1 * Math.sin(t * 2 + i)) * (1 - sstep(t0 - 0.02, t0 + 0.25, t));
     P.plinth.scale.set(Math.max(1e-4, on), Math.max(1e-4, on), Math.max(1e-4, on)); P.plinth.visible = on > 0.01; P.prop.scale.setScalar(Math.max(1e-4, onP * 1.2)); P.prop.visible = onP > 0.01;
-    const lp = pop(t, t0 + 0.12, 0.3); P.lab.visible = lp > 0.01; P.lab.scale.set(Math.max(1e-4, lp), Math.max(1e-4, lp), 1);
+    P.lab.rotation.x = -(0.45 + 0.4 * sstep(69.8, 70.8, t)); const lp = pop(t, t0 + 0.12, 0.3); P.lab.visible = lp > 0.01; P.lab.scale.set(Math.max(1e-4, lp), Math.max(1e-4, lp), 1);
     P.beam.material.opacity = dt > 0 ? 0.5 * Math.exp(-dt * 3.4) : 0; P.beam.visible = dt > 0 && dt < 1.2; P.beam.scale.set(1 + 0.4 * dt, 1, 1 + 0.4 * dt);
     const su = clamp(dt / 0.7); P.shock.visible = dt > 0 && dt < 0.75; P.shock.scale.setScalar(1 + 2.4 * eout(su)); P.shock.material.opacity = 0.8 * (1 - su);
     P.gl.material.opacity = dt > 0 ? clamp(0.5 * Math.exp(-dt * 3) + 0.1, 0, 0.6) : 0;
