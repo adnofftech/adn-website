@@ -1,0 +1,1 @@
+[0:a]atrim=0:487,volume=1,adelay=0|0,apad,asetpts=N/SR/TB,atrim=0:487[a0];[a0]amix=inputs=1:duration=longest:dropout_transition=0[mixed];[mixed]volume=1[out]
