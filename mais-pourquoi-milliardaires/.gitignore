@@ -1,6 +1,7 @@
-video/node_modules/
-video/snapshots/
-video/.hyperframes/
+final/mais-pourquoi-milliardaires-complet.mp4
 final/work-*/
 final/.*hf-transaction*/
+video/snapshots/
+video/.hyperframes/
+video/node_modules/
 __pycache__/
