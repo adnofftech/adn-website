@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Bouillon Kerval, présentation du site</title>
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Archivo";src:url("assets/fonts/archivo-latin-standard-normal.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%}
+@font-face{font-family:"EB Garamond";src:url("assets/fonts/eb-garamond-latin-400-normal.woff2") format("woff2");font-weight:400;font-style:normal}
+@font-face{font-family:"EB Garamond";src:url("assets/fonts/eb-garamond-latin-400-italic.woff2") format("woff2");font-weight:400;font-style:italic}
+:root{--red:#d20809;--red-deep:#a31213;--cream:#eaefd3;--ink:#1a1a17;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--red)}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:"EB Garamond",Georgia,serif;color:var(--ink)}
+.scene{position:absolute;inset:0;overflow:hidden}
+.bg{position:absolute;inset:0}
+.bg.red{background:linear-gradient(180deg,#d20809,#9b1112)}
+.bg.cream{background:var(--cream)}
+.mount{position:absolute;left:0;bottom:0;width:1920px;height:auto}
+.disp{font-family:"Archivo",system-ui,sans-serif;font-weight:800;font-stretch:125%;text-transform:uppercase;line-height:1.02;letter-spacing:.005em}
+.on-red{color:var(--cream)} .on-cream{color:var(--red)}
+.sub{font-size:44px;line-height:1.3;max-width:760px}
+.sub i{font-style:italic}
+.abs{position:absolute}
+.frame{position:absolute;border-radius:18px;overflow:hidden;box-shadow:0 40px 90px rgba(60,0,0,.35);background:#fff}
+.frame img{position:absolute;left:0;top:0;display:block}
+.cite{font-family:"Archivo",sans-serif;font-weight:600;font-stretch:112%;text-transform:uppercase;letter-spacing:.06em;font-size:26px}
+.btnpill{display:flex;align-items:center;justify-content:center;height:84px;padding:0 44px;border-radius:8px;background:var(--cream);color:var(--red-deep);font-family:"Archivo",sans-serif;font-weight:800;font-stretch:112%;text-transform:uppercase;letter-spacing:.04em;font-size:30px;white-space:nowrap}
+.sw{position:absolute;width:76px;height:76px;border-radius:50%}
+.ph{position:absolute;overflow:hidden;border-radius:12px}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.phone{position:absolute;width:420px;height:860px;border-radius:64px;background:#14110f;box-shadow:0 50px 100px rgba(40,0,0,.45)}
+.screen{position:absolute;left:20px;top:20px;width:380px;height:820px;border-radius:46px;overflow:hidden;background:var(--cream)}
+.screen img{position:absolute;left:0;top:0;width:380px;height:auto;display:block}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="36.5" data-width="1920" data-height="1080">
+
+<!-- S1 Intro -->
+<section id="s1" class="scene clip" data-start="0" data-duration="4.5" data-track-index="0">
+  <div class="bg red"></div>
+  <img id="s1-mount" class="mount" src="assets/img/mountain-light.png" alt="" style="opacity:.34">
+  <div class="abs" style="left:0;top:120px;width:1920px;display:flex;flex-direction:column;align-items:center;gap:56px">
+    <img id="s1-logo" src="assets/img/logo-white.png" alt="Bouillon Kerval Réunion" style="width:600px;height:auto">
+    <h1 id="s1-h" class="disp on-red" style="font-size:112px;text-align:center"><span class="s1-l" style="display:block">Votre nouveau</span><span class="s1-l" style="display:block">site web.</span></h1>
+    <p id="s1-sub" class="sub on-red" style="font-style:italic;text-align:center;font-size:48px;max-width:1200px">Une refonte pensée pour le Bouillon Kerval, à Sainte-Marie.</p>
+  </div>
+</section>
+
+<!-- S2 Identité -->
+<section id="s2" class="scene clip" data-start="4.0" data-duration="6.0" data-track-index="1">
+  <div id="s2-bg" class="bg cream"></div>
+  <img id="s2-mount" class="mount" src="assets/img/mountain-red.png" alt="" style="opacity:.14">
+  <div class="abs" style="left:120px;top:210px;width:700px">
+    <h2 id="s2-h" class="disp on-cream" style="font-size:68px">Votre identité, reprise à l'identique.</h2>
+    <p id="s2-p" class="sub" style="margin-top:36px;max-width:640px">Le rouge brasserie, la montagne en pointillé et le Garamond de votre carte.</p>
+  </div>
+  <div class="sw s2-sw" style="left:120px;top:740px;background:var(--red)"></div>
+  <div class="sw s2-sw" style="left:216px;top:740px;background:var(--cream);box-shadow:inset 0 0 0 3px rgba(26,26,23,.25)"></div>
+  <div class="sw s2-sw" style="left:312px;top:740px;background:var(--ink)"></div>
+  <div id="s2-frame" class="frame" style="left:930px;top:260px;width:870px;height:544px"><img id="s2-img" src="assets/shots/hero.png" alt="" style="width:870px;height:auto"></div>
+</section>
+
+<!-- S3 Carte -->
+<section id="s3" class="scene clip" data-start="9.5" data-duration="6.5" data-track-index="2">
+  <div id="s3-bg" class="bg red"></div>
+  <img id="s3-mount" class="mount" src="assets/img/mountain-light.png" alt="" style="opacity:.3;left:-100px">
+  <div class="abs" style="left:120px;top:210px;width:740px">
+    <h2 id="s3-h" class="disp on-red" style="font-size:68px">Toute la carte, prix compris.</h2>
+    <p id="s3-p" class="sub on-red" style="margin-top:36px;max-width:660px">Plat du jour à 13,90&nbsp;€, tartare à 16,90&nbsp;€, chou à la mangue à 7,00&nbsp;€.</p>
+  </div>
+  <div id="s3-frame" class="frame" style="left:960px;top:150px;width:840px;height:780px"><img id="s3-img" src="assets/shots/carte-full.png" alt="" style="width:840px;height:auto"></div>
+</section>
+
+<!-- S4 Photos -->
+<section id="s4" class="scene clip" data-start="15.5" data-duration="5.5" data-track-index="3">
+  <div id="s4-bg" class="bg cream"></div>
+  <img id="s4-mount" class="mount" src="assets/img/mountain-red.png" alt="" style="opacity:.14">
+  <div class="abs" style="left:120px;top:250px;width:580px">
+    <h2 id="s4-h" class="disp on-cream" style="font-size:68px">Vos photos, mises en valeur.</h2>
+    <p id="s4-p" class="sub" style="margin-top:36px;max-width:520px">Plats, salle, verres : une galerie qui donne faim.</p>
+  </div>
+  <div class="ph s4-ph" style="left:770px;top:190px;width:330px;height:330px"><img src="assets/img/photo-31.jpg" alt=""></div>
+  <div class="ph s4-ph" style="left:1124px;top:190px;width:330px;height:330px"><img src="assets/img/photo-09.jpg" alt=""></div>
+  <div class="ph s4-ph" style="left:1478px;top:190px;width:330px;height:330px"><img src="assets/img/photo-28.jpg" alt=""></div>
+  <div class="ph s4-ph" style="left:770px;top:544px;width:330px;height:330px"><img src="assets/img/photo-35.jpg" alt=""></div>
+  <div class="ph s4-ph" style="left:1124px;top:544px;width:330px;height:330px"><img src="assets/img/photo-04.jpg" alt=""></div>
+  <div class="ph s4-ph" style="left:1478px;top:544px;width:330px;height:330px"><img src="assets/img/photo-23.jpg" alt=""></div>
+</section>
+
+<!-- S5 Mobile -->
+<section id="s5" class="scene clip" data-start="20.5" data-duration="6.5" data-track-index="4">
+  <div id="s5-bg" class="bg red"></div>
+  <img id="s5-mount" class="mount" src="assets/img/mountain-light.png" alt="" style="opacity:.3">
+  <div class="abs" style="left:120px;top:230px;width:900px">
+    <h2 id="s5-h" class="disp on-red" style="font-size:68px">Prêt pour le téléphone.</h2>
+    <p id="s5-p" class="sub on-red" style="margin-top:36px;max-width:740px">Un appel suffit : le bouton de réservation est toujours à portée de pouce.</p>
+    <div id="s5-btn" class="btnpill" style="margin-top:56px;width:560px">Réserver · 0263 04 40 36</div>
+  </div>
+  <div id="s5-phone" class="phone" style="left:1240px;top:110px"><div class="screen"><img id="s5-img" src="assets/shots/mobile-full.png" alt=""></div></div>
+</section>
+
+<!-- S6 Avis -->
+<section id="s6" class="scene clip" data-start="26.5" data-duration="5.0" data-track-index="5">
+  <div id="s6-bg" class="bg cream"></div>
+  <img id="s6-mount" class="mount" src="assets/img/mountain-red.png" alt="" style="opacity:.14">
+  <div class="abs" style="left:120px;top:250px;width:760px">
+    <div class="disp on-cream" style="display:flex;align-items:baseline;gap:12px;line-height:.9"><span id="s6-score" style="font-size:300px">0,0</span><span style="font-size:110px">/5</span></div>
+    <p id="s6-cap" class="cite" style="margin-top:36px;color:var(--ink);font-size:32px">267 avis Google</p>
+    <p id="s6-note" class="sub" style="font-size:30px;margin-top:10px;opacity:.7">Avis non vérifiés, mis en avant sur la page d'accueil.</p>
+  </div>
+  <div class="abs" style="left:1000px;top:300px;width:800px">
+    <p id="s6-q" style="font-size:62px;line-height:1.22;font-style:italic;color:var(--ink)">« Super moment au bouillon kerval, très bon rapport qualité prix, super accueil. »</p>
+    <p id="s6-c" class="cite" style="margin-top:36px;color:var(--red)">Marie Judith Martial, Google</p>
+  </div>
+</section>
+
+<!-- S7 Fin -->
+<section id="s7" class="scene clip" data-start="31.0" data-duration="5.5" data-track-index="6">
+  <div id="s7-bg" class="bg red"></div>
+  <img id="s7-mount" class="mount" src="assets/img/mountain-light.png" alt="" style="opacity:.3;width:2100px;left:-90px;bottom:-120px">
+  <div class="abs" style="left:0;top:150px;width:1920px;display:flex;flex-direction:column;align-items:center;gap:60px">
+    <img id="s7-logo" src="assets/img/logo-white.png" alt="Bouillon Kerval Réunion" style="width:560px;height:auto">
+    <h2 id="s7-h" class="disp on-red" style="font-size:96px;text-align:center"><span style="display:block">Une maquette</span><span style="display:block">à votre image.</span></h2>
+    <p id="s7-p" class="sub on-red" style="font-style:italic;font-size:60px;text-align:center">Parlons-en.</p>
+  </div>
+</section>
+
+</div>
+<script>
+const tl = gsap.timeline({ paused: true });
+const OUT = "power3.out", INOUT = "power2.inOut", SCROLL = "power1.inOut", AMB = "sine.inOut";
+// Wipe: the next scene's background rises from the bottom (deceleration, no overshoot)
+function wipe(bg, t) { tl.fromTo(bg, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power3.inOut" }, t); }
+// Entrance of a text block: hero first, supporting after (1/3 rule: never more than a third moving at once)
+function rise(sel, t, d = 0.7, y = 36) { tl.fromTo(sel, { y, opacity: 0 }, { y: 0, opacity: 1, duration: d, ease: OUT }, t); }
+
+// S1 (0 to 4.5)
+tl.fromTo("#s1-mount", { y: 220 }, { y: 60, duration: 2.2, ease: OUT }, 0);
+tl.fromTo("#s1-logo", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.9, ease: OUT }, 0.25);
+tl.fromTo(".s1-l", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: OUT, stagger: 0.12 }, 1.0);
+rise("#s1-sub", 1.9, 0.7, 24);
+tl.to("#s1-mount", { y: 20, duration: 2.5, ease: AMB }, 2.2);
+
+// S2 (4.0 to 10.0), local t0 = 4.0
+wipe("#s2-bg", 4.0);
+rise("#s2-h", 4.55);
+rise("#s2-p", 4.95, 0.7, 28);
+tl.fromTo(".s2-sw", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: OUT, stagger: 0.1 }, 5.4);
+tl.fromTo("#s2-frame", { x: 140, opacity: 0 }, { x: 0, opacity: 1, duration: 0.9, ease: OUT }, 4.7);
+tl.fromTo("#s2-img", { scale: 1 }, { scale: 1.04, transformOrigin: "50% 0%", duration: 5.0, ease: AMB }, 5.2);
+tl.fromTo("#s2-mount", { y: 40 }, { y: 0, duration: 5, ease: AMB }, 4.5);
+
+// S3 (9.5 to 16.0)
+wipe("#s3-bg", 9.5);
+rise("#s3-h", 10.05);
+rise("#s3-p", 10.45, 0.7, 28);
+tl.fromTo("#s3-frame", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: OUT }, 10.2);
+tl.fromTo("#s3-img", { y: 0 }, { y: -950, duration: 4.4, ease: SCROLL }, 11.3);
+tl.fromTo("#s3-mount", { x: 0 }, { x: 60, duration: 6, ease: AMB }, 10);
+
+// S4 (15.5 to 21.0)
+wipe("#s4-bg", 15.5);
+rise("#s4-h", 16.05);
+rise("#s4-p", 16.45, 0.7, 28);
+tl.fromTo(".s4-ph", { y: 44, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: OUT, stagger: 0.08 }, 16.2);
+tl.fromTo(".s4-ph img", { scale: 1.0 }, { scale: 1.08, duration: 4.2, ease: AMB, stagger: 0.08 }, 16.8);
+tl.fromTo("#s4-mount", { y: 40 }, { y: 0, duration: 5, ease: AMB }, 16);
+
+// S5 (20.5 to 27.0)
+wipe("#s5-bg", 20.5);
+rise("#s5-h", 21.05);
+rise("#s5-p", 21.45, 0.7, 28);
+rise("#s5-btn", 21.9, 0.7, 28);
+tl.fromTo("#s5-phone", { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: OUT }, 21.0);
+tl.fromTo("#s5-img", { y: 0 }, { y: -1500, duration: 4.0, ease: SCROLL }, 22.2);
+// press feedback on the CTA (anticipation, then release)
+tl.to("#s5-btn", { scale: 0.97, duration: 0.12, ease: "power2.out" }, 24.7);
+tl.to("#s5-btn", { scale: 1, duration: 0.3, ease: "power2.out" }, 24.82);
+
+// S6 (26.5 to 31.5)
+wipe("#s6-bg", 26.5);
+const proxy = { v: 0 };
+tl.fromTo("#s6-score", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.7, ease: OUT }, 27.05);
+tl.to(proxy, { v: 4.4, duration: 1.4, ease: "power2.out", onUpdate: () => { document.getElementById("s6-score").textContent = proxy.v.toFixed(1).replace(".", ","); } }, 27.1);
+rise("#s6-cap", 27.7, 0.6, 24);
+rise("#s6-note", 28.0, 0.6, 20);
+rise("#s6-q", 27.9, 0.8, 36);
+rise("#s6-c", 28.5, 0.6, 20);
+tl.fromTo("#s6-mount", { y: 40 }, { y: 0, duration: 5, ease: AMB }, 27);
+
+// S7 (31.0 to 36.5)
+wipe("#s7-bg", 31.0);
+tl.fromTo("#s7-mount", { y: 200 }, { y: 0, duration: 2.6, ease: OUT }, 31.2);
+tl.fromTo("#s7-logo", { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.9, ease: OUT }, 31.55);
+rise("#s7-h", 32.2);
+rise("#s7-p", 32.8, 0.7, 24);
+tl.to("#s7-mount", { x: -40, duration: 3.6, ease: AMB }, 33);
+
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
