@@ -14,6 +14,15 @@ const MIN_STEER := 0.16            # rad à pleine vitesse
 const STEER_SPEED := 3.5           # rad/s
 const EXIT_MAX_SPEED := 6.0        # m/s : on ne descend pas à toute vitesse
 
+# Modèle 3D réel (monospace low-poly, CC0/MIT, issu des démos officielles
+# Godot "Truck Town" : https://github.com/godotengine/godot-demo-projects).
+const BODY_MESH: ArrayMesh = preload("res://assets/vehicles/minivan.res")
+const WHEEL_MESH: ArrayMesh = preload("res://assets/vehicles/wheel.res")
+const BODY_TARGET_LENGTH := 4.2    # m : aligné sur la forme de collision existante
+const BODY_GROUND_CLEARANCE := -0.22
+const BODY_MODEL_YAW := PI         # à corriger si le modèle apparaît à l'envers
+const WHEEL_TARGET_DIAMETER := 0.72 # 2 * wheel_radius
+
 var driver: PlayerController
 var is_driven := false
 var forward_speed := 0.0           # m/s le long de l'avant (négatif en marche arrière)
@@ -51,25 +60,25 @@ func _build_body() -> void:
 	cabin_shape.position = Vector3(0, 0.75, -0.3)
 	add_child(cabin_shape)
 
-	_add_box(Vector3(1.9, 0.6, 4.2), Vector3(0, 0.1, 0), Color("c0392b"))
-	_add_box(Vector3(1.7, 0.55, 2.1), Vector3(0, 0.68, -0.35), Color("a93226"))
-	_add_box(Vector3(1.5, 0.35, 0.05), Vector3(0, 0.72, 0.72), Color("1b2631")) # pare-brise
-	_add_box(Vector3(0.4, 0.15, 0.08), Vector3(-0.65, 0.2, 2.1), Color("fdf2c0")) # phares avant
-	_add_box(Vector3(0.4, 0.15, 0.08), Vector3(0.65, 0.2, 2.1), Color("fdf2c0"))
-	_add_box(Vector3(0.4, 0.15, 0.08), Vector3(-0.65, 0.2, -2.1), Color("7b241c")) # feux arrière
-	_add_box(Vector3(0.4, 0.15, 0.08), Vector3(0.65, 0.2, -2.1), Color("7b241c"))
+	add_child(_fit_mesh(BODY_MESH, BODY_TARGET_LENGTH, Vector3.AXIS_Z, BODY_MODEL_YAW, BODY_GROUND_CLEARANCE))
 
 
-func _add_box(size: Vector3, pos: Vector3, color: Color) -> void:
+## Instancie `mesh`, le met à l'échelle pour que son étendue le long de
+## `axis` vaille `target_length`, puis le recentre et le pose au sol
+## (quel que soit le lacet `yaw` appliqué) à la hauteur `ground_y`.
+func _fit_mesh(mesh: ArrayMesh, target_length: float, axis: Vector3, yaw: float, ground_y: float) -> MeshInstance3D:
 	var mi := MeshInstance3D.new()
-	var bm := BoxMesh.new()
-	bm.size = size
-	mi.mesh = bm
-	mi.position = pos
-	var m := StandardMaterial3D.new()
-	m.albedo_color = color
-	mi.material_override = m
-	add_child(mi)
+	mi.mesh = mesh
+	var aabb := mesh.get_aabb()
+	var extent := aabb.size.dot(axis.abs())
+	var scale_factor := target_length / maxf(extent, 0.001)
+	mi.scale = Vector3.ONE * scale_factor
+	mi.rotation.y = yaw
+	var centroid := (aabb.position + aabb.size * 0.5) * scale_factor
+	centroid.y = aabb.position.y * scale_factor # pose sur le point le plus bas, pas le centre
+	var rotated := Basis(Vector3.UP, yaw) * centroid
+	mi.position = Vector3(-rotated.x, ground_y - rotated.y, -rotated.z)
+	return mi
 
 
 func _build_wheels() -> void:
@@ -92,16 +101,8 @@ func _build_wheels() -> void:
 		w.damping_relaxation = 2.6
 		w.wheel_friction_slip = 3.2
 		w.wheel_roll_influence = 0.25
-		var mi := MeshInstance3D.new()
-		var cm := CylinderMesh.new()
-		cm.top_radius = 0.36
-		cm.bottom_radius = 0.36
-		cm.height = 0.26
-		mi.mesh = cm
-		mi.rotation.z = PI * 0.5
-		var m := StandardMaterial3D.new()
-		m.albedo_color = Color("1c1c1c")
-		mi.material_override = m
+		var mi := _fit_mesh(WHEEL_MESH, WHEEL_TARGET_DIAMETER, Vector3.AXIS_X, 0.0, -WHEEL_TARGET_DIAMETER * 0.5)
+		mi.position.y += WHEEL_TARGET_DIAMETER * 0.5 # roue centrée sur l'essieu, pas posée au sol
 		w.add_child(mi)
 		add_child(w)
 		_wheels.append(w)

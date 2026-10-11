@@ -35,27 +35,86 @@ func _ready() -> void:
 func _build_visual() -> void:
 	_visual = Node3D.new()
 	add_child(_visual)
+	var skin := Color("e0b48c")
+	var shirt := Color("2f6fb5")
+	var pants := Color("2b2f3a")
+	var shoes := Color("1a1a1a")
+
+	# Jambes (de la cheville à la hanche)
+	for side in [-1.0, 1.0]:
+		var leg := MeshInstance3D.new()
+		var lm := CapsuleMesh.new()
+		lm.radius = 0.11
+		lm.height = 0.9
+		leg.mesh = lm
+		leg.position = Vector3(side * 0.13, 0.45, 0)
+		leg.material_override = _mat(pants)
+		_visual.add_child(leg)
+		var shoe := MeshInstance3D.new()
+		var shm := BoxMesh.new()
+		shm.size = Vector3(0.16, 0.12, 0.28)
+		shoe.mesh = shm
+		shoe.position = Vector3(side * 0.13, 0.06, 0.04)
+		shoe.material_override = _mat(shoes)
+		_visual.add_child(shoe)
+
+	# Torse
 	var body := MeshInstance3D.new()
 	var cm := CapsuleMesh.new()
-	cm.radius = 0.33
-	cm.height = 1.5
+	cm.radius = 0.28
+	cm.height = 1.0
 	body.mesh = cm
-	body.position = Vector3(0, 0.85, 0)
-	body.material_override = _mat(Color("2f6fb5"))
+	body.position = Vector3(0, 1.22, 0)
+	body.material_override = _mat(shirt)
 	_visual.add_child(body)
+
+	# Bras
+	for side in [-1.0, 1.0]:
+		var arm := MeshInstance3D.new()
+		var am := CapsuleMesh.new()
+		am.radius = 0.09
+		am.height = 0.72
+		arm.mesh = am
+		arm.position = Vector3(side * 0.37, 1.1, 0)
+		arm.rotation.z = side * 0.08
+		arm.material_override = _mat(shirt if side < 0 else skin)
+		_visual.add_child(arm)
+		# avant-bras (teinte peau)
+		var forearm := MeshInstance3D.new()
+		var fm := CapsuleMesh.new()
+		fm.radius = 0.08
+		fm.height = 0.3
+		forearm.mesh = fm
+		forearm.position = Vector3(side * 0.39, 0.78, 0)
+		forearm.material_override = _mat(skin)
+		_visual.add_child(forearm)
+
+	# Tête + cheveux
 	var head := MeshInstance3D.new()
 	var sm := SphereMesh.new()
 	sm.radius = 0.2
 	sm.height = 0.4
 	head.mesh = sm
-	head.position = Vector3(0, 1.72, 0)
-	head.material_override = _mat(Color("e0b48c"))
+	head.position = Vector3(0, 1.85, 0)
+	head.material_override = _mat(skin)
 	_visual.add_child(head)
+	var hair := MeshInstance3D.new()
+	var hm := SphereMesh.new()
+	hm.radius = 0.205
+	hm.height = 0.42
+	hair.mesh = hm
+	hair.position = Vector3(0, 1.9, -0.02)
+	var hair_mat := _mat(Color("2a1d14"))
+	hair.material_override = hair_mat
+	# ne couvre que le dessus/l'arrière (on recoupe via une échelle non uniforme simple)
+	hair.scale = Vector3(1.0, 0.75, 1.0)
+	_visual.add_child(hair)
+
 	var nose := MeshInstance3D.new() # repère l'avant du personnage (-Z)
 	var bm := BoxMesh.new()
-	bm.size = Vector3(0.12, 0.12, 0.3)
+	bm.size = Vector3(0.1, 0.1, 0.22)
 	nose.mesh = bm
-	nose.position = Vector3(0, 1.0, -0.38)
+	nose.position = Vector3(0, 1.1, -0.34)
 	nose.material_override = _mat(Color("f2c14e"))
 	_visual.add_child(nose)
 

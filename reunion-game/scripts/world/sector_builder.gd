@@ -11,10 +11,19 @@ const BUILDING_COLORS: Array[Color] = [
 const ROAD_LIFT := 0.08
 const LAYER_WORLD := 1
 
+# Textures réelles (CC0, démo officielle Godot "Truck Town").
+const GRASS_TEX: Texture2D = preload("res://assets/textures/grass.webp")
+const CEMENT_TEX: Texture2D = preload("res://assets/textures/cement.webp")
+# Arbre basse-poly (CC-BY-4.0, Ricardo Sanchez via Sketchfab — voir README).
+const TREE_SCENE: PackedScene = preload("res://assets/tree/scene.gltf")
+const TREES_PER_SECTOR := 9
+const TREE_BUILDING_MARGIN := 7.0
+
 static var _terrain_mat: StandardMaterial3D
 static var _road_mat: StandardMaterial3D
 static var _building_mats: Array[StandardMaterial3D] = []
 static var _roof_mat: StandardMaterial3D
+static var _window_tex: ImageTexture
 
 
 static func build(data: SectorData) -> Node3D:
@@ -49,7 +58,38 @@ static func build(data: SectorData) -> Node3D:
 
 	for i in data.buildings.size():
 		root.add_child(_build_building(data.buildings[i], origin, i))
+
+	_scatter_trees(root, data, origin)
 	return root
+
+
+## Plante quelques arbres par secteur, à l'écart des bâtiments et de la route,
+## avec une position/échelle/rotation déterministes (seed = coordonnées du secteur).
+static func _scatter_trees(root: Node3D, data: SectorData, origin: Vector3) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(data.coord)
+	for i in TREES_PER_SECTOR:
+		var lx := rng.randf_range(8.0, SectorData.SIZE - 8.0)
+		var lz := rng.randf_range(8.0, SectorData.SIZE - 8.0)
+		var world := Vector3(origin.x + lx, 0.0, origin.z + lz)
+		var too_close := false
+		for b in data.buildings:
+			if (Vector2(world.x, world.z) - Vector2(b["position"].x, b["position"].z)).length() < TREE_BUILDING_MARGIN:
+				too_close = true
+				break
+		if too_close:
+			continue
+		var cell_x := int(lx / SectorData.CELL_SIZE)
+		var cell_z := int(lz / SectorData.CELL_SIZE)
+		cell_x = clampi(cell_x, 0, SectorData.CELLS)
+		cell_z = clampi(cell_z, 0, SectorData.CELLS)
+		var h := data.get_height(cell_x, cell_z)
+		var tree := TREE_SCENE.instantiate()
+		tree.position = Vector3(lx, h, lz)
+		tree.rotation.y = rng.randf_range(0.0, TAU)
+		var s := rng.randf_range(0.8, 1.4)
+		tree.scale = Vector3.ONE * s
+		root.add_child(tree)
 
 
 static func build_terrain_mesh(data: SectorData) -> ArrayMesh:
@@ -122,6 +162,7 @@ static func _build_building(b: Dictionary, origin: Vector3, index: int) -> Node3
 	bm.size = full
 	mi.mesh = bm
 	mi.material_override = _building_mats[int(b["color_id"]) % _building_mats.size()]
+	mi.gi_mode = GeometryInstance3D.GI_MODE_STATIC
 	body.add_child(mi)
 	var roof := MeshInstance3D.new()
 	var rm := BoxMesh.new()
@@ -141,16 +182,60 @@ static func _build_building(b: Dictionary, origin: Vector3, index: int) -> Node3
 static func _ensure_materials() -> void:
 	if _terrain_mat != null:
 		return
+	_window_tex = _build_window_texture()
+
+	# Le sol garde ses teintes procédurales (herbe/roche/pente) tout en
+	# recevant le détail de la vraie texture d'herbe, via mapping triplanaire
+	# (pas besoin d'UV sur le maillage généré) multiplié par la couleur du sommet.
 	_terrain_mat = StandardMaterial3D.new()
 	_terrain_mat.vertex_color_use_as_albedo = true
+	_terrain_mat.albedo_texture = GRASS_TEX
+	_terrain_mat.uv1_triplanar = true
+	_terrain_mat.uv1_world_triplanar = true
+	_terrain_mat.uv1_scale = Vector3.ONE * 0.22
 	_terrain_mat.roughness = 1.0
+
 	_road_mat = StandardMaterial3D.new()
 	_road_mat.vertex_color_use_as_albedo = true
+	_road_mat.albedo_texture = CEMENT_TEX
+	_road_mat.uv1_triplanar = true
+	_road_mat.uv1_world_triplanar = true
+	_road_mat.uv1_scale = Vector3.ONE * 0.6
 	_road_mat.roughness = 0.9
+
 	_roof_mat = StandardMaterial3D.new()
 	_roof_mat.albedo_color = Color("5a4a44")
+	_roof_mat.roughness = 0.85
+
 	for c in BUILDING_COLORS:
 		var m := StandardMaterial3D.new()
 		m.albedo_color = c
-		m.roughness = 0.9
+		m.albedo_texture = _window_tex
+		m.uv1_triplanar = true
+		m.uv1_world_triplanar = true
+		m.uv1_scale = Vector3(0.6, 0.6, 0.6)
+		m.roughness = 0.65
 		_building_mats.append(m)
+
+
+## Génère (en code, sans fichier externe) une texture de façade avec une
+## grille de fenêtres, pour donner un peu de relief visuel aux bâtiments.
+static func _build_window_texture() -> ImageTexture:
+	var size := 64
+	var img := Image.create(size, size, false, Image.FORMAT_RGB8)
+	img.fill(Color(1.0, 1.0, 1.0))
+	var cell := 16
+	var margin := 3
+	var iy := 0
+	while iy < size:
+		var ix := 0
+		while ix < size:
+			for y in range(margin, cell - margin):
+				for x in range(margin, cell - margin):
+					var px := ix + x
+					var py := iy + y
+					if px < size and py < size:
+						img.set_pixel(px, py, Color(0.62, 0.74, 0.8))
+			ix += cell
+		iy += cell
+	return ImageTexture.create_from_image(img)

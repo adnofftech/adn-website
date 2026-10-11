@@ -101,21 +101,34 @@ func _setup_environment() -> void:
 	var env := Environment.new()
 	env.background_mode = Environment.BG_SKY
 	var sky := Sky.new()
-	sky.sky_material = ProceduralSkyMaterial.new()
+	var sky_mat := ProceduralSkyMaterial.new()
+	sky_mat.sky_top_color = Color("3d7fc9")
+	sky_mat.sky_horizon_color = Color("bfd9e8")
+	sky_mat.sky_curve = 0.14
+	sky_mat.ground_bottom_color = Color("5a6a55")
+	sky_mat.ground_horizon_color = Color("bfd9e8")
+	sky_mat.sun_angle_max = 25.0
+	sky_mat.sun_curve = 0.2
+	sky.sky_material = sky_mat
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	env.ambient_light_energy = 0.6
+	env.ambient_light_energy = 0.7
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
 	env.fog_enabled = true
 	env.fog_light_color = Color("b9d3e6")
 	env.fog_density = 0.0016 if OS.has_feature("mobile") else 0.0009
+	env.glow_enabled = true
+	env.glow_intensity = 0.45
+	env.glow_bloom = 0.05
+	env.glow_hdr_threshold = 1.1
 	var we := WorldEnvironment.new()
 	we.environment = env
 	add_child(we)
 
 	var sun := DirectionalLight3D.new()
 	sun.rotation_degrees = Vector3(-50, -30, 0)
-	sun.light_energy = 0.85
+	sun.light_energy = 1.05
+	sun.light_color = Color("fff3de")
 	sun.shadow_enabled = not OS.has_feature("mobile") # ombres coûteuses sur mobile
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL
 	sun.directional_shadow_max_distance = 90.0

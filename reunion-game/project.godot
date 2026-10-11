@@ -40,3 +40,6 @@ common/physics_ticks_per_second=60
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_3d=2
+anti_aliasing/quality/msaa_3d.mobile=1
+environment/defaults/default_clear_color=Color(0.56, 0.72, 0.82, 1)

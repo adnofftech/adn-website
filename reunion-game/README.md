@@ -88,3 +88,15 @@ Voir la section « Résultats des tests » en fin de `docs/ARCHITECTURE.md`.
 ## Prochaine version (v0.2)
 
 Voir `docs/DATA_PLAN.md` (feuille de route détaillée).
+
+## Crédits graphiques
+
+Les formes générées par code ont été remplacées par de vrais modèles et textures
+basse-poly, repris des démos officielles Godot (dossier `assets/`) :
+
+- Modèle de voiture (monospace) et de roue : [Godot Engine demo projects — *Truck Town*](https://github.com/godotengine/godot-demo-projects/tree/master/3d/truck_town) (licence MIT).
+- Texture d'herbe et de ciment : même projet (licence MIT).
+- Arbre basse-poly : [« tree low-poly »](https://sketchfab.com/3d-models/tree-low-poly-4cd243eb74c74b3ea2190ebcec0439fb)
+  par Ricardo Sanchez, via le projet Truck Town — licence **CC-BY-4.0** (attribution requise si redistribué).
+
+Les fenêtres des bâtiments sont une texture générée par code (pas de fichier externe).
