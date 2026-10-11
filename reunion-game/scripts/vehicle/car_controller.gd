@@ -60,7 +60,7 @@ func _build_body() -> void:
 	cabin_shape.position = Vector3(0, 0.75, -0.3)
 	add_child(cabin_shape)
 
-	add_child(_fit_mesh(BODY_MESH, BODY_TARGET_LENGTH, Vector3.AXIS_Z, BODY_MODEL_YAW, BODY_GROUND_CLEARANCE))
+	add_child(_fit_mesh(BODY_MESH, BODY_TARGET_LENGTH, Vector3(0, 0, 1), BODY_MODEL_YAW, BODY_GROUND_CLEARANCE))
 
 
 ## Instancie `mesh`, le met à l'échelle pour que son étendue le long de
@@ -101,7 +101,7 @@ func _build_wheels() -> void:
 		w.damping_relaxation = 2.6
 		w.wheel_friction_slip = 3.2
 		w.wheel_roll_influence = 0.25
-		var mi := _fit_mesh(WHEEL_MESH, WHEEL_TARGET_DIAMETER, Vector3.AXIS_X, 0.0, -WHEEL_TARGET_DIAMETER * 0.5)
+		var mi := _fit_mesh(WHEEL_MESH, WHEEL_TARGET_DIAMETER, Vector3(1, 0, 0), 0.0, -WHEEL_TARGET_DIAMETER * 0.5)
 		mi.position.y += WHEEL_TARGET_DIAMETER * 0.5 # roue centrée sur l'essieu, pas posée au sol
 		w.add_child(mi)
 		add_child(w)

@@ -2,7 +2,17 @@ extends Node3D
 ## Point d'entrée : assemble le monde, le joueur, la voiture, la caméra, les
 ## missions et l'interface. Chaque système vit dans son propre script.
 
-const SPAWN_S := 0.0   # abscisse sur la route de test
+## --- Point de départ réel (Saint-Denis) -----------------------------------
+## RealDataProvider n'a pas de courbe paramétrée comme le monde synthétique :
+## ces points ont été choisis hors-jeu (voir docs/osm_pipeline), sur une vraie
+## rue (way OSM 31130832, "tertiary") qui n'est pas dans un bâtiment.
+## Repère : mètres, X = est, Y = altitude, Z = sud (origine = coin NO de la
+## zone téléchargée ; voir data/reunion/LICENSES.md).
+const SD_ROAD_START := Vector3(798.35, 8.774, -152.11)   # début de la rue (abscisse 0)
+const SD_CAR_POS := Vector3(801.959, 10.05, -138.594)     # abscisse ~14 m
+const SD_CAR_TANGENT_X := 0.2365
+const SD_CAR_TANGENT_Z := 0.9716
+const SD_MISSION_DEST := Vector3(1139.34, 38.731, 986.992) # ~1191 m plus loin sur la même rue
 
 var provider: WorldDataProvider
 var sector_manager: SectorManager
@@ -15,8 +25,9 @@ var hud: Hud
 
 
 func _ready() -> void:
-	# --- Données du monde : à remplacer par CompositeProvider(Real, Synthetic) plus tard
-	provider = SyntheticProvider.new()
+	# --- Données du monde : réel (OpenStreetMap, Saint-Denis) si le secteur
+	# existe, sinon le monde synthétique de secours (hors de la zone couverte).
+	provider = CompositeProvider.new(RealDataProvider.new(), SyntheticProvider.new())
 	_setup_environment()
 
 	sector_manager = SectorManager.new()
@@ -26,22 +37,21 @@ func _ready() -> void:
 	if OS.has_feature("mobile"):
 		sector_manager.view_radius = 1 # 3x3 secteurs visibles (25 gardés en mémoire) : budget mobile
 
-	var road0 := provider.get_road_point(SPAWN_S)
-	sector_manager.load_immediately(road0, 1)
+	sector_manager.load_immediately(SD_ROAD_START, 1)
 
-	# --- Voiture sur la route, orientée dans le sens de la route (+X)
+	# --- Voiture sur la route, orientée dans le sens de la route réelle
 	car = CarController.new()
 	car.name = "Car"
 	add_child(car)
-	var car_pos := provider.get_road_point(14.0) + Vector3(0, 1.0, 0)
-	var tangent := (provider.get_road_point(15.0) - provider.get_road_point(13.0)).normalized()
+	var car_pos := SD_CAR_POS + Vector3(0, 1.0, 0)
+	var tangent := Vector3(SD_CAR_TANGENT_X, 0.0, SD_CAR_TANGENT_Z)
 	car.global_transform = Transform3D(Basis(Vector3.UP, atan2(tangent.x, tangent.z)), car_pos)
 
 	# --- Joueur près de la voiture, à côté du cercle de départ de la mission
 	player = PlayerController.new()
 	player.name = "Player"
 	add_child(player)
-	var p0 := provider.get_road_point(-8.0)
+	var p0 := SD_ROAD_START
 	player.global_position = Vector3(p0.x - 4.0, provider.height_at(p0.x - 4.0, p0.z + 15.0) + 0.3, p0.z + 15.0)
 
 	cam = FollowCamera.new()
@@ -80,9 +90,9 @@ func _first_mission() -> MissionDef:
 	m.title = "Première livraison"
 	m.briefing = "Récupère la voiture et livre le colis au point indiqué."
 	m.reward_money = 500
-	var start := provider.get_road_point(-8.0)
+	var start := SD_ROAD_START
 	m.giver_position = Vector3(start.x, 0.0, start.z + 8.0)
-	var dest := provider.get_road_point(700.0)
+	var dest := SD_MISSION_DEST
 	m.add_step(MissionDef.StepType.ENTER_VEHICLE, "Monte dans la voiture rouge (bouton ACTION).")
 	m.add_step(MissionDef.StepType.REACH_IN_VEHICLE, "Conduis jusqu'au point de livraison.", dest, 7.0)
 	return m

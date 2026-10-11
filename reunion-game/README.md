@@ -1,9 +1,11 @@
 # GTA Réunion Mobile — prototype jouable (v0.1)
 
 Prototype de monde ouvert 3D pour mobile (Godot 4, GDScript, rendu *GL Compatibility*).
-La carte finale doit reproduire La Réunion ; **ce prototype utilise un monde synthétique
-(collines + route sinueuse) qui ne représente PAS La Réunion**. Un bandeau en bas de
-l'écran le rappelle en permanence. Aucune donnée géographique réelle n'est incluse.
+La carte finale doit reproduire La Réunion. Un secteur du centre de **Saint-Denis**
+utilise désormais de vraies rues/bâtiments (OpenStreetMap) et une vraie altitude
+(Open-Meteo) — voir `data/reunion/LICENSES.md`. En dehors de cette zone, le monde
+reste **synthétique** (collines + route sinueuse générées par code, pas La Réunion).
+Un bandeau en bas de l'écran le rappelle en permanence.
 
 ## Ce qui est jouable
 
@@ -70,7 +72,14 @@ payant pour publier). Non traité dans cette version.
 
 ## Limites connues
 
-- Monde **synthétique** : aucune donnée réelle de La Réunion (voir `docs/DATA_PLAN.md`).
+- Seul un petit secteur du centre de Saint-Denis a des données réelles
+  (voir `data/reunion/LICENSES.md`) ; partout ailleurs le monde reste
+  **synthétique**, sans rapport avec La Réunion (voir `docs/DATA_PLAN.md`).
+- Bâtiments réels affichés en boîtes rectangulaires simplifiées (pas la forme
+  exacte du bâtiment) ; une partie de l'altitude est interpolée, pas mesurée.
+- Une seule vraie rue sert d'axe à la mission ; pas encore de graphe de routes
+  complet pour la navigation (toutes les autres rues/bâtiments s'affichent
+  mais ne sont pas utilisés pour le trajet ou le point d'arrivée).
 - Rendu non testé sur GPU de téléphone ; performances mobiles **non mesurées** (budget visé : < 60 000 triangles visibles).
 - Voiture : un seul modèle, pas de dégâts, pas de son. Pas de PNJ, ni circulation, ni police, ni armes.
 - Physique : `VehicleBody3D` de Godot 4.3 (Godot Physics). La conduite est « arcade » ; à régler au ressenti.
