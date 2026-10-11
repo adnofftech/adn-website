@@ -107,7 +107,7 @@ page('galerie.html', 'Galerie, Bouillon Kerval', 'Photos des plats et de l\'ambi
 
 # ---------- Contact ----------
 page('contact.html', 'Contact, Bouillon Kerval', 'Réserver et venir au Bouillon Kerval, 41 rue Georges Guynemer à Sainte-Marie.', f'''
-<section class="infos" style="background:none"><div class="wrap"><div><h1 style="font-size:clamp(2.3rem,5.5vw,4rem)">Contact</h1><p style="margin:1rem 0 1.5rem">Réservation par téléphone. Lieu LGBTQ+ friendly.</p><div class="cta-row"><a class="btn" href="{TEL}">Réserver</a><a class="btn btn-ghost" href="{MAP}" rel="noopener">Itinéraire</a></div></div>
+<section class="infos" style="background:none"><div class="wrap"><div><h1 style="font-size:clamp(2.3rem,5.5vw,4rem)">Contact</h1><p style="margin:1rem 0 1.5rem">Réservation par téléphone.</p><div class="cta-row"><a class="btn" href="{TEL}">Réserver</a><a class="btn btn-ghost" href="{MAP}" rel="noopener">Itinéraire</a></div></div>
 <dl><div><dt>{ic('phone')}Téléphone</dt><dd><a class="link" href="{TEL}">{TELTXT}</a></dd></div><div><dt>{ic('map-pin')}Adresse</dt><dd>41 rue Georges Guynemer, 97438 Sainte-Marie<br>Zone aéroportuaire</dd></div>
 <div><dt>{ic('clock')}Horaires</dt><dd>Tous les jours, de 8h à 22h30.</dd></div>
 <div><dt>{ic('instagram-logo')}Réseaux</dt><dd><a class="link" href="{IG}" rel="noopener">@bouillonkerval</a> et <a class="link" href="{FB}" rel="noopener">Facebook</a></dd></div></dl></div></section>''')
