@@ -46,7 +46,7 @@ page('index.html', 'Ma Pause Beauté, powder brows, cils et onglerie à Sainte-C
 <section class="time"><div class="wrap"><div class="reveal"><blockquote>Prévoyez du temps pour votre beauté.</blockquote><p>Comptez 2h minimum pour les sourcils et 3h minimum pour les lèvres. Chaque minute compte pour un résultat précis, soigné et parfaitement réalisé.</p></div>
 <figure class="reveal"><img src="assets/img/photo-06.jpg" alt="Fauteuils en velours bleu du salon" loading="lazy"></figure></div></section>
 <section><div class="wrap"><h2 class="sec-head reveal">Quelques réalisations.</h2>
-<div class="strip reveal"><img src="assets/img/photo-02.jpg" alt="Manucure french sur ongles roses" loading="lazy"><img src="assets/img/photo-13.jpg" alt="Manucure rose avec motifs" loading="lazy"><img src="assets/img/photo-15.jpg" alt="Manucure french avec fleur" loading="lazy"><img src="assets/img/photo-14.jpg" alt="Pédicure bleu pastel" loading="lazy"></div>
+<div class="strip reveal"><img src="assets/img/photo-13.jpg" alt="Manucure rose avec motifs" loading="lazy"><img src="assets/img/photo-12.jpg" alt="Gros plan sur des sourcils" loading="lazy"><img src="assets/img/photo-15.jpg" alt="Manucure french avec fleur" loading="lazy"><img src="assets/img/photo-14.jpg" alt="Pédicure bleu pastel" loading="lazy"></div>
 <p class="reveal"><a class="tlink" href="galerie.html">Voir toute la galerie</a></p></div></section>
 <section class="infos inv"><div class="wrap"><h2 class="reveal">Sur rendez-vous.</h2>
 <div class="info-grid reveal"><div><h3>Où</h3><p>Moufia, Sainte-Clotilde<br>97490, La Réunion</p></div><div><h3>Réservation</h3><p><a class="tlink" href="{TEL}">{TELTXT}</a></p></div><div><h3>Instagram</h3><p><a class="tlink" href="{IG}" rel="noopener">@_mapausebeaute_</a></p></div></div>
@@ -62,7 +62,7 @@ page('prestations.html', 'Prestations et tarifs, Ma Pause Beauté', 'Tarifs de M
 <div class="tarifs"><div class="cats">{''.join(cat_html(c) for c in CATS)}<p><a class="btn" href="{TEL}">Prendre rendez-vous</a></p></div>
 <aside><img src="assets/img/photo-09.jpg" alt="Manucure rouge en amande avec strass" loading="lazy"></aside></div></div>''')
 
-alts = {2: 'Manucure french sur ongles roses', 3: 'Gros plan sur des sourcils après powder brows', 9: 'Manucure rouge en amande avec strass', 12: 'Gros plan sur des sourcils', 13: 'Manucure rose avec motifs', 14: 'Pédicure bleu pastel, pieds en sandales', 15: 'Manucure french avec fleur'}
+alts = {9: 'Manucure rouge en amande avec strass', 12: 'Gros plan sur des sourcils', 13: 'Manucure rose avec motifs', 14: 'Pédicure bleu pastel, pieds en sandales', 15: 'Manucure french avec fleur'}
 imgs = ''.join(f'<img src="assets/img/photo-{k:02d}.jpg" alt="{a}" loading="lazy">' for k, a in alts.items())
 page('galerie.html', 'Galerie, Ma Pause Beauté', 'Réalisations de Ma Pause Beauté : onglerie, sourcils et ambiance du salon à Sainte-Clotilde.', f'''
 <div class="wrap"><div class="page-head"><h1>Galerie</h1></div><div class="gal">{imgs}</div></div>''')
