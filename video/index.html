@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>La Terrasse de Bourbon, présentation du site</title>
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face{font-family:"Newsreader";src:url("assets/fonts/newsreader-latin-standard-normal.woff2") format("woff2");font-weight:200 800}
+@font-face{font-family:"Geist";src:url("assets/fonts/geist-latin-wght-normal.woff2") format("woff2");font-weight:100 900}
+:root{--paper:#eef6ef;--paper-2:#ddeadf;--forest:#072614;--ink2:#3e5345;--on-forest:#eef6ef;--on-forest-2:#b9c9bc}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--forest)}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:"Geist",system-ui,sans-serif;color:var(--forest)}
+.scene{position:absolute;inset:0;overflow:hidden}
+.bg{position:absolute;inset:0}
+.bg.forest{background:var(--forest)}
+.bg.paper{background:var(--paper)}
+.abs{position:absolute}
+.disp{font-family:"Newsreader",Georgia,serif;font-weight:300;font-variation-settings:"opsz" 72;letter-spacing:-.025em;line-height:1.02}
+.on-forest{color:var(--on-forest)}
+.sub{font-size:38px;line-height:1.4;color:var(--ink2);max-width:700px}
+.sub.inv{color:var(--on-forest-2)}
+.frame{position:absolute;border-radius:4px;overflow:hidden;box-shadow:0 40px 90px rgba(10,30,18,.28);background:#fff}
+.frame img{position:absolute;left:0;top:0;display:block}
+.logo{border-radius:50%;object-fit:cover;display:block}
+.pill{display:flex;align-items:center;justify-content:center;height:84px;padding:0 48px;border-radius:2px;background:var(--forest);color:var(--on-forest);font-weight:500;font-size:32px;letter-spacing:.01em;white-space:nowrap}
+.sw{position:absolute;width:76px;height:76px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(240,246,240,.35)}
+.ph{position:absolute;width:340px;height:340px;border-radius:2px;overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.phone{position:absolute;width:420px;height:860px;border-radius:64px;background:#0d1511;box-shadow:0 50px 100px rgba(0,0,0,.4)}
+.screen{position:absolute;left:20px;top:20px;width:380px;height:820px;border-radius:46px;overflow:hidden;background:var(--paper)}
+.screen img{position:absolute;left:0;top:0;width:380px;height:auto;display:block}
+.cite{font-size:28px;color:var(--ink2);letter-spacing:.01em}
+#s6 .cite{color:var(--on-forest-2)}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="36.5" data-width="1920" data-height="1080">
+
+<section id="s1" class="scene clip" data-start="0" data-duration="4.5" data-track-index="0">
+  <div class="bg paper"></div>
+  <div class="abs" style="left:0;top:130px;width:1920px;display:flex;flex-direction:column;align-items:center;gap:54px">
+    <img id="s1-logo" class="logo" src="assets/img/logo.jpg" alt="La Terrasse de Bourbon" style="width:340px;height:340px">
+    <h1 id="s1-h" class="disp" style="font-size:132px;text-align:center"><span class="s1-l" style="display:block">Votre nouveau site.</span></h1>
+    <p id="s1-sub" class="sub" style="text-align:center;max-width:1200px;font-size:44px">Pensé pour La Terrasse de Bourbon, à Saint-Denis.</p>
+  </div>
+</section>
+
+<section id="s2" class="scene clip" data-start="4.0" data-duration="6.0" data-track-index="1">
+  <div id="s2-bg" class="bg forest"></div>
+  <div class="abs" style="left:120px;top:230px;width:740px">
+    <h2 id="s2-h" class="disp on-forest" style="font-size:84px">Une identité sobre, fidèle à votre lieu.</h2>
+    <p id="s2-p" class="sub inv" style="margin-top:40px;max-width:620px">Papier vert pâle, encre forêt, titres en serif.</p>
+  </div>
+  <div class="sw s2-sw" style="left:120px;top:740px;background:var(--paper)"></div>
+  <div class="sw s2-sw" style="left:216px;top:740px;background:var(--ink2)"></div>
+  <div id="s2-frame" class="frame" style="left:930px;top:260px;width:870px;height:544px"><img id="s2-img" src="assets/shots/hero.png" alt="" style="width:870px;height:auto"></div>
+</section>
+
+<section id="s3" class="scene clip" data-start="9.5" data-duration="6.5" data-track-index="2">
+  <div id="s3-bg" class="bg paper"></div>
+  <div class="abs" style="left:120px;top:230px;width:760px">
+    <h2 id="s3-h" class="disp" style="font-size:84px">Vos suggestions, mises à jour en un instant.</h2>
+    <p id="s3-p" class="sub" style="margin-top:40px;max-width:660px">Faux-filet à 32&nbsp;€, risotto « mer » à 26&nbsp;€, burger de la semaine à 24&nbsp;€.</p>
+  </div>
+  <div id="s3-frame" class="frame" style="left:940px;top:240px;width:860px;height:576px"><img id="s3-img" src="assets/shots/menu.png" alt="" style="width:860px;height:auto"></div>
+</section>
+
+<section id="s4" class="scene clip" data-start="15.5" data-duration="5.5" data-track-index="3">
+  <div id="s4-bg" class="bg forest"></div>
+  <div class="abs" style="left:120px;top:150px;width:1200px">
+    <h2 id="s4-h" class="disp on-forest" style="font-size:84px">Vos plats, vos cocktails, vos soirées.</h2>
+  </div>
+  <div id="s4-row" class="abs" style="left:0;top:470px;width:2600px;height:340px">
+    <div class="ph s4-ph" style="left:120px"><img src="assets/img/photo-28.jpg" alt=""></div>
+    <div class="ph s4-ph" style="left:490px"><img src="assets/img/photo-13.jpg" alt=""></div>
+    <div class="ph s4-ph" style="left:860px"><img src="assets/img/photo-20.jpg" alt=""></div>
+    <div class="ph s4-ph" style="left:1230px"><img src="assets/img/photo-04.jpg" alt=""></div>
+    <div class="ph s4-ph" style="left:1600px"><img src="assets/img/photo-24.jpg" alt=""></div>
+    <div class="ph s4-ph" style="left:1970px"><img src="assets/img/photo-21.jpg" alt=""></div>
+  </div>
+</section>
+
+<section id="s5" class="scene clip" data-start="20.5" data-duration="6.5" data-track-index="4">
+  <div id="s5-bg" class="bg paper"></div>
+  <div class="abs" style="left:120px;top:250px;width:900px">
+    <h2 id="s5-h" class="disp" style="font-size:84px">Pensé pour le téléphone.</h2>
+    <p id="s5-p" class="sub" style="margin-top:40px;max-width:740px">Un appel suffit : le bouton de réservation reste à portée de pouce.</p>
+    <div id="s5-btn" class="pill" style="margin-top:56px;width:560px">Réserver : 0692 25 35 38</div>
+  </div>
+  <div id="s5-phone" class="phone" style="left:1240px;top:110px"><div class="screen"><img id="s5-img" src="assets/shots/mobile-full.png" alt=""></div></div>
+</section>
+
+<section id="s6" class="scene clip" data-start="26.5" data-duration="5.0" data-track-index="5">
+  <div id="s6-bg" class="bg forest"></div>
+  <div class="abs" style="left:120px;top:270px;width:760px">
+    <div class="disp on-forest" style="display:flex;align-items:baseline;gap:14px;line-height:.9"><span id="s6-score" style="font-size:300px">0,0</span><span style="font-size:110px">/5</span></div>
+    <p id="s6-cap" class="cite" style="margin-top:40px;color:var(--on-forest);font-size:34px">518 avis Google</p>
+    <p id="s6-note" class="cite" style="margin-top:8px">Avis non vérifiés, 86&nbsp;% de recommandations sur Facebook.</p>
+  </div>
+  <div class="abs" style="left:1000px;top:300px;width:800px">
+    <p id="s6-q" class="disp on-forest" style="font-size:60px;line-height:1.16">« Nous avons passé un excellent moment. Les plats étaient délicieux, bien présentés et le service très agréable. »</p>
+    <p id="s6-c" class="cite" style="margin-top:36px">Vanessa Nagre, Facebook</p>
+  </div>
+</section>
+
+<section id="s7" class="scene clip" data-start="31.0" data-duration="5.5" data-track-index="6">
+  <div id="s7-bg" class="bg paper"></div>
+  <div class="abs" style="left:0;top:140px;width:1920px;display:flex;flex-direction:column;align-items:center;gap:56px">
+    <img id="s7-logo" class="logo" src="assets/img/logo.jpg" alt="La Terrasse de Bourbon" style="width:300px;height:300px">
+    <h2 id="s7-h" class="disp" style="font-size:112px;text-align:center"><span style="display:block">Une maquette</span><span style="display:block">à votre image.</span></h2>
+    <p id="s7-p" class="sub" style="font-size:52px;text-align:center">Parlons-en.</p>
+  </div>
+</section>
+
+</div>
+<script>
+const tl = gsap.timeline({ paused: true });
+const OUT = "power3.out", SCROLL = "power1.inOut", AMB = "sine.inOut";
+function wipe(bg, t) { tl.fromTo(bg, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, ease: "power3.inOut" }, t); }
+function rise(sel, t, d = 0.9, y = 32) { tl.fromTo(sel, { y, opacity: 0 }, { y: 0, opacity: 1, duration: d, ease: OUT }, t); }
+
+// S1
+tl.fromTo("#s1-logo", { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.1, ease: OUT }, 0.2);
+tl.fromTo(".s1-l", { y: 44, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: OUT }, 1.0);
+rise("#s1-sub", 1.8, 0.8, 22);
+tl.to("#s1-logo", { scale: 1.04, duration: 4, ease: AMB }, 0.8);
+
+// S2
+wipe("#s2-bg", 4.0);
+rise("#s2-h", 4.6);
+rise("#s2-p", 5.0, 0.8, 24);
+tl.fromTo(".s2-sw", { scale: 0.85, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: OUT, stagger: 0.12 }, 5.5);
+tl.fromTo("#s2-frame", { x: 140, opacity: 0 }, { x: 0, opacity: 1, duration: 1.0, ease: OUT }, 4.8);
+tl.fromTo("#s2-img", { scale: 1 }, { scale: 1.04, transformOrigin: "50% 0%", duration: 5.0, ease: AMB }, 5.2);
+
+// S3
+wipe("#s3-bg", 9.5);
+rise("#s3-h", 10.1);
+rise("#s3-p", 10.5, 0.8, 24);
+tl.fromTo("#s3-frame", { y: 110, opacity: 0 }, { y: 0, opacity: 1, duration: 1.0, ease: OUT }, 10.3);
+tl.fromTo("#s3-img", { scale: 1 }, { scale: 1.05, transformOrigin: "50% 0%", duration: 5.0, ease: AMB }, 11.0);
+
+// S4
+wipe("#s4-bg", 15.5);
+rise("#s4-h", 16.1);
+tl.fromTo(".s4-ph", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: OUT, stagger: 0.09 }, 16.4);
+tl.fromTo("#s4-row", { x: 0 }, { x: -520, duration: 4.4, ease: SCROLL }, 16.6);
+
+// S5
+wipe("#s5-bg", 20.5);
+rise("#s5-h", 21.1);
+rise("#s5-p", 21.5, 0.8, 24);
+rise("#s5-btn", 21.95, 0.8, 24);
+tl.fromTo("#s5-phone", { y: 160, opacity: 0 }, { y: 0, opacity: 1, duration: 1.0, ease: OUT }, 21.0);
+tl.fromTo("#s5-img", { y: 0 }, { y: -1700, duration: 4.2, ease: SCROLL }, 22.2);
+tl.to("#s5-btn", { scale: 0.97, duration: 0.12, ease: "power2.out" }, 24.9);
+tl.to("#s5-btn", { scale: 1, duration: 0.3, ease: "power2.out" }, 25.02);
+
+// S6
+wipe("#s6-bg", 26.5);
+const proxy = { v: 0 };
+tl.fromTo("#s6-score", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: OUT }, 27.1);
+tl.to(proxy, { v: 4.1, duration: 1.4, ease: "power2.out", onUpdate: () => { document.getElementById("s6-score").textContent = proxy.v.toFixed(1).replace(".", ","); } }, 27.15);
+rise("#s6-cap", 27.8, 0.7, 22);
+rise("#s6-note", 28.1, 0.7, 20);
+rise("#s6-q", 27.95, 0.9, 34);
+rise("#s6-c", 28.6, 0.7, 20);
+
+// S7
+wipe("#s7-bg", 31.0);
+tl.fromTo("#s7-logo", { scale: 0.94, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, ease: OUT }, 31.6);
+rise("#s7-h", 32.2, 1.0);
+rise("#s7-p", 32.9, 0.8, 22);
+tl.to("#s7-logo", { scale: 1.04, duration: 3.6, ease: AMB }, 32.6);
+
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>
