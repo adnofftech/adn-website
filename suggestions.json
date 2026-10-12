@@ -1,0 +1,20 @@
+{
+  "note": "Suggestions du moment, renouvelées régulièrement et sous réserve de disponibilité.",
+  "sections": [
+    {
+      "titre": "Tapas",
+      "items": [
+        { "nom": "Zourite en deux déclinaisons", "prix": "17 €", "description": "Zourite en dés, une portion grillée et une portion croustillante, crémeux d'avocat, mayonnaise chimichurri, salsa de tomates, figues et poivrons." }
+      ]
+    },
+    {
+      "titre": "Plats",
+      "items": [
+        { "nom": "Salade fraîcheur", "prix": "19 €", "description": "Salade verte, mix de choux, carottes, billes de mozzarella, dés de melon, jambon de serrano, noix de cajou, coulis de balsamique." },
+        { "nom": "Burger de la semaine", "prix": "24 €", "description": "Salade, tomates, oignons, bœuf ou poulet, sauce tomate sucrée-salée, boucané de volaille halal, piton Maïdo." },
+        { "nom": "Risotto « mer » de fregola sarda", "prix": "26 €", "description": "Crémeux au combava, crevettes, moules, Saint-Jacques." },
+        { "nom": "Faux-filet 300 g (halal)", "prix": "32 €", "description": "Sauce foie gras." }
+      ]
+    }
+  ]
+}
