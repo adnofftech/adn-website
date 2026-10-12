@@ -62,7 +62,7 @@ page('prestations.html', 'Prestations et tarifs, Ma Pause Beauté', 'Tarifs de M
 <div class="tarifs"><div class="cats">{''.join(cat_html(c) for c in CATS)}<p><a class="btn" href="{TEL}">Prendre rendez-vous</a></p></div>
 <aside><img src="assets/img/photo-09.jpg" alt="Manucure rouge en amande avec strass" loading="lazy"></aside></div></div>''')
 
-alts = {2: 'Manucure french sur ongles roses', 3: 'Gros plan sur des sourcils après powder brows', 6: 'Fauteuils en velours bleu du salon', 9: 'Manucure rouge en amande avec strass', 11: 'Détail de la décoration en bois du salon', 12: 'Gros plan sur des sourcils', 13: 'Manucure rose avec motifs', 14: 'Pédicure bleu pastel, pieds en sandales', 15: 'Manucure french avec fleur'}
+alts = {2: 'Manucure french sur ongles roses', 3: 'Gros plan sur des sourcils après powder brows', 9: 'Manucure rouge en amande avec strass', 12: 'Gros plan sur des sourcils', 13: 'Manucure rose avec motifs', 14: 'Pédicure bleu pastel, pieds en sandales', 15: 'Manucure french avec fleur'}
 imgs = ''.join(f'<img src="assets/img/photo-{k:02d}.jpg" alt="{a}" loading="lazy">' for k, a in alts.items())
 page('galerie.html', 'Galerie, Ma Pause Beauté', 'Réalisations de Ma Pause Beauté : onglerie, sourcils et ambiance du salon à Sainte-Clotilde.', f'''
 <div class="wrap"><div class="page-head"><h1>Galerie</h1></div><div class="gal">{imgs}</div></div>''')
