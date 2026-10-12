@@ -1,0 +1,61 @@
+{
+  "categories": [
+    { "id": "powder-brows", "titre": "Powder Brows", "sous": "Maquillage permanent des sourcils", "des": 310,
+      "items": [
+        { "nom": "Sourcils (retouche incluse de 3 à 6 semaines)", "prix": "310 €" },
+        { "nom": "Retouche 6 mois", "prix": "120 €" },
+        { "nom": "Retouche 12 mois", "prix": "160 €" },
+        { "nom": "Retouche 18 mois et plus", "prix": "200 €" }
+      ],
+      "notes": ["Prévoyez du temps pour votre beauté ! Comptez 2h minimum pour les sourcils et 3h minimum pour les lèvres. Venez sans contrainte de temps : chaque minute compte pour un résultat précis, soigné et parfaitement réalisé."] },
+    { "id": "candy-lips", "titre": "Candy Lips", "sous": "Maquillage permanent des lèvres", "des": 350,
+      "items": [
+        { "nom": "Candy Lips (retouche incluse de 3 à 6 semaines)", "prix": "350 €" },
+        { "nom": "Dark Lips (retouche incluse de 3 à 6 semaines)", "prix": "390 €" },
+        { "nom": "Candy Lips 3D (retouche incluse de 3 à 6 semaines)", "prix": "350 €" },
+        { "nom": "Retouche annuelle", "prix": "190 €" }
+      ],
+      "notes": [] },
+    { "id": "cils", "titre": "Extensions de cils", "sous": "Cil à cil, hybride, volume russe", "des": 75,
+      "items": [
+        { "nom": "Cil à cil", "prix": "75 €" },
+        { "nom": "Remplissage 3 semaines", "prix": "60 €" },
+        { "nom": "Hybride", "prix": "85 €" },
+        { "nom": "Remplissage 3 semaines", "prix": "70 €" },
+        { "nom": "Volume russe", "prix": "95 €" },
+        { "nom": "Remplissage 3 semaines", "prix": "80 €" },
+        { "nom": "Dépose", "prix": "35 €" }
+      ],
+      "notes": ["Au-delà de 3 semaines, le tarif d'une première pose est appliqué."] },
+    { "id": "onglerie", "titre": "Onglerie", "sous": "Gainage, extension gel, remplissage, semi-permanent", "des": 30,
+      "items": [
+        { "nom": "Gainage couleur ongles naturels", "prix": "55 €" },
+        { "nom": "Extension gel couleur (chablon)", "prix": "75 €" },
+        { "nom": "Extension gel couleur (chablon) + vernis semi-permanent pieds", "prix": "102 €" },
+        { "nom": "Remplissage gel couleur", "prix": "55 €" },
+        { "nom": "Remplissage gel couleur + vernis semi-permanent pieds", "prix": "80 €" },
+        { "nom": "Remplissage gel couleur + gel pieds", "prix": "90 €" },
+        { "nom": "Gel pieds couleur", "prix": "40 €" },
+        { "nom": "Vernis semi-permanent mains ou pieds", "prix": "30 €" },
+        { "nom": "Forfait semi-permanent mains et pieds", "prix": "58 €" }
+      ],
+      "notes": ["Remplissage : au-delà de 4 semaines, la prestation est considérée comme une nouvelle pose et le tarif correspondant est appliqué."] },
+    { "id": "decorations", "titre": "Décorations", "sous": "", "des": null,
+      "items": [
+        { "nom": "Paillettes, chrome (par doigt)", "prix": "1 €" },
+        { "nom": "Strass, bijoux (par doigt)", "prix": "1,50 €" },
+        { "nom": "Baby-boomer, french (par doigt)", "prix": "1 €" },
+        { "nom": "Décoration élaborée (10 doigts)", "prix": "10 €" },
+        { "nom": "Dépose", "prix": "15 €" }
+      ],
+      "notes": [] },
+    { "id": "spa", "titre": "Head et Foot SPA", "sous": "Soins détente", "des": 40,
+      "items": [
+        { "nom": "Head SPA découverte, 45 min", "prix": "55 €" },
+        { "nom": "Head SPA, 75 min", "prix": "90 €" },
+        { "nom": "Foot SPA (anti-callosité), 30 min", "prix": "40 €" },
+        { "nom": "Foot SPA (anti-callosité et modelage), 45 min", "prix": "55 €" }
+      ],
+      "notes": [] }
+  ]
+}
