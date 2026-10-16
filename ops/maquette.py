@@ -3,11 +3,13 @@
 Sortie : ops/data/maquettes/<slug>/index.html (ignoré par Git, à ne jamais publier ni héberger).
 brief.json : {"nom","metier","ville","tel","accroche","couleur":"#hex","services":[{"nom","prix"}],"photos":["chemin/local.jpg"]}
 Tout champ absent reste neutre : aucune information inventée, les textes d'exemple sont signalés."""
-import html, json, os, re, shutil, sys
+import html, json, os, re, shutil, sys, unicodedata
 HERE = os.path.dirname(os.path.abspath(__file__))
 E = lambda s: html.escape(str(s), quote=True)
 
-def slug(s): return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-') or 'maquette'
+def slug(s):
+    s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode().lower()
+    return re.sub(r'[^a-z0-9]+', '-', s).strip('-') or 'maquette'
 
 def valide_couleur(c): return c if re.fullmatch(r'#[0-9a-fA-F]{6}', c or '') else '#8a5a44'
 

@@ -11,4 +11,5 @@ class T(unittest.TestCase):
     def test_champ_manquant_et_couleur(self):
         with self.assertRaises(ValueError): maquette.generer(dict(nom='A'), tempfile.mkdtemp())
         self.assertEqual(maquette.valide_couleur('red;}body{'), '#8a5a44')
+    def test_slug_accents(self): self.assertEqual(maquette.slug('Salon Démo'), 'salon-demo')
 if __name__ == '__main__': unittest.main()
