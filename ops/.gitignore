@@ -1,0 +1,5 @@
+# Données personnelles de prospects / finances : jamais dans Git (le dépôt est publié sur GitHub Pages)
+data/
+logs/*.log
+*.secret
+.env

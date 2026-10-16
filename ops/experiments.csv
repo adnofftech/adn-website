@@ -1,0 +1,4 @@
+id,model,hypothese,cible,offre,prix_test_eur,canal,metrique,objectif,seuil_abandon,debut,fin,actuel,statut
+E1,M1,"Des TPE locales repondent a une maquette personnalisee de leur futur site","Commerces/instituts/artisans sans site ou avec site date",Site vitrine 4-5 pages,390,Email B2B conforme + messages manuels,reponses positives sur 40 contacts,4,1,2026-10-19,2026-11-15,,planifie
+E2,M2,"Un audit express gratuit/pas cher declenche des echanges qualifies","Memes cibles que E1",Audit express (PDF 1 page),0,Email B2B conforme + Google Maps manuel,audits envoyes -> reponses,5,1,2026-10-19,2026-11-15,,planifie
+E3,M4,"Des independants achetent un kit de site par metier","Coiffeurs/estheticiennes/artisans qui font leur site seuls",Kit template + guide,29,Pages SEO + 1 plateforme a verifier,ventes,3,0,2026-11-02,2026-12-15,,planifie

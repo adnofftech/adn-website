@@ -1,0 +1,11 @@
+id,name,demand,speed,cost0,automation,recurring,low_human,legal_safety,testability,note
+M1,Site vitrine local pour TPE (maquette d'abord),4,4,5,4,3,3,3,5,Prouvé par vos maquettes existantes; hypothese: cible TPE locales (La Reunion?)
+M2,Audit express de presence en ligne (prix d'appel),3,5,5,5,2,4,4,5,Porte d'entree vers M1/M3; livrable genere automatiquement
+M3,Abonnement maintenance + contenus pour commerces,4,2,5,4,5,3,4,3,Necessite des clients M1; recurrent
+M4,Templates de sites par metier (produit numerique),2,3,4,5,2,5,5,4,Reutilise build.py; plateforme a commission a verifier
+M5,Mini-outils web / calculateurs generateurs de demandes,3,3,5,5,3,4,4,4,Gratuit en ligne + capture de leads conformes
+M6,Automatisations PME (relances devis et tri emails),3,2,5,3,4,2,3,2,Prix plus eleve - confiance et acces aux donnees client requis
+M7,Sites de niche SEO + affiliation,3,1,5,5,3,5,4,2,Delai long; revenus incertains
+M8,Pages de generation de leads revendues aux artisans,3,2,5,4,4,3,2,2,RGPD et qualite des leads delicats
+M9,Guides/ebooks nichee vendus sur plateforme,2,3,5,5,1,5,4,3,Satures; faible differenciation
+M10,Chaine video sans visage / print-on-demand,2,1,4,4,2,4,3,1,Tres lent; hors contraintes de delai
