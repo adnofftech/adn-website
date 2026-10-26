@@ -1,3 +1,18 @@
 [
-  { "date": "2026-10-12", "macrostructure": "Marquee Hero", "theme": "custom", "theme_axes": "light / light-serif / gold", "enrichment": "none", "brief": "Ma Pause Beauté · institut beauté et onglerie, Sainte-Clotilde" }
+  {
+    "date": "2026-10-26",
+    "macrostructure": "Monument",
+    "theme": "custom",
+    "theme_axes": "dark / condensed-grotesk / orange",
+    "enrichment": "none",
+    "brief": "KAPTUR · agence vidéo courte, La Réunion"
+  },
+  {
+    "date": "2026-10-12",
+    "macrostructure": "Marquee Hero",
+    "theme": "custom",
+    "theme_axes": "light / light-serif / gold",
+    "enrichment": "none",
+    "brief": "Ma Pause Beauté · institut beauté et onglerie, Sainte-Clotilde"
+  }
 ]
