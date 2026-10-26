@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import ipaddress
 import re
+import socket
 import time
 import urllib.error
 import urllib.parse
@@ -178,7 +179,7 @@ def analyze_html(html: str, url: str, *, status: int = 200, elapsed_ms: int = 0,
         "Les navigateurs affichent « non sécurisé » : cela fait fuir des visiteurs et nuit au référencement.")
     add("mobile", "Adapté au téléphone", "width=device-width" in p.meta.get("viewport", "").replace(" ", ""), 15,
         "La page déclare un affichage mobile." if "viewport" in p.meta else "Aucune balise d'affichage mobile détectée.",
-        "La majorité des clients regardent depuis leur téléphone : un site non adapté se lit mal et se quitte vite.")
+        "Une grande partie des visiteurs vient d'un téléphone : un site non adapté se lit mal et se quitte vite.")
     add("title", "Titre de page clair", 15 <= len(title) <= 70, 8,
         f"Titre : « {title[:70]} »" if title else "Aucun titre de page.",
         "Le titre est ce qui s'affiche dans Google et dans l'onglet : il doit dire qui vous êtes et ce que vous faites.")
@@ -199,13 +200,13 @@ def analyze_html(html: str, url: str, *, status: int = 200, elapsed_ms: int = 0,
         "Un visiteur intéressé doit pouvoir vous joindre en un geste, sans chercher.")
     add("whatsapp", "Contact WhatsApp en un clic", has_wa, 4,
         "Lien WhatsApp présent." if has_wa else "Pas de lien WhatsApp.",
-        "À La Réunion, beaucoup de clients préfèrent écrire sur WhatsApp plutôt qu'appeler.")
+        "Beaucoup de clients préfèrent écrire plutôt qu'appeler : un lien WhatsApp supprime une étape.")
     add("social", "Réseaux sociaux reliés au site", len(res.socials) >= 1, 8,
         "Réseaux liés : " + ", ".join(res.socials) + "." if res.socials else "Aucun lien vers Instagram, Facebook ou TikTok.",
         "Le site doit renvoyer vers les endroits où l'entreprise est active, et inversement.")
     add("video", "Vidéo sur la page d'accueil", has_video, 15,
         "Une vidéo est intégrée." if has_video else "Aucune vidéo sur la page d'accueil.",
-        "La vidéo courte est le format qui retient le plus l'attention : sans elle, le site reste une vitrine figée.")
+        "La vidéo courte est un format très regardé sur Instagram et TikTok : sans elle, le site reste une vitrine figée.")
     add("fresh", "Site à jour", (not years) or max(years) >= year_now - 1, 6,
         (f"Dernière année affichée : {max(years)}." if years else "Pas d'année de copyright affichée."),
         "Une date ancienne en bas de page laisse penser que l'entreprise n'est plus active.")
@@ -213,7 +214,7 @@ def analyze_html(html: str, url: str, *, status: int = 200, elapsed_ms: int = 0,
         f"Réponse en {elapsed_ms} ms." if elapsed_ms else "Temps non mesuré.",
         "Au-delà de quelques secondes, une part des visiteurs part avant d'avoir vu la page.")
     add("weight", "Page légère", res.size_bytes <= 1_500_000, 3,
-        f"HTML de {res.size_bytes // 1024} Ko.", "Une page lourde est lente en 4G.")
+        (f"HTML de {res.size_bytes // 1024} Ko." if res.size_bytes >= 1024 else f"HTML de {res.size_bytes} octets."), "Une page lourde est lente en 4G.")
     add("content", "Contenu suffisant", len(text.split()) >= 80, 6,
         f"Environ {len(text.split())} mots sur la page.", "Une page trop pauvre ne convainc ni les clients ni Google.")
 
@@ -246,6 +247,25 @@ def is_private_host(host: str) -> bool:
     return ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved or ip.is_multicast or ip.is_unspecified
 
 
+def resolves_private(host: str) -> bool:
+    """Vrai si le nom de domaine pointe vers une adresse privée (protection contre le détournement vers le réseau local)."""
+    try:
+        infos = socket.getaddrinfo(host, None)
+    except OSError:
+        return False  # introuvable : l'erreur réseau normale sera remontée plus loin
+    return any(is_private_host(i[4][0]) for i in infos)
+
+
+class _SafeRedirect(urllib.request.HTTPRedirectHandler):
+    allow_private = False
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        host = urllib.parse.urlsplit(newurl).hostname or ""
+        if not self.allow_private and (is_private_host(host) or resolves_private(host)):
+            raise urllib.error.URLError("redirection vers une adresse locale refusée")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
 def audit_url(raw_url: str, *, respect_robots: bool = True, allow_private: bool = False) -> AuditResult:
     """Télécharge la page d'accueil (une seule requête) et l'analyse."""
     try:
@@ -254,12 +274,16 @@ def audit_url(raw_url: str, *, respect_robots: bool = True, allow_private: bool 
         return AuditResult(url=raw_url or "", error=str(e))
     if not allow_private and is_private_host(urllib.parse.urlsplit(url).hostname or ""):
         return AuditResult(url=url, error="Adresse locale ou privée refusée.")
+    if not allow_private and resolves_private(urllib.parse.urlsplit(url).hostname or ""):
+        return AuditResult(url=url, error="Ce nom de domaine pointe vers une adresse locale : refusé.")
     if respect_robots and not robots_allows(url):
         return AuditResult(url=url, error="Le site demande aux robots de ne pas lire cette page (robots.txt).")
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "text/html"})
     t0 = time.monotonic()
     try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+        handler = _SafeRedirect()
+        handler.allow_private = allow_private
+        with urllib.request.build_opener(handler).open(req, timeout=TIMEOUT) as r:
             raw = r.read(MAX_BYTES)
             status, final = r.status, r.geturl()
             charset = r.headers.get_content_charset() or "utf-8"

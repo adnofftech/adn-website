@@ -7,6 +7,8 @@ celui d'une personne), ni les établissements non diffusibles.
 from __future__ import annotations
 
 import json
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -37,11 +39,22 @@ def sector_of(naf: str) -> str:
     return "autre"
 
 
-def _fetch(params: dict) -> dict:
+class FindError(Exception):
+    """Annuaire injoignable ou réponse illisible."""
+
+
+def _fetch(params: dict, attempts: int = 3) -> dict:
     url = API + "?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, headers={"User-Agent": "KapturRadar/0.1", "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=20) as r:
-        return json.loads(r.read(3_000_000).decode("utf-8"))
+    last = None
+    for i in range(attempts):
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                return json.loads(r.read(3_000_000).decode("utf-8"))
+        except (urllib.error.URLError, TimeoutError, OSError, ValueError) as e:
+            last = e
+            time.sleep(1.5 * (i + 1))
+    raise FindError(f"Annuaire des entreprises injoignable ({last}). Réessayez dans quelques minutes.")
 
 
 def parse(payload: dict, *, include_individuals: bool = False) -> list[dict]:
@@ -53,7 +66,13 @@ def parse(payload: dict, *, include_individuals: bool = False) -> list[dict]:
             continue
         if not include_individuals and str(r.get("nature_juridique", "")).startswith("1"):
             continue
-        siege = r.get("siege") or {}
+        siege = dict(r.get("siege") or {})
+        # quand on filtre par code postal, l'établissement qui correspond peut ne pas être le siège
+        match = (r.get("matching_etablissements") or [None])[0]
+        if isinstance(match, dict) and match.get("adresse"):
+            for k in ("adresse", "libelle_commune", "code_postal", "activite_principale"):
+                if match.get(k):
+                    siege[k] = match[k]
         adresse = siege.get("adresse") or ""
         if "NON-DIFFUSIBLE" in adresse.upper():
             continue
@@ -71,7 +90,8 @@ def parse(payload: dict, *, include_individuals: bool = False) -> list[dict]:
 
 
 def search(sector: str, *, commune_postal: str | None = None, pages: int = 1, per_page: int = 25,
-           include_individuals: bool = False, fetch=_fetch) -> list[dict]:
+           include_individuals: bool = False, fetch=None) -> list[dict]:
+    fetch = fetch or _fetch
     if sector not in SECTOR_NAF:
         raise ValueError(f"Secteur sans code NAF : {sector}. Choix : {', '.join(SECTOR_NAF)}")
     seen, found = set(), []

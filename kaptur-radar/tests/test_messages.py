@@ -3,7 +3,7 @@ import unittest
 from radar import audit, messages
 import pathlib
 
-FX = pathlib.Path(__file__).parent / "fixtures"
+FX = pathlib.Path(__file__).parent.parent / "radar" / "demo_data"
 
 
 def audit_of(name):

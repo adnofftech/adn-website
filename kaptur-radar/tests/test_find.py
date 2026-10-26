@@ -13,6 +13,11 @@ class FindTests(unittest.TestCase):
         names = [x["name"] for x in find.parse(PAYLOAD)]
         self.assertEqual(names, ["Sarl Demo Lagon", "Sci Demo Immo"])
 
+    def test_uses_matching_establishment_not_head_office(self):
+        first = find.parse(PAYLOAD)[0]
+        self.assertEqual(first["commune"], "Saint-Gilles-Les-Bains")
+        self.assertIn("97434", first["address"])
+
     def test_include_individuals_flag(self):
         names = [x["name"] for x in find.parse(PAYLOAD, include_individuals=True)]
         self.assertIn("Prenom Nom Fictif", names)
@@ -36,6 +41,12 @@ class FindTests(unittest.TestCase):
         self.assertEqual(len(calls), 2)  # 2 codes NAF
         self.assertTrue(all(c["departement"] == "974" for c in calls))
         self.assertEqual(len(res), 2)  # doublons retirés
+
+    def test_network_failure_is_a_clean_error(self):
+        def boom(params):
+            raise find.FindError("injoignable")
+        with self.assertRaises(find.FindError):
+            find.search("restauration", fetch=boom)
 
     def test_search_unknown_sector(self):
         with self.assertRaises(ValueError):

@@ -1,10 +1,70 @@
-{"total_results": 4, "page": 1, "per_page": 25, "total_pages": 1, "results": [
- {"siren": "900000001", "nom_complet": "SARL DEMO LAGON", "nom_raison_sociale": "SARL DEMO LAGON", "etat_administratif": "A", "nature_juridique": "5499", "statut_diffusion": "O",
-  "siege": {"activite_principale": "56.10A", "adresse": "1 RUE DU LAGON 97434 SAINT-GILLES-LES-BAINS", "libelle_commune": "SAINT-GILLES-LES-BAINS", "code_postal": "97434"}},
- {"siren": "900000002", "nom_complet": "PRENOM NOM FICTIF", "etat_administratif": "A", "nature_juridique": "1000", "statut_diffusion": "O",
-  "siege": {"activite_principale": "56.10A", "adresse": "2 RUE FICTIVE 97400 SAINT-DENIS", "libelle_commune": "SAINT-DENIS", "code_postal": "97400"}},
- {"siren": "900000003", "nom_complet": "SAS DEMO NON DIFFUSIBLE", "etat_administratif": "A", "nature_juridique": "5710", "statut_diffusion": "P",
-  "siege": {"activite_principale": "56.10A", "adresse": "[NON-DIFFUSIBLE]", "libelle_commune": "SAINT-DENIS", "code_postal": "97400"}},
- {"siren": "900000004", "nom_complet": "SCI DEMO IMMO", "nom_raison_sociale": "SCI DEMO IMMO", "etat_administratif": "A", "nature_juridique": "6540", "statut_diffusion": "O",
-  "siege": {"activite_principale": "68.31Z", "adresse": "3 AVENUE DEMO 97490 SAINTE-CLOTILDE", "libelle_commune": "SAINTE-CLOTILDE", "code_postal": "97490"}}
-]}
+{
+ "total_results": 4,
+ "page": 1,
+ "per_page": 25,
+ "total_pages": 1,
+ "results": [
+  {
+   "siren": "900000001",
+   "nom_complet": "SARL DEMO LAGON",
+   "nom_raison_sociale": "SARL DEMO LAGON",
+   "etat_administratif": "A",
+   "nature_juridique": "5499",
+   "statut_diffusion": "O",
+   "siege": {
+    "activite_principale": "56.10A",
+    "adresse": "9 RUE DU SIEGE 97400 SAINT-DENIS",
+    "libelle_commune": "SAINT-DENIS",
+    "code_postal": "97400"
+   },
+   "matching_etablissements": [
+    {
+     "adresse": "1 RUE DU LAGON 97434 SAINT-GILLES-LES-BAINS",
+     "libelle_commune": "SAINT-GILLES-LES-BAINS",
+     "code_postal": "97434",
+     "activite_principale": "56.10A"
+    }
+   ]
+  },
+  {
+   "siren": "900000002",
+   "nom_complet": "PRENOM NOM FICTIF",
+   "etat_administratif": "A",
+   "nature_juridique": "1000",
+   "statut_diffusion": "O",
+   "siege": {
+    "activite_principale": "56.10A",
+    "adresse": "2 RUE FICTIVE 97400 SAINT-DENIS",
+    "libelle_commune": "SAINT-DENIS",
+    "code_postal": "97400"
+   }
+  },
+  {
+   "siren": "900000003",
+   "nom_complet": "SAS DEMO NON DIFFUSIBLE",
+   "etat_administratif": "A",
+   "nature_juridique": "5710",
+   "statut_diffusion": "P",
+   "siege": {
+    "activite_principale": "56.10A",
+    "adresse": "[NON-DIFFUSIBLE]",
+    "libelle_commune": "SAINT-DENIS",
+    "code_postal": "97400"
+   }
+  },
+  {
+   "siren": "900000004",
+   "nom_complet": "SCI DEMO IMMO",
+   "nom_raison_sociale": "SCI DEMO IMMO",
+   "etat_administratif": "A",
+   "nature_juridique": "6540",
+   "statut_diffusion": "O",
+   "siege": {
+    "activite_principale": "68.31Z",
+    "adresse": "3 AVENUE DEMO 97490 SAINTE-CLOTILDE",
+    "libelle_commune": "SAINTE-CLOTILDE",
+    "code_postal": "97490"
+   }
+  }
+ ]
+}

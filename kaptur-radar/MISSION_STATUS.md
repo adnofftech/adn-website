@@ -1,6 +1,6 @@
 # MISSION_STATUS
 
-Dernière mise à jour : 2026-10-26 20:05 (heure de La Réunion). Échéance : 2026-10-27 06:00.
+Dernière mise à jour : 2026-10-26 (soir) (heure de La Réunion). Échéance : 2026-10-27 06:00.
 
 ## Environnement réel (vérifié)
 - Session Claude Code **dans le cloud** (conteneur Linux), pas sur votre ordinateur. Je ne vois pas vos fichiers locaux, ni votre Google Sheet de prospection.
@@ -19,27 +19,34 @@ Dernière mise à jour : 2026-10-26 20:05 (heure de La Réunion). Échéance : 2
 - Pas de dépendance à une clé API, ni à un envoi automatique : tout est validé par un humain.
 
 ## Tâches
-- [ ] Moteur d'audit de site (`radar/audit.py`)
-- [ ] Générateur de messages (`radar/messages.py`)
-- [ ] Base de prospects SQLite (`radar/store.py`)
-- [ ] Recherche annuaire public (`radar/find.py`)
-- [ ] CLI (`radar/cli.py`)
-- [ ] Interface web locale (`radar/web.py`)
-- [ ] Tests automatisés
-- [ ] Démo avec données fictives
-- [ ] Offre, scripts, plan de lancement, rapport final
+- [x] Moteur d'audit de site (`radar/audit.py`)
+- [x] Générateur de messages (`radar/messages.py`)
+- [x] Base de prospects SQLite (`radar/store.py`)
+- [x] Recherche annuaire public (`radar/find.py`)
+- [x] CLI (`radar/cli.py`)
+- [x] Interface web locale (`radar/web.py`)
+- [x] Tests automatisés (66, OK)
+- [x] Démo avec données fictives
+- [x] Offre, scripts, plan de lancement, rapport final
+- [ ] Validation par de vrais prospects (nécessite l'humain)
 
 ## Commandes de lancement
-À remplir après construction.
+```bash
+cd kaptur-radar
+python3 -m unittest discover -s tests -t .
+python3 -m radar demo
+python3 -m radar serve   # http://127.0.0.1:8765/
+```
 
 ## Tests
-Aucun pour l'instant.
+66 tests, tous OK (`docs/PREUVES_TESTS.txt`). Audit réel testé sur example.com. Recherche annuaire réelle testée (connexion parfois coupée par le proxy de la session).
 
 ## Erreurs non résolues
-Aucune.
+Aucune connue. Non testé : Windows (`lancer.bat`), sites 100 % JavaScript.
+
 
 ## Prochaine action
-Écrire `radar/audit.py` et ses tests.
+Attendre votre retour : envoyer les 10 premiers messages et noter les réponses. Voir `RAPPORT_FINAL.md` point 12.
 
 ## Dépendances ou autorisations manquantes
 - Liste réelle de vos prospects (export CSV du Google Sheet) : à fournir.

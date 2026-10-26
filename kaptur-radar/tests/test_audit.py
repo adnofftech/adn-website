@@ -3,7 +3,7 @@ import unittest
 
 from radar import audit
 
-FX = pathlib.Path(__file__).parent / "fixtures"
+FX = pathlib.Path(__file__).parent.parent / "radar" / "demo_data"
 
 
 def load(name, **kw):
@@ -61,6 +61,49 @@ class Analyze(unittest.TestCase):
         r = load("vieux_site.html")
         weights = [c.weight for c in r.failed]
         self.assertEqual(weights, sorted(weights, reverse=True))
+
+
+class LocalServerAudit(unittest.TestCase):
+    """Audit réel (via HTTP local) d'une page servie par un mini-serveur de test."""
+
+    @classmethod
+    def setUpClass(cls):
+        import http.server, threading
+        page = (FX / "bon_site.html").read_bytes()
+
+        class H(http.server.BaseHTTPRequestHandler):
+            def log_message(self, *a): pass
+            def do_GET(self):
+                if self.path == "/robots.txt":
+                    self.send_response(404); self.end_headers(); return
+                if self.path == "/redir":
+                    self.send_response(302); self.send_header("Location", "http://127.0.0.1:1/"); self.end_headers(); return
+                if self.path == "/boom":
+                    self.send_response(500); self.end_headers(); return
+                self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.end_headers(); self.wfile.write(page)
+
+        cls.srv = http.server.ThreadingHTTPServer(("127.0.0.1", 0), H)
+        cls.base = f"http://127.0.0.1:{cls.srv.server_address[1]}"
+        threading.Thread(target=cls.srv.serve_forever, daemon=True).start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.srv.shutdown(); cls.srv.server_close()
+
+    def test_real_http_fetch(self):
+        r = audit.audit_url(self.base + "/", allow_private=True)
+        self.assertEqual(r.error, "")
+        self.assertEqual(r.status, 200)
+        self.assertGreaterEqual(r.score, 85)
+
+    def test_http_error_reported(self):
+        r = audit.audit_url(self.base + "/boom", allow_private=True)
+        self.assertIn("500", r.error)
+
+    def test_redirect_to_private_blocked(self):
+        # allow_private=False : la cible initiale est déjà privée, donc refusée avant toute requête
+        r = audit.audit_url(self.base + "/redir")
+        self.assertIn("refus", r.error)
 
 
 class FetchErrors(unittest.TestCase):

@@ -10,7 +10,7 @@ from dataclasses import dataclass
 OFFER = {
     "name": "KAPTUR TEST",
     "price": "99 €",
-    "what": "1 tournage et 3 vidéos courtes livrées, paiement unique, sans engagement",
+    "what": "1 tournage et 3 vidéos courtes livrées",
 }
 
 # constat de l'audit -> (phrase pour le message, ordre de priorité commercial)
@@ -61,7 +61,9 @@ def _constat(hooks: list[str], has_site: bool) -> str:
     if not hooks:
         return "votre site est plutôt bien tenu, mais il manque de contenu vidéo régulier"
     parts = [HOOKS[h] for h in hooks]
-    return " et que ".join(parts) if len(parts) == 2 else parts[0]
+    if len(parts) == 2:
+        return f"deux points : {parts[0]}, et {parts[1]}"
+    return f"un point : {parts[0]}"
 
 
 def build(prospect: dict, audit: dict | None, sender: Sender | None = None) -> dict:
@@ -75,7 +77,7 @@ def build(prospect: dict, audit: dict | None, sender: Sender | None = None) -> d
     idea = SECTOR_IDEA.get(sector, SECTOR_IDEA["autre"])
     where = f" à {commune}" if commune else ""
     if has_site and audit and not audit.get("error") and hooks:
-        intro = f"En regardant le site de {name}, j'ai remarqué que {constat}."
+        intro = f"En regardant le site de {name}, j'ai relevé {constat}."
     elif has_site and audit and audit.get("error"):
         intro = f"J'ai essayé d'ouvrir le site de {name} mais il ne répondait pas."
     elif has_site:
@@ -84,9 +86,9 @@ def build(prospect: dict, audit: dict | None, sender: Sender | None = None) -> d
         intro = f"En cherchant {name}{where} sur internet, {constat}."
     pitch = (f"Je suis {s.name}, de KAPTUR, une agence de vidéo courte à La Réunion. "
              f"Pour {name}, je verrais bien {idea}.")
-    offer = (f"Pour essayer sans risque : {OFFER['name']}, {OFFER['what']}, {OFFER['price']}.")
+    offer = (f"Pour essayer sans risque : {OFFER['name']}, {OFFER['what']}, {OFFER['price']} en paiement unique, sans engagement.")
 
-    dm = (f"Bonjour, {intro}\n{pitch}\n{offer}\n"
+    dm = (f"Bonjour,\n\n{intro}\n{pitch}\n{offer}\n"
           f"Si cela vous intéresse, je peux vous montrer un exemple. Bonne journée ! {s.name}, {s.whatsapp}")
     subject = f"{name} : une idée de vidéo courte" if hooks or not has_site else f"{name} : une idée pour votre vidéo"
     email = (
@@ -98,9 +100,9 @@ def build(prospect: dict, audit: dict | None, sender: Sender | None = None) -> d
     )
     call = (
         f"[Ouverture, 10 s] Bonjour, {s.name} de KAPTUR, on fait de la vidéo courte pour les entreprises réunionnaises. Je tombe bien ou je vous dérange ?\n"
-        f"[Raison, 15 s] J'ai regardé {name} : {constat}. Je pense qu'{idea} aurait sa place chez vous.\n"
+        f"[Raison, 15 s] J'ai regardé {name} et voici ce que j'en retiens : {constat}. Je pense qu'{idea} aurait sa place chez vous.\n"
         f"[Question] Aujourd'hui, comment vos clients vous découvrent-ils ? Vous publiez déjà des vidéos ?\n"
-        f"[Proposition] On propose un essai : {OFFER['what']}, {OFFER['price']}, sans engagement. Je peux passer 15 minutes cette semaine ?\n"
+        f"[Proposition] On propose un essai : {OFFER['what']}, {OFFER['price']} en paiement unique, sans engagement. Je peux passer 15 minutes cette semaine ?\n"
         f"[Si non] Aucun souci. Puis-je vous envoyer un exemple sur WhatsApp, et vous me dites ce que vous en pensez ?\n"
         f"[Clôture] Noter : date du prochain contact, objection principale."
     )
