@@ -25,7 +25,7 @@ Les écrans sont reconstruits en code avec les couleurs, la police et les libell
 | 18–26 | Retrouvez vos clients, leurs demandes et vos prochaines actions au même endroit. | Tous vos clients. Un seul espace. |
 | 26–35 | Préparez vos devis professionnels rapidement et gardez une trace de chaque proposition. | Des devis simples et rapides. |
 | 35–43 | Et surtout, n'oubliez plus les clients qui attendent votre réponse. | Chaque opportunité compte. |
-| 43–49 | Moins de paperasse, plus de temps pour votre métier. | Moins d'administratif / Plus de suivi / Plus de temps pour vos chantiers |
+| 43–49 | Moins d'administratif, plus de temps pour votre métier. | Moins d'administratif / Plus de suivi / Plus de temps pour vos chantiers |
 | 49–55 | Devis974. Le logiciel pensé pour les pros péi. | Moins de paperasse, plus de chantiers signés. · [Découvrez Devis974] · Bientôt disponible à La Réunion |
 
 Les répliques sont incrustées en sous-titres (vidéo lisible sans le son) et fournies dans `out/devis974_sous-titres.srt`.
@@ -47,7 +47,10 @@ Bleu nuit #10243A, bleu #2563EB (accent unique, dégradé animé sur les mots cl
 ## 5. Son
 - Musique : « Motivating Mornings » (Mixkit, licence gratuite Mixkit, usage commercial autorisé, sans attribution obligatoire). 120 BPM, intro calme pendant le problème, premier impact calé sur la révélation à 12,0 s, fondu final.
 - Effets synthétisés en code (aucun fichier tiers) : vibrations, pops de notification, chutes de papier sur les temps, whooshes de transition, clics, frappe clavier synchronisée lettre par lettre, tic du compteur, carillons de validation, sub-bass sur le logo.
-- **Pas de voix off dans cette version** (voir § 7).
+- **Voix off** : générée en local avec **VibeVoice-Realtime-0.5B** (Microsoft, licence MIT), voix française expérimentale `fr-Spk0_man`, sur processeur, sans service payant. Une réplique par fichier, posée au début de sa scène ; coupe-bas, compression légère ; musique baissée d'environ 12 dB sous la voix.
+- Contrôle qualité : chaque prise est retranscrite par Whisper (faster-whisper small) et comparée au texte ; jusqu'à 6 prises par réplique, la plus fidèle est retenue. Orthographes phonétiques utilisées : « Devis, neuf sept quatre » (prononciation locale de 974).
+- Écart assumé par rapport au script initial : « Moins de paperasse, plus de temps pour votre métier » est devenu « Moins **d'administratif**, plus de temps pour votre métier » (VibeVoice ne prononçait pas « paperasse » correctement). Le slogan final à l'écran reste « Moins de paperasse, plus de chantiers signés. ».
+- Microsoft indique que le français de ce modèle est expérimental : le timbre reste un peu synthétique. Bonne pratique recommandée par Microsoft : signaler que la voix est générée par IA lors de la diffusion.
 
 ## 6. Prompts pour les plans photoréalistes (à générer seulement avec votre accord)
 Règles communes : photo réaliste, lumière naturelle de La Réunion, pas de logo ni de texte lisible dans l'image (l'interface est incrustée ensuite), mains réalistes, personnes 100 % fictives, ni carte postale ni cliché touristique.
@@ -58,7 +61,7 @@ Règles communes : photo réaliste, lumière naturelle de La Réunion, pas de lo
 Intégration prévue : 1,5–2 s par plan en ouverture de scène, l'interface Devis974 posée en surimpression ; les plans restent étiquetés comme mise en scène.
 
 ## 7. Limites et suite
-- **Voix off et plans photoréalistes non produits** : les outils disponibles (ElevenLabs pour la voix, l'image et la vidéo) consomment des crédits payants ; je ne les ai pas utilisés sans votre accord. Avec votre accord : voix off générée sur ce script, musique abaissée sous la voix, 2 à 4 plans réels insérés.
+- **Plans photoréalistes non produits** : la génération d'images et de vidéos réalistes consomme des crédits payants. Les prompts du § 6 sont prêts.
 - Les images d'artisans réels sous licence (banques d'images) n'ont pas été utilisées : risque de faire croire qu'une personne identifiable recommande le produit.
 - Aucune URL affichée tant que le site n'est pas en ligne.
 

@@ -12,7 +12,20 @@ mus = load(HERE / "assets/audio/m33.mp3")[int(.15 * SR):][:N]
 mix = np.zeros((N, 2), np.float32); mix[:len(mus)] = mus * .8
 env = np.ones(N); env[:int(SR * 12)] = .75                    # intro un peu plus basse (tension)
 f0 = int(53.4 * SR); env[f0:] = np.linspace(1, 0, N - f0) ** 1.5
+# --- voix off (VibeVoice-Realtime-0.5B, voix fr-Spk0_man), calée sur les sous-titres, musique baissée sous la voix
+VO_T = [0.4, 5.3, 12.3, 18.5, 26.3, 35.4, 43.6, 49.8]
+vo = np.zeros((N, 2), np.float32)
+for i, t0 in enumerate(VO_T):
+    raw = subprocess.run(["ffmpeg", "-v", "quiet", "-i", str(HERE / f"vo/final/l{i}.wav"), "-af",
+        "highpass=f=80,acompressor=threshold=-20dB:ratio=3:attack=5:release=120:makeup=2,equalizer=f=3000:t=q:w=1:g=2", "-ac", "2", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True, check=True).stdout
+    v = np.frombuffer(raw, np.float32).reshape(-1, 2); v = v / (np.abs(v).max() + 1e-9) * .9
+    i0 = int(t0 * SR); hi = min(N, i0 + len(v)); vo[i0:hi] += v[:hi - i0]
+act = np.convolve((np.abs(vo[:, 0]) > .02).astype(np.float32), np.ones(int(.25 * SR)), 'same') > 0
+duck = np.where(act, .25, 1.0)                                  # ~ -12 dB sous la voix
+k = int(.12 * SR); duck = np.convolve(np.pad(duck, (k, k), mode='edge'), np.ones(k) / k, 'same')[k:-k]
+env *= duck
 mix *= env[:, None]
+mix += vo * 1.0
 t_ = lambda d: np.arange(int(d * SR)) / SR
 def tone(f, d, dec, f2=None):
     t = t_(d); ph = 2 * np.pi * np.cumsum(np.linspace(f, f2 or f, len(t))) / SR

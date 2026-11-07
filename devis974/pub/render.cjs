@@ -27,7 +27,8 @@ async function shot(o, t, file, q) {
     ff(['-i', path.join(d, 'p_%02d.png'), '-vf', `scale=${fmt === 'v' ? 300 : 480}:-1,tile=${cols}x${Math.ceil(ts.length / cols)}:padding=6:color=white`, '-frames:v', '1', path.join(d, 'sheet.png')]);
     console.log('planche ->', path.join(d, 'sheet.png'));
   } else if (cmd === 'chunk') {
-    const [k, n] = rest.map(Number), N = T * FPS, a = Math.floor(k * N / n), z = Math.floor((k + 1) * N / n);
+    const [k, n] = rest.map(Number), N = T * FPS; let a = Math.floor(k * N / n), z = Math.floor((k + 1) * N / n);
+    if (process.env.RANGE) [a, z] = process.env.RANGE.split('-').map(Number);
     const d = path.join(HERE, 'frames_' + fmt); fs.mkdirSync(d, { recursive: true });
     const o = await open(fmt);
     for (let i = a; i < z; i++) { await shot(o, i / FPS, path.join(d, `f_${String(i).padStart(5, '0')}.jpg`), 94); if ((i - a) % 150 === 0) console.log(fmt, k, i); }
