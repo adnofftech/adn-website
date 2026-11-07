@@ -1,0 +1,5 @@
+assets/
+frames_*/
+probe_*/
+out/*.wav
+log_*.txt

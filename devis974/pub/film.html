@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Devis974 — publicité 55 s</title>
+<style>
+:root{--navy:#10243A;--blue:#2563EB;--bg:#F4F7FB;--line:#E1E8F1;--muted:#5B6B7F;--green:#16A34A;--green-bg:#E7F6EC;--orange:#EA7A1A;--orange-bg:#FDF0E1;--blue-bg:#E8F0FE}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;overflow:hidden}
+body{font-family:Inter,"Noto Color Emoji",sans-serif;-webkit-font-smoothing:antialiased}
+#stage{position:relative;overflow:hidden;background:var(--navy)}
+#stage.v{width:1080px;height:1920px}#stage.h{width:1920px;height:1080px}
+.L{position:absolute;inset:0}
+.c{position:absolute;left:50%;top:50%;will-change:transform}
+/* fonds */
+#warm{background:radial-gradient(120% 70% at 85% 95%,#7a4a2a 0%,rgba(122,74,42,0) 55%),radial-gradient(90% 60% at 10% 0%,#1d4566 0%,rgba(29,69,102,0) 60%),linear-gradient(170deg,#0d1f33,#13304d 60%,#1a2f40)}
+#brand{background:radial-gradient(70% 45% at 50% 45%,#1b3d66 0%,rgba(27,61,102,0) 70%),#10243A}
+#grid{background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:64px 64px}
+#light{background:radial-gradient(80% 50% at 50% 40%,#fff 0%,#F4F7FB 60%,#E9EFF7 100%)}
+.leaf{position:absolute;left:50%;top:50%;width:520px;height:520px}
+/* téléphone */
+#phone{position:relative;width:418px;height:872px;margin:-436px 0 0 -209px;border-radius:62px;background:#0b0f16;padding:13px;box-shadow:0 60px 120px rgba(4,12,24,.55),0 0 0 2px #2b3442 inset,0 0 0 1px rgba(255,255,255,.08)}
+#phone .scr{position:relative;width:392px;height:846px;border-radius:50px;overflow:hidden;background:var(--bg)}
+#phone .notch{position:absolute;left:50%;top:12px;width:118px;height:34px;margin-left:-59px;background:#0b0f16;border-radius:20px;z-index:30}
+.sb{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:6px 34px 0 40px;font-weight:700;font-size:16px;z-index:20}
+.sb i{display:inline-block;width:26px;height:12px;border:2px solid currentColor;border-radius:4px;position:relative;opacity:.85}.sb i:after{content:"";position:absolute;inset:1px;right:6px;background:currentColor;border-radius:1px}
+.screen{position:absolute;inset:0}
+/* écran verrouillé */
+#lock{background:linear-gradient(165deg,#1e4d6b 0%,#163651 45%,#0f2238 100%);color:#fff}
+#lock .time{position:absolute;top:118px;width:100%;text-align:center;font-size:86px;font-weight:600;letter-spacing:-2px}
+#lock .date{position:absolute;top:96px;width:100%;text-align:center;font-size:19px;font-weight:600;opacity:.85}
+.nt{position:absolute;left:14px;right:14px;background:rgba(240,244,250,.86);color:#10243A;border-radius:22px;padding:12px 14px;display:flex;gap:11px;align-items:flex-start;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.nt .ic{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center}
+.nt b{font-size:14.5px;display:flex;justify-content:space-between}.nt b span{font-weight:500;color:#6b7686;font-size:12.5px}
+.nt p{font-size:14px;line-height:1.3;color:#24364b}
+/* bulles flottantes */
+.bub{width:330px;background:#fff;border-radius:24px;padding:16px 18px;display:flex;gap:13px;box-shadow:0 30px 60px rgba(3,10,22,.35);color:#10243A}
+.bub .ic{flex:none;width:46px;height:46px;border-radius:13px;display:grid;place-items:center}
+.bub b{display:block;font-size:18px}.bub p{font-size:17px;line-height:1.3;color:#3c4d63}
+/* papiers */
+.pp{width:300px;padding:22px;border-radius:6px;background:#fbfaf6;color:#2c2c2c;box-shadow:0 18px 40px rgba(0,0,0,.35);font-size:19px}
+.pp h4{font-size:21px;margin-bottom:8px}.pp .ln{height:9px;background:#e4e1d8;border-radius:5px;margin:9px 0}
+.pp.post{background:#FFE58A;width:230px;border-radius:3px;font-weight:600}.pp.post2{background:#FFB866;width:220px;border-radius:3px;font-weight:700}
+/* app */
+.app{background:var(--bg);color:var(--navy);font-size:14px}
+.app .tb{position:absolute;top:54px;left:0;right:0;padding:12px 18px 8px;display:flex;justify-content:space-between;align-items:center}
+.app .tb h1{font-size:23px;letter-spacing:-.3px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:8px 13px;border-radius:10px;font-weight:700;font-size:13.5px;border:1px solid var(--line);background:#fff;color:var(--navy)}
+.btn.p{background:var(--blue);border-color:var(--blue);color:#fff}.btn.g{background:var(--green);border-color:var(--green);color:#fff}
+.cd{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:0 1px 2px rgba(16,36,58,.05),0 6px 20px rgba(16,36,58,.06)}
+.bd{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:700;background:var(--blue-bg);color:var(--blue);white-space:nowrap}
+.bd.g{background:var(--green-bg);color:var(--green)}.bd.o{background:var(--orange-bg);color:var(--orange)}.bd.gr{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.nav{position:absolute;left:0;right:0;bottom:0;height:76px;background:#fff;border-top:1px solid var(--line);display:flex;padding:6px 4px 14px}
+.nav a{flex:1;display:flex;flex-direction:column;align-items:center;font-size:10.5px;font-weight:600;color:var(--muted);gap:1px}.nav a.on{color:var(--blue)}.nav a span{font-size:19px}
+.body{position:absolute;top:112px;left:14px;right:14px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:11px 2px;border-bottom:1px solid var(--line)}
+.row b{font-size:14.5px}.row small{display:block;color:var(--muted);font-size:12px}
+.fl{margin-bottom:9px}.fl label{display:block;font-weight:700;font-size:11.5px;margin-bottom:3px}
+.in{height:36px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:0 10px;display:flex;align-items:center;font-size:14px;white-space:nowrap;overflow:hidden}
+.in.f{outline:2px solid var(--blue);outline-offset:1px}
+.st{padding:11px}.st .l{color:var(--muted);font-size:11px;font-weight:600}.st .v{font-size:23px;font-weight:800;letter-spacing:-.5px}
+.ln3{display:grid;grid-template-columns:1fr 34px 70px;gap:6px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+.tot div{display:flex;justify-content:space-between;padding:3px 0;font-size:13.5px}.tot .ttc{font-size:18px;font-weight:800;border-top:2px solid var(--navy);margin-top:5px;padding-top:6px}
+.chart{display:flex;align-items:flex-end;gap:8px;height:96px}.chart div{flex:1;display:flex;gap:2px;align-items:flex-end;height:100%;justify-content:center}.chart i{width:40%;border-radius:4px 4px 0 0;background:var(--blue)}.chart i.g{background:var(--green)}
+.toastp{position:absolute;left:50%;bottom:96px;background:var(--navy);color:#fff;padding:10px 16px;border-radius:12px;font-weight:600;font-size:13.5px;white-space:nowrap}
+.banner{position:absolute;left:10px;right:10px;top:58px;background:#fff;border-radius:18px;padding:12px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 14px 34px rgba(16,36,58,.25);border-left:5px solid var(--orange);z-index:25}
+textarea,.ta{display:block;border:1px solid var(--line);border-radius:9px;background:#fff;padding:9px 10px;font-size:13px;line-height:1.38;color:var(--navy);height:118px;overflow:hidden}
+/* puces d'étapes */
+.chip{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:99px;background:#fff;color:var(--navy);font-weight:700;font-size:26px;box-shadow:0 18px 40px rgba(16,36,58,.16);white-space:nowrap;border:1px solid var(--line)}
+.chip .dot{width:14px;height:14px;border-radius:50%;background:var(--blue)}.chip.ok .dot{background:var(--green)}.chip.or .dot{background:var(--orange)}
+/* PDF */
+#pdf{width:595px;height:842px;margin:-421px 0 0 -297px;background:#fff;border-radius:6px;box-shadow:0 50px 100px rgba(16,36,58,.35);padding:44px 44px;color:#10243A;font-size:11px}
+#pdf .gr{color:#5B6B7F}#pdf table{width:100%;border-collapse:collapse;margin-top:16px}#pdf th{background:#10243A;color:#fff;text-align:left;padding:7px 8px;font-size:9.5px}#pdf td{padding:8px;font-size:10.5px}#pdf tr:nth-child(even) td{background:#F4F7FB}
+#pdf .r{text-align:right}
+/* textes */
+.hl{position:absolute;font-weight:800;letter-spacing:-.025em;line-height:1.06}
+.hl .w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .1em}.hl .w>span{display:inline-block}
+.acc{background:linear-gradient(90deg,#2563EB,#5B9BFF,#2563EB);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+.cap{position:absolute;left:50%;padding:12px 26px;border-radius:16px;background:rgba(10,22,38,.78);color:#fff;font-weight:600;text-align:center;line-height:1.3}
+.lab{position:absolute;left:50%;font-size:19px;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.logo{display:flex;align-items:center;gap:26px}
+.mark{width:132px;height:132px;border-radius:34px;background:linear-gradient(145deg,#3B7BFF,#2563EB 55%,#1D4ED8);display:grid;place-items:center;box-shadow:0 24px 60px rgba(37,99,235,.45),inset 0 1px 0 rgba(255,255,255,.35)}
+.wm{font-size:118px;font-weight:800;letter-spacing:-.04em;color:#fff}.wm span{color:#5B9BFF}
+.cta{display:inline-flex;align-items:center;gap:14px;padding:26px 50px;border-radius:22px;background:#2563EB;color:#fff;font-weight:800;font-size:40px;position:relative;overflow:hidden;box-shadow:0 24px 60px rgba(37,99,235,.45)}
+.tap{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;background:rgba(255,255,255,.55);border:3px solid rgba(37,99,235,.9);z-index:40;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="L" id="warm"></div>
+  <div class="L" id="leaves"></div>
+  <div class="L" id="brandL"><div class="L" id="brand"></div><div class="L" id="grid"></div><svg class="L" id="beams" width="100%" height="100%"></svg></div>
+  <div class="L" id="lightL"><div class="L" id="light"></div></div>
+  <div class="L" id="cam">
+    <div class="c" id="papers"></div>
+    <div class="c" id="bubbles"></div>
+    <div class="c" id="chips"></div>
+    <div class="c" id="phoneW"><div id="phone"><div class="notch"></div><div class="scr" id="scr">
+      <div class="sb" id="sb"><span>16:47</span><span>●●● <i></i></span></div>
+      <!-- écran verrouillé -->
+      <div class="screen" id="lock"><div class="date">Jeudi 6 novembre</div><div class="time">16:47</div><div id="lockN"></div></div>
+      <!-- CRM -->
+      <div class="screen app" id="crm"><div class="tb"><h1>Clients et prospects</h1></div>
+        <div class="body"><div class="row" style="padding-top:0;border:0"><div class="in" style="flex:1;margin-right:8px;color:#8a97a8">🔍 Nom, téléphone, ville…</div><span class="btn p" id="crmAdd">+ Nouveau</span></div>
+          <div class="cd" style="padding:2px 12px" id="crmList">
+            <div class="row" id="crmNew"><div><b>Marie Payet</b><small>Saint-Paul</small></div><span class="bd">Nouveau prospect</span></div>
+            <div class="row"><div><b>Jean-Luc Hoarau</b><small>Saint-Denis</small></div><span class="bd">Devis envoyé</span></div>
+            <div class="row"><div><b>Sophie Grondin</b><small>Le Port</small></div><span class="bd g">Accepté</span></div>
+            <div class="row"><div><b>Patrick Técher</b><small>Saint-André</small></div><span class="bd o">À contacter</span></div>
+            <div class="row" style="border:0"><div><b>Karine Lebon</b><small>Saint-Pierre</small></div><span class="bd gr">En attente de réponse</span></div>
+          </div></div>
+        <div class="screen app" id="crmForm" style="background:var(--bg)"><div class="tb"><h1>Nouveau prospect</h1></div>
+          <div class="body"><div class="cd">
+            <div class="fl"><label>Nom *</label><div class="in" id="fNom"></div></div>
+            <div class="fl"><label>Téléphone</label><div class="in" id="fTel"></div></div>
+            <div class="fl"><label>Prestation recherchée</label><div class="in" id="fPre"></div></div>
+            <div class="fl"><label>Source du contact</label><div class="in" id="fSrc"></div></div>
+            <div class="fl"><label>Statut commercial</label><div class="in" id="fSta"></div></div>
+            <span class="btn p" id="fSave" style="width:100%;margin-top:4px">Enregistrer</span></div></div></div>
+        <div class="toastp" id="crmToast">Prospect enregistré.</div>
+      </div>
+      <!-- éditeur de devis -->
+      <div class="screen app" id="qed"><div class="tb"><h1>Nouveau devis</h1></div>
+        <div class="body">
+          <div class="cd" style="margin-bottom:10px"><div class="fl" style="margin:0"><label>Client *</label><div class="in" id="qCli"></div></div></div>
+          <div class="cd"><b style="font-size:15px">Prestations</b>
+            <div class="in" style="margin:8px 0 4px;color:#5B6B7F" id="qTpl">+ Ajouter une prestation modèle…</div>
+            <div id="qL1" class="ln3"><span>Nettoyage climatisation split</span><span>×2</span><span style="text-align:right">130,00 €</span></div>
+            <div id="qL2" class="ln3"><span>Déplacement</span><span>×1</span><span style="text-align:right">25,00 €</span></div>
+            <div class="tot" style="margin-top:8px"><div><span>Total HT</span><b id="qHT">0,00 €</b></div><div><span>TVA 8,5 %</span><b id="qTVA">0,00 €</b></div><div class="ttc"><span>Total TTC</span><span id="qTTC">0,00 €</span></div></div>
+          </div>
+          <span class="btn p" id="qPdf" style="width:100%;margin-top:10px">⬇ Télécharger le PDF</span>
+        </div></div>
+      <!-- fiche devis + relance -->
+      <div class="screen app" id="qdet"><div class="tb"><h1>DEV-2026-0001</h1></div>
+        <div class="body"><div class="cd"><div class="row" style="padding:0 0 8px"><div><b>Marie Payet</b><small>Nettoyage clim 2 splits · Saint-Paul</small></div><span class="bd" id="qStat">Envoyé</span></div>
+          <div class="row" style="border:0;padding:6px 0 0"><span style="color:#5B6B7F">Total TTC</span><b style="font-size:18px">168,18 €</b></div></div>
+          <div class="cd" style="margin-top:10px" id="fu"><b style="font-size:15px">Relance</b> <span class="bd o" id="fuB">À relancer maintenant</span>
+            <div class="fl" style="margin-top:8px"><label>Message (modifiable)</label><div class="ta" id="fuMsg"></div></div>
+            <div style="display:flex;gap:6px"><span class="btn" id="fuCopy">📋 Copier</span><span class="btn g">WhatsApp</span><span class="btn">✉️ E-mail</span></div>
+            <div style="display:flex;gap:6px;margin-top:8px;align-items:center"><span class="btn p" id="fuDone">✔ J’ai relancé</span></div>
+            <div id="fuHist" style="margin-top:8px;font-size:12.5px;color:#5B6B7F"><b style="color:#10243A">Historique</b> · WhatsApp · aujourd’hui</div>
+          </div></div>
+        <div class="banner" id="ban"><span style="font-size:26px">⏰</span><div><b style="font-size:14.5px">Relance prévue aujourd’hui</b><div style="font-size:12.5px;color:#5B6B7F">DEV-2026-0001 · Marie Payet</div></div></div>
+        <div class="toastp" id="fuToast">Message copié.</div>
+      </div>
+      <!-- tableau de bord -->
+      <div class="screen app" id="dash"><div class="tb"><h1>Tableau de bord</h1><span class="btn p">+ Prospect</span></div>
+        <div class="body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="cd st"><div class="l">Nouveaux prospects</div><div class="v" id="d1">0</div></div>
+            <div class="cd st"><div class="l">Devis en attente</div><div class="v" id="d2">0</div></div>
+            <div class="cd st"><div class="l">Devis acceptés</div><div class="v" style="color:var(--green)" id="d3">0 €</div></div>
+            <div class="cd st"><div class="l">Relances à effectuer</div><div class="v" style="color:var(--orange)" id="d4">0</div></div>
+          </div>
+          <div class="cd" style="margin-top:8px"><b>Devis par mois</b><div class="chart" id="dch" style="margin-top:8px"></div></div>
+          <div class="cd" style="margin-top:8px;padding:4px 12px"><div class="row" style="border:0"><div><b>DEV-2026-0001</b><small>Marie Payet · 168,18 €</small></div><span class="bd g" id="dAcc">Accepté</span></div></div>
+        </div>
+        <div class="toastp" id="dToast" style="background:var(--green)">✔ Devis accepté</div>
+      </div>
+      <div class="nav" id="nav"><a data-k="dash"><span>🏠</span>Accueil</a><a data-k="crm"><span>👥</span>Clients</a><a data-k="qed"><span>📄</span>Devis</a><a data-k="qdet"><span>⏰</span>Relances</a><a><span>⚙️</span>Réglages</a></div>
+      <div class="tap" id="tap"></div>
+    </div></div></div>
+    <div class="c" id="pdfW"><div id="pdf">
+      <div style="display:flex;justify-content:space-between"><div><b style="font-size:15px">Clim Océan</b><div class="gr" style="line-height:1.5;margin-top:2px">Entreprise individuelle<br>Saint-Denis, La Réunion<br>Tél. 0692 00 00 01</div></div>
+        <div class="r"><div style="color:#2563EB;font-size:30px;font-weight:800">DEVIS</div><b>N° DEV-2026-0001</b><div class="gr">Date : 06/11/2026<br>Valable jusqu’au : 06/12/2026</div></div></div>
+      <div style="background:#F4F7FB;border-radius:6px;padding:12px 14px;margin-top:22px"><div class="gr" style="font-size:8.5px;font-weight:700">DESTINATAIRE</div><b style="font-size:13px">Marie Payet</b><div class="gr">Saint-Paul · 0692 12 34 56</div></div>
+      <b style="display:block;margin-top:16px;font-size:12.5px">Objet : Nettoyage clim 2 splits</b>
+      <table><tr><th>Description</th><th class="r">Qté</th><th class="r">P.U. HT</th><th class="r">TVA</th><th class="r">Total HT</th></tr>
+        <tr><td>Nettoyage climatisation split</td><td class="r">2</td><td class="r">65,00 €</td><td class="r">8,5 %</td><td class="r">130,00 €</td></tr>
+        <tr><td>Déplacement</td><td class="r">1</td><td class="r">25,00 €</td><td class="r">8,5 %</td><td class="r">25,00 €</td></tr></table>
+      <div style="margin:18px 0 0 auto;width:230px"><div style="display:flex;justify-content:space-between;padding:3px 0"><span>Total HT</span><span>155,00 €</span></div><div style="display:flex;justify-content:space-between;padding:3px 0"><span>TVA 8,5 % sur 155,00 €</span><span>13,18 €</span></div>
+        <div style="display:flex;justify-content:space-between;background:#2563EB;color:#fff;font-weight:800;font-size:13px;padding:8px 10px;margin-top:4px"><span>Total TTC</span><span>168,18 €</span></div></div>
+      <b style="display:block;margin-top:26px">Conditions de paiement</b><div class="gr">Acompte de 30 % à la commande, solde à la fin de la prestation.</div>
+      <b style="display:block;margin-top:12px">Mentions légales</b><div class="gr">Devis valable jusqu’au 06/12/2026. Il devient un contrat une fois daté et signé par le client avec la mention « Bon pour accord ».</div>
+      <div style="border:1px solid #D5DDE8;border-radius:6px;height:70px;width:250px;margin-top:20px;padding:8px" class="gr">Bon pour accord — date et signature du client</div>
+      <svg id="check" width="120" height="120" viewBox="0 0 120 120" style="position:absolute;right:-40px;top:-40px"><circle cx="60" cy="60" r="52" fill="#16A34A"/><circle id="ckRing" cx="60" cy="60" r="56" fill="none" stroke="#16A34A" stroke-width="4"/><path id="ckPath" d="M36 62 L53 78 L86 44" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+    </div></div>
+    <div class="c" id="logoG"><div class="logo" id="logoRow"><div class="mark" id="mark"><svg width="74" height="74" viewBox="0 0 74 74"><rect x="15" y="8" width="44" height="58" rx="7" fill="none" stroke="#fff" stroke-width="6"/><path d="M25 39 L34 48 L50 30" fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="wm" id="wm">Devis<span>974</span></div></div>
+      <div id="lline" style="position:absolute;left:50%;top:50%;height:4px;margin-top:-2px;background:linear-gradient(90deg,rgba(91,155,255,0),#9cc3ff,rgba(91,155,255,0));border-radius:2px"></div></div>
+    <div class="c" id="endG"></div>
+  </div>
+  <div class="L" id="sweepL"></div>
+  <div class="L" id="hud"></div>
+</div>
+<script>
+// ===================== moteur : tout dépend de t, aucune horloge =====================
+const Hz = new URLSearchParams(location.search).get('f') === 'h';
+const W = Hz ? 1920 : 1080, Hh = Hz ? 1080 : 1920, T = 55;
+const stage = document.getElementById('stage'); stage.className = Hz ? 'h' : 'v';
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, x) => a + (b - a) * x;
+const io = x => x <= 0 ? 0 : x >= 1 ? 1 : x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const out = x => x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3);
+const o5 = x => x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 5);
+const inn = x => x <= 0 ? 0 : x >= 1 ? 1 : x * x * x;
+function spring(t, k = 170, d = 26) {
+  if (t <= 0) return 0; const w = Math.sqrt(k), z = d / (2 * w);
+  if (z < 1) { const wd = w * Math.sqrt(1 - z * z); return 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + z * w / wd * Math.sin(wd * t)); }
+  return 1 - Math.exp(-w * t) * (1 + w * t);
+}
+const SP = (t, t0, k, d) => spring(t - t0, k, d);
+const UI = (t, t0) => SP(t, t0, 320, 30);     // UI vive
+const BX = (t, t0) => SP(t, t0, 200, 22);     // conteneurs (léger dépassement)
+const HV = (t, t0) => SP(t, t0, 120, 24);     // logo / typo lourde
+function mulberry(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const tf = (el, x = 0, y = 0, s = 1, r = 0, extra = '') => { el.style.transform = `translate(${x}px,${y}px) scale(${s}) rotate(${r}deg) ${extra}`; };
+const op = (el, o) => { el.style.opacity = o; el.style.visibility = o <= 0.001 ? 'hidden' : 'inherit'; };
+const eur = c => (c / 100).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €';
+
+// ===================== mise en page (9:16 / 16:9, même timeline) =====================
+const L = Hz ? {
+  ph: { x: -430, y: -10, s: .9 }, phLow: 640, head: { x: 110, y: -170, w: 760, size: 80, align: 'left' }, cap: { y: 420, size: 34, w: 1500 },
+  lab: { x: -430, y: -505 }, logo: { y: -40 }, logoPark: { x: 430, y: -330, s: .5 }, bub: 1.15, pdf: { x: -160, y: 0, s: .8 }, pdfFrom: { x: -430, y: -10 },
+  chip: [[110, 110], [110, 200], [110, 290], [110, 110], [110, 200], [110, 110], [110, 200]], chipAlign: 0,
+} : {
+  ph: { x: 0, y: 0, s: 1.0 }, phLow: 1100, head: { x: 0, y: -680, w: 960, size: 78, align: 'center' }, cap: { y: 452, size: 34, w: 960 },
+  lab: { x: 0, y: -462 }, logo: { y: -80 }, logoPark: { x: 0, y: -690, s: .5 }, bub: 1, pdf: { x: 40, y: -20, s: 1.0 }, pdfFrom: { x: 0, y: 0 },
+  chip: [[-240, -290], [240, -110], [-240, 80], [240, -290], [-240, -110], [240, 80], [-200, 300]], chipAlign: 1,
+};
+
+// ===================== contenus =====================
+const HEADS = [ // texte, entrée, sortie, couleur
+  ['Des clients à rappeler ?', .25, 1.75, '#fff'], ['Des devis en retard ?', 1.85, 3.3, '#fff'], ['Trop de paperasse ?', 3.4, 4.95, '#fff', [2]],
+  ['Et si vous perdiez des clients sans le savoir ?', 7.0, 11.1, '#fff', [3]],
+  ['Tous vos clients. Un seul espace.', 18.55, 25.7, '#10243A', [4, 5]],
+  ['Des devis simples et rapides.', 26.35, 34.6, '#10243A', [4]],
+  ['Chaque opportunité compte.', 35.45, 42.7, '#10243A', [1]],
+  ['Moins d’administratif', 43.3, 45.05, '#10243A', [1]], ['Plus de suivi', 45.15, 46.85, '#10243A', [2]], ['Plus de temps pour vos chantiers', 46.95, 48.75, '#10243A', [5]],
+];
+const CAPS = [ // voix off (sous-titres) : texte, début, fin
+  ['À La Réunion, quand on est artisan, les journées passent vite…', .4, 4.7],
+  ['Entre les appels, les devis et les relances, difficile de tout gérer.', 5.3, 10.4],
+  ['Découvrez Devis974, le logiciel pensé pour les artisans réunionnais.', 12.5, 17.6],
+  ['Retrouvez vos clients, leurs demandes et vos prochaines actions au même endroit.', 18.5, 24.8],
+  ['Préparez vos devis professionnels rapidement et gardez une trace de chaque proposition.', 26.3, 33.8],
+  ['Et surtout, n’oubliez plus les clients qui attendent votre réponse.', 35.4, 41.2],
+  ['Moins de paperasse, plus de temps pour votre métier.', 43.6, 48.4],
+  ['Devis974. Le logiciel pensé pour les pros péi.', 49.8, 54.2],
+];
+const ICON = {
+  msg: '<svg width="22" height="22" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="#fff"/></svg>',
+  call: '<svg width="22" height="22" viewBox="0 0 24 24"><path d="M6.6 10.8a15 15 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11 11 0 003.5.56 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11 11 0 00.56 3.5 1 1 0 01-.25 1z" fill="#fff"/></svg>',
+  mail: '<svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 6h18v12H3z" fill="#fff"/><path d="M3 6l9 7 9-7" fill="none" stroke="#2563EB" stroke-width="2"/></svg>',
+  bell: '<svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 3a6 6 0 016 6v4l2 3H4l2-3V9a6 6 0 016-6zm-2 15h4a2 2 0 01-4 0z" fill="#fff"/></svg>',
+};
+const NOTIFS = [ // icône, couleur, titre, texte, t, position bulle (x,y) relative au téléphone, rotation
+  ['msg', '#22A35A', 'Marie P.', 'Bonjour, c’est pour un devis clim 2 splits 🙏', .35, -300, -330, -4],
+  ['call', '#E04848', 'Appel manqué', '0693 •• •• 41 · Saint-Pierre', .85, 300, -190, 3],
+  ['msg', '#22A35A', 'Jean-Luc H.', 'Vous avez pu regarder pour mardi ?', 1.35, -310, 10, 3],
+  ['mail', '#2563EB', 'Nouvel e-mail', 'Demande de devis · peinture varangue', 1.85, 310, 120, -3],
+  ['bell', '#EA7A1A', 'Rappel', 'Devis Técher à envoyer (hier)', 2.35, -290, 290, -2],
+  ['msg', '#22A35A', 'Sophie G.', 'Toujours d’accord pour le chantier ?', 2.85, 300, 400, 4],
+  ['call', '#E04848', 'Appel manqué', 'Client · Le Port', 3.3, -20, -470, 2],
+];
+const PAPERS = [ // html, classe, x, y, rot, t chute
+  ['<h4>Devis_Payet_v3.docx</h4><div class="ln"></div><div class="ln" style="width:70%"></div><div class="ln" style="width:85%"></div>', 'pp', -150, -200, -9, 5.5],
+  ['Rappeler M. Hoarau !!<br><span style="font-weight:500">avant jeudi</span>', 'pp post', 170, -300, 7, 6.0],
+  ['<h4>Facture n° ?</h4><div class="ln"></div><div class="ln" style="width:60%"></div><b style="color:#c0392b">À relancer</b>', 'pp', 160, 40, 6, 6.5],
+  ['<h4>Carnet chantiers</h4>Mardi · Saint-Pierre<br>Jeudi · Le Port<br><s>Vendredi</s> ?', 'pp', -170, 160, -5, 7.0],
+  ['URGENT<br><span style="font-weight:600">devis clim Saint-Denis</span>', 'pp post2', 120, 330, -8, 7.5],
+  ['<h4>Devis (brouillon)</h4><div class="ln"></div><div class="ln" style="width:40%"></div><span style="color:#888">Total : … €</span>', 'pp', -60, -40, 3, 8.0],
+  ['Prix déplacement ?<br>Remise ??', 'pp post', -230, -330, -6, 8.5],
+];
+const CHIPS = [['Nouveau prospect', 19.3, 25.6, ''], ['Demande reçue', 21.0, 25.6, 'or'], ['Client enregistré', 23.25, 25.6, 'ok'],
+  ['Sélection du client', 26.75, 28.6, ''], ['Ajout d’une prestation', 27.9, 30.0, ''], ['Calcul automatique', 29.6, 31.3, ''], ['Génération PDF', 31.35, 34.6, 'ok']];
+const MSG = 'Bonjour Marie, je me permets de revenir vers vous concernant le devis pour Nettoyage clim 2 splits (n° DEV-2026-0001). Avez-vous eu le temps d’en prendre connaissance ? Je reste disponible si vous avez des questions. Bonne journée !';
+
+// ===================== construction (une fois) =====================
+const hud = $('hud');
+function mkHead([txt, tin, tout, col, acc = []]) {
+  const el = document.createElement('div'); el.className = 'hl';
+  el.innerHTML = txt.split(' ').map((w, i) => `<span class="w"><span class="${acc.includes(i) ? 'acc' : ''}">${w}</span></span>`).join(' ');
+  Object.assign(el.style, { width: L.head.w + 'px', fontSize: L.head.size + 'px', color: col, textAlign: L.head.align,
+    left: (W / 2 + L.head.x - (L.head.align === 'center' ? L.head.w / 2 : 0)) + 'px', top: (Hh / 2 + L.head.y) + 'px' });
+  hud.append(el); return { el, ws: [...el.querySelectorAll('.w>span')], tin, tout };
+}
+const heads = HEADS.map(mkHead);
+const caps = CAPS.map(([txt, a, b]) => { const el = document.createElement('div'); el.className = 'cap'; el.textContent = txt;
+  Object.assign(el.style, { fontSize: L.cap.size + 'px', maxWidth: L.cap.w + 'px', top: (Hh / 2 + L.cap.y) + 'px' }); hud.append(el); return { el, a, b }; });
+const lab = document.createElement('div'); lab.className = 'lab'; lab.textContent = 'Interface Devis974 · données d’exemple'; lab.style.top = (Hh / 2 + L.lab.y) + 'px'; lab.style.left = (W / 2 + L.lab.x) + 'px'; hud.append(lab);
+const place = document.createElement('div'); place.className = 'lab'; place.innerHTML = '📍 Saint-Paul · fin d’intervention'; Object.assign(place.style, { color: '#cfe0f5', fontSize: '24px', top: (Hz ? 70 : 150) + 'px' }); hud.append(place);
+// notifications : dans l'écran verrouillé + bulles autour du téléphone
+const lockN = $('lockN'), bubs = $('bubbles');
+const notifEls = NOTIFS.map(([ic, col, ti, tx]) => { const d = document.createElement('div'); d.className = 'nt'; d.innerHTML = `<div class="ic" style="background:${col}">${ICON[ic]}</div><div style="flex:1"><b>${ti}<span>maintenant</span></b><p>${tx}</p></div>`; lockN.append(d); return d; });
+const bubEls = NOTIFS.map(([ic, col, ti, tx]) => { const d = document.createElement('div'); d.className = 'bub c'; d.innerHTML = `<div class="ic" style="background:${col}">${ICON[ic]}</div><div><b>${ti}</b><p>${tx}</p></div>`; d.style.margin = '-50px 0 0 -165px'; bubs.append(d); return d; });
+const papEls = PAPERS.map(([h, cls]) => { const d = document.createElement('div'); d.className = cls + ' c'; d.innerHTML = h; d.style.margin = '-80px 0 0 -150px'; $('papers').append(d); return d; });
+const chipEls = CHIPS.map(([txt, , , cls]) => { const d = document.createElement('div'); d.className = 'chip c ' + cls; d.innerHTML = `<span class="dot"></span>${txt}${cls === 'ok' ? ' ✓' : ''}`; $('chips').append(d); return d; });
+// feuilles tropicales (silhouettes, parallaxe)
+const leafSvg = (c) => `<svg viewBox="0 0 200 200" width="100%" height="100%"><path d="M100 190 C40 150 20 90 60 30 C80 60 100 50 100 10 C100 50 120 60 140 30 C180 90 160 150 100 190Z" fill="${c}"/><path d="M100 188 L100 30" stroke="rgba(0,0,0,.25)" stroke-width="3"/></svg>`;
+const LEAVES = Hz ? [[-900, -420, 1.4, 140, .5], [880, -380, 1.2, -150, .7], [-860, 420, 1.1, 40, .6], [900, 430, 1.5, -40, .4]] : [[-520, -820, 1.3, 150, .5], [540, -700, 1.1, -140, .7], [-560, 880, 1.4, 30, .6], [520, 860, 1.2, -30, .45]];
+const leafEls = LEAVES.map(([, , , , ]) => { const d = document.createElement('div'); d.className = 'leaf'; d.innerHTML = leafSvg('#0e3b2f'); $('leaves').append(d); return d; });
+// rayons lumineux de la révélation
+const beams = $('beams'); const BEAMS = [];
+const rnd = mulberry(974);
+for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2 + rnd() * .3, r1 = 170, r2 = 1500;
+  const ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  ln.setAttribute('x1', W / 2 + Math.cos(a) * r1); ln.setAttribute('y1', Hh / 2 + L.logo.y + Math.sin(a) * r1); ln.setAttribute('x2', W / 2 + Math.cos(a) * r2); ln.setAttribute('y2', Hh / 2 + L.logo.y + Math.sin(a) * r2);
+  ln.setAttribute('stroke', i % 3 ? 'rgba(91,155,255,.35)' : 'rgba(255,255,255,.5)'); ln.setAttribute('stroke-width', i % 3 ? 2 : 3); ln.setAttribute('pathLength', 1); ln.setAttribute('stroke-dasharray', '0.18 1');
+  beams.append(ln); BEAMS.push([ln, .05 * i]); }
+// carte de fin
+$('endG').innerHTML = `<div style="text-align:center;width:${Hz ? 1500 : 980}px;margin-left:-${Hz ? 750 : 490}px">
+  <div id="eSlo" class="hl" style="position:relative;color:#fff;font-size:${Hz ? 72 : 70}px;margin-top:${Hz ? 130 : 160}px;text-align:center"></div>
+  <div style="margin-top:${Hz ? 46 : 64}px"><span class="cta" id="eCta">Découvrez Devis974 <span style="font-size:34px">→</span><i id="eShine" style="position:absolute;top:0;bottom:0;width:120px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.45),rgba(255,255,255,0))"></i></span></div>
+  <div id="eSoon" style="margin-top:34px;color:#9fbbe0;font-size:32px;font-weight:600">Bientôt disponible à La Réunion</div></div>`;
+const slo = mkHead(['Moins de paperasse, plus de chantiers signés.', 50.15, 99, '#fff', [5, 6]]);
+$('eSlo').append(...slo.el.childNodes); slo.el.remove(); slo.ws = [...$('eSlo').querySelectorAll('.w>span')];
+// histogramme du tableau de bord (données d'exemple)
+const CH = [[30, 18], [45, 28], [38, 25], [62, 40], [55, 36], [85, 60]];
+$('dch').innerHTML = CH.map(() => '<div><i></i><i class="g"></i></div>').join('');
+const chBars = [...$('dch').querySelectorAll('i')];
+const msgEl = $('fuMsg');
+$('cam').append($('papers'), $('bubbles'), $('chips'), $('logoG'), $('endG'));
+function posOf(id) { let el = $(id), x = el.offsetWidth / 2, y = el.offsetHeight / 2; while (el && el.id !== 'scr') { x += el.offsetLeft; y += el.offsetTop; el = el.offsetParent; } return [x, y]; }
+let TAPS = [];
+
+// ===================== helpers d'animation =====================
+function headAnim(h, t) {
+  const inP = h.ws.map((_, i) => UI(t, h.tin + i * .055));
+  const ex = io(P(t, h.tout, h.tout + .35));
+  const vis = t >= h.tin - .05 && t <= h.tout + .4;
+  op(h.el, vis ? 1 : 0);
+  h.ws.forEach((w, i) => { const y = (1 - inP[i]) * 110 - ex * 110; w.style.transform = `translateY(${y}%) rotate(${(1 - inP[i]) * 4}deg)`; });
+  const acc = h.el.querySelectorAll('.acc'); acc.forEach(a => a.style.backgroundPosition = `${(t * 40) % 200}% 0`);
+}
+function typed(el, txt, t, a, b) { const n = Math.round(txt.length * clamp((t - a) / (b - a))); el.textContent = txt.slice(0, n); return n; }
+let tapState = null;
+function tapAt(t, list) { // list: [t0, x, y] dans les coordonnées de l'écran
+  const tp = $('tap'); let o = 0;
+  for (const [t0, x, y] of list) { const p = P(t, t0 - .12, t0 + .45); if (p > 0 && p < 1) { o = p < .27 ? p / .27 : 1 - (p - .27) / .73; tp.style.left = x + 'px'; tp.style.top = y + 'px'; tp.style.transform = `scale(${.6 + .9 * out(p)})`; } }
+  op(tp, o * .9);
+}
+function screenSet(t, keys) { // [id, tin, tout] : glissement horizontal
+  for (const [id, a, b, dir = 1] of keys) { const el = $(id); const pin = a <= 0 ? 1 : UI(t, a), pout = b >= 99 ? 0 : UI(t, b);
+    const vis = t >= a - .01 && t < b + .6; op(el, vis ? 1 : 0); if (vis) el.style.transform = `translateX(${(1 - pin) * 400 * dir - pout * 400 * dir}px)`; }
+}
+
+// ===================== seek(t) =====================
+window.seek = async (t) => {
+  t = clamp(t, 0, T - 1e-4);
+  // --- fonds
+  const sweep = P(t, 11.25, 12.0); // balayage lumineux
+  const brandIn = io(sweep);
+  op($('warm'), t < 12.05 ? 1 : 0); op($('leaves'), t < 12.05 ? 1 : 0);
+  const sx = lerp(-500, W + 700, io(sweep));
+  $('brandL').style.clipPath = t < 11.25 ? 'polygon(0 0,0 0,0 100%,0 100%)' : t >= 12 ? 'none' : `polygon(0 0,${sx}px 0,${sx - 500}px 100%,0 100%)`;
+  if (t >= 49) $('brandL').style.clipPath = 'none';
+  const sw = $('sweepL'); op(sw, sweep > 0 && sweep < 1 ? 1 : 0);
+  sw.innerHTML = `<div style="position:absolute;top:-20%;height:140%;width:160px;left:${sx - 330}px;transform:skewX(-${Hz ? 25 : 15}deg);background:linear-gradient(90deg,rgba(156,195,255,0),rgba(255,255,255,.95),rgba(156,195,255,0));filter:blur(6px)"></div>`;
+  // fond clair : inondation depuis le téléphone (18 s) puis retour bleu nuit (49 s)
+  const fl = $('lightL'), R = Math.hypot(W, Hh) * 1.05;
+  const fin = io(P(t, 17.85, 18.3)), fout = io(P(t, 48.85, 49.3));
+  const cx = W / 2 + L.ph.x, cy = Hh / 2 + L.ph.y;
+  if (t < 17.85 || t >= 49.3) op(fl, 0); else { op(fl, 1); const r = t < 49 ? fin * R : (1 - fout) * R; fl.style.clipPath = `circle(${r}px at ${cx}px ${cy}px)`; }
+  op($('grid'), .9);
+  BEAMS.forEach(([ln, d]) => { const p = o5(P(t, 12.05 + d, 13.6 + d)); ln.setAttribute('stroke-dashoffset', -p * 1.1); ln.style.opacity = (t < 12.05 || t > 17.9) && t < 49 ? 0 : 1; });
+  if (t >= 49) BEAMS.forEach(([ln, d]) => { const p = o5(P(t, 49.2 + d, 51 + d)); ln.setAttribute('stroke-dashoffset', -p * 1.1); });
+  // feuilles (parallaxe lente)
+  leafEls.forEach((el, i) => { const [x, y, s, r, o] = LEAVES[i]; el.style.opacity = o; tf(el, x - 260 + Math.sin(t * .6 + i) * 10 - t * (i % 2 ? 3 : -3), y - 260 + Math.cos(t * .5 + i) * 8, s * (1 + t * .006), r + Math.sin(t * .8 + i) * 2.5); });
+
+  // --- caméra (poussée pendant le problème)
+  const camS = t < 12 ? 1 + .07 * io(P(t, 5, 11.3)) + .02 * io(P(t, 0, 5)) : 1;
+  $('cam').style.transform = `scale(${camS})`; $('cam').style.transformOrigin = `${W / 2}px ${Hh / 2}px`;
+
+  // --- téléphone : position / échelle / 3D par scène
+  let px = L.ph.x, py = L.ph.y, ps = L.ph.s, ry = 0, rx = 0, rz = 0, po = 1;
+  // S1 vibrations + inclinaison
+  if (t < 5) { rz = -4 + 2 * io(P(t, 0, 5)); ps *= .96 + .04 * out(P(t, 0, .6)); py += (1 - out(P(t, 0, .7))) * 120;
+    for (const n of NOTIFS) { const d = t - n[4]; if (d > 0 && d < .3) px += Math.sin(d * 90) * 7 * (1 - d / .3); } }
+  // S2 recul sous la pile de papiers
+  if (t >= 5 && t < 12) { const p = io(P(t, 5, 6.5)); ps *= 1 - .12 * p; rz = -2 + 1 * p; }
+  // S1-S2 → S3 : disparaît dans le balayage, revient du bas à 15,8 s
+  if (t >= 11.25 && t < 15.8) po = 0;
+  if (t >= 15.8 && t < 18) { const p = BX(t, 15.8); py += (1 - p) * L.phLow; rx = 28 * (1 - p) + 6; }
+  if (t >= 18 && t < 26) { ry = -12 + 6 * io(P(t, 18, 26)); rx = 6 - 4 * io(P(t, 18, 20)); }
+  if (t >= 26 && t < 35) { ry = 8 - 6 * io(P(t, 26, 31)); const pd = io(P(t, 31.1, 31.9)) * (1 - io(P(t, 34.6, 35.3)));
+    px += (Hz ? -60 : -230) * pd; py += (Hz ? 0 : 60) * pd; ps *= 1 - .22 * pd; ry += 14 * pd; }
+  if (t >= 35 && t < 43) { ry = -8 + 10 * io(P(t, 35, 43)); for (const t0 of [36.05]) { const d = t - t0; if (d > 0 && d < .3) px += Math.sin(d * 90) * 5 * (1 - d / .3); } }
+  if (t >= 43 && t < 49) { ry = 4 - 8 * io(P(t, 43, 49)); rx = 2; ps *= 1 + .03 * io(P(t, 43, 49)); }
+  if (t >= 48.9) { const p = io(P(t, 48.9, 49.55)); ps *= 1 - .9 * p; po = 1 - inn(P(t, 49.25, 49.55)); py += (L.logo.y - py) * p * 0; }
+  const phW = $('phoneW'); op(phW, po); tf(phW, px, py, ps, rz, `perspective(1800px) rotateX(${rx}deg) rotateY(${ry}deg)`);
+
+  // --- écrans du téléphone
+  const dark = t < 15.8; $('sb').style.color = dark ? '#fff' : '#10243A';
+  op($('lock'), t < 15.8 ? 1 : 0);
+  screenSet(t, [['crm', 18.0, 26.0], ['qed', 26.0, 35.0], ['qdet', 35.0, 43.0]]);
+  { const d = $('dash'); if (t < 15.79) op(d, 0); else if (t < 18.6) { op(d, 1); d.style.transform = `translateX(${-UI(t, 18) * 400}px)`; }
+    else if (t >= 43) { op(d, 1); d.style.transform = `translateX(${(1 - UI(t, 43)) * 400}px)`; } else op(d, 0); }
+  const navOn = t < 18 ? 'dash' : t < 26 ? 'crm' : t < 35 ? 'qed' : t < 43 ? 'qdet' : 'dash';
+  op($('nav'), t >= 15.79 ? 1 : 0); $('nav').querySelectorAll('a').forEach(a => a.className = a.dataset.k === navOn ? 'on' : '');
+  // écran verrouillé : notifications empilées
+  notifEls.forEach((el, i) => { const t0 = NOTIFS[i][4]; const k = NOTIFS.filter(n => n[4] <= t).length; const pos = k - 1 - i;
+    const p = UI(t, t0); op(el, t >= t0 ? clamp(1 - Math.max(0, pos - 3) * .5) : 0); tf(el, 0, 250 + pos * 84 + (1 - p) * -40, .94 + .06 * p); });
+  // bulles autour du téléphone
+  bubEls.forEach((el, i) => { const n = NOTIFS[i]; const p = BX(t, n[4] + .08); const ex = io(P(t, 4.8 + i * .04, 5.5 + i * .04));
+    const x = L.ph.x + n[5] * L.bub * p, y = L.ph.y + n[6] * p + Math.sin(t * 1.3 + i) * 6 + ex * -60;
+    op(el, t > n[4] + .08 ? (1 - ex) : 0); tf(el, x, y, .4 + .6 * p, n[7] * p); });
+  // papiers qui tombent et s'empilent
+  papEls.forEach((el, i) => { const [, , x, y, r, t0] = PAPERS[i]; const p = SP(t, t0, 260, 19); const vis = t >= t0 && t < 11.9;
+    op(el, vis ? 1 : 0); if (vis) tf(el, L.ph.x + x * (Hz ? 1.6 : 1), L.ph.y + y - (1 - p) * 1400, 1 + (1 - p) * .25, r + (1 - p) * 25); });
+
+  // --- S3 : logo
+  const lg = $('logoG'), lline = $('lline');
+  const lineP = o5(P(t, 12.0, 12.35)), eye = HV(t, 12.3);
+  const park = io(P(t, 15.6, 16.6)), lgOut = io(P(t, 18.2, 18.6));
+  if (t >= 12 && t < 18.6) { op(lg, 1 - lgOut);
+    const x = lerp(0, L.logoPark.x, park), y = lerp(L.logo.y, L.logoPark.y, park), s = lerp(1, L.logoPark.s, park);
+    tf(lg, x, y - lgOut * 60, s); $('logoRow').style.transform = `translate(-50%,-50%) scaleY(${clamp(.014 + .986 * eye, 0, 1.2)})`;
+    lline.style.width = (lineP * 900) + 'px'; lline.style.marginLeft = (-lineP * 450) + 'px'; lline.style.opacity = 1 - P(t, 12.4, 12.9);
+  } else op(lg, 0);
+  if (t >= 49) { op(lg, 1); const e = HV(t, 49.15); tf(lg, 0, L.logo.y - (Hz ? 170 : 220), .62 + .38 * e); $('logoRow').style.transform = `translate(-50%,-50%) scale(${1 + Math.sin(t * 1.5) * .006})`; lline.style.opacity = 0; }
+  // S3 textes sous le logo (au lieu de la zone titre)
+  if (!window._s3) { window._s3 = [mkHead(['Découvrez Devis974', 13.55, 15.45, '#fff', [1]]), mkHead(['Votre gestion commerciale, simplifiée.', 14.15, 15.45, '#9fbbe0'])];
+    window._s3.forEach((h, i) => { h.el.style.top = (Hh / 2 + L.logo.y + (i ? 220 : 120)) + 'px'; h.el.style.left = (W / 2 - 500) + 'px'; h.el.style.width = '1000px'; h.el.style.textAlign = 'center'; h.el.style.fontSize = (i ? 44 : 72) + 'px'; }); }
+  window._s3.forEach(h => headAnim(h, t));
+
+  // --- S4 : CRM
+  const form = $('crmForm'); const fIn = UI(t, 19.35), fOut = UI(t, 23.15);
+  op(form, t > 19.35 && t < 23.7 ? 1 : 0); form.style.transform = `translateY(${(1 - fIn) * 846 + fOut * 846}px)`;
+  typed($('fNom'), 'Marie Payet', t, 19.75, 20.35); typed($('fTel'), '0692 12 34 56', t, 20.45, 21.0); typed($('fPre'), 'Nettoyage clim 2 splits', t, 21.1, 21.95);
+  $('fSrc').textContent = t > 22.1 ? 'WhatsApp' : ''; $('fSta').innerHTML = t > 22.4 ? '<span class="bd">Nouveau prospect</span>' : '';
+  ['fNom', 'fTel', 'fPre', 'fSrc', 'fSta'].forEach((id, i) => $(id).className = 'in' + ([[19.7, 20.4], [20.4, 21.05], [21.05, 22.0], [22.0, 22.3], [22.3, 22.7]][i].reduce((a, b) => t >= a && t < b) ? ' f' : ''));
+  const nr = $('crmNew'), nrP = UI(t, 23.35); nr.style.display = t >= 23.35 ? 'flex' : 'none'; nr.style.transform = `translateX(${(1 - nrP) * -60}px)`; nr.style.opacity = nrP;
+  nr.style.background = `rgba(232,240,254,${t >= 23.35 ? 1 - P(t, 24, 25.5) : 0})`;
+  const ct = $('crmToast'); op(ct, P(t, 23.4, 23.6) * (1 - P(t, 25, 25.3))); ct.style.transform = `translateX(-50%) translateY(${(1 - UI(t, 23.4)) * 30}px)`;
+  // --- S5 : devis
+  $('qCli').innerHTML = t > 26.7 ? '<b>Marie Payet</b>&nbsp;— Saint-Paul' : '<span style="color:#8a97a8">— Choisir —</span>';
+  $('qCli').className = 'in' + (t > 26.55 && t < 27.2 ? ' f' : '');
+  $('qTpl').className = 'in' + (t > 27.6 && t < 28.1 ? ' f' : '');
+  [['qL1', 27.95], ['qL2', 28.85]].forEach(([id, t0]) => { const p = UI(t, t0); const el = $(id); el.style.display = t >= t0 ? 'grid' : 'none'; el.style.opacity = p; el.style.transform = `translateY(${(1 - p) * -14}px)`; });
+  const cnt = o5(P(t, 29.45, 30.6)); const ht = t < 27.95 ? 0 : t < 28.85 ? 13000 : 15500;
+  const htv = t < 29.45 ? (t < 27.95 ? 0 : 13000) : Math.round(lerp(13000, 15500, cnt));
+  $('qHT').textContent = eur(htv); $('qTVA').textContent = eur(Math.round(htv * .085)); $('qTTC').textContent = eur(htv + Math.round(htv * .085));
+  $('qPdf').style.transform = `scale(${1 - .06 * Math.sin(Math.PI * P(t, 31.0, 31.25))})`;
+  // PDF qui sort du téléphone
+  const pdf = $('pdfW'); const pIn = BX(t, 31.2), pOut = io(P(t, 34.6, 35.2));
+  if (t >= 31.2 && t < 35.2) { op(pdf, 1 - pOut);
+    const x = lerp(L.pdfFrom.x, L.pdf.x, pIn), y = lerp(L.pdfFrom.y + 200, L.pdf.y, pIn) + pOut * 80, s = lerp(.25, L.pdf.s * (Hz ? 1 : .9), pIn) * (1 - .1 * pOut);
+    tf(pdf, x, y, s, lerp(-8, -2, pIn), `perspective(1600px) rotateY(${(1 - pIn) * -30}deg)`); } else op(pdf, 0);
+  const ck = HV(t, 32.9); $('check').style.transform = `scale(${t > 32.9 ? .3 + .7 * ck : 0})`; $('ckPath').setAttribute('stroke-dashoffset', 1 - o5(P(t, 33.0, 33.35)));
+  $('ckRing').setAttribute('r', 52 + 24 * out(P(t, 33.0, 33.7))); $('ckRing').style.opacity = 1 - P(t, 33.0, 33.7);
+  // --- S6 : relance
+  $('qStat').textContent = t < 45 ? 'Envoyé' : 'Accepté';
+  const ban = $('ban'), bIn = BX(t, 36.0), bOut = UI(t, 37.05);
+  op(ban, t > 36 && t < 37.6 ? 1 : 0); ban.style.transform = `translateY(${(1 - bIn) * -140 - bOut * 140}px)`;
+  const fu = $('fu'); const fuIn = UI(t, 36.6); fu.style.opacity = t < 36.6 ? 0 : fuIn; fu.style.transform = `translateY(${(1 - fuIn) * 30}px)`;
+  const nChars = Math.round(MSG.length * o5(P(t, 37.25, 38.15))); msgEl.innerHTML = MSG.slice(0, nChars) + (t < 38.15 && t > 37.2 ? '<span style="color:#2563EB">|</span>' : '');
+  $('fuCopy').style.background = t > 39.35 && t < 39.8 ? '#E8F0FE' : '#fff';
+  const ft = $('fuToast'); op(ft, P(t, 39.45, 39.65) * (1 - P(t, 40.6, 40.9))); ft.style.transform = `translateX(-50%) translateY(${(1 - UI(t, 39.45)) * 30}px)`;
+  const hist = $('fuHist'); hist.style.opacity = UI(t, 41.25); hist.style.display = t > 41.25 ? 'block' : 'none';
+  $('fuB').textContent = t > 41.25 ? 'Relance enregistrée' : 'À relancer maintenant'; $('fuB').className = t > 41.25 ? 'bd g' : 'bd o';
+  // --- S7 : tableau de bord (données d'exemple)
+  const dc = o5(P(t, 43.25, 44.6));
+  $('d1').textContent = Math.round(4 * dc); $('d2').textContent = Math.round(3 * dc); $('d3').textContent = eur(Math.round(284000 * dc)).replace(',00', ''); $('d4').textContent = t < 45.6 ? '1' : '0';
+  if (t < 18.1) { const d0 = o5(P(t, 16.2, 17.4)); $('d1').textContent = Math.round(4 * d0); $('d2').textContent = Math.round(3 * d0); $('d3').textContent = eur(Math.round(284000 * d0)).replace(',00', ''); $('d4').textContent = '1'; }
+  const gT = t < 18.1 ? 16.3 : 43.4;
+  chBars.forEach((b, i) => { const p = BX(t, gT + Math.floor(i / 2) * .07); b.style.height = (CH[Math.floor(i / 2)][i % 2] * p) + '%'; });
+  $('dAcc').textContent = t > 45.45 ? 'Accepté' : 'Envoyé'; $('dAcc').className = t > 45.45 ? 'bd g' : 'bd';
+  const dt = $('dToast'); op(dt, t > 18 ? P(t, 45.5, 45.7) * (1 - P(t, 47.3, 47.6)) : 0); dt.style.transform = `translateX(-50%) translateY(${(1 - UI(t, 45.5)) * 30}px)`;
+  // tap (doigt)
+  tapAt(t, TAPS);
+
+  // --- puces d'étapes
+  chipEls.forEach((el, i) => { const [, a, b] = CHIPS[i]; const [x, y] = L.chip[i]; const p = BX(t, a), e = io(P(t, b, b + .3));
+    op(el, t > a && t < b + .3 ? (1 - e) : 0); tf(el, x + (1 - p) * (x > 0 ? 80 : -80) * (1 - e * 0), y - e * 20, .8 + .2 * p);
+    el.style.translate = L.chipAlign ? '-50% -50%' : '0 -50%'; });
+
+  // --- titres, sous-titres, étiquettes
+  heads.forEach(h => headAnim(h, t));
+  caps.forEach(c => { const p = P(t, c.a, c.a + .25), q = P(t, c.b - .2, c.b); op(c.el, p * (1 - q)); c.el.style.transform = `translateX(-50%) translateY(${(1 - out(p)) * 16}px)`; });
+  op(lab, P(t, 18.4, 18.9) * (1 - P(t, 48.6, 48.9))); lab.style.color = '#7a8aa0'; lab.style.transform = 'translateX(-50%)';
+  op(place, P(t, .1, .5) * (1 - P(t, 4.7, 5.1))); place.style.transform = `translateX(-50%) translateY(${(1 - out(P(t, .1, .6))) * 20}px)`;
+
+  // --- S8 : fin
+  const eg = $('endG'); op(eg, t >= 49.1 ? 1 : 0); tf(eg, 0, L.logo.y - (Hz ? 170 : 220) + 40);
+  if (t >= 49.1) { headAnim(slo, t); const c = BX(t, 51.1); $('eCta').style.transform = `scale(${.85 + .15 * c}) translateY(${(1 - c) * 30}px)`; $('eCta').style.opacity = clamp(c * 1.5);
+    $('eShine').style.left = (lerp(-200, 600, P((t - 51.7) % 2.2, 0, .9))) + 'px';
+    op($('eSoon'), P(t, 51.9, 52.4)); $('eSoon').style.transform = `translateY(${(1 - out(P(t, 51.9, 52.5))) * 16}px)`; }
+};
+// Les polices et emojis doivent être chargés avant toute capture
+document.fonts.load('800 40px Inter').then(() => document.fonts.ready).then(async () => {
+  TAPS = [[19.2, 'crmAdd'], [23.05, 'fSave'], [26.6, 'qCli'], [27.8, 'qTpl'], [28.7, 'qTpl'], [31.05, 'qPdf'], [37.0, 'ban'], [39.4, 'fuCopy'], [41.05, 'fuDone']].map(([t0, id]) => [t0, ...posOf(id)]);
+  await window.seek(0); window.ready = true; });
+// Lecture de contrôle (aperçu uniquement : espace = lecture/pause, ←/→ = image par image)
+let playing = false, t0 = 0, cur = 0;
+addEventListener('keydown', e => { if (e.code === 'Space') { playing = !playing; t0 = performance.now() / 1000 - cur; if (playing) requestAnimationFrame(loop); } if (e.code === 'ArrowRight') seek(cur += 1 / 30); if (e.code === 'ArrowLeft') seek(cur -= 1 / 30); });
+function loop() { if (!playing) return; cur = performance.now() / 1000 - t0; if (cur > T) cur = 0, t0 = performance.now() / 1000; seek(cur); requestAnimationFrame(loop); }
+</script>
+</body>
+</html>
