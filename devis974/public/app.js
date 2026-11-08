@@ -179,7 +179,7 @@ function clientNewView() {
 }
 async function clientView(id) {
   const c = await api('GET', '/clients/' + id);
-  shell('/clients', html`<div class="grid g2" style="grid-template-columns:2fr 1fr;align-items:start">
+  shell('/clients', html`<div class="grid split">
     <div>${clientForm(c)}</div>
     <div><div class="card"><h3>Devis</h3>${c.quotes.length ? html`<div class="list">${c.quotes.map(q => html`<div class="row between"><a href="#/devis/${q.id}"><b>${q.number}</b></a>${badge(QUOTE_STATUS, q.status)}<span>${eur(q.total_ttc_cents)}</span></div>`)}</div>` : html`<p class="muted">Aucun devis.</p>`}
       <a class="btn primary" style="width:100%;margin-top:10px" href="#/devis/new?client=${c.id}">+ Créer un devis</a></div>
@@ -278,7 +278,7 @@ async function quoteView(id) {
   const fm = q.status === 'envoye' ? await api('GET', `/quotes/${id}/followup-message`) : null;
   const co = me.company;
   const mail = q.client.email ? `mailto:${q.client.email}?subject=${encodeURIComponent('Devis ' + q.number + ' — ' + co.name)}&body=${encodeURIComponent(`Bonjour${q.client.first_name ? ' ' + q.client.first_name : ''},\n\nVeuillez trouver ci-joint notre devis ${q.number}${q.title ? ' (' + q.title + ')' : ''}, valable jusqu’au ${frDate(q.valid_until)}.\n\nCordialement,\n${co.owner_name} — ${co.name}`)}` : '';
-  shell('/devis', html`<div class="grid g2" style="grid-template-columns:2fr 1fr;align-items:start"><div>
+  shell('/devis', html`<div class="grid split"><div>
     <div class="card"><div class="row between"><div><b>${fullName(q.client)}</b>${q.client.company_name ? ' — ' + q.client.company_name : ''}<div class="sm muted">${[q.client.phone, q.client.email, q.client.city].filter(Boolean).join(' · ')}</div><a class="sm" href="#/clients/${q.client.id}">Voir la fiche</a></div><div class="right">${badge(QUOTE_STATUS, q.status)}<div class="sm muted">Émis le ${frDate(q.issue_date)}<br>Valable jusqu’au ${frDate(q.valid_until)}</div></div></div>
      ${q.title ? html`<h3 style="margin-top:14px">${q.title}</h3>` : ''}
      <div class="tablewrap"><table><thead><tr><th>Description</th><th class="right">Qté</th><th class="right">P.U. HT</th><th class="right">Total HT</th></tr></thead><tbody>

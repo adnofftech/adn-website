@@ -1,0 +1,13 @@
+{
+ "_licence": "Pexels License / Mixkit Stock Video Free License : vidéos filmées, usage commercial autorisé, pas de redistribution brute (récupérer via fetch_footage.sh)",
+ "electricien": {"src": "px_7640933", "url": "https://www.pexels.com/video/7640933/", "in": 8.0, "dur": 1.6},
+ "plombier":    {"src": "px_9890450", "url": "https://www.pexels.com/video/9890450/", "in": 4.0, "dur": 1.6},
+ "marteau":     {"src": "px_15959642", "url": "https://www.pexels.com/video/15959642/", "in": 3.0, "dur": 2.6},
+ "telephone":   {"src": "px_6870345", "url": "https://www.pexels.com/video/6870345/", "in": 1.5, "dur": 2.6},
+ "paperasse":   {"src": "px_9305619", "url": "https://www.pexels.com/video/9305619/", "in": 2.0, "dur": 2.6},
+ "pile":        {"src": "mk_45923", "url": "https://mixkit.co/free-stock-video/45923/", "in": 3.0, "dur": 2.6},
+ "jardinier":   {"src": "mk_43702", "url": "https://mixkit.co/free-stock-video/43702/", "in": 5.0, "dur": 2.2},
+ "plomberie":   {"src": "px_7584762", "url": "https://www.pexels.com/video/7584762/", "in": 8.0, "dur": 1.2},
+ "nettoyage":   {"src": "px_7641179", "url": "https://www.pexels.com/video/7641179/", "in": 6.0, "dur": 1.2},
+ "enduit":      {"src": "px_6474186", "url": "https://www.pexels.com/video/6474186/", "in": 4.0, "dur": 1.4}
+}

@@ -1,0 +1,10 @@
+!assets/
+assets/footage/
+stock/
+frames_*/
+qa/
+out/stems/
+out/*.wav
+out/*avec_musique*
+out/*_image.mp4
+out_vo_spans.json

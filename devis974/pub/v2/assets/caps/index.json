@@ -1,0 +1,232 @@
+{
+ "mobile": {
+  "landing_top": [
+   "000_landing_top.jpg"
+  ],
+  "clients": [
+   "003_clients.jpg"
+  ],
+  "form_empty": [
+   "004_form_empty.jpg"
+  ],
+  "type_prenom": [
+   "005_type_prenom.jpg",
+   "006_type_prenom.jpg",
+   "007_type_prenom.jpg",
+   "008_type_prenom.jpg",
+   "009_type_prenom.jpg"
+  ],
+  "type_nom": [
+   "010_type_nom.jpg",
+   "011_type_nom.jpg",
+   "012_type_nom.jpg",
+   "013_type_nom.jpg",
+   "014_type_nom.jpg"
+  ],
+  "type_tel": [
+   "015_type_tel.jpg",
+   "016_type_tel.jpg",
+   "017_type_tel.jpg",
+   "018_type_tel.jpg",
+   "019_type_tel.jpg",
+   "020_type_tel.jpg",
+   "021_type_tel.jpg"
+  ],
+  "type_ville": [
+   "022_type_ville.jpg",
+   "023_type_ville.jpg",
+   "024_type_ville.jpg",
+   "025_type_ville.jpg",
+   "026_type_ville.jpg"
+  ],
+  "type_presta": [
+   "027_type_presta.jpg",
+   "028_type_presta.jpg",
+   "029_type_presta.jpg",
+   "030_type_presta.jpg",
+   "031_type_presta.jpg",
+   "032_type_presta.jpg",
+   "033_type_presta.jpg",
+   "034_type_presta.jpg",
+   "035_type_presta.jpg",
+   "036_type_presta.jpg",
+   "037_type_presta.jpg",
+   "038_type_presta.jpg"
+  ],
+  "source_whatsapp": [
+   "039_source_whatsapp.jpg"
+  ],
+  "before_save": [
+   "040_before_save.jpg"
+  ],
+  "client_saved": [
+   "041_client_saved.jpg"
+  ],
+  "quote_new": [
+   "042_quote_new.jpg"
+  ],
+  "quote_title": [
+   "043_quote_title.jpg",
+   "044_quote_title.jpg",
+   "045_quote_title.jpg",
+   "046_quote_title.jpg",
+   "047_quote_title.jpg",
+   "048_quote_title.jpg",
+   "049_quote_title.jpg",
+   "050_quote_title.jpg"
+  ],
+  "quote_line1": [
+   "051_quote_line1.jpg"
+  ],
+  "quote_qty2": [
+   "052_quote_qty2.jpg"
+  ],
+  "quote_line2": [
+   "053_quote_line2.jpg"
+  ],
+  "quote_totals": [
+   "054_quote_totals.jpg"
+  ],
+  "quote_draft": [
+   "055_quote_draft.jpg"
+  ],
+  "quote_sent": [
+   "056_quote_sent.jpg"
+  ],
+  "followup_panel": [
+   "057_followup_panel.jpg"
+  ],
+  "followup_copied": [
+   "058_followup_copied.jpg"
+  ],
+  "followup_done": [
+   "059_followup_done.jpg"
+  ],
+  "dashboard": [
+   "X_dashboard_scrolled.jpg"
+  ],
+  "pdf": [
+   "devis_pdf.png"
+  ],
+  "_viewport": {
+   "width": 390,
+   "height": 844,
+   "dsf": 3
+  }
+ },
+ "desktop": {
+  "landing_top": [
+   "000_landing_top.jpg"
+  ],
+  "clients": [
+   "003_clients.jpg"
+  ],
+  "form_empty": [
+   "004_form_empty.jpg"
+  ],
+  "type_prenom": [
+   "005_type_prenom.jpg",
+   "006_type_prenom.jpg",
+   "007_type_prenom.jpg",
+   "008_type_prenom.jpg",
+   "009_type_prenom.jpg"
+  ],
+  "type_nom": [
+   "010_type_nom.jpg",
+   "011_type_nom.jpg",
+   "012_type_nom.jpg",
+   "013_type_nom.jpg",
+   "014_type_nom.jpg"
+  ],
+  "type_tel": [
+   "015_type_tel.jpg",
+   "016_type_tel.jpg",
+   "017_type_tel.jpg",
+   "018_type_tel.jpg",
+   "019_type_tel.jpg",
+   "020_type_tel.jpg",
+   "021_type_tel.jpg"
+  ],
+  "type_ville": [
+   "022_type_ville.jpg",
+   "023_type_ville.jpg",
+   "024_type_ville.jpg",
+   "025_type_ville.jpg",
+   "026_type_ville.jpg"
+  ],
+  "type_presta": [
+   "027_type_presta.jpg",
+   "028_type_presta.jpg",
+   "029_type_presta.jpg",
+   "030_type_presta.jpg",
+   "031_type_presta.jpg",
+   "032_type_presta.jpg",
+   "033_type_presta.jpg",
+   "034_type_presta.jpg",
+   "035_type_presta.jpg",
+   "036_type_presta.jpg",
+   "037_type_presta.jpg",
+   "038_type_presta.jpg"
+  ],
+  "source_whatsapp": [
+   "039_source_whatsapp.jpg"
+  ],
+  "before_save": [
+   "040_before_save.jpg"
+  ],
+  "client_saved": [
+   "041_client_saved.jpg"
+  ],
+  "quote_new": [
+   "042_quote_new.jpg"
+  ],
+  "quote_title": [
+   "043_quote_title.jpg",
+   "044_quote_title.jpg",
+   "045_quote_title.jpg",
+   "046_quote_title.jpg",
+   "047_quote_title.jpg",
+   "048_quote_title.jpg",
+   "049_quote_title.jpg",
+   "050_quote_title.jpg"
+  ],
+  "quote_line1": [
+   "051_quote_line1.jpg"
+  ],
+  "quote_qty2": [
+   "052_quote_qty2.jpg"
+  ],
+  "quote_line2": [
+   "053_quote_line2.jpg"
+  ],
+  "quote_totals": [
+   "054_quote_totals.jpg"
+  ],
+  "quote_draft": [
+   "055_quote_draft.jpg"
+  ],
+  "quote_sent": [
+   "056_quote_sent.jpg"
+  ],
+  "followup_panel": [
+   "057_followup_panel.jpg"
+  ],
+  "followup_copied": [
+   "058_followup_copied.jpg"
+  ],
+  "followup_done": [
+   "059_followup_done.jpg"
+  ],
+  "dashboard": [
+   "X_dashboard_scrolled.jpg"
+  ],
+  "pdf": [
+   "devis_pdf.png"
+  ],
+  "_viewport": {
+   "width": 1440,
+   "height": 900,
+   "dsf": 1.5
+  }
+ }
+}

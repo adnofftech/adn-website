@@ -1,0 +1,333 @@
+{
+ "_doc": "Projet modifiable. Les temps sont des numéros de temps musicaux (beats.json) : b0 = 0,07 s, 4 temps = 1 mesure de 1,935 s à 124 BPM. 'sync' choisit la grille théorique (grid) ou les attaques mesurées du morceau (beats). Les textes entre *astérisques* passent en italique d'accent.",
+ "sync": "beats",
+ "fps": 30,
+ "duration": 33.0,
+ "heads": [
+  {
+   "text": "Des clients à *rappeler* ?",
+   "in": 0,
+   "out": 2,
+   "tone": "dark",
+   "acc": "orange"
+  },
+  {
+   "text": "Des devis en *retard* ?",
+   "in": 2,
+   "out": 4,
+   "tone": "dark",
+   "acc": "orange"
+  },
+  {
+   "text": "Trop de *paperasse* ?",
+   "in": 4,
+   "out": 7.6,
+   "tone": "dark",
+   "acc": "orange"
+  },
+  {
+   "text": "Un appel.",
+   "in": 8,
+   "out": 11.6,
+   "tone": "dark",
+   "line": 0
+  },
+  {
+   "text": "Un devis.",
+   "in": 9,
+   "out": 11.6,
+   "tone": "dark",
+   "line": 1
+  },
+  {
+   "text": "Une *relance*.",
+   "in": 10,
+   "out": 11.6,
+   "tone": "dark",
+   "line": 2,
+   "acc": "orange"
+  },
+  {
+   "text": "Et si vous perdiez des clients *sans le savoir* ?",
+   "in": 12,
+   "out": 15.6,
+   "tone": "dark",
+   "acc": "orange"
+  },
+  {
+   "text": "Pensé pour les artisans *réunionnais*.",
+   "in": 20.3,
+   "out": 23.6,
+   "tone": "light"
+  },
+  {
+   "text": "Tous vos clients. *Un seul* espace.",
+   "in": 24.3,
+   "out": 31.6,
+   "tone": "light"
+  },
+  {
+   "text": "Chaque demande, *enregistrée*.",
+   "in": 32.4,
+   "out": 39.6,
+   "tone": "light"
+  },
+  {
+   "text": "Un devis *propre*, prêt à envoyer.",
+   "in": 40.3,
+   "out": 47.6,
+   "tone": "light"
+  },
+  {
+   "text": "Chaque opportunité *compte*.",
+   "in": 48.6,
+   "out": 55.6,
+   "tone": "light"
+  },
+  {
+   "text": "Moins d’*administratif*.",
+   "in": 56,
+   "out": 57,
+   "tone": "dark",
+   "cut": true
+  },
+  {
+   "text": "Plus de *suivi*.",
+   "in": 57,
+   "out": 58,
+   "tone": "dark",
+   "cut": true
+  },
+  {
+   "text": "Plus de *temps*.",
+   "in": 58,
+   "out": 59,
+   "tone": "dark",
+   "cut": true
+  },
+  {
+   "text": "Plus de chantiers *signés*.",
+   "in": 59,
+   "out": 60,
+   "tone": "dark",
+   "cut": true
+  }
+ ],
+ "labels": [
+  {
+   "text": "01 — Les appels",
+   "in": 0,
+   "out": 4
+  },
+  {
+   "text": "02 — Les devis",
+   "in": 4,
+   "out": 12
+  },
+  {
+   "text": "03 — La paperasse",
+   "in": 12,
+   "out": 16
+  },
+  {
+   "text": "04 — Devis974",
+   "in": 16,
+   "out": 20
+  },
+  {
+   "text": "05 — Le site",
+   "in": 20,
+   "out": 24
+  },
+  {
+   "text": "06 — Les clients",
+   "in": 24,
+   "out": 32
+  },
+  {
+   "text": "07 — Un prospect",
+   "in": 32,
+   "out": 40
+  },
+  {
+   "text": "08 — Le devis PDF",
+   "in": 40,
+   "out": 48
+  },
+  {
+   "text": "09 — La relance",
+   "in": 48,
+   "out": 56
+  }
+ ],
+ "notifications": [
+  {
+   "app": "Messages",
+   "color": "#22A35A",
+   "title": "Marie P.",
+   "text": "Bonjour, c’est pour un devis clim 2 splits",
+   "at": 8
+  },
+  {
+   "app": "Téléphone",
+   "color": "#E04848",
+   "title": "Appel manqué",
+   "text": "0693 •• •• 41",
+   "at": 9
+  },
+  {
+   "app": "E-mail",
+   "color": "#2563EB",
+   "title": "Nouvelle demande",
+   "text": "Devis peinture varangue ?",
+   "at": 10
+  },
+  {
+   "app": "Rappel",
+   "color": "#EA7A1A",
+   "title": "Rappel",
+   "text": "Devis Técher à envoyer (hier)",
+   "at": 11
+  }
+ ],
+ "chips": [
+  {
+   "text": "Nouveau prospect",
+   "in": 33,
+   "out": 39.5,
+   "kind": "blue"
+  },
+  {
+   "text": "Demande reçue",
+   "in": 35,
+   "out": 39.5,
+   "kind": "orange"
+  },
+  {
+   "text": "Client enregistré ✓",
+   "in": 38,
+   "out": 39.5,
+   "kind": "green"
+  },
+  {
+   "text": "Prestation modèle",
+   "in": 41,
+   "out": 43.5,
+   "kind": "blue"
+  },
+  {
+   "text": "Calcul automatique",
+   "in": 43,
+   "out": 45,
+   "kind": "blue"
+  },
+  {
+   "text": "PDF généré ✓",
+   "in": 45,
+   "out": 47.6,
+   "kind": "green"
+  },
+  {
+   "text": "Message prérempli",
+   "in": 50,
+   "out": 55.5,
+   "kind": "blue"
+  },
+  {
+   "text": "Envoyé par vous",
+   "in": 52,
+   "out": 55.5,
+   "kind": "orange"
+  },
+  {
+   "text": "Relance enregistrée ✓",
+   "in": 54.2,
+   "out": 55.5,
+   "kind": "green"
+  }
+ ],
+ "screens": [
+  {
+   "step": "dashboard",
+   "in": 24,
+   "out": 28
+  },
+  {
+   "step": "clients",
+   "in": 28,
+   "out": 32
+  },
+  {
+   "step": "form",
+   "in": 32,
+   "out": 40
+  },
+  {
+   "step": "quote",
+   "in": 40,
+   "out": 48
+  },
+  {
+   "step": "followup",
+   "in": 48,
+   "out": 56
+  }
+ ],
+ "row_flood_orange": "Relance prévue · DEV-2026-0005 · Marie Payet",
+ "logo_sub": "Votre gestion commerciale, *simplifiée*.",
+ "slogan": "Moins de paperasse, plus de chantiers *signés*.",
+ "cta": "Découvrez Devis974",
+ "soon": "Bientôt disponible à La Réunion",
+ "caption_app": "Vraies captures de l’application Devis974 · données de démonstration",
+ "credits": "Vidéos filmées : Pexels, Mixkit (licences libres) · Interface : captures réelles, données de démonstration",
+ "taps": {
+  "mobile": {
+   "nouveau": [
+    106,
+    77
+   ],
+   "enregistrer": [
+    88,
+    711
+   ],
+   "copier": [
+    87,
+    421
+   ],
+   "whatsapp": [
+    204,
+    421
+   ],
+   "relance": [
+    229,
+    533
+   ]
+  },
+  "desktop": {
+   "nouveau": [
+    1217,
+    50
+   ],
+   "enregistrer": [
+    350,
+    760
+   ],
+   "creer_devis": [
+    1138,
+    218
+   ],
+   "copier": [
+    367,
+    792
+   ],
+   "whatsapp": [
+    466,
+    792
+   ],
+   "relance": [
+    491,
+    882
+   ]
+  }
+ }
+}

@@ -34,6 +34,7 @@ textarea{min-height:90px;resize:vertical}input:focus,select:focus,textarea:focus
 table{width:100%;border-collapse:collapse}th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line)}
 td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}tr.click{cursor:pointer}tr.click:hover td{background:var(--bg)}
 .tablewrap{overflow-x:auto}
+.split{grid-template-columns:2fr 1fr;align-items:start}
 .list>*{padding:12px 0;border-bottom:1px solid var(--line)}.list>*:last-child{border:0}
 .chart{display:flex;align-items:flex-end;gap:10px;height:170px;padding-top:10px}.chart .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
 .chart .bars{display:flex;gap:3px;align-items:flex-end;height:100%;width:100%;justify-content:center}.chart .bar{width:40%;max-width:26px;border-radius:6px 6px 0 0;min-height:2px;background:var(--blue);transition:height .5s}.chart .bar.b2{background:var(--green)}
@@ -53,6 +54,7 @@ td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:middle}t
  .bottom a{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:11px;font-weight:600;color:var(--muted);padding:6px 0;border-radius:10px}.bottom a.on{color:var(--blue)}.bottom a:hover{text-decoration:none}.bottom .ic{font-size:20px}
  .lines .ln{grid-template-columns:1fr 1fr;} .lines .ln .desc{grid-column:1/-1}.lines .hd{display:none}
  .top h1{font-size:22px}.hide-m{display:none}
+ .split{grid-template-columns:1fr}
  .g4{grid-template-columns:1fr 1fr;gap:10px}.card{padding:14px}.stat .v{font-size:22px}.stat .l{font-size:12px}
 }
 @media print{.side,.bottom,.top .btn{display:none}}
