@@ -93,7 +93,7 @@
 <div class="demo-bar" role="note"><b>DÉMO</b> · données <b>fictives</b> · enregistrées uniquement dans ce navigateur <a href="#/guide">Parcours de démo</a></div>
 <div class="app role-${role}">
   <header class="top">
-    <a class="brand" href="#/aujourdhui"><span class="logo" aria-hidden="true">EJ</span><span><b>Énergie Jeune</b><small>La Réunion · Organisation</small></span></a>
+    <a class="brand" href="#/aujourdhui"><img class="logo" src="logo.png" alt="Énergie Jeunes" width="48" height="48"><span class="bt"><small>La Réunion · Organisation interne</small></span></a>
     <div class="top-right">
       <button class="clock" data-act="open-clock" title="Heure de La Réunion (horloge de démo réglable)"><span>${n.time}</span><small>${S.settings.demoOffsetMs ? 'horloge de démo' : 'heure Réunion'}</small></button>
       <label class="role"><span class="sr">Espace affiché</span>
@@ -103,7 +103,7 @@
         </select></label>
     </div>
   </header>
-  <nav class="nav" aria-label="Navigation principale">${nav}</nav>
+  <nav class="nav" aria-label="Navigation principale"><img class="side-logo" src="logo.png" alt="Énergie Jeunes : on va tous aimer apprendre !">${nav}</nav>
   <main id="main" tabindex="-1">${body}</main>
 </div>
 ${MODAL ? modalHtml() : ''}
