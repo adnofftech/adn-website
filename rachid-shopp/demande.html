@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Préparer ma demande – Rachid Shopp</title>
+<meta name="description" content="Préparez un message de commande à copier et à envoyer à Rachid Shopp.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Préparer ma demande – Rachid Shopp">
+<meta property="og:description" content="Préparez un message de commande à copier et à envoyer à Rachid Shopp.">
+<meta property="og:image" content="img/apercu-partage.png">
+<meta name="theme-color" content="#10141B">
+<link rel="icon" href="img/identite/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/identite/favicon.ico" sizes="64x64">
+<link rel="apple-touch-icon" href="img/identite/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="img/identite/mot-symbole-clair.svg" alt="Rachid Shopp – accueil" width="640" height="120"></a>
+  <nav aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="reparations.html">Réparations</a><a href="accessoires.html">Accessoires</a><a href="parfums.html">Parfums</a><a href="demande.html" aria-current="page">Commander</a></nav>
+</div></header>
+<main id="contenu">
+<div class="wrap page-head">
+  <p class="eyebrow">Demande et contact</p>
+  <h1>Préparer ma demande</h1>
+  <p class="lead">Composez votre message, copiez-le, puis envoyez-le à Rachid par message écrit avec votre adresse complète et votre numéro de téléphone. Rien n’est transmis depuis ce site.</p>
+</div>
+<section class="wrap" style="padding-top:8px">
+  <form id="form" class="panel" novalidate>
+    <label for="d-type">Article ou prestation</label>
+    <select id="d-type" required></select>
+    <div id="d-var-box" hidden><label for="d-var">Variante</label><select id="d-var"></select></div>
+    <div id="d-mod-box" hidden><label for="d-mod">Modèle d’iPhone</label><select id="d-mod"></select></div>
+    <label for="d-note">Précisions <span class="muted">(facultatif)</span></label>
+    <textarea id="d-note" rows="2" placeholder="Ex. coloris souhaité, créneau de livraison…"></textarea>
+    <button class="btn ice" type="submit">Préparer ma demande</button>
+    <p id="d-err" class="err" role="alert" hidden></p>
+  </form>
+  <div id="recap-box" class="panel" hidden tabindex="-1">
+    <h2 style="font-size:1.3rem">Votre récapitulatif</h2>
+    <textarea id="recap" rows="9" readonly aria-label="Récapitulatif de la demande"></textarea>
+    <div class="copy-row">
+      <button class="btn ice" id="copy" type="button">Copier le récapitulatif</button>
+      <a class="btn champ" id="open-canal" href="#" hidden target="_blank" rel="noopener"></a>
+      <span id="copy-msg" class="muted" role="status"></span>
+    </div>
+    <p class="muted" style="margin-top:14px">Complétez les lignes « Adresse complète » et « Numéro de téléphone » directement dans votre message. Une commande incomplète ne peut pas être prise en compte.</p>
+  </div>
+</section>
+<section class="wrap" style="padding-top:16px">
+  <h2>Horaires et livraison</h2>
+  <div class="grid info" id="horaires"></div>
+  <p class="muted" id="livraison"></p>
+  <h3 style="margin-top:24px">À indiquer dans chaque message</h3>
+  <ul id="commande-list" class="muted"></ul>
+</section>
+
+</main>
+<footer><div class="wrap">
+  <div><img src="img/identite/mot-symbole-clair.svg" alt="" width="640" height="120"><div>Rachid Shopp · La Réunion</div>
+    <p>Commande par message écrit, livraison gratuite sur l’île. Informations du vendeur, conditions de vente et de retour : à compléter avant publication.</p></div>
+  <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="reparations.html">Réparations</a><a href="accessoires.html">Accessoires</a><a href="parfums.html">Parfums</a><a href="demande.html">Commander</a></nav>
+</div></footer>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

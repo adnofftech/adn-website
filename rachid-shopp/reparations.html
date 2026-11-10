@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Réparations iPhone – Rachid Shopp</title>
+<meta name="description" content="Tarifs écran Soft OLED et batterie par modèle d’iPhone, pièce et main-d’œuvre comprises.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Réparations iPhone – Rachid Shopp">
+<meta property="og:description" content="Tarifs écran Soft OLED et batterie par modèle d’iPhone, pièce et main-d’œuvre comprises.">
+<meta property="og:image" content="img/apercu-partage.png">
+<meta name="theme-color" content="#10141B">
+<link rel="icon" href="img/identite/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/identite/favicon.ico" sizes="64x64">
+<link rel="apple-touch-icon" href="img/identite/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="img/identite/mot-symbole-clair.svg" alt="Rachid Shopp – accueil" width="640" height="120"></a>
+  <nav aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="reparations.html" aria-current="page">Réparations</a><a href="accessoires.html">Accessoires</a><a href="parfums.html">Parfums</a><a href="demande.html">Commander</a></nav>
+</div></header>
+<main id="contenu">
+<div class="wrap page-head">
+  <p class="eyebrow">Réparations iPhone</p>
+  <h1>Trouver ma réparation</h1>
+  <p class="lead">Choisissez votre iPhone : le tarif de l’écran Soft OLED et de la batterie s’affiche, pièce et main-d’œuvre comprises. Déplacement gratuit et garantie de 2 mois annoncés sur l’affiche.</p>
+</div>
+<section class="wrap" style="padding-top:8px" id="selecteur">
+  <div class="panel">
+    <label for="modele">Modèle d’iPhone</label>
+    <select id="modele"></select>
+    <div id="rep-result" class="results" aria-live="polite"></div>
+  </div>
+  <p class="notice">Les tarifs sont ceux de l’affiche de Rachid. Si une prestation n’est pas tarifée pour votre modèle, vous pouvez quand même envoyer une demande.</p>
+</section>
+<section class="wrap" style="padding-top:16px" id="tarifs">
+  <h2>Tous les tarifs</h2>
+  <div class="panel">
+    <label for="rep-filtre">Filtrer les modèles</label>
+    <input id="rep-filtre" type="search" placeholder="Ex. 15 Pro, 12, XR…" autocomplete="off">
+    <div class="scroll"><table>
+      <caption class="sr">Tarifs de réparation par modèle, en euros, pièce et main-d’œuvre comprises</caption>
+      <thead><tr><th scope="col">Modèle</th><th scope="col">Écran Soft OLED</th><th scope="col">Batterie</th></tr></thead>
+      <tbody id="rep-table"></tbody>
+    </table></div>
+    <p id="rep-vide" class="muted" hidden>Aucun modèle ne correspond à ce filtre.</p>
+  </div>
+</section>
+<section class="wrap" style="padding-top:16px" id="commande">
+  <h2>Pièces sur commande</h2>
+  <div class="grid info" id="rep-commande"></div>
+</section>
+
+</main>
+<footer><div class="wrap">
+  <div><img src="img/identite/mot-symbole-clair.svg" alt="" width="640" height="120"><div>Rachid Shopp · La Réunion</div>
+    <p>Commande par message écrit, livraison gratuite sur l’île. Informations du vendeur, conditions de vente et de retour : à compléter avant publication.</p></div>
+  <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="reparations.html">Réparations</a><a href="accessoires.html">Accessoires</a><a href="parfums.html">Parfums</a><a href="demande.html">Commander</a></nav>
+</div></footer>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

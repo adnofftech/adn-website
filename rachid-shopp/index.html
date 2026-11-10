@@ -4,136 +4,72 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rachid Shopp – Réparations iPhone, accessoires et parfums à La Réunion</title>
-<meta name="description" content="Réparation d’écran et de batterie iPhone, verres trempés, protections caméra et parfums à La Réunion. Livraison gratuite sur l’île.">
+<meta name="description" content="Réparation d’écran et de batterie iPhone, verres trempés, protections caméra, parfums et muscs. Livraison gratuite à La Réunion.">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="Rachid Shopp">
-<meta property="og:description" content="Réparations iPhone, accessoires et parfums à La Réunion.">
+<meta property="og:title" content="Rachid Shopp – Réparations iPhone, accessoires et parfums à La Réunion">
+<meta property="og:description" content="Réparation d’écran et de batterie iPhone, verres trempés, protections caméra, parfums et muscs. Livraison gratuite à La Réunion.">
 <meta property="og:image" content="img/apercu-partage.png">
+<meta name="theme-color" content="#10141B">
 <link rel="icon" href="img/identite/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="img/identite/favicon.ico" sizes="64x64">
 <link rel="apple-touch-icon" href="img/identite/apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="">
 <a class="skip" href="#contenu">Aller au contenu</a>
-<header class="top">
-  <a class="brand" href="#accueil" aria-label="Rachid Shopp, accueil"><span>RACHID SHOPP</span></a>
-  <nav aria-label="Navigation principale">
-    <a href="#reparations">Réparations</a>
-    <a href="#accessoires">Accessoires</a>
-    <a href="#parfums">Parfums</a>
-    <a href="#demande">Commander</a>
-  </nav>
-</header>
-
+<header class="top"><div class="wrap">
+  <a class="brand" href="index.html"><img src="img/identite/mot-symbole-clair.svg" alt="Rachid Shopp – accueil" width="640" height="120"></a>
+  <nav aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="reparations.html">Réparations</a><a href="accessoires.html">Accessoires</a><a href="parfums.html">Parfums</a><a href="demande.html">Commander</a></nav>
+</div></header>
 <main id="contenu">
-<section class="hero" id="accueil">
+<section class="hero" aria-labelledby="titre">
   <picture>
-    <source media="(min-width:760px)" srcset="img/accueil-desktop.webp">
-    <img src="img/accueil-mobile.webp" alt="Verre trempé, iPhone et flacons de parfum sur un socle" width="900" height="900" fetchpriority="high">
+    <source media="(min-width:900px)" srcset="img/accueil-desktop.webp" width="1600" height="900">
+    <img src="img/accueil-mobile.webp" alt="" width="900" height="900" fetchpriority="high" decoding="async">
   </picture>
-  <div class="hero-txt">
+  <div class="wrap hero-txt"><div class="hero-inner">
     <p class="eyebrow">Rachid Shopp · La Réunion</p>
-    <h1>Réparations iPhone, accessoires et parfums à La Réunion</h1>
+    <h1 id="titre">Réparations iPhone, accessoires et parfums à La Réunion</h1>
+    <p class="sub">Écran et batterie remplacés chez vous, protections pour iPhone et parfums livrés gratuitement sur l’île.</p>
     <div class="cta">
-      <a class="btn ice" href="#reparations">Trouver ma réparation</a>
-      <a class="btn line" href="#accessoires">Voir les accessoires</a>
-      <a class="btn champ" href="#parfums">Découvrir les parfums</a>
+      <a class="btn ice" href="reparations.html">Trouver ma réparation</a>
+      <a class="btn line" href="accessoires.html">Voir les accessoires</a>
+      <a class="btn line" href="parfums.html">Découvrir les parfums</a>
     </div>
+  </div></div>
+</section>
+
+<section class="wrap cats" aria-label="Nos univers">
+  <a class="cat" href="reparations.html"><img src="img/categories/reparations-large.webp" alt="" width="1200" height="800" loading="lazy" decoding="async"><span>Réparations iPhone<small>Écran Soft OLED dès 60 €, batterie dès 35 €, pièces sur commande</small><em>Trouver mon tarif →</em></span></a>
+  <a class="cat" href="accessoires.html"><img src="img/categories/accessoires-large.webp" alt="" width="1200" height="800" loading="lazy" decoding="async"><span>Accessoires<small>Verre trempé 9H, protection caméra, protection de lentilles</small><em>Voir les protections →</em></span></a>
+  <a class="cat theme-perf" href="parfums.html"><img src="img/categories/parfumerie-large.webp" alt="" width="1200" height="800" loading="lazy" decoding="async"><span>Parfums &amp; muscs<small>14 références : parfums, extraits, muscs et huiles</small><em>Découvrir la sélection →</em></span></a>
+</section>
+
+<section class="wrap" id="commander">
+  <p class="eyebrow">Comment commander</p>
+  <h2>Une demande écrite, une livraison programmée</h2>
+  <p class="lead">Rachid travaille seul : la commande se fait par message écrit, puis la livraison est programmée sur un créneau dédié.</p>
+  <div class="steps">
+    <article class="panel"><h3>Choisissez</h3><p class="muted">Une réparation avec votre modèle d’iPhone, une protection ou un parfum.</p></article>
+    <article class="panel"><h3>Préparez le message</h3><p class="muted">Le bouton « Préparer ma demande » génère un récapitulatif à copier, avec le tarif confirmé.</p></article>
+    <article class="panel"><h3>Envoyez-le avec vos coordonnées</h3><p class="muted">Ajoutez votre adresse complète et votre numéro de téléphone. Une demande incomplète ne peut pas être traitée.</p></article>
   </div>
-</section>
-
-<section class="wrap cats" aria-label="Catégories">
-  <a class="cat" href="#reparations"><img src="img/categories/reparations-large.webp" alt="" loading="lazy"><span>Réparations<small>Écran, batterie, pièces sur commande</small></span></a>
-  <a class="cat" href="#accessoires"><img src="img/categories/accessoires-large.webp" alt="" loading="lazy"><span>Accessoires<small>Verres 9H, caméra, lentilles</small></span></a>
-  <a class="cat" href="#parfums"><img src="img/categories/parfumerie-large.webp" alt="" loading="lazy"><span>Parfums &amp; muscs<small>14 références</small></span></a>
-</section>
-
-<section class="wrap" id="reparations">
-  <h2 class="ice-t">Trouver ma réparation</h2>
-  <p class="lead">Choisissez votre iPhone : le tarif s’affiche, pièce et main-d’œuvre comprises (selon l’affiche). Déplacement gratuit et garantie de 2 mois annoncés, modalités à confirmer.</p>
-  <div class="panel">
-    <label for="modele">Modèle d’iPhone</label>
-    <select id="modele"></select>
-    <div id="rep-result" class="results" aria-live="polite"></div>
-  </div>
-  <details class="panel table-wrap">
-    <summary>Voir tous les tarifs</summary>
-    <label for="rep-filtre" class="sr">Filtrer les modèles</label>
-    <input id="rep-filtre" type="search" placeholder="Filtrer : 15 Pro, 12…" autocomplete="off">
-    <div class="scroll"><table>
-      <thead><tr><th scope="col">Modèle</th><th scope="col">Écran Soft OLED</th><th scope="col">Batterie</th></tr></thead>
-      <tbody id="rep-table"></tbody>
-    </table></div>
-    <p id="rep-vide" class="muted" hidden>Aucun modèle ne correspond.</p>
-  </details>
-  <p class="muted">Sur commande : écran Apple d’origine, appareil photo, support de carte SIM — <button class="link" data-prefill="Pièce sur commande">tarif sur demande</button>.</p>
-</section>
-
-<section class="wrap" id="accessoires">
-  <h2 class="ice-t">Accessoires iPhone</h2>
-  <p class="lead">Quatre familles de protections. Le modèle exact de votre iPhone est demandé avant de finaliser la demande.</p>
-  <div id="acc-grid" class="grid acc"></div>
-</section>
-
-<section class="wrap" id="parfums">
-  <h2 class="champ-t">Parfums &amp; muscs</h2>
-  <p class="lead">Références relevées sur les affiches de Rachid. Les tarifs seront affichés dès confirmation.</p>
-  <div class="filters panel" role="group" aria-label="Filtres parfums">
-    <div><label for="f-type">Type</label><select id="f-type"></select></div>
-    <div><label for="f-vol">Contenance</label><select id="f-vol"></select></div>
-    <div><label for="f-prof">Profil</label><select id="f-prof"></select></div>
-  </div>
-  <p id="p-count" class="muted" aria-live="polite"></p>
-  <div id="p-grid" class="grid perf"></div>
-  <p id="p-vide" class="panel" hidden>Aucune référence ne correspond à ces filtres. <button class="link" id="p-reset">Réinitialiser</button></p>
-</section>
-
-<section class="wrap" id="demande">
-  <h2>Préparer ma demande</h2>
-  <p class="lead">Cet outil prépare un message à copier. Rien n’est envoyé depuis ce site. Votre adresse complète et votre numéro de téléphone se transmettent en privé à Rachid, au moment de la demande.</p>
-  <form id="form" class="panel" novalidate>
-    <label for="d-type">Article ou prestation</label>
-    <select id="d-type" required></select>
-    <div id="d-var-box" hidden><label for="d-var">Variante</label><select id="d-var"></select></div>
-    <div id="d-mod-box" hidden><label for="d-mod">Modèle d’iPhone</label><select id="d-mod"></select></div>
-    <label for="d-note">Précisions (facultatif)</label>
-    <textarea id="d-note" rows="2"></textarea>
-    <button class="btn ice" type="submit">Préparer ma demande</button>
-    <p id="d-err" class="err" role="alert" hidden></p>
-  </form>
-  <div id="recap-box" class="panel" hidden>
-    <h3>Récapitulatif</h3>
-    <textarea id="recap" rows="9" readonly aria-label="Récapitulatif à copier"></textarea>
-    <button class="btn champ" id="copy" type="button">Copier le récapitulatif</button>
-    <p id="copy-msg" class="muted" role="status"></p>
-    <p class="muted">Collez-le dans votre message à Rachid, en ajoutant votre adresse complète et votre téléphone. Une commande incomplète ne peut pas être prise en compte.</p>
-  </div>
+  <p style="margin:20px 0 0"><a class="btn ice" href="demande.html">Préparer ma demande</a></p>
 </section>
 
 <section class="wrap" id="infos">
-  <h2>Livraison et horaires</h2>
-  <div class="grid info">
-    <article class="panel"><img src="img/icones/livraison.svg" alt="" width="28" height="28"><h3>Livraison</h3>
-      <p>Livraison gratuite sur l’île, annoncée sous 1 à 5 jours selon le secteur et la disponibilité.</p></article>
-    <article class="panel"><img src="img/icones/message.svg" alt="" width="28" height="28"><h3>6 h – 10 h · Messages</h3>
-      <p>Réponses aux messages et gestion des commandes. Pas de livraison sur ce créneau.</p></article>
-    <article class="panel"><img src="img/icones/horaires.svg" alt="" width="28" height="28"><h3>10 h – 18 h · Livraisons</h3>
-      <p>Uniquement les commandes programmées à l’avance. Pas de prise de commande sur ce créneau.</p></article>
-    <article class="panel"><img src="img/icones/telephone.svg" alt="" width="28" height="28"><h3>18 h – 6 h · Temps personnel</h3>
-      <p>Ni commandes, ni messages, ni livraisons. Merci de respecter cette organisation.</p></article>
-  </div>
-  <p class="muted">Commande par message écrit : adresse complète, numéro de téléphone, article ou prestation, et modèle d’iPhone si pertinent.</p>
+  <h2>Horaires et livraison</h2>
+  <div class="grid info" id="horaires"></div>
+  <p class="muted" id="livraison"></p>
 </section>
+
 </main>
-
-<footer>
-  <div class="wrap">
-    <strong>Rachid Shopp</strong> · La Réunion
-    <p class="muted">Maquette de validation. Informations du vendeur, conditions de vente et de retour, moyens de paiement et canal de commande : à compléter avec Rachid avant publication.</p>
-  </div>
-</footer>
-
+<footer><div class="wrap">
+  <div><img src="img/identite/mot-symbole-clair.svg" alt="" width="640" height="120"><div>Rachid Shopp · La Réunion</div>
+    <p>Commande par message écrit, livraison gratuite sur l’île. Informations du vendeur, conditions de vente et de retour : à compléter avant publication.</p></div>
+  <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="reparations.html">Réparations</a><a href="accessoires.html">Accessoires</a><a href="parfums.html">Parfums</a><a href="demande.html">Commander</a></nav>
+</div></footer>
+<script src="config.js"></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>

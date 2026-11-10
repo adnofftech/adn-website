@@ -1,0 +1,30 @@
+<div class="wrap page-head">
+  <p class="eyebrow">Réparations iPhone</p>
+  <h1>Trouver ma réparation</h1>
+  <p class="lead">Choisissez votre iPhone : le tarif de l’écran Soft OLED et de la batterie s’affiche, pièce et main-d’œuvre comprises. Déplacement gratuit et garantie de 2 mois annoncés sur l’affiche.</p>
+</div>
+<section class="wrap" style="padding-top:8px" id="selecteur">
+  <div class="panel">
+    <label for="modele">Modèle d’iPhone</label>
+    <select id="modele"></select>
+    <div id="rep-result" class="results" aria-live="polite"></div>
+  </div>
+  <p class="notice">Les tarifs sont ceux de l’affiche de Rachid. Si une prestation n’est pas tarifée pour votre modèle, vous pouvez quand même envoyer une demande.</p>
+</section>
+<section class="wrap" style="padding-top:16px" id="tarifs">
+  <h2>Tous les tarifs</h2>
+  <div class="panel">
+    <label for="rep-filtre">Filtrer les modèles</label>
+    <input id="rep-filtre" type="search" placeholder="Ex. 15 Pro, 12, XR…" autocomplete="off">
+    <div class="scroll"><table>
+      <caption class="sr">Tarifs de réparation par modèle, en euros, pièce et main-d’œuvre comprises</caption>
+      <thead><tr><th scope="col">Modèle</th><th scope="col">Écran Soft OLED</th><th scope="col">Batterie</th></tr></thead>
+      <tbody id="rep-table"></tbody>
+    </table></div>
+    <p id="rep-vide" class="muted" hidden>Aucun modèle ne correspond à ce filtre.</p>
+  </div>
+</section>
+<section class="wrap" style="padding-top:16px" id="commande">
+  <h2>Pièces sur commande</h2>
+  <div class="grid info" id="rep-commande"></div>
+</section>
