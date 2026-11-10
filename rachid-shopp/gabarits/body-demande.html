@@ -1,34 +1,31 @@
-<div class="wrap page-head">
-  <p class="eyebrow">Demande et contact</p>
-  <h1>Préparer ma demande</h1>
-  <p class="lead">Composez votre message, copiez-le, puis envoyez-le à Rachid par message écrit avec votre adresse complète et votre numéro de téléphone. Rien n’est transmis depuis ce site.</p>
-</div>
-<section class="wrap" style="padding-top:8px">
-  <form id="form" class="panel" novalidate>
-    <label for="d-type">Article ou prestation</label>
-    <select id="d-type" required></select>
-    <div id="d-var-box" hidden><label for="d-var">Variante</label><select id="d-var"></select></div>
-    <div id="d-mod-box" hidden><label for="d-mod">Modèle d’iPhone</label><select id="d-mod"></select></div>
-    <label for="d-note">Précisions <span class="muted">(facultatif)</span></label>
-    <textarea id="d-note" rows="2" placeholder="Ex. coloris souhaité, créneau de livraison…"></textarea>
-    <button class="btn ice" type="submit">Préparer ma demande</button>
-    <p id="d-err" class="err" role="alert" hidden></p>
-  </form>
-  <div id="recap-box" class="panel" hidden tabindex="-1">
-    <h2 style="font-size:1.3rem">Votre récapitulatif</h2>
-    <textarea id="recap" rows="9" readonly aria-label="Récapitulatif de la demande"></textarea>
-    <div class="copy-row">
-      <button class="btn ice" id="copy" type="button">Copier le récapitulatif</button>
-      <a class="btn champ" id="open-canal" href="#" hidden target="_blank" rel="noopener"></a>
-      <span id="copy-msg" class="muted" role="status"></span>
+<section class="hero hero--split hero--form" data-enter aria-labelledby="hero-h">
+  <div class="wrap"><div class="grid hero__grid">
+    <div class="hero__text span-6">
+      <h1 id="hero-h" style="--i:0">Préparer ma demande</h1>
+      <p class="hero__lead" style="--i:1">Composez votre message, copiez-le, puis envoyez-le à Rachid par écrit avec votre adresse complète et votre numéro de téléphone. Rien n’est transmis depuis ce site.</p>
     </div>
-    <p class="muted" style="margin-top:14px">Complétez les lignes « Adresse complète » et « Numéro de téléphone » directement dans votre message. Une commande incomplète ne peut pas être prise en compte.</p>
-  </div>
-</section>
-<section class="wrap" style="padding-top:16px">
-  <h2>Horaires et livraison</h2>
-  <div class="grid info" id="horaires"></div>
-  <p class="muted" id="livraison"></p>
-  <h3 style="margin-top:24px">À indiquer dans chaque message</h3>
-  <ul id="commande-list" class="muted"></ul>
+    <form id="form" class="form span-6 start-7" novalidate style="--i:1">
+      <div class="field"><label for="d-type">Article ou prestation</label><select id="d-type" required></select></div>
+      <div class="field" id="d-var-box" hidden><label for="d-var">Variante</label><select id="d-var"></select></div>
+      <div class="field" id="d-mod-box" hidden><label for="d-mod">Modèle d’iPhone</label><select id="d-mod"></select></div>
+      <div class="field"><label for="d-note">Précisions <span class="muted">(facultatif)</span></label><textarea id="d-note" rows="2"></textarea></div>
+      <div class="btn-row"><button class="btn btn--primary" type="submit">Préparer ma demande</button></div>
+      <p id="d-err" class="field__error" role="alert" hidden></p>
+      <div id="recap-box" class="recap" hidden tabindex="-1">
+        <label for="recap">Votre récapitulatif</label>
+        <textarea id="recap" rows="8" readonly></textarea>
+        <div class="btn-row">
+          <button class="btn btn--primary" id="copy" type="button">Copier le récapitulatif</button>
+          <a class="btn btn--secondary" id="open-canal" href="#" hidden target="_blank" rel="noopener"></a>
+        </div>
+        <p id="copy-msg" class="form__status" role="status"></p>
+        <p class="t-small muted">Complétez les lignes « Adresse complète » et « Numéro de téléphone » dans votre message. Une commande incomplète ne peut pas être prise en compte.</p>
+      </div>
+    </form>
+    <div class="hero__aside span-6">
+      <h2 class="t-card">Horaires et livraison</h2>
+      <dl class="rows rows--hours" id="horaires-list"></dl>
+      <p id="livraison" class="t-small muted rows__after"></p>
+    </div>
+  </div></div>
 </section>

@@ -1,10 +1,20 @@
-<div class="wrap page-head">
-  <p class="eyebrow">Parfums &amp; muscs</p>
-  <h1>La sélection parfumerie</h1>
-  <p class="lead">Parfums, extraits, muscs et huiles parfumées. Les tarifs seront affichés dès leur confirmation ; en attendant, chaque référence peut faire l’objet d’une demande.</p>
-</div>
-<section class="wrap" style="padding-top:8px">
-  <div class="filters" role="group" aria-label="Filtrer par type" id="p-filters"></div>
-  <p id="p-count" class="muted" aria-live="polite"></p>
-  <div id="p-grid" class="grid perf"></div>
+<section class="hero hero--split" data-enter aria-labelledby="hero-h">
+  <div class="wrap"><div class="grid hero__grid">
+    <div class="hero__text span-6">
+      <h1 id="hero-h" style="--i:0">Parfums, muscs et huiles parfumées, livrés sur l’île</h1>
+      <p class="hero__lead" style="--i:1">Quatorze références Volaré, Lattafa, Paris Corner, Maison Alhambra et World Valentia, de 12 à 150 ml. Les tarifs s’affichent dès leur confirmation ; chaque flacon peut faire l’objet d’une demande.</p>
+      <div class="btn-row" style="--i:2"><a class="btn btn--primary" href="#selection">Voir la sélection</a></div>
+    </div>
+    <div class="hero__media span-6 start-7">
+      <img src="img/categories/parfumerie-large.webp" alt="Flacons de parfum et fleurs séchées sur une pierre claire" width="1200" height="800" fetchpriority="high" decoding="async">
+    </div>
+  </div></div>
+</section>
+
+<section id="selection" class="grows">
+  <div class="wrap">
+    <div class="section-head section-head--row"><h2>La sélection, par type</h2><p id="p-count" class="muted" aria-live="polite"></p></div>
+    <div class="filters" role="group" aria-label="Filtrer par type" id="p-filters"></div>
+    <div id="p-grid" class="grid grid--cards"></div>
+  </div>
 </section>

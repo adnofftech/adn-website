@@ -1,6 +1,6 @@
 # Rachid Shopp – site de validation
 
-Site statique, sans dépendance. Cinq pages : `index.html`, `reparations.html`, `accessoires.html`, `parfums.html`, `demande.html`.
+Site statique, sans dépendance. Cinq pages : `index.html`, `reparations.html`, `accessoires.html`, `parfums.html`, `demande.html`. Le système visuel est décrit dans `DESIGN.md` ; la police Archivo est auto-hébergée dans `fonts/`.
 
 ## Ouvrir l'aperçu
 
@@ -23,6 +23,7 @@ puis ouvrir <http://localhost:8080/rachid-shopp/>. Sur téléphone, utiliser l'a
 | Changer un visuel produit | Remplacer le fichier dans `img/produits/` (même nom) ou modifier le champ `image` dans `data.js`. Les cartes fournies (640 × 680) intègrent un cadre : le site n'affiche que leur zone photo (voir `.card .ph` dans `style.css`). Pour une vraie photo, mettre une image carrée et retirer ce recadrage. |
 | Bannière d'accueil, visuels de catégories, logo | `img/accueil-*.webp`, `img/categories/`, `img/identite/` |
 | Textes des pages | `gabarits/body-*.html`, puis régénérer (ci-dessous). Ou éditer directement les `.html` si on n'utilise pas le générateur. |
+| Couleurs, espacements, typographie | Les tokens `:root` en tête de `style.css` (voir `DESIGN.md`). |
 | En-tête, pied de page, balises `<head>` | `gabarits/generer-pages.py` |
 | Prix « à confirmer » (10 € protection Air et lentilles effet diamant) | `TO_CONFIRM` dans `app.js` : retirer les références une fois validées. |
 

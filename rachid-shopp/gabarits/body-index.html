@@ -1,40 +1,58 @@
-<section class="hero" aria-labelledby="titre">
-  <picture>
-    <source media="(min-width:900px)" srcset="img/accueil-desktop.webp" width="1600" height="900">
-    <img src="img/accueil-mobile.webp" alt="" width="900" height="900" fetchpriority="high" decoding="async">
-  </picture>
-  <div class="wrap hero-txt"><div class="hero-inner">
-    <p class="eyebrow">Rachid Shopp · La Réunion</p>
-    <h1 id="titre">Réparations iPhone, accessoires et parfums à La Réunion</h1>
-    <p class="sub">Écran et batterie remplacés chez vous, protections pour iPhone et parfums livrés gratuitement sur l’île.</p>
-    <div class="cta">
-      <a class="btn ice" href="reparations.html">Trouver ma réparation</a>
-      <a class="btn line" href="accessoires.html">Voir les accessoires</a>
-      <a class="btn line" href="parfums.html">Découvrir les parfums</a>
+<!-- deal taste-skill : hero split · nav-centre · footer-dark · close-photo · dark-band (inversé clair sur page sombre) · boutons solid · wordmark · moment picture-develops (section Commander) -->
+<section class="hero hero--split" data-enter aria-labelledby="hero-h">
+  <div class="wrap"><div class="grid hero__grid">
+    <div class="hero__text span-6">
+      <h1 id="hero-h" style="--i:0">Réparations iPhone, accessoires et parfums à La Réunion</h1>
+      <p class="hero__lead" style="--i:1">Écran et batterie remplacés chez vous dès 60 €, pièce et main-d’œuvre comprises. Verres trempés, protections caméra, parfums et muscs livrés gratuitement sur l’île.</p>
+      <div class="btn-row" style="--i:2">
+        <a class="btn btn--primary" href="reparations.html">Trouver ma réparation</a>
+        <a class="btn btn--secondary" href="accessoires.html">Voir les accessoires</a>
+      </div>
+    </div>
+    <div class="hero__media span-6 start-7">
+      <picture>
+        <source media="(min-width:640px)" srcset="img/accueil-desktop.webp" width="1600" height="900">
+        <img src="img/accueil-mobile.webp" alt="Un iPhone, un verre trempé et deux flacons de parfum sur un socle doré" width="900" height="900" fetchpriority="high" decoding="async">
+      </picture>
+      <div class="ly-float"><span class="ly-float__row"><span class="ly-live">Livraison gratuite sur l’île</span></span><span class="ly-float__title">Sous 1 à 5 jours selon le secteur</span></div>
     </div>
   </div></div>
 </section>
 
-<section class="wrap cats" aria-label="Nos univers">
-  <a class="cat" href="reparations.html"><img src="img/categories/reparations-large.webp" alt="" width="1200" height="800" loading="lazy" decoding="async"><span>Réparations iPhone<small>Écran Soft OLED dès 60 €, batterie dès 35 €, pièces sur commande</small><em>Trouver mon tarif →</em></span></a>
-  <a class="cat" href="accessoires.html"><img src="img/categories/accessoires-large.webp" alt="" width="1200" height="800" loading="lazy" decoding="async"><span>Accessoires<small>Verre trempé 9H, protection caméra, protection de lentilles</small><em>Voir les protections →</em></span></a>
-  <a class="cat theme-perf" href="parfums.html"><img src="img/categories/parfumerie-large.webp" alt="" width="1200" height="800" loading="lazy" decoding="async"><span>Parfums &amp; muscs<small>14 références : parfums, extraits, muscs et huiles</small><em>Découvrir la sélection →</em></span></a>
+<section id="univers" style="--h:1">
+  <div class="wrap"><div class="grid grid--top">
+    <div class="span-5">
+      <h2>Trois univers, un seul message pour commander</h2>
+      <ul class="rows rows--links">
+        <li><a href="reparations.html"><span class="rows__name">Réparation écran et batterie</span><span class="rows__value">dès 35 €</span><p>Soft OLED ou batterie, remplacés chez vous, garantie de 2 mois annoncée.</p></a></li>
+        <li><a href="accessoires.html"><span class="rows__name">Verre trempé et protections caméra</span><span class="rows__value">13 € posé</span><p>Verre 9H anti-espion, protection intégrale caméra, protection de lentilles.</p></a></li>
+        <li><a href="parfums.html"><span class="rows__name">Parfums, muscs et huiles</span><span class="rows__value">14 références</span><p>Volaré, Lattafa, Paris Corner, Maison Alhambra, World Valentia, de 12 à 150 ml.</p></a></li>
+      </ul>
+      <p class="rows__after"><a class="link" href="parfums.html">Découvrir les parfums</a></p>
+    </div>
+    <figure class="frame frame--photo span-6 start-7" style="--ratio:4/3"><img src="img/categories/parfumerie-large.webp" alt="Flacons de parfum et fleurs séchées sur une pierre claire" width="1200" height="800" loading="lazy" decoding="async"></figure>
+  </div></div>
 </section>
 
-<section class="wrap" id="commander">
-  <p class="eyebrow">Comment commander</p>
-  <h2>Une demande écrite, une livraison programmée</h2>
-  <p class="lead">Rachid travaille seul : la commande se fait par message écrit, puis la livraison est programmée sur un créneau dédié.</p>
-  <div class="steps">
-    <article class="panel"><h3>Choisissez</h3><p class="muted">Une réparation avec votre modèle d’iPhone, une protection ou un parfum.</p></article>
-    <article class="panel"><h3>Préparez le message</h3><p class="muted">Le bouton « Préparer ma demande » génère un récapitulatif à copier, avec le tarif confirmé.</p></article>
-    <article class="panel"><h3>Envoyez-le avec vos coordonnées</h3><p class="muted">Ajoutez votre adresse complète et votre numéro de téléphone. Une demande incomplète ne peut pas être traitée.</p></article>
+<section id="commander" class="ground-inverse" style="--h:2">
+  <div class="wrap g2">
+    <div class="grid grid--top">
+      <div class="span-5">
+        <h2>Commander en trois étapes</h2>
+        <ol class="rows rows--steps">
+          <li><span class="rows__name">Choisissez la réparation, la protection ou le parfum</span><p>Avec votre modèle d’iPhone quand il compte.</p></li>
+          <li><span class="rows__name">Préparez le message</span><p>Le récapitulatif reprend l’article, le modèle et le tarif confirmé.</p></li>
+          <li><span class="rows__name">Envoyez-le avec vos coordonnées</span><p>Adresse complète et numéro de téléphone, sinon la commande ne peut pas être traitée.</p></li>
+        </ol>
+        <p class="rows__after"><a class="btn btn--primary" href="demande.html">Préparer ma demande</a></p>
+      </div>
+      <figure class="frame frame--photo span-6 start-7" style="--ratio:4/3" data-moment="picture-develops"><img src="img/categories/reparations-large.webp" alt="Un iPhone ouvert sur un tapis de réparation, deux mains gantées tenant un outil" width="1200" height="800" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="grid grid--top" id="horaires">
+      <div class="span-5"><h3>Horaires et livraison</h3>
+        <p class="t-lead">Rachid travaille seul et tient à son organisation : chaque créneau a un seul rôle.</p>
+        <p id="livraison" class="t-body"></p></div>
+      <dl class="rows rows--hours span-6 start-7" id="horaires-list"></dl>
+    </div>
   </div>
-  <p style="margin:20px 0 0"><a class="btn ice" href="demande.html">Préparer ma demande</a></p>
-</section>
-
-<section class="wrap" id="infos">
-  <h2>Horaires et livraison</h2>
-  <div class="grid info" id="horaires"></div>
-  <p class="muted" id="livraison"></p>
 </section>

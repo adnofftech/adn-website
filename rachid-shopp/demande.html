@@ -1,67 +1,85 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-type="service" data-radius="soft" data-buttons="solid" data-motion>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Préparer ma demande – Rachid Shopp</title>
-<meta name="description" content="Préparez un message de commande à copier et à envoyer à Rachid Shopp.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rachid Shopp : préparer une demande de réparation ou de commande</title>
+<meta name="description" content="Composez votre message de commande avec l’article, le modèle d’iPhone et le tarif, puis copiez-le pour l’envoyer à Rachid.">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="Préparer ma demande – Rachid Shopp">
-<meta property="og:description" content="Préparez un message de commande à copier et à envoyer à Rachid Shopp.">
+<meta name="page-type" content="service"><meta name="site-kind" content="other">
+<meta property="og:title" content="Rachid Shopp : préparer une demande de réparation ou de commande">
+<meta property="og:description" content="Composez votre message de commande avec l’article, le modèle d’iPhone et le tarif, puis copiez-le pour l’envoyer à Rachid.">
+<meta property="og:type" content="website">
 <meta property="og:image" content="img/apercu-partage.png">
-<meta name="theme-color" content="#10141B">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#10141b">
 <link rel="icon" href="img/identite/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="img/identite/favicon.ico" sizes="64x64">
 <link rel="apple-touch-icon" href="img/identite/apple-touch-icon.png">
+<link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add('m-enter')</script>
 </head>
 <body class="">
-<a class="skip" href="#contenu">Aller au contenu</a>
-<header class="top"><div class="wrap">
-  <a class="brand" href="index.html"><img src="img/identite/mot-symbole-clair.svg" alt="Rachid Shopp – accueil" width="640" height="120"></a>
-  <nav aria-label="Navigation principale"><a href="index.html">Accueil</a><a href="reparations.html">Réparations</a><a href="accessoires.html">Accessoires</a><a href="parfums.html">Parfums</a><a href="demande.html" aria-current="page">Commander</a></nav>
-</div></header>
-<main id="contenu">
-<div class="wrap page-head">
-  <p class="eyebrow">Demande et contact</p>
-  <h1>Préparer ma demande</h1>
-  <p class="lead">Composez votre message, copiez-le, puis envoyez-le à Rachid par message écrit avec votre adresse complète et votre numéro de téléphone. Rien n’est transmis depuis ce site.</p>
-</div>
-<section class="wrap" style="padding-top:8px">
-  <form id="form" class="panel" novalidate>
-    <label for="d-type">Article ou prestation</label>
-    <select id="d-type" required></select>
-    <div id="d-var-box" hidden><label for="d-var">Variante</label><select id="d-var"></select></div>
-    <div id="d-mod-box" hidden><label for="d-mod">Modèle d’iPhone</label><select id="d-mod"></select></div>
-    <label for="d-note">Précisions <span class="muted">(facultatif)</span></label>
-    <textarea id="d-note" rows="2" placeholder="Ex. coloris souhaité, créneau de livraison…"></textarea>
-    <button class="btn ice" type="submit">Préparer ma demande</button>
-    <p id="d-err" class="err" role="alert" hidden></p>
-  </form>
-  <div id="recap-box" class="panel" hidden tabindex="-1">
-    <h2 style="font-size:1.3rem">Votre récapitulatif</h2>
-    <textarea id="recap" rows="9" readonly aria-label="Récapitulatif de la demande"></textarea>
-    <div class="copy-row">
-      <button class="btn ice" id="copy" type="button">Copier le récapitulatif</button>
-      <a class="btn champ" id="open-canal" href="#" hidden target="_blank" rel="noopener"></a>
-      <span id="copy-msg" class="muted" role="status"></span>
-    </div>
-    <p class="muted" style="margin-top:14px">Complétez les lignes « Adresse complète » et « Numéro de téléphone » directement dans votre message. Une commande incomplète ne peut pas être prise en compte.</p>
+<header class="nav nav--centre"><div class="wrap">
+  <a class="skip-link" href="#top">Aller au contenu</a>
+  <a class="nav__logo" href="index.html"><img src="img/identite/mot-symbole-clair.svg" alt="Rachid Shopp, accueil" width="640" height="120"></a>
+  <nav class="nav__links" aria-label="Pages"><ul><li><a href="reparations.html">Réparations</a></li><li><a href="accessoires.html">Accessoires</a></li><li><a href="parfums.html">Parfums</a></li></ul></nav>
+  <div class="nav__actions">
+    <a class="btn btn--primary nav__cta" href="demande.html">Préparer ma demande</a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span></span><span></span></button>
   </div>
-</section>
-<section class="wrap" style="padding-top:16px">
-  <h2>Horaires et livraison</h2>
-  <div class="grid info" id="horaires"></div>
-  <p class="muted" id="livraison"></p>
-  <h3 style="margin-top:24px">À indiquer dans chaque message</h3>
-  <ul id="commande-list" class="muted"></ul>
+</div>
+<div class="nav__sheet" id="menu" hidden><nav aria-label="Menu"><ul><li><a href="index.html">Accueil</a></li><li><a href="reparations.html">Réparations</a></li><li><a href="accessoires.html">Accessoires</a></li><li><a href="parfums.html">Parfums</a></li></ul></nav><a class="btn btn--primary" href="demande.html">Préparer ma demande</a></div>
+</header>
+<main id="top">
+<section class="hero hero--split hero--form" data-enter aria-labelledby="hero-h">
+  <div class="wrap"><div class="grid hero__grid">
+    <div class="hero__text span-6">
+      <h1 id="hero-h" style="--i:0">Préparer ma demande</h1>
+      <p class="hero__lead" style="--i:1">Composez votre message, copiez-le, puis envoyez-le à Rachid par écrit avec votre adresse complète et votre numéro de téléphone. Rien n’est transmis depuis ce site.</p>
+    </div>
+    <form id="form" class="form span-6 start-7" novalidate style="--i:1">
+      <div class="field"><label for="d-type">Article ou prestation</label><select id="d-type" required></select></div>
+      <div class="field" id="d-var-box" hidden><label for="d-var">Variante</label><select id="d-var"></select></div>
+      <div class="field" id="d-mod-box" hidden><label for="d-mod">Modèle d’iPhone</label><select id="d-mod"></select></div>
+      <div class="field"><label for="d-note">Précisions <span class="muted">(facultatif)</span></label><textarea id="d-note" rows="2"></textarea></div>
+      <div class="btn-row"><button class="btn btn--primary" type="submit">Préparer ma demande</button></div>
+      <p id="d-err" class="field__error" role="alert" hidden></p>
+      <div id="recap-box" class="recap" hidden tabindex="-1">
+        <label for="recap">Votre récapitulatif</label>
+        <textarea id="recap" rows="8" readonly></textarea>
+        <div class="btn-row">
+          <button class="btn btn--primary" id="copy" type="button">Copier le récapitulatif</button>
+          <a class="btn btn--secondary" id="open-canal" href="#" hidden target="_blank" rel="noopener"></a>
+        </div>
+        <p id="copy-msg" class="form__status" role="status"></p>
+        <p class="t-small muted">Complétez les lignes « Adresse complète » et « Numéro de téléphone » dans votre message. Une commande incomplète ne peut pas être prise en compte.</p>
+      </div>
+    </form>
+    <div class="hero__aside span-6">
+      <h2 class="t-card">Horaires et livraison</h2>
+      <dl class="rows rows--hours" id="horaires-list"></dl>
+      <p id="livraison" class="t-small muted rows__after"></p>
+    </div>
+  </div></div>
 </section>
 
 </main>
-<footer><div class="wrap">
-  <div><img src="img/identite/mot-symbole-clair.svg" alt="" width="640" height="120"><div>Rachid Shopp · La Réunion</div>
-    <p>Commande par message écrit, livraison gratuite sur l’île. Informations du vendeur, conditions de vente et de retour : à compléter avant publication.</p></div>
-  <nav aria-label="Pied de page"><a href="index.html">Accueil</a><a href="reparations.html">Réparations</a><a href="accessoires.html">Accessoires</a><a href="parfums.html">Parfums</a><a href="demande.html">Commander</a></nav>
+<footer class="closing footer--dark"><div class="wrap">
+  <div class="closing__cta close--type">
+    <div class="closing__head">
+      <div><h2>Une commande par message, livrée chez vous</h2>
+      <p class="t-lead muted">Rachid répond de 6 h à 10 h et livre gratuitement sur l’île.</p></div>
+      <a class="btn btn--primary" href="demande.html">Préparer ma demande</a>
+    </div>
+  </div>
+  <div class="closing__dir">
+    <div class="closing__brand"><img src="img/identite/mot-symbole-clair.svg" alt="" width="640" height="120"><p class="t-lead">Réparations iPhone, accessoires et parfums à La Réunion.</p></div>
+    <nav class="closing__col" aria-label="Pied de page"><h3 class="t-label">Pages</h3><ul><li><a href="index.html">Accueil</a></li><li><a href="reparations.html">Réparations</a></li><li><a href="accessoires.html">Accessoires</a></li><li><a href="parfums.html">Parfums</a></li><li><a href="demande.html">Préparer ma demande</a></li></ul></nav>
+    <div class="closing__col"><h3 class="t-label">Commander</h3><ul><li>Par message écrit, avec l’adresse complète et le téléphone</li><li>Réponses de 6 h à 10 h</li><li>Livraisons programmées de 10 h à 18 h</li></ul></div>
+  </div>
+  <p class="closing__legal"><span>Rachid Shopp · La Réunion</span><span>2026</span></p>
 </div></footer>
 <script src="config.js"></script>
 <script src="data.js"></script>
