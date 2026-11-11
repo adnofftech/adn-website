@@ -1,0 +1,16 @@
+---
+import Base from '@/layouts/Base.astro';
+import { url } from '@/lib/url';
+---
+<Base titre="Page introuvable" description="Cette page n’existe pas sur le site de LArtiste.Ink.">
+  <section class="section" aria-labelledby="titre">
+    <div class="wrap flow">
+      <h1 id="titre">Page introuvable<span class="pt">.</span></h1>
+      <p class="lead">Cette page n’existe pas, ou plus.</p>
+      <div class="btn-row">
+        <a class="btn" href={url('/')}>Retour à l’accueil</a>
+        <a class="btn btn--line" href={url('/realisations')}>Voir les réalisations</a>
+      </div>
+    </div>
+  </section>
+</Base>

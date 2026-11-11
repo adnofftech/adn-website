@@ -1,0 +1,59 @@
+[
+  {
+    "id": "composition-florale",
+    "titre": "Composition florale",
+    "categorie": "floral",
+    "alt": "Emplacement réservé : photographie d’une composition florale tatouée, à fournir.",
+    "motif": "Floral",
+    "encres": ["noire"],
+    "image": "../assets/encre/planche-01.jpg",
+    "cadrage": { "x": 50, "y": 40 },
+    "placeholder": true,
+    "publication": { "autorisee": false, "source": "Capture Instagram vue dans les supports. Original à demander à l’artiste." },
+    "accueil": true,
+    "ordre": 1
+  },
+  {
+    "id": "lettrage",
+    "titre": "Lettrage",
+    "categorie": "lettrage",
+    "alt": "Emplacement réservé : photographie d’un lettrage tatoué, à fournir.",
+    "motif": "Lettrage",
+    "encres": ["noire", "rouge"],
+    "image": "../assets/encre/planche-02.jpg",
+    "cadrage": { "x": 50, "y": 55 },
+    "placeholder": true,
+    "publication": { "autorisee": false, "source": "Capture Instagram vue dans les supports. Original à demander à l’artiste." },
+    "accueil": true,
+    "ordre": 2
+  },
+  {
+    "id": "oiseau",
+    "titre": "Composition à l’oiseau",
+    "categorie": "detaille",
+    "alt": "Emplacement réservé : photographie d’une composition tatouée avec un oiseau, à fournir.",
+    "motif": "Oiseau",
+    "encres": ["noire"],
+    "image": "../assets/encre/planche-03.jpg",
+    "cadrage": { "x": 45, "y": 45 },
+    "placeholder": true,
+    "publication": { "autorisee": false, "source": "Capture Instagram vue dans les supports. Original à demander à l’artiste." },
+    "accueil": true,
+    "ordre": 3
+  },
+  {
+    "id": "piece-ombree",
+    "titre": "Pièce détaillée, ombrages",
+    "categorie": "detaille",
+    "alt": "Emplacement réservé : photographie d’une pièce détaillée avec ombrages, à fournir.",
+    "motif": "Pièce détaillée avec ombrages",
+    "encres": ["noire", "rouge"],
+    "image": "../assets/encre/planche-04.jpg",
+    "detail": "../assets/encre/planche-04-detail.jpg",
+    "cadrage": { "x": 55, "y": 50 },
+    "placeholder": true,
+    "publication": { "autorisee": false, "source": "Capture Instagram vue dans les supports. Original à demander à l’artiste." },
+    "accueil": false,
+    "ordre": 4
+  }
+]

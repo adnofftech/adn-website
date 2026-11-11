@@ -1,0 +1,48 @@
+---
+/** Barre d'action fixe sur mobile. Masquée tant que l'action principale du premier écran est visible, et sur la page Mon projet. */
+import { actionPrincipale } from '@/data/site';
+import { url } from '@/lib/url';
+---
+<div class="barre" data-barre hidden>
+  <a class="btn barre__btn" href={url(actionPrincipale.href)}>{actionPrincipale.label}</a>
+</div>
+
+<style>
+  .barre {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-barre);
+    padding: var(--s-3) var(--gut) calc(var(--s-3) + env(safe-area-inset-bottom));
+    background: var(--bg); border-top: 1px solid var(--rule);
+    transform: translateY(0);
+    transition: transform var(--dur-short) var(--ease-out), opacity var(--dur-short) ease;
+  }
+  .barre[data-cachee] { transform: translateY(100%); opacity: 0; pointer-events: none; visibility: hidden; transition-delay: 0s, 0s; }
+  .barre__btn { width: 100%; }
+  @media (min-width: 768px) { .barre { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .barre { transition: opacity var(--dur-short) ease; transform: none; } .barre[data-cachee] { transform: none; } }
+</style>
+
+<script>
+  const barre = document.querySelector<HTMLElement>('[data-barre]');
+  const mobile = matchMedia('(max-width: 767px)');
+  if (barre) {
+    barre.hidden = false;
+    const root = document.documentElement;
+    const cta = document.querySelector<HTMLElement>('[data-cta-principal]');
+    let ctaVisible = !!cta;
+    let hauteur = 0;
+    const poser = () => {
+      const visible = mobile.matches && !ctaVisible;
+      barre.toggleAttribute('data-cachee', !visible);
+      barre.setAttribute('aria-hidden', visible ? 'false' : 'true');
+      barre.querySelector('a')!.tabIndex = visible ? 0 : -1;
+      hauteur = visible ? barre.offsetHeight : 0;
+      root.style.setProperty('--barre-h', `${hauteur}px`);
+    };
+    if (cta && 'IntersectionObserver' in window) {
+      new IntersectionObserver((es) => { ctaVisible = es[0].isIntersecting; poser(); }, { threshold: 0 }).observe(cta);
+    } else { ctaVisible = false; }
+    mobile.addEventListener('change', poser);
+    addEventListener('resize', poser, { passive: true });
+    poser();
+  }
+</script>

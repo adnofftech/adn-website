@@ -1,0 +1,151 @@
+---
+import Base from '@/layouts/Base.astro';
+import { conditions, marque, liens, tarif, actionPrincipale } from '@/data/site';
+import { url } from '@/lib/url';
+const { acompte, annulation, confirmation, domicile, mineurs, soins } = conditions;
+const euros = (n: number) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+const sommaire = [
+  ['acompte', 'Acompte'],
+  ['annulation', 'Annulation'],
+  ['confirmation', 'Confirmation du rendez-vous'],
+  ...(domicile.visible ? [['domicile', 'À domicile et déplacements']] : []),
+  ['mineurs', 'Personnes mineures'],
+  ['soins', 'Soins après tatouage'],
+  ['lieu', 'Où me trouver'],
+] as [string, string][];
+---
+<Base titre="Infos pratiques" description="Acompte, annulation, confirmation du rendez-vous, déplacements à domicile et personnes mineures : les conditions communiquées par LArtiste.Ink, tatoueur à Saint-Paul, La Réunion.">
+  <section class="section" aria-labelledby="titre">
+    <div class="wrap">
+      <div class="entete">
+        <div>
+          <h1 id="titre">Infos pratiques<span class="pt">.</span></h1>
+          <p class="lead">Ce que je demande pour réserver, et comment se déroule un rendez-vous. Pour le reste, nous en parlons en message privé.</p>
+        </div>
+        <nav class="sommaire" aria-label="Sommaire des infos pratiques">
+          <ul>
+            {sommaire.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}
+          </ul>
+        </nav>
+      </div>
+
+      <div class="infos">
+        <article class="info" id="acompte" aria-labelledby="acompte-t">
+          <h2 id="acompte-t">Acompte<span class="pt">.</span></h2>
+          <div class="info__corps">
+            <p class="info__cle"><span class="num info__chiffre">{acompte.pourcentage} %</span> du montant, pour bloquer le rendez-vous.</p>
+            <dl class="fiche">
+              <dt>Moyens</dt><dd>{acompte.moyens.join(', ou ')}</dd>
+              <dt>Modalités</dt><dd>{acompte.note}</dd>
+            </dl>
+          </div>
+        </article>
+
+        <article class="info" id="annulation" aria-labelledby="annulation-t">
+          <h2 id="annulation-t">Annulation<span class="pt">.</span></h2>
+          <div class="info__corps">
+            <ul class="liste">
+              <li><strong>Plus de {annulation.delaiHeures} heures avant</strong> : l’acompte est remboursé.</li>
+              <li><strong>Moins de {annulation.delaiHeures} heures avant, ou rendez-vous manqué</strong> : l’acompte est perdu.</li>
+            </ul>
+            <p class="muted small">Politique communiquée par {marque.nom}. Prévenez-moi dès que possible en message privé.</p>
+          </div>
+        </article>
+
+        <article class="info" id="confirmation" aria-labelledby="confirmation-t">
+          <h2 id="confirmation-t">Confirmation du rendez-vous<span class="pt">.</span></h2>
+          <div class="info__corps">
+            <dl class="fiche">
+              <dt>Le matin</dt><dd>Confirmez la veille.</dd>
+              <dt>L’après-midi</dt><dd>Confirmez le matin même.</dd>
+            </dl>
+            <p>{confirmation.absence} Un message suffit.</p>
+          </div>
+        </article>
+
+        {domicile.visible && (
+          <article class="info" id="domicile" aria-labelledby="domicile-t">
+            <h2 id="domicile-t">À domicile et déplacements<span class="pt">.</span></h2>
+            <div class="info__corps">
+              <p>Je peux me déplacer pour un tatouage d’un montant supérieur à {euros(domicile.seuilEuros)}. Frais de déplacement indicatifs :</p>
+              <table class="frais">
+                <caption class="visually-hidden">Frais de déplacement par commune</caption>
+                <thead><tr><th scope="col">Commune</th><th scope="col">Frais</th></tr></thead>
+                <tbody>
+                  {domicile.frais.map((f) => <tr><th scope="row">{f.zone}</th><td class="num">{euros(f.euros)}</td></tr>)}
+                </tbody>
+              </table>
+              <p class="muted small">{domicile.note}</p>
+            </div>
+          </article>
+        )}
+
+        <article class="info" id="mineurs" aria-labelledby="mineurs-t">
+          <h2 id="mineurs-t">Personnes mineures<span class="pt">.</span></h2>
+          <div class="info__corps">
+            <p>{mineurs.intro}</p>
+            <ol class="pieces">
+              {mineurs.pieces.map((p) => <li>{p}</li>)}
+            </ol>
+            <p class="muted small">{mineurs.note}</p>
+          </div>
+        </article>
+
+        <article class="info" id="soins" aria-labelledby="soins-t">
+          <h2 id="soins-t">Soins après tatouage<span class="pt">.</span></h2>
+          <div class="info__corps">
+            <p>{soins}</p>
+            <p class="muted small">En cas de doute pendant la cicatrisation, écrivez-moi.</p>
+          </div>
+        </article>
+
+        <article class="info" id="lieu" aria-labelledby="lieu-t">
+          <h2 id="lieu-t">Où me trouver<span class="pt">.</span></h2>
+          <div class="info__corps">
+            <p class="info__cle">{marque.commune}, {marque.territoire}.</p>
+            <p>L’adresse exacte vous est communiquée à la confirmation du rendez-vous. Déplacement possible selon les conditions ci-dessus.</p>
+            <p class="small"><a class="link" href={liens.instagram} rel="noopener">Instagram {liens.instagramPseudo}</a></p>
+          </div>
+        </article>
+      </div>
+
+      <div class="fin paper">
+        <div>
+          <h2>Un tarif pour votre projet<span class="pt">.</span></h2>
+          <p>{tarif.prestation} : à partir de <strong class="num">{euros(tarif.aPartirDe)}</strong>. Pour une autre pièce, présentez-moi votre projet.</p>
+        </div>
+        <a class="btn" href={url(actionPrincipale.href)}>{actionPrincipale.label}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .entete { display: grid; gap: var(--s-6); margin-bottom: clamp(var(--s-7), 5vw, var(--s-9)); }
+  .entete .lead { margin-top: var(--s-5); max-inline-size: 40ch; }
+  .sommaire ul { list-style: none; display: grid; }
+  .sommaire a { display: flex; align-items: center; min-height: 44px; border-top: 1px solid var(--rule); text-decoration: none; color: var(--fg-2); }
+  .sommaire li:last-child a { border-bottom: 1px solid var(--rule); }
+  .sommaire a:hover, .sommaire a:focus-visible { color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent-text); }
+  @media (min-width: 900px) { .entete { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); column-gap: var(--s-9); align-items: start; } .sommaire { position: sticky; top: calc(var(--nav-h) + var(--s-5)); } }
+
+  .infos { display: grid; }
+  .info { display: grid; gap: var(--s-5); padding-block: clamp(var(--s-7), 5vw, var(--s-8)); border-top: 1px solid var(--rule); scroll-margin-top: calc(var(--nav-h) + var(--s-5)); }
+  .info h2 { font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem); }
+  .info__corps { display: grid; gap: var(--s-4); }
+  .info__cle { font-size: var(--t-lead); max-inline-size: 36ch; }
+  .info__chiffre { font-size: var(--t-chiffre); line-height: 0.9; color: var(--accent-text); margin-right: 0.1em; }
+  @media (min-width: 900px) { .info { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--s-9); } .info__corps { max-width: 40rem; } }
+
+  .frais { width: 100%; max-width: 28rem; border-collapse: collapse; }
+  .frais th, .frais td { text-align: left; padding: var(--s-3) 0; border-bottom: 1px solid var(--rule); font-weight: 400; }
+  .frais thead th { color: var(--fg-2); font-size: var(--t-small); }
+  .frais td { text-align: right; font-size: 1.25rem; }
+  .pieces { padding-left: 1.4em; display: grid; gap: var(--s-2); }
+  .pieces li::marker { color: var(--accent-text); font-family: var(--font-display); }
+
+  .fin { margin-top: var(--s-8); padding: clamp(var(--s-6), 4vw, var(--s-8)); border-radius: var(--r); display: grid; gap: var(--s-5); align-items: center; }
+  .fin h2 { font-size: var(--t-h3); margin-bottom: var(--s-3); }
+  .fin strong { font-size: 1.4em; color: var(--paper-accent); }
+  @media (min-width: 768px) { .fin { grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-8); } }
+</style>

@@ -1,0 +1,157 @@
+/* LArtiste.Ink : jetons du système visuel « Le carnet de LArtiste ».
+   Palette du brief : noir encre, charbon, ivoire, gris chaud, rouge encre, rouge clair.
+   Les composants n'emploient que les jetons sémantiques (--bg, --fg, --accent…), jamais les couleurs brutes. */
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('./fonts/cormorant-garamond-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('./fonts/cormorant-garamond-latin-ext-wght-normal.woff2') format('woff2-variations');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('./fonts/cormorant-garamond-latin-wght-italic.woff2') format('woff2-variations');
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('./fonts/instrument-sans-latin-wght-normal.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('./fonts/instrument-sans-latin-ext-wght-normal.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* Polices de secours ajustées : le texte reste lisible et stable pendant le chargement. */
+@font-face {
+  font-family: 'Cormorant Garamond Fallback';
+  src: local('Georgia'), local('Times New Roman'), local('Times');
+  size-adjust: 94%;
+  ascent-override: 92%;
+  descent-override: 28%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Instrument Sans Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Helvetica');
+  size-adjust: 97%;
+  ascent-override: 96%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* Couleurs de la charte */
+  --noir-encre: #0b0a0a;
+  --charbon: #191616;
+  --charbon-clair: #231f1f;
+  --ivoire: #f5efe7;
+  --gris-chaud: #bfb5b0;
+  --rouge-encre: #a42634;
+  --rouge-clair: #e36d78;
+  --rouge-profond: #8a1f2b;
+
+  /* Rôles sur fond sombre */
+  --bg: var(--noir-encre);
+  --surface: var(--charbon);
+  --surface-2: var(--charbon-clair);
+  --fg: var(--ivoire);
+  --fg-2: var(--gris-chaud);
+  --accent: var(--rouge-encre);          /* remplissages, filets, repères : jamais du texte sur fond sombre (2,7:1) */
+  --accent-fg: var(--ivoire);            /* texte sur remplissage rouge : 6,3:1 */
+  --accent-text: var(--rouge-clair);     /* texte ou lien rouge sur fond sombre : 6,3:1 */
+  --rule: color-mix(in srgb, var(--ivoire) 14%, transparent);
+  --rule-strong: color-mix(in srgb, var(--ivoire) 32%, transparent);
+  --focus: var(--rouge-clair);
+  --scrim: color-mix(in srgb, var(--noir-encre) 86%, transparent);
+
+  /* Surface ivoire (récapitulatif, encart tarif) */
+  --paper: var(--ivoire);
+  --paper-fg: var(--noir-encre);
+  --paper-fg-2: #5c5450;                 /* 6,5:1 sur ivoire */
+  --paper-accent: var(--rouge-profond);  /* 8:1 sur ivoire */
+  --paper-rule: color-mix(in srgb, var(--noir-encre) 18%, transparent);
+
+  /* Typographie */
+  --font-display: 'Cormorant Garamond', 'Cormorant Garamond Fallback', Georgia, 'Times New Roman', serif;
+  --font-text: 'Instrument Sans', 'Instrument Sans Fallback', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+
+  --t-body: clamp(1rem, 0.94rem + 0.3vw, 1.125rem);      /* 16 → 18 px */
+  --t-small: 0.9375rem;                                  /* 15 px */
+  --t-label: 0.8125rem;                                  /* 13 px : folios et unités seulement */
+  --t-lead: clamp(1.125rem, 1.02rem + 0.55vw, 1.4rem);
+  --t-h3: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+  --t-h2: clamp(2.125rem, 1.5rem + 2.8vw, 3.75rem);
+  --t-h1: clamp(2.875rem, 1.6rem + 6.4vw, 6.75rem);
+  --t-chiffre: clamp(3rem, 2rem + 5vw, 6rem);
+  --lh-display: 1.02;
+  --lh-text: 1.55;
+  --mesure: 62ch;
+
+  /* Espacements (échelle unique) */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px;
+  --s-6: 32px; --s-7: 48px; --s-8: 64px; --s-9: 96px; --s-10: 128px;
+  --section: clamp(4rem, 3rem + 5vw, 7.5rem);
+  --gut: clamp(16px, 2vw + 8px, 64px);
+  --wrap: 1200px;
+  --nav-h: 64px;
+  --barre-h: 0px; /* hauteur de la barre d'action mobile, posée par ActionBar */
+
+  /* Formes */
+  --r: 2px;
+  --r-btn: 2px;
+  --btn-h: 48px;
+
+  /* Mouvement (valeurs de départ, ajustées après observation) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --dur-micro: 140ms;   /* survol, pression, couleur */
+  --dur-short: 200ms;   /* changement d'état, sélection */
+  --dur-panel: 260ms;   /* ouverture de panneau, visionneuse, menu */
+  --dur-enter: 560ms;   /* entrée de l'accueil */
+
+  /* Plans */
+  --z-nav: 300;
+  --z-barre: 250;
+  --z-dialog: 400;
+  --z-toast: 500;
+}
+
+/* Surface ivoire : on redéfinit les rôles pour que les composants restent identiques. */
+.paper {
+  --bg: var(--paper);
+  --surface: color-mix(in srgb, var(--paper) 92%, var(--noir-encre));
+  --surface-2: color-mix(in srgb, var(--paper) 86%, var(--noir-encre));
+  --fg: var(--paper-fg);
+  --fg-2: var(--paper-fg-2);
+  --accent-text: var(--paper-accent);
+  --accent: var(--paper-accent);
+  --rule: var(--paper-rule);
+  --rule-strong: color-mix(in srgb, var(--noir-encre) 40%, transparent);
+  --focus: var(--paper-accent);
+  color-scheme: light;
+  background: var(--bg);
+  color: var(--fg);
+}

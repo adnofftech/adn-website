@@ -1,0 +1,25 @@
+# Astro
+dist/
+.astro/
+node_modules/
+npm-debug.log*
+
+# Skills installés dans le projet (réinstallation : voir README, section Skills)
+.claude/skills/
+.claude/agents/
+.claude/settings.local.json
+.agents/
+.taste-skill/
+skills-lock.json
+
+# Impeccable : état éphémère (voir README du dépôt pbakaus/impeccable)
+**/.impeccable/config.local.json
+**/.impeccable/hook.cache.json
+**/.impeccable/hook.pending.json
+**/.impeccable/*.png
+**/.impeccable/review/
+**/.impeccable/questions/
+**/.impeccable/live/
+
+# Captures de vérification
+tests/shots/
