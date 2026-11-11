@@ -6,7 +6,7 @@ import { mkdirSync } from 'node:fs';
 const { chromium, devices } = createRequire(import.meta.url)('playwright'); // Playwright préinstallé dans l'environnement
 
 const PORT = 4321;
-const base = `http://127.0.0.1:${PORT}`;
+const base = `http://127.0.0.1:${PORT}${(process.env.BASE_PATH || '').replace(/\/$/, '')}`; // BASE_PATH=/adn-website pour tester le déploiement GitHub Pages
 const sansBuild = process.argv.includes('--sans-build');
 if (!sansBuild) execSync('npx astro build', { stdio: 'inherit' });
 const repond = async () => { try { return (await fetch(base + '/')).ok; } catch { return false; } };
@@ -31,8 +31,13 @@ try {
   m.on('pageerror', (e) => erreurs.push(e.message));
   m.on('console', (c) => { if (c.type() === 'error') erreurs.push(c.text()); });
 
-  // 1. Accueil → galerie
+  // 0. Aucune requête en échec et polices chargées (important sous un préfixe de déploiement)
+  const echecsReseau = [];
+  m.on('response', (r) => { if (r.status() >= 400 && !r.url().includes('/favicon.ico')) echecsReseau.push(`${r.status()} ${r.url()}`); });
   await m.goto(base + '/');
+  await m.evaluate(() => document.fonts.ready);
+  ok('0a. Les polices Cormorant Garamond et Instrument Sans sont chargées', await m.evaluate(() => document.fonts.check("500 20px 'Cormorant Garamond'") && document.fonts.check("400 16px 'Instrument Sans'") && [...document.fonts].some((f) => f.status === 'loaded')));
+  // 1. Accueil → galerie
   await m.getByRole('link', { name: 'Voir les réalisations' }).tap();
   await m.waitForURL(/\/realisations/);
   ok('1. Depuis l’accueil, accéder à la galerie', m.url().includes('/realisations'));
@@ -174,6 +179,7 @@ try {
   ok('Barre d’action : absente de la page Mon projet', (await m.locator('[data-barre]').count()) === 0);
 
   ok('Aucune erreur JavaScript sur mobile', erreurs.length === 0, erreurs.join(' | '));
+  ok('0b. Aucune requête en échec (404) pendant le parcours', echecsReseau.length === 0, echecsReseau.join(' | '));
   await mobile.close();
 
   // ---------- 11. Repli si la copie échoue ----------

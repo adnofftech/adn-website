@@ -5,6 +5,8 @@ import Footer from '@/components/Footer.astro';
 import ActionBar from '@/components/ActionBar.astro';
 import { seo, apercu, marque, liens } from '@/data/site';
 import { url } from '@/lib/url';
+import fontTitres from '@/styles/fonts/cormorant-garamond-latin-wght-normal.woff2?url';
+import fontTexte from '@/styles/fonts/instrument-sans-latin-wght-normal.woff2?url';
 
 interface Props {
   titre: string;
@@ -42,8 +44,8 @@ const jsonLd = {
     <meta name="color-scheme" content="dark" />
     <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
-    <link rel="preload" href={url('/fonts/cormorant-garamond-latin-wght-normal.woff2')} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={url('/fonts/instrument-sans-latin-wght-normal.woff2')} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fontTitres} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={fontTexte} as="font" type="font/woff2" crossorigin />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={marque.nom} />
     <meta property="og:title" content={titrePage} />

@@ -3,7 +3,7 @@
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 const { chromium } = createRequire(import.meta.url)('playwright');
-const font = (f) => `data:font/woff2;base64,${readFileSync(`public/fonts/${f}`).toString('base64')}`;
+const font = (f) => `data:font/woff2;base64,${readFileSync(`src/styles/fonts/${f}`).toString('base64')}`;
 const css = `
 @font-face{font-family:'Cormorant Garamond';src:url(${font('cormorant-garamond-latin-wght-normal.woff2')}) format('woff2-variations');font-weight:300 700}
 @font-face{font-family:'Instrument Sans';src:url(${font('instrument-sans-latin-wght-normal.woff2')}) format('woff2-variations');font-weight:400 700}

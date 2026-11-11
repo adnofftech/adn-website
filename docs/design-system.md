@@ -20,7 +20,7 @@ Règle : le rouge encre `#A42634` n’est jamais utilisé comme couleur de texte
 
 - Titres : **Cormorant Garamond** (variable 300–700, graisse 500 pour les titres, 600 pour la signature), secours Georgia ajusté (`size-adjust`).
 - Textes, boutons, légendes, formulaires : **Instrument Sans** (variable 400–700), secours Arial ajusté.
-- Polices auto-hébergées (`public/fonts`, sous-ensembles latin et latin étendu), `font-display: swap`, préchargement des deux fichiers principaux.
+- Polices auto-hébergées (`src/styles/fonts`, sous-ensembles latin et latin étendu), `font-display: swap`, préchargement des deux fichiers principaux.
 - Corps : `--t-body` 16 → 18 px fluide, interligne 1,55, mesure 62 ch. Titres fluides : h1 46 → 108 px, h2 34 → 60 px, h3 24 → 32 px. Minimum 13 px (folios).
 - Signature de marque : « LArtiste.Ink » en Cormorant 600, le point en rouge clair. Les titres de section se terminent par un point rouge, même geste.
 
