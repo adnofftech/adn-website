@@ -1,0 +1,131 @@
+---
+import Signature from './Signature.astro';
+import { navigation, actionPrincipale, liens } from '@/data/site';
+import { url } from '@/lib/url';
+const chemin = Astro.url.pathname.replace(/\/$/, '') || '/';
+const estCourant = (href: string) => chemin === url(href).replace(/\/$/, '');
+---
+<header class="top">
+  <div class="wrap top__wrap">
+    <a class="top__brand" href={url('/')} aria-label="LArtiste.Ink, accueil"><Signature /></a>
+    <nav class="top__nav" aria-label="Navigation principale">
+      <ul class="top__links">
+        {navigation.map((n) => (
+          <li><a href={url(n.href)} aria-current={estCourant(n.href) ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+      </ul>
+      <a class="btn btn--sm top__cta" href={url(actionPrincipale.href)} aria-current={estCourant(actionPrincipale.href) ? 'page' : undefined}>{actionPrincipale.label}</a>
+    </nav>
+    <button class="top__menu" type="button" aria-expanded="false" aria-controls="menu" aria-haspopup="dialog" data-menu-open>
+      <span class="top__menu-lines" aria-hidden="true"><i></i><i></i></span>
+      <span>Menu</span>
+    </button>
+  </div>
+</header>
+
+<dialog id="menu" class="menu" aria-label="Menu de navigation">
+  <div class="menu__panel wrap">
+    <div class="menu__head">
+      <a class="top__brand" href={url('/')} aria-label="LArtiste.Ink, accueil"><Signature /></a>
+      <button class="menu__close" type="button" data-menu-close>Fermer<span aria-hidden="true"> ✕</span></button>
+    </div>
+    <nav aria-label="Navigation du menu">
+      <ul class="menu__links">
+        <li><a href={url('/')} aria-current={chemin === '/' || chemin === url('/').replace(/\/$/, '') ? 'page' : undefined}>Accueil</a></li>
+        {navigation.map((n) => (
+          <li><a href={url(n.href)} aria-current={estCourant(n.href) ? 'page' : undefined}>{n.label}</a></li>
+        ))}
+        <li><a href={url(actionPrincipale.href)} aria-current={estCourant(actionPrincipale.href) ? 'page' : undefined}>{actionPrincipale.label}</a></li>
+      </ul>
+    </nav>
+    <div class="menu__foot">
+      <a class="btn" href={url(actionPrincipale.href)}>{actionPrincipale.label}</a>
+      <p class="muted small">Tatoueur à Saint-Paul, La Réunion. Encres noire et rouge.</p>
+      <p class="small"><a class="link" href={liens.instagram} rel="noopener">Instagram {liens.instagramPseudo}</a></p>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .top {
+    position: sticky; top: 0; z-index: var(--z-nav);
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .top__wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--s-5); min-height: var(--nav-h); }
+  .top__brand { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
+  .top__nav { display: none; align-items: center; gap: var(--s-6); }
+  .top__links { list-style: none; display: flex; gap: var(--s-6); }
+  .top__links a {
+    display: inline-flex; align-items: center; min-height: 44px;
+    text-decoration: none; color: var(--fg-2); font-weight: 500;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0 1px; background-repeat: no-repeat; background-position: 0 calc(100% - 10px);
+    transition: color var(--dur-micro) ease, background-size var(--dur-micro) var(--ease-out);
+  }
+  .top__links a:hover, .top__links a:focus-visible { color: var(--fg); background-size: 100% 1px; }
+  .top__links a[aria-current="page"] { color: var(--fg); background-size: 100% 1px; background-image: linear-gradient(var(--accent-text), var(--accent-text)); }
+  .top__menu {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    min-height: 44px; min-width: 44px; padding: 0 var(--s-2); margin-right: calc(-1 * var(--s-2));
+    font-weight: 500; color: var(--fg);
+  }
+  .top__menu-lines { display: inline-grid; gap: 5px; width: 20px; }
+  .top__menu-lines i { display: block; height: 1.5px; background: currentColor; }
+  @media (min-width: 768px) {
+    .top__nav { display: flex; }
+    .top__menu { display: none; }
+  }
+
+  /* Menu mobile : feuille plein écran */
+  .menu {
+    position: fixed; inset: 0; width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: 0;
+    border: 0; background: var(--bg); color: var(--fg);
+    opacity: 1; transition: opacity var(--dur-panel) var(--ease-out), display var(--dur-panel) allow-discrete, overlay var(--dur-panel) allow-discrete;
+  }
+  .menu::backdrop { background: var(--scrim); }
+  .menu:not([open]) { display: none; }
+  .menu[open] { display: flex; flex-direction: column; }
+  @starting-style { .menu[open] { opacity: 0; } }
+  .menu__panel { display: flex; flex-direction: column; flex: 1; padding-bottom: max(var(--s-6), env(safe-area-inset-bottom)); }
+  .menu__head { display: flex; align-items: center; justify-content: space-between; min-height: var(--nav-h); border-bottom: 1px solid var(--rule); }
+  .menu__close { min-height: 44px; padding: 0 var(--s-2); margin-right: calc(-1 * var(--s-2)); font-weight: 500; }
+  .menu__links { list-style: none; margin-top: var(--s-5); }
+  .menu__links a {
+    display: flex; align-items: center; min-height: 64px; padding-block: var(--s-3);
+    font-family: var(--font-display); font-size: 2.25rem; font-weight: 500; line-height: 1; text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    transition: transform var(--dur-short) var(--ease-out), opacity var(--dur-short) var(--ease-out);
+  }
+  .menu__links a[aria-current="page"] { color: var(--accent-text); }
+  @media (prefers-reduced-motion: no-preference) {
+    .menu[open] .menu__links li { animation: menu-in var(--dur-panel) var(--ease-out) both; }
+    .menu[open] .menu__links li:nth-child(2) { animation-delay: 40ms; }
+    .menu[open] .menu__links li:nth-child(3) { animation-delay: 80ms; }
+    .menu[open] .menu__links li:nth-child(4) { animation-delay: 120ms; }
+  }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .menu__foot { margin-top: auto; display: grid; gap: var(--s-4); padding-top: var(--s-7); }
+  .menu__foot .btn { width: 100%; }
+  @media (min-width: 768px) { .menu[open] { display: none; } }
+</style>
+
+<script>
+  const menu = document.getElementById('menu') as HTMLDialogElement | null;
+  const ouvrir = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  if (menu && ouvrir && typeof menu.showModal === 'function') {
+    const fermer = () => { if (menu.open) menu.close(); };
+    ouvrir.addEventListener('click', () => {
+      menu.showModal();
+      ouvrir.setAttribute('aria-expanded', 'true');
+      menu.querySelector<HTMLElement>('.menu__links a')?.focus();
+    });
+    menu.addEventListener('close', () => {
+      ouvrir.setAttribute('aria-expanded', 'false');
+      ouvrir.focus();
+    });
+    menu.querySelectorAll('[data-menu-close], .menu__links a, .menu__foot a').forEach((el) => el.addEventListener('click', fermer));
+    menu.addEventListener('click', (e) => { if (e.target === menu) fermer(); });
+    matchMedia('(min-width: 768px)').addEventListener('change', (e) => { if (e.matches) fermer(); });
+  }
+</script>

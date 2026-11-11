@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Galerie from '@/components/Galerie.astro';
+import { liens } from '@/data/site';
+const pieces = (await getCollection('realisations')).sort((a, b) => a.data.ordre - b.data.ordre);
+---
+<Base titre="Réalisations" description="Les tatouages de LArtiste.Ink à Saint-Paul, La Réunion : floral, lettrage et pièces détaillées à l’encre noire et rouge, à examiner en vue d’ensemble puis en détail.">
+  <section class="section" aria-labelledby="titre">
+    <div class="wrap">
+      <div class="entete">
+        <h1 id="titre">Réalisations<span class="pt">.</span></h1>
+        <p class="lead">Chaque pièce s’ouvre à la loupe : la vue d’ensemble, puis le détail du trait et des ombrages. Une réalisation peut servir de point de départ à votre projet.</p>
+      </div>
+      <Galerie pieces={pieces} filtres colonnes={3} titreNiveau="h2" />
+      <p class="suite muted">D’autres pièces sur <a class="link" href={liens.instagram} rel="noopener">Instagram {liens.instagramPseudo}</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .entete { display: grid; gap: var(--s-5); margin-bottom: clamp(var(--s-7), 5vw, var(--s-9)); }
+  .entete .lead { max-inline-size: 44ch; }
+  @media (min-width: 900px) { .entete { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); align-items: end; } }
+  .suite { margin-top: var(--s-8); }
+</style>

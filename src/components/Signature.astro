@@ -1,0 +1,21 @@
+---
+/** Signature typographique « LArtiste.Ink », le point en rouge encre. Sert de logo jusqu'à la fourniture d'un logo officiel. */
+interface Props { taille?: 'nav' | 'pied' | 'hero'; class?: string }
+const { taille = 'nav', class: cls = '' } = Astro.props;
+---
+<span class={`signature signature--${taille} ${cls}`}>LArtiste<span class="signature__pt" aria-hidden="true">.</span><span class="visually-hidden">.</span>Ink</span>
+
+<style>
+  .signature {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--fg);
+  }
+  .signature--nav { font-size: 1.625rem; }
+  .signature--pied { font-size: clamp(2.5rem, 2rem + 4vw, 5rem); font-weight: 500; }
+  .signature--hero { font-size: var(--t-h3); font-weight: 500; }
+  .signature__pt { color: var(--accent-text); }
+</style>

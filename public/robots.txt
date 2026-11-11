@@ -1,0 +1,3 @@
+# Version de présentation : indexation interdite tant que PREVIEW n'est pas désactivé.
+User-agent: *
+Disallow: /

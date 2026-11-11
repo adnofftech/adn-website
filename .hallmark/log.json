@@ -1,3 +1,20 @@
 [
-  { "date": "2026-10-12", "macrostructure": "Marquee Hero", "theme": "custom", "theme_axes": "light / light-serif / gold", "enrichment": "none", "brief": "Ma Pause Beauté · institut beauté et onglerie, Sainte-Clotilde" }
+  {
+    "date": "2026-11-11",
+    "macrostructure": "Custom (carnet : hero split typographique, planches, fiches, encart ivoire)",
+    "theme": "custom",
+    "theme_axes": "dark / roman-serif / chromatic-red",
+    "enrichment": "none",
+    "brief": "LArtiste.Ink · tatoueur, Saint-Paul, La Réunion",
+    "prompt": "Le carnet de LArtiste",
+    "signature": "Le point rouge de LArtiste.Ink repris en fin de titre ; réalisations ouvertes à la loupe"
+  },
+  {
+    "date": "2026-10-12",
+    "macrostructure": "Marquee Hero",
+    "theme": "custom",
+    "theme_axes": "light / light-serif / gold",
+    "enrichment": "none",
+    "brief": "Ma Pause Beauté · institut beauté et onglerie, Sainte-Clotilde"
+  }
 ]

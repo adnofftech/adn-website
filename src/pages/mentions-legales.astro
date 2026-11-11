@@ -1,0 +1,44 @@
+---
+import Base from '@/layouts/Base.astro';
+import { mentions, marque, liens } from '@/data/site';
+const lignes: [string, string | null, string][] = [
+  ['Éditeur du site', mentions.editeur, 'Nom ou raison sociale'],
+  ['Statut', mentions.statut, 'Entrepreneur individuel, société…'],
+  ['Identifiant d’entreprise', mentions.siret, 'SIRET ou SIREN'],
+  ['Adresse de correspondance', mentions.adresse, 'Adresse publiable'],
+  ['Contact', mentions.email, 'Adresse e-mail publiable'],
+  ['Directeur de la publication', mentions.directeurPublication, 'Nom'],
+  ['Hébergeur', mentions.hebergeur, 'Nom, adresse et téléphone de l’hébergeur'],
+];
+---
+<Base titre="Mentions légales" description="Mentions légales du site de LArtiste.Ink, tatoueur à Saint-Paul, La Réunion.">
+  <section class="section" aria-labelledby="titre">
+    <div class="wrap legal">
+      <h1 id="titre">Mentions légales<span class="pt">.</span></h1>
+      <p class="lead">Informations relatives à l’éditeur et à l’hébergement de ce site.</p>
+
+      <h2>Éditeur</h2>
+      <dl class="fiche">
+        {lignes.map(([k, v, aide]) => (
+          <><dt>{k}</dt><dd>{v ?? <span class="a-completer">À compléter : {aide}</span>}</dd></>
+        ))}
+      </dl>
+      <p>Activité : tatouage, {marque.commune}, {marque.territoire}. Nom commercial affiché : {marque.nom} (profil Instagram « {marque.nomProfil} »).</p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>Les photographies de tatouages, les textes et la signature typographique « {marque.nom} » présentés sur ce site appartiennent à leur auteur. Toute reproduction sans accord écrit est interdite.</p>
+
+      <h2>Réseaux</h2>
+      <p>Instagram : <a class="link" href={liens.instagram} rel="noopener">{liens.instagramPseudo}</a>. TikTok : <a class="link" href={liens.tiktok} rel="noopener">{liens.tiktokPseudo}</a>.</p>
+
+      <h2>Crédits</h2>
+      <p>Polices Cormorant Garamond et Instrument Sans, sous licence SIL Open Font License. Site conçu et développé pour {marque.nom}.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { display: grid; gap: var(--s-5); max-width: 44rem; }
+  .legal h2 { font-size: var(--t-h3); margin-top: var(--s-6); }
+  .legal .lead { max-inline-size: 40ch; }
+</style>

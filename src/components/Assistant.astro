@@ -1,0 +1,270 @@
+---
+/**
+ * Assistant « Mon projet » : prépare un message à copier dans Instagram, en trois étapes.
+ * Sans JavaScript, le formulaire complet reste visible avec le lien Instagram : rien n'est envoyé par le site.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { liens } from '@/data/site';
+import { url } from '@/lib/url';
+interface Props { pieces: CollectionEntry<'realisations'>[] }
+const { pieces } = Astro.props;
+---
+<form class="assistant" data-assistant novalidate action={liens.instagram} method="get" target="_blank">
+  <p class="assistant__progres" data-progres aria-live="polite"></p>
+
+  <fieldset class="etape" data-etape="1">
+    <legend class="etape__titre"><span class="num etape__num" aria-hidden="true">01</span><span>Votre idée<span class="pt">.</span></span></legend>
+
+    <div class="reference" data-reference hidden>
+      <p class="reference__texte">Réalisation de référence : <strong data-reference-titre></strong></p>
+      <button type="button" class="btn btn--line btn--sm" data-reference-retirer>Retirer la référence</button>
+    </div>
+
+    <div class="champ">
+      <label for="idee">Décrivez votre projet</label>
+      <p class="champ__aide" id="idee-aide">Par exemple : « un hibiscus avec le prénom de ma fille », « un lettrage fin sur la clavicule », « une pièce détaillée avec des ombrages ».</p>
+      <textarea class="textarea" id="idee" name="idee" rows="5" aria-describedby="idee-aide idee-erreur" autocomplete="off"></textarea>
+      <p class="champ__erreur" id="idee-erreur" role="alert"></p>
+    </div>
+
+    <label class="case">
+      <input type="checkbox" name="hesite" value="1" />
+      <span>J’hésite encore sur le motif, j’aimerais en discuter.</span>
+    </label>
+
+    <div class="champ">
+      <label for="reference-choix">Réalisation qui vous inspire <span class="muted">(facultatif)</span></label>
+      <select class="input" id="reference-choix" name="reference" data-reference-choix>
+        <option value="">Aucune</option>
+        {pieces.map((p, i) => <option value={p.id}>N° {String(i + 1).padStart(2, '0')}, {p.data.titre}</option>)}
+      </select>
+    </div>
+
+    <p class="assistant__conseil">Pensez à préparer une photo de l’emplacement et vos inspirations : vous les joindrez dans la conversation Instagram.</p>
+  </fieldset>
+
+  <fieldset class="etape" data-etape="2">
+    <legend class="etape__titre"><span class="num etape__num" aria-hidden="true">02</span><span>Les détails<span class="pt">.</span></span></legend>
+
+    <div class="champ">
+      <label for="zone">Zone du corps</label>
+      <p class="champ__aide" id="zone-aide">Avant-bras, mollet, dos, côtes…</p>
+      <input class="input" id="zone" name="zone" type="text" autocomplete="off" aria-describedby="zone-aide" />
+    </div>
+
+    <div class="champ">
+      <label for="dimensions">Dimensions approximatives, en centimètres</label>
+      <p class="champ__aide" id="dimensions-aide">Par exemple « 12 × 8 cm » ou « tout l’avant-bras ». Une estimation suffit.</p>
+      <input class="input" id="dimensions" name="dimensions" type="text" inputmode="text" autocomplete="off" aria-describedby="dimensions-aide" data-dimensions />
+      <label class="case">
+        <input type="checkbox" name="dimensionsADefinir" value="1" data-dimensions-adefinir />
+        <span>À définir ensemble</span>
+      </label>
+    </div>
+
+    <fieldset class="champ">
+      <legend class="champ__label">Encre souhaitée</legend>
+      <div class="choix choix--ligne">
+        <label><input type="radio" name="encre" value="noire" /> Noire</label>
+        <label><input type="radio" name="encre" value="rouge" /> Rouge</label>
+        <label><input type="radio" name="encre" value="noire-rouge" /> Noire et rouge</label>
+        <label><input type="radio" name="encre" value="a-discuter" /> À discuter</label>
+      </div>
+    </fieldset>
+
+    <div class="champ">
+      <label for="disponibilites">Vos disponibilités</label>
+      <p class="champ__aide" id="dispo-aide">Jours, semaines ou périodes qui vous arrangent. Le créneau est confirmé avec moi en message privé.</p>
+      <input class="input" id="disponibilites" name="disponibilites" type="text" autocomplete="off" aria-describedby="dispo-aide" />
+      <label class="case">
+        <input type="checkbox" name="flexible" value="1" />
+        <span>Je suis flexible sur les dates</span>
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset class="etape" data-etape="3">
+    <legend class="etape__titre"><span class="num etape__num" aria-hidden="true">03</span><span>Votre message<span class="pt">.</span></span></legend>
+    <div class="recap paper">
+      <div class="champ">
+        <label for="message">Relisez et modifiez si besoin</label>
+        <textarea class="textarea recap__texte" id="message" name="message" rows="16" data-message spellcheck="false"></textarea>
+      </div>
+      <p class="statut" data-statut role="status" aria-live="polite"></p>
+      <div class="recap__actions">
+        <button type="button" class="btn" data-copier>Copier le message</button>
+        <a class="btn btn--line" data-instagram href={liens.instagramMessage} target="_blank" rel="noopener">Ouvrir Instagram</a>
+      </div>
+      <p class="small recap__repli">Si la messagerie ne s’ouvre pas, passez par le profil <a class="link" href={liens.instagram} target="_blank" rel="noopener">{liens.instagramPseudo}</a> puis « Message ».</p>
+      <ol class="recap__suite small">
+        <li>Copiez le message.</li>
+        <li>Ouvrez la conversation Instagram et collez-le.</li>
+        <li>Joignez vos inspirations et la photo de l’emplacement. Je vous réponds avec le tarif et les disponibilités.</li>
+      </ol>
+    </div>
+    <p class="assistant__modifier"><button type="button" class="link link--quiet assistant__lien" data-modifier>Modifier mes réponses</button></p>
+  </fieldset>
+
+  <div class="assistant__nav" data-nav>
+    <button type="button" class="btn btn--line" data-retour>Retour</button>
+    <button type="button" class="btn" data-continuer>Continuer</button>
+  </div>
+
+  <noscript>
+    <div class="assistant__noscript">
+      <p>Sans JavaScript, ce formulaire ne prépare pas le message automatiquement. Reprenez simplement vos réponses dans un message Instagram :</p>
+      <ul class="liste--puces liste">
+        <li>votre idée et, si vous le souhaitez, le numéro d’une réalisation qui vous inspire</li>
+        <li>la zone du corps et les dimensions approximatives, ou « à définir »</li>
+        <li>l’encre souhaitée : noire, rouge, les deux, ou à discuter</li>
+        <li>vos disponibilités</li>
+      </ul>
+      <p><a class="btn" href={liens.instagram} rel="noopener">Écrire sur Instagram</a></p>
+    </div>
+  </noscript>
+</form>
+
+<style>
+  .assistant { display: grid; gap: var(--s-7); }
+  .assistant__progres { color: var(--fg-2); font-size: var(--t-small); min-height: 1lh; }
+  .assistant__progres:empty { display: none; }
+  .etape { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: var(--s-6); }
+  .etape__titre { font-family: var(--font-display); font-size: var(--t-h2); font-weight: 500; line-height: 1; letter-spacing: -0.015em; padding: 0; margin-bottom: var(--s-2); display: flex; align-items: baseline; gap: var(--s-4); }
+  .etape__num { color: var(--fg-2); font-size: 0.55em; font-weight: 400; }
+  .etape[data-masquee] { display: none; }
+  .champ__label { font-weight: 500; padding: 0; }
+  .reference { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-5); align-items: center; justify-content: space-between; padding: var(--s-4) var(--s-5); border: 1px solid var(--accent-text); border-radius: var(--r); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+  .reference__texte { max-inline-size: none; }
+  .assistant__conseil { padding: var(--s-4) var(--s-5); border-left: 1px solid var(--accent-text); color: var(--fg-2); }
+  .recap { padding: clamp(var(--s-5), 3vw, var(--s-7)); border-radius: var(--r); display: grid; gap: var(--s-5); }
+  .recap__texte { font-family: var(--font-text); line-height: 1.55; background: color-mix(in srgb, var(--paper) 94%, var(--noir-encre)); }
+  .recap__actions { display: grid; gap: var(--s-3); }
+  .recap__repli { color: var(--fg-2); }
+  .recap__suite { padding-left: 1.2em; color: var(--fg-2); display: grid; gap: var(--s-1); }
+  .assistant__modifier { margin-top: var(--s-2); }
+  .assistant__lien { text-decoration: underline; min-height: 44px; display: inline-flex; align-items: center; }
+  .assistant__nav { display: flex; justify-content: space-between; gap: var(--s-3); padding-top: var(--s-5); border-top: 1px solid var(--rule); }
+  .assistant__nav[hidden] { display: none; }
+  .assistant__nav [data-retour][data-inactif] { visibility: hidden; }
+  .assistant__noscript { display: grid; gap: var(--s-4); padding: var(--s-5); border: 1px solid var(--rule-strong); border-radius: var(--r); }
+  @media (min-width: 640px) { .recap__actions { grid-template-columns: 1fr 1fr; } }
+
+  /* Transition d'étape : fondu et léger déplacement, opacité seule en mouvement réduit */
+  @media (prefers-reduced-motion: no-preference) {
+    .etape[data-entree] { animation: etape-in var(--dur-short) var(--ease-out) both; }
+    @keyframes etape-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+
+<script>
+  import { construireMessage } from '@/lib/message.js';
+
+  const form = document.querySelector<HTMLFormElement>('[data-assistant]');
+  if (form) {
+    const etapes = Array.from(form.querySelectorAll<HTMLFieldSetElement>('[data-etape]'));
+    const nav = form.querySelector<HTMLElement>('[data-nav]')!;
+    const retour = form.querySelector<HTMLButtonElement>('[data-retour]')!;
+    const continuer = form.querySelector<HTMLButtonElement>('[data-continuer]')!;
+    const progres = form.querySelector<HTMLElement>('[data-progres]')!;
+    const message = form.querySelector<HTMLTextAreaElement>('[data-message]')!;
+    const statut = form.querySelector<HTMLElement>('[data-statut]')!;
+    const refBox = form.querySelector<HTMLElement>('[data-reference]')!;
+    const refTitre = form.querySelector<HTMLElement>('[data-reference-titre]')!;
+    const refChoix = form.querySelector<HTMLSelectElement>('[data-reference-choix]')!;
+    const dims = form.querySelector<HTMLInputElement>('[data-dimensions]')!;
+    const dimsADef = form.querySelector<HTMLInputElement>('[data-dimensions-adefinir]')!;
+    const idee = form.querySelector<HTMLTextAreaElement>('#idee')!;
+    const ideeErreur = form.querySelector<HTMLElement>('#idee-erreur')!;
+    const reduit = matchMedia('(prefers-reduced-motion: reduce)');
+    let courante = 1;
+    let messageEdite = false;
+
+    // Le formulaire n'envoie jamais rien : le message est copié par le visiteur dans Instagram.
+    form.addEventListener('submit', (e) => { e.preventDefault(); if (courante < 3) suivant(); });
+
+    const reponses = () => {
+      const d = new FormData(form);
+      return {
+        idee: String(d.get('idee') ?? ''),
+        hesite: d.get('hesite') === '1',
+        reference: refChoix.selectedOptions[0]?.value ? refChoix.selectedOptions[0].textContent?.trim() ?? '' : '',
+        zone: String(d.get('zone') ?? ''),
+        dimensions: String(d.get('dimensions') ?? ''),
+        dimensionsADefinir: d.get('dimensionsADefinir') === '1',
+        encre: String(d.get('encre') ?? '') as any,
+        disponibilites: String(d.get('disponibilites') ?? ''),
+        flexible: d.get('flexible') === '1',
+      };
+    };
+
+    const poserReference = (id: string) => {
+      const opt = id ? Array.from(refChoix.options).find((o) => o.value === id) : undefined;
+      refChoix.value = opt ? id : '';
+      refBox.hidden = !opt;
+      refTitre.textContent = opt ? opt.textContent?.trim() ?? '' : '';
+    };
+    refChoix.addEventListener('change', () => poserReference(refChoix.value));
+    form.querySelector('[data-reference-retirer]')!.addEventListener('click', () => { poserReference(''); refChoix.focus(); });
+    poserReference(new URLSearchParams(location.search).get('ref') ?? '');
+
+    dimsADef.addEventListener('change', () => { dims.disabled = dimsADef.checked; if (dimsADef.checked) dims.value = ''; });
+
+    const montrer = (n: number, focus = true) => {
+      courante = Math.min(3, Math.max(1, n));
+      etapes.forEach((f) => {
+        const active = Number(f.dataset.etape) === courante;
+        f.toggleAttribute('data-masquee', !active);
+        f.removeAttribute('data-entree');
+        if (active && !reduit.matches) { void f.offsetWidth; f.setAttribute('data-entree', ''); }
+      });
+      progres.textContent = `Étape ${courante} sur 3`;
+      nav.hidden = courante === 3;
+      retour.toggleAttribute('data-inactif', courante === 1);
+      retour.tabIndex = courante === 1 ? -1 : 0;
+      continuer.textContent = courante === 2 ? 'Voir mon message' : 'Continuer';
+      if (courante === 3 && !messageEdite) message.value = construireMessage(reponses());
+      if (focus) {
+        const f = etapes[courante - 1];
+        const cible = f.querySelector<HTMLElement>('legend');
+        if (cible) { cible.tabIndex = -1; cible.focus({ preventScroll: true }); }
+        f.scrollIntoView({ block: 'start', behavior: reduit.matches ? 'auto' : 'smooth' });
+      }
+    };
+    const valider = () => {
+      if (courante === 1) {
+        const ok = idee.value.trim().length > 0 || (form.elements.namedItem('hesite') as HTMLInputElement).checked;
+        idee.setAttribute('aria-invalid', String(!ok));
+        ideeErreur.textContent = ok ? '' : 'Décrivez votre idée en quelques mots, ou cochez « J’hésite encore sur le motif ».';
+        if (!ok) idee.focus();
+        return ok;
+      }
+      return true;
+    };
+    const suivant = () => { if (valider()) { history.pushState({ etape: courante + 1 }, '', `#etape-${courante + 1}`); montrer(courante + 1); } };
+    continuer.addEventListener('click', suivant);
+    retour.addEventListener('click', () => { history.pushState({ etape: courante - 1 }, '', `#etape-${courante - 1}`); montrer(courante - 1); });
+    form.querySelector('[data-modifier]')!.addEventListener('click', () => { history.pushState({ etape: 1 }, '', '#etape-1'); montrer(1); });
+    addEventListener('popstate', (e) => { montrer(Number(e.state?.etape) || 1); });
+
+    message.addEventListener('input', () => { messageEdite = true; });
+    // Si le visiteur revient modifier ses réponses, le message est régénéré à partir des nouvelles réponses.
+    etapes.slice(0, 2).forEach((f) => f.addEventListener('input', () => { messageEdite = false; }));
+
+    const annoncer = (texte: string, etat: 'ok' | 'erreur' | '') => { statut.textContent = texte; statut.dataset.etat = etat; };
+    form.querySelector<HTMLButtonElement>('[data-copier]')!.addEventListener('click', async () => {
+      const texte = message.value;
+      try {
+        if (!navigator.clipboard?.writeText) throw new Error('clipboard indisponible');
+        await navigator.clipboard.writeText(texte);
+        annoncer('Message copié. Collez-le dans la conversation Instagram.', 'ok');
+      } catch {
+        message.focus(); message.select(); message.setSelectionRange(0, texte.length);
+        annoncer('La copie automatique n’a pas fonctionné : le texte est sélectionné. Utilisez « Copier » (appui long sur téléphone, ou Ctrl+C).', 'erreur');
+      }
+    });
+
+    const depart = Number((location.hash.match(/^#etape-(\d)$/) || [])[1]) || 1;
+    history.replaceState({ etape: depart }, '', depart > 1 ? `#etape-${depart}` : location.pathname + location.search);
+    montrer(depart, false);
+  }
+</script>

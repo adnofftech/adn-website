@@ -1,0 +1,96 @@
+---
+/** Grille des réalisations avec filtres facultatifs et visionneuse « À la loupe ». */
+import type { CollectionEntry } from 'astro:content';
+import Planche from './Planche.astro';
+import Loupe from './Loupe.astro';
+import { galerie } from '@/data/site';
+import { url } from '@/lib/url';
+
+interface Props {
+  pieces: CollectionEntry<'realisations'>[];
+  /** Affiche les filtres de catégorie (si le nombre de pièces le justifie). */
+  filtres?: boolean;
+  colonnes?: 2 | 3;
+  sizes?: string;
+  titreNiveau?: 'h2' | 'h3';
+}
+const { pieces, filtres = false, colonnes = 3, titreNiveau = 'h3' } = Astro.props;
+const sizes = Astro.props.sizes ?? (colonnes === 3 ? '(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw' : '(min-width: 1024px) 580px, (min-width: 640px) 45vw, 92vw');
+const Titre = titreNiveau;
+const categoriesPresentes = Object.entries(galerie.categories).filter(([k]) => pieces.some((p) => p.data.categorie === k));
+const montrerFiltres = filtres && pieces.length >= galerie.filtresAPartirDe && categoriesPresentes.length > 1;
+const folio = (i: number) => String(i + 1).padStart(2, '0');
+const encres = (p: CollectionEntry<'realisations'>) => {
+  const e = p.data.encres;
+  if (!e || e.length === 0) return null;
+  if (e.length === 2) return 'Encre noire et rouge';
+  return e[0] === 'noire' ? 'Encre noire' : 'Encre rouge';
+};
+---
+<div class="galerie" data-galerie>
+  {montrerFiltres && (
+    <div class="filtres" role="group" aria-label="Filtrer les réalisations">
+      <button type="button" class="filtre" aria-pressed="true" data-filtre="tout">Tout</button>
+      {categoriesPresentes.map(([k, label]) => <button type="button" class="filtre" aria-pressed="false" data-filtre={k}>{label}</button>)}
+    </div>
+  )}
+  <ul class={`planches planches--${colonnes}`} data-planches>
+    {pieces.map((p, i) => (
+      <li class="planches__item" data-categorie={p.data.categorie ?? ''} data-id={p.id}>
+        <a class="carte" href={p.data.image.src} data-ouvrir={p.id} aria-label={`${p.data.titre}, ouvrir à la loupe`}>
+          <Planche piece={p} sizes={sizes} loading={i < 3 ? 'eager' : 'lazy'} />
+          <span class="carte__legende">
+            <Titre class="carte__titre">{p.data.titre}</Titre>
+            <span class="carte__meta">{[p.data.zone, encres(p)].filter(Boolean).join('. ') || 'Détails à préciser'}</span>
+            <span class="carte__folio num" aria-hidden="true">N° {folio(i)}</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="galerie__vide muted" data-vide hidden>Aucune réalisation dans cette catégorie pour le moment.</p>
+</div>
+<Loupe pieces={pieces} />
+
+<style>
+  .filtres { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-6); }
+  .filtre {
+    min-height: 44px; padding: 0 var(--s-4); border: 1px solid var(--rule-strong); border-radius: var(--r);
+    color: var(--fg-2); font-weight: 500; transition: color var(--dur-micro) ease, border-color var(--dur-micro) ease, background-color var(--dur-micro) ease;
+  }
+  .filtre[aria-pressed="true"] { color: var(--fg); border-color: var(--accent-text); background: color-mix(in srgb, var(--accent) 16%, transparent); }
+  .planches { list-style: none; display: grid; gap: var(--s-6) var(--s-5); grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .planches { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .planches--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .planches__item[data-masque] { display: none; }
+  .carte { display: block; text-decoration: none; color: inherit; border-radius: var(--r); }
+  .carte :global(.planche) { transition: box-shadow var(--dur-short) ease; }
+  .carte :global(.planche__img) { transition: transform 600ms var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) {
+    .carte:hover :global(.planche__img) { transform: scale(1.03); }
+    .carte:hover .carte__titre { text-decoration: underline; text-decoration-color: var(--accent-text); text-underline-offset: 0.14em; }
+  }
+  .carte:focus-visible { outline-offset: 4px; }
+  .carte__legende { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-1) var(--s-4); padding-top: var(--s-3); align-items: start; }
+  .carte__titre { font-size: 1.5rem; max-inline-size: none; }
+  .carte__meta { grid-column: 1; color: var(--fg-2); font-size: var(--t-small); }
+  .carte__folio { grid-column: 2; grid-row: 1; color: var(--fg-2); font-size: 1.125rem; padding-top: 0.2em; }
+  .galerie__vide { padding-block: var(--s-6); }
+  @media (prefers-reduced-motion: reduce) { .carte :global(.planche__img) { transition: none; } .carte:hover :global(.planche__img) { transform: none; } }
+</style>
+
+<script>
+  // Filtres par catégorie
+  document.querySelectorAll<HTMLElement>('[data-galerie]').forEach((g) => {
+    const boutons = g.querySelectorAll<HTMLButtonElement>('[data-filtre]');
+    const items = g.querySelectorAll<HTMLElement>('.planches__item');
+    const vide = g.querySelector<HTMLElement>('[data-vide]');
+    boutons.forEach((b) => b.addEventListener('click', () => {
+      const f = b.dataset.filtre!;
+      boutons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      let visibles = 0;
+      items.forEach((it) => { const ok = f === 'tout' || it.dataset.categorie === f; it.toggleAttribute('data-masque', !ok); if (ok) visibles++; });
+      if (vide) vide.hidden = visibles > 0;
+    }));
+  });
+</script>

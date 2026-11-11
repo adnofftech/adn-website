@@ -1,0 +1,34 @@
+---
+import Base from '@/layouts/Base.astro';
+import { mentions, liens } from '@/data/site';
+---
+<Base titre="Confidentialité" description="Comment fonctionne le site de LArtiste.Ink et ce qu’il fait, ou non, de vos données : préparation locale du message, aucun cookie, passage vers Instagram.">
+  <section class="section" aria-labelledby="titre">
+    <div class="wrap legal">
+      <h1 id="titre">Confidentialité<span class="pt">.</span></h1>
+      <p class="lead">Ce site est une vitrine. Il ne collecte pas de données personnelles et ne dépose aucun cookie.</p>
+
+      <h2>L’assistant « Mon projet »</h2>
+      <p>Les réponses que vous saisissez (idée, zone du corps, dimensions, encre, disponibilités) servent uniquement à composer un message dans votre navigateur. Elles ne sont ni envoyées ni enregistrées par le site : elles disparaissent lorsque vous quittez la page.</p>
+      <p>Le bouton « Copier le message » place le texte dans le presse-papiers de votre appareil, à votre demande. Le bouton « Ouvrir Instagram » vous conduit vers Instagram, où vous collez et envoyez le message vous-même.</p>
+
+      <h2>Instagram et TikTok</h2>
+      <p>Lorsque vous suivez un lien vers <a class="link" href={liens.instagram} rel="noopener">Instagram</a> ou <a class="link" href={liens.tiktok} rel="noopener">TikTok</a>, ces services appliquent leurs propres conditions et politiques de confidentialité. Les échanges sur le projet, le tarif et le rendez-vous se déroulent dans la messagerie Instagram.</p>
+
+      <h2>Mesure d’audience et services tiers</h2>
+      <p>Aucun outil de mesure d’audience, aucune police chargée depuis un service tiers, aucun contenu embarqué. Les polices sont hébergées avec le site.</p>
+
+      <h2>Hébergement</h2>
+      <p>L’hébergeur peut conserver des journaux techniques de connexion (adresse IP, pages demandées) pour la sécurité et le bon fonctionnement du service. {mentions.hebergeur ? <>Hébergeur : {mentions.hebergeur}.</> : <span class="a-completer">À compléter : nom de l’hébergeur et durée de conservation de ses journaux</span>}</p>
+
+      <h2>Vos droits</h2>
+      <p>Le site ne constituant aucun fichier, il n’y a pas de données à consulter, rectifier ou supprimer de notre côté. Pour toute question, écrivez en message privé sur Instagram {mentions.email ? <>ou à {mentions.email}</> : <span class="a-completer">À compléter : adresse e-mail de contact</span>}.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal { display: grid; gap: var(--s-5); max-width: 44rem; }
+  .legal h2 { font-size: var(--t-h3); margin-top: var(--s-6); }
+  .legal .lead { max-inline-size: 40ch; }
+</style>

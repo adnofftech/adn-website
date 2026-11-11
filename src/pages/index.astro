@@ -1,0 +1,177 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Planche from '@/components/Planche.astro';
+import Galerie from '@/components/Galerie.astro';
+import { seo, marque, liens, tarif, actionPrincipale } from '@/data/site';
+import { url } from '@/lib/url';
+
+const toutes = (await getCollection('realisations')).sort((a, b) => a.data.ordre - b.data.ordre);
+const choisies = toutes.filter((p) => p.data.accueil).slice(0, 3);
+const vedette = choisies[0] ?? toutes[0];
+const prix = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(tarif.aPartirDe);
+---
+<Base titre={seo.titreAccueil} description={seo.descriptionAccueil} titreComplet>
+  <section class="hero" aria-labelledby="hero-titre">
+    <div class="wrap hero__grid">
+      <div class="hero__texte">
+        <h1 id="hero-titre" class="hero__h1">Tatouages à Saint‑Paul<span class="pt">.</span></h1>
+        <p class="lead hero__lead">À l’encre noire et rouge, je travaille avec vous sur le motif, la taille et l’emplacement pour créer un tatouage qui vous ressemble.</p>
+        <div class="btn-row hero__actions">
+          <a class="btn" href={url(actionPrincipale.href)} data-cta-principal>{actionPrincipale.label}</a>
+          <a class="btn btn--line" href={url('/realisations')}>Voir les réalisations</a>
+        </div>
+      </div>
+      <dl class="fiche hero__fiche">
+        <dt>Lieu</dt><dd>{marque.commune}, {marque.territoire}</dd>
+        <dt>Encres</dt><dd>Noire, rouge, ou les deux</dd>
+        <dt>Contact</dt><dd>Message privé sur <a class="link" href={liens.instagram} rel="noopener">Instagram</a></dd>
+      </dl>
+      <div class="hero__visuel">
+        {vedette && (
+          <a class="hero__lien" href={`${url('/realisations')}#${vedette.id}`} aria-label={`${vedette.data.titre}, voir dans les réalisations`}>
+            <Planche piece={vedette} sizes="(min-width: 1024px) 460px, (min-width: 768px) 50vw, 92vw" loading="eager" fetchpriority="high" etiquette={vedette.data.placeholder ? 'Visuel à fournir : photo d’une réalisation' : false} />
+          </a>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ruled" aria-labelledby="choisies-titre">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="choisies-titre">Réalisations choisies<span class="pt">.</span></h2>
+        <p class="muted">Quelques pièces du carnet. La galerie complète s’ouvre à la loupe, vue d’ensemble puis détail.</p>
+      </div>
+      <Galerie pieces={choisies} colonnes={3} />
+      <p class="apres"><a class="btn btn--line" href={url('/realisations')}>Toutes les réalisations</a></p>
+    </div>
+  </section>
+
+  <section class="section section--ruled" aria-labelledby="ensemble-titre">
+    <div class="wrap grid ensemble">
+      <div class="ensemble__texte">
+        <h2 id="ensemble-titre">Le projet se construit ensemble<span class="pt">.</span></h2>
+        <p class="lead">Vous avez une idée précise ou quelques références ? Envoyez-moi votre projet pour que nous échangions sur le motif, l’emplacement et les dimensions.</p>
+      </div>
+      <dl class="ensemble__points">
+        <div><dt>Le motif</dt><dd>Votre idée, vos inspirations, ou une de mes réalisations comme point de départ. Je dessine une pièce qui vous est propre.</dd></div>
+        <div><dt>Les dimensions</dt><dd>Une estimation en centimètres suffit. Nous ajustons ensemble selon le motif et le rendu.</dd></div>
+        <div><dt>L’emplacement</dt><dd>Une photo de la zone avec les dimensions souhaitées m’aide à adapter le dessin au corps.</dd></div>
+        <div><dt>Les encres</dt><dd>Noire, rouge, ou les deux. Nous choisissons selon le motif, le contraste voulu et votre peau.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--ruled" aria-labelledby="etapes-titre">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="etapes-titre">Du premier message au rendez-vous<span class="pt">.</span></h2>
+        <p class="muted">Tout se passe en message privé Instagram. Le tarif et le créneau sont confirmés pendant l’échange.</p>
+      </div>
+      <ol class="etapes">
+        <li><div><h3>Envoyer l’idée</h3><p>Le motif, vos références, la zone et les dimensions. L’assistant du site prépare ce message.</p></div></li>
+        <li><div><h3>Échanger sur le projet</h3><p>Le dessin, le tarif et les disponibilités, en message privé.</p></div></li>
+        <li><div><h3>Bloquer le créneau</h3><p>Un acompte de 20 % réserve le rendez-vous. Les conditions sont détaillées dans les <a class="link" href={url('/infos')}>infos pratiques</a>.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--ruled" aria-labelledby="tarif-titre">
+    <div class="wrap">
+      <div class="tarif paper">
+        <div class="tarif__texte">
+          <h2 id="tarif-titre">Un tarif pour votre projet<span class="pt">.</span></h2>
+          <p>{tarif.precision}</p>
+          <p class="small muted">L’acompte de 20 % est déduit du montant total. Déplacement à domicile possible, voir les infos pratiques.</p>
+        </div>
+        <div class="tarif__offre">
+          <p class="tarif__prestation">{tarif.prestation}</p>
+          <p class="tarif__prix"><span class="tarif__des">à partir de</span> <span class="num tarif__montant">{prix}</span></p>
+          <a class="btn" href={url(actionPrincipale.href)}>{actionPrincipale.label}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--ruled contact" aria-labelledby="contact-titre">
+    <div class="wrap">
+      <h2 id="contact-titre" class="contact__titre">Parlons de votre tatouage<span class="pt">.</span></h2>
+      <p class="lead">Préparez votre projet en trois étapes, ou écrivez-moi directement sur Instagram. Je vous réponds en message privé.</p>
+      <div class="btn-row">
+        <a class="btn" href={url(actionPrincipale.href)}>{actionPrincipale.label}</a>
+        <a class="btn btn--line" href={liens.instagram} rel="noopener">Écrire sur Instagram</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Premier écran */
+  .hero { padding-block: clamp(var(--s-7), 6vw, var(--s-9)) var(--section); }
+  .hero__grid { display: grid; gap: var(--s-7); align-items: center; grid-template-areas: 'texte' 'visuel' 'fiche'; }
+  .hero__texte { grid-area: texte; }
+  .hero__fiche { grid-area: fiche; }
+  .hero__visuel { grid-area: visuel; }
+  .hero__h1 { max-inline-size: 11ch; }
+  .hero__lead { margin-top: var(--s-5); }
+  .hero__actions { margin-top: var(--s-6); }
+  .hero__fiche { max-width: 32rem; align-self: start; }
+  .hero__fiche dd:last-of-type, .hero__fiche dt:last-of-type { border-bottom: 1px solid var(--rule); }
+  .hero__lien { display: block; border-radius: var(--r); }
+  .hero__visuel :global(.planche) { aspect-ratio: 4 / 5; }
+  @media (min-width: 768px) {
+    .hero__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-areas: 'texte visuel' 'fiche visuel'; gap: var(--s-6) var(--s-8); align-items: start; }
+    .hero__visuel { grid-row: 1 / span 2; }
+    .hero__visuel :global(.planche) { max-height: calc(100svh - var(--nav-h) - 2 * var(--s-8)); margin-left: auto; }
+  }
+  @media (max-width: 767px) { .hero__visuel :global(.planche) { aspect-ratio: 4 / 3; } }
+
+  /* Entrée : titre, texte et actions arrivent en ordre, l'image se pose. Rien n'est masqué sans animation. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__h1, .hero__lead, .hero__actions, .hero__fiche { animation: monte var(--dur-enter) var(--ease-out) both; }
+    .hero__lead { animation-delay: 70ms; }
+    .hero__actions { animation-delay: 140ms; }
+    .hero__fiche { animation-delay: 210ms; }
+    .hero__visuel :global(.planche__img) { animation: pose 900ms var(--ease-out) both; }
+  }
+  @keyframes monte { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes pose { from { transform: scale(1.04); } to { transform: none; } }
+
+  .apres { margin-top: var(--s-7); }
+
+  /* Le projet se construit ensemble */
+  .ensemble { row-gap: var(--s-7); }
+  .ensemble__texte { grid-column: 1 / -1; }
+  .ensemble__texte .lead { margin-top: var(--s-5); max-inline-size: 40ch; }
+  .ensemble__points { grid-column: 1 / -1; display: grid; gap: 0; }
+  .ensemble__points div { padding-block: var(--s-5); border-top: 1px solid var(--rule); display: grid; gap: var(--s-2); }
+  .ensemble__points div:last-child { border-bottom: 1px solid var(--rule); }
+  .ensemble__points dt { font-family: var(--font-display); font-size: var(--t-h3); line-height: 1.1; font-weight: 500; }
+  .ensemble__points dd { color: var(--fg-2); max-inline-size: 48ch; }
+  @media (min-width: 900px) {
+    .ensemble__texte { grid-column: 1 / span 5; }
+    .ensemble__points { grid-column: 7 / -1; }
+  }
+  @media (min-width: 640px) {
+    .ensemble__points div { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: var(--s-5); }
+  }
+
+  /* Tarif : encart ivoire, une fonction claire */
+  .tarif { display: grid; gap: var(--s-7); padding: clamp(var(--s-6), 4vw, var(--s-9)); border-radius: var(--r); }
+  .tarif__texte { display: grid; gap: var(--s-4); align-content: start; }
+  .tarif__offre { display: grid; gap: var(--s-4); align-content: end; border-top: 1px solid var(--rule); padding-top: var(--s-5); }
+  .tarif__prestation { font-weight: 500; font-size: var(--t-lead); max-inline-size: none; }
+  .tarif__prix { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-3); max-inline-size: none; }
+  .tarif__des { color: var(--fg-2); }
+  .tarif__montant { font-size: var(--t-chiffre); line-height: 0.9; letter-spacing: -0.02em; color: var(--paper-accent); }
+  .tarif__offre .btn { justify-self: start; }
+  @media (min-width: 900px) {
+    .tarif { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--s-9); }
+    .tarif__offre { border-top: 0; border-left: 1px solid var(--rule); padding: 0 0 0 var(--s-8); }
+  }
+
+  /* Contact final */
+  .contact .lead { margin-block: var(--s-5) var(--s-6); }
+  .contact__titre { font-size: clamp(2.5rem, 1.8rem + 4vw, 5rem); }
+</style>

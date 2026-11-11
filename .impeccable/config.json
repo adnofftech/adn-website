@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "instrument sans",
+        "createdAt": "2026-11-11T07:28:03.671Z",
+        "reason": "Police du brief LArtiste.Ink (Cormorant Garamond + Instrument Sans)"
+      }
+    ]
+  }
+}

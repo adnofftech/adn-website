@@ -1,0 +1,57 @@
+---
+import Signature from './Signature.astro';
+import { navigation, actionPrincipale, liens, apercu } from '@/data/site';
+import { url } from '@/lib/url';
+const annee = new Date().getFullYear();
+---
+<footer class="pied">
+  <div class="wrap">
+    <div class="pied__haut">
+      <div>
+        <a class="pied__brand" href={url('/')} aria-label="LArtiste.Ink, accueil"><Signature taille="pied" /></a>
+        <p class="pied__ligne">Tatoueur à Saint-Paul, La Réunion. Encres noire et rouge, sur rendez-vous.</p>
+      </div>
+      <div class="pied__cols">
+        <nav aria-label="Pages du site">
+          <h2 class="pied__titre">Le site</h2>
+          <ul class="pied__liste">
+            {navigation.map((n) => <li><a href={url(n.href)}>{n.label}</a></li>)}
+            <li><a href={url(actionPrincipale.href)}>Mon projet</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Réseaux">
+          <h2 class="pied__titre">Me suivre</h2>
+          <ul class="pied__liste">
+            <li><a href={liens.instagram} rel="noopener">Instagram {liens.instagramPseudo}</a></li>
+            <li><a href={liens.tiktok} rel="noopener">TikTok {liens.tiktokPseudo}</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Informations légales">
+          <h2 class="pied__titre">Légal</h2>
+          <ul class="pied__liste">
+            <li><a href={url('/mentions-legales')}>Mentions légales</a></li>
+            <li><a href={url('/confidentialite')}>Confidentialité</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="pied__bas">
+      <p class="small muted">{annee} LArtiste.Ink, Saint-Paul, La Réunion.</p>
+      {apercu && <p class="small muted" data-apercu>Version de présentation. Contenus, photos et mentions légales à valider avec l’artiste avant publication.</p>}
+    </div>
+  </div>
+</footer>
+
+<style>
+  .pied { border-top: 1px solid var(--rule); padding-block: var(--section) var(--s-7); background: var(--surface); }
+  .pied__haut { display: grid; gap: var(--s-8); }
+  .pied__brand { text-decoration: none; display: inline-block; }
+  .pied__ligne { margin-top: var(--s-4); color: var(--fg-2); max-inline-size: 34ch; }
+  .pied__cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: var(--s-6); }
+  .pied__titre { font-family: var(--font-text); font-size: var(--t-small); font-weight: 500; color: var(--fg-2); margin-bottom: var(--s-3); max-inline-size: none; letter-spacing: 0; }
+  .pied__liste { list-style: none; display: grid; }
+  .pied__liste a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; color: var(--fg); }
+  .pied__liste a:hover { text-decoration: underline; }
+  .pied__bas { margin-top: var(--s-8); padding-top: var(--s-5); border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-6); justify-content: space-between; }
+  @media (min-width: 900px) { .pied__haut { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+</style>

@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import Assistant from '@/components/Assistant.astro';
+const pieces = (await getCollection('realisations')).sort((a, b) => a.data.ordre - b.data.ordre);
+---
+<Base titre="Mon projet" description="Préparez votre demande de tatouage en trois étapes : votre idée, les détails, puis un message prêt à copier dans la conversation Instagram de LArtiste.Ink." sansBarre classeCorps="page-projet">
+  <section class="section" aria-labelledby="titre">
+    <div class="wrap projet">
+      <div class="projet__entete">
+        <h1 id="titre">Parler de mon projet<span class="pt">.</span></h1>
+        <p class="lead">Trois étapes courtes pour préparer un premier message complet. Rien n’est envoyé par ce site : vous copiez le message et vous me l’envoyez sur Instagram, où je confirme le projet, le tarif et le créneau.</p>
+      </div>
+      <Assistant pieces={pieces} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .projet { display: grid; gap: clamp(var(--s-7), 5vw, var(--s-9)); }
+  .projet__entete .lead { margin-top: var(--s-5); max-inline-size: 46ch; }
+  @media (min-width: 1024px) {
+    .projet { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); column-gap: var(--s-10); align-items: start; }
+    .projet__entete { position: sticky; top: calc(var(--nav-h) + var(--s-6)); }
+  }
+</style>

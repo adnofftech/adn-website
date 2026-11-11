@@ -1,0 +1,30 @@
+---
+/**
+ * Une planche du carnet : l'image d'une réalisation, ou sa texture d'attente lorsqu'elle n'est pas encore fournie.
+ * L'image garde ses couleurs naturelles ; aucun filtre n'est appliqué.
+ */
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+interface Props {
+  piece: CollectionEntry<'realisations'>;
+  sizes: string;
+  widths?: number[];
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'auto';
+  etiquette?: string | false;
+  class?: string;
+}
+const { piece, sizes, widths = [420, 640, 900, 1200], loading = 'lazy', fetchpriority = 'auto', etiquette, class: cls = '' } = Astro.props;
+const { image, alt, cadrage, placeholder, titre } = piece.data;
+const texte = etiquette === false ? null : etiquette ?? (placeholder ? `Photo à fournir : ${titre}` : null);
+---
+<div class={`planche ${cls}`} data-placeholder={placeholder ? '' : undefined} style={`--cx:${cadrage.x}%;--cy:${cadrage.y}%`}>
+  <Image src={image} alt={alt} widths={widths} sizes={sizes} loading={loading} fetchpriority={fetchpriority} decoding="async" format="webp" quality={78} class="planche__img" />
+  {texte && <span class="planche__etiquette a-completer">{texte}</span>}
+</div>
+
+<style>
+  .planche { position: relative; overflow: hidden; background: var(--surface); aspect-ratio: 4 / 5; border-radius: var(--r); }
+  .planche :global(.planche__img) { width: 100%; height: 100%; object-fit: cover; object-position: var(--cx) var(--cy); }
+  .planche__etiquette { position: absolute; left: var(--s-3); bottom: var(--s-3); max-width: calc(100% - 2 * var(--s-3)); background: var(--scrim); color: var(--fg-2); }
+</style>

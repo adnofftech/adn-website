@@ -1,0 +1,244 @@
+---
+/**
+ * « À la loupe » : visionneuse d'une réalisation. Vue d'ensemble et détail côte à côte sur grand écran
+ * lorsque les deux images existent ; commandes nommées sur mobile ; recadrage de l'original quand il n'y a pas de gros plan.
+ */
+import { getImage } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { url } from '@/lib/url';
+
+interface Props { pieces: CollectionEntry<'realisations'>[] }
+const { pieces } = Astro.props;
+
+const encresTexte = (e?: ('noire' | 'rouge')[]) => !e || !e.length ? null : e.length === 2 ? 'Noire et rouge' : e[0] === 'noire' ? 'Noire' : 'Rouge';
+const grande = async (img: ImageMetadata) => {
+  const r = await getImage({ src: img, widths: [720, 1080, 1440], sizes: '(min-width: 1024px) 50vw, 100vw', format: 'webp', quality: 80 });
+  return { src: r.src, srcset: r.srcSet.attribute, sizes: r.attributes.sizes as string, width: r.attributes.width as number, height: r.attributes.height as number };
+};
+const donnees = await Promise.all(pieces.map(async (p, i) => ({
+  id: p.id,
+  folio: String(i + 1).padStart(2, '0'),
+  titre: p.data.titre,
+  alt: p.data.alt,
+  motif: p.data.motif ?? null,
+  zone: p.data.zone ?? null,
+  encres: encresTexte(p.data.encres),
+  placeholder: p.data.placeholder,
+  cadrage: p.data.cadrage,
+  image: await grande(p.data.image),
+  detail: p.data.detail ? await grande(p.data.detail) : null,
+  projet: `${url('/projet')}?ref=${encodeURIComponent(p.id)}`,
+})));
+const premiere = donnees[0];
+---
+{premiere && <dialog class="loupe" data-loupe aria-labelledby="loupe-titre">
+  <div class="loupe__panel">
+    <div class="loupe__head">
+      <p class="loupe__folio num" data-folio></p>
+      <h2 class="loupe__titre" id="loupe-titre" data-titre></h2>
+      <button type="button" class="loupe__close" data-fermer>Fermer<span aria-hidden="true"> ✕</span></button>
+    </div>
+
+    <div class="loupe__vues" data-vues data-vue="ensemble" data-mode="simple">
+      <div class="loupe__commandes" role="group" aria-label="Choisir la vue">
+        <button type="button" class="loupe__cmd" data-vue-btn="ensemble" aria-pressed="true">Vue d’ensemble</button>
+        <button type="button" class="loupe__cmd" data-vue-btn="detail" aria-pressed="false">Détail</button>
+      </div>
+      <figure class="loupe__vue loupe__vue--ensemble" data-fig="ensemble">
+        <img data-img="ensemble" src={premiere.image.src} srcset={premiere.image.srcset} sizes={premiere.image.sizes} width={premiere.image.width} height={premiere.image.height} alt={premiere.alt} decoding="async" />
+      </figure>
+      <figure class="loupe__vue loupe__vue--detail" data-fig="detail">
+        <img data-img="detail" src={(premiere.detail ?? premiere.image).src} width={premiere.image.width} height={premiere.image.height} alt="" decoding="async" />
+      </figure>
+    </div>
+
+    <div class="loupe__infos">
+      <dl class="fiche loupe__fiche" data-fiche></dl>
+      <p class="loupe__note muted small" data-note hidden>Image d’attente : la photographie originale de cette pièce sera ajoutée avant publication.</p>
+      <div class="loupe__actions">
+        <a class="btn" data-projet href={url('/projet')}>Parler d’un projet similaire</a>
+      </div>
+    </div>
+
+    <div class="loupe__nav">
+      <button type="button" class="btn btn--line btn--sm" data-prec>Réalisation précédente</button>
+      <p class="loupe__compteur num" data-compteur aria-live="polite"></p>
+      <button type="button" class="btn btn--line btn--sm" data-suiv>Réalisation suivante</button>
+    </div>
+  </div>
+  <script type="application/json" data-pieces set:html={JSON.stringify(donnees)} />
+</dialog>}
+
+<style>
+  .loupe {
+    position: fixed; inset: 0; margin: 0; padding: 0; border: 0;
+    width: 100%; max-width: none; height: 100%; max-height: none;
+    background: transparent; color: var(--fg);
+    overflow: hidden;
+  }
+  .loupe::backdrop { background: var(--scrim); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .loupe:not([open]) { display: none; }
+  .loupe__panel {
+    position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain;
+    background: var(--bg);
+    display: grid; grid-template-rows: auto auto auto auto; align-content: start; grid-template-areas: 'head' 'vues' 'infos' 'nav';
+    opacity: 1; transform: none;
+    transition: opacity var(--dur-panel) var(--ease-out), transform var(--dur-panel) var(--ease-out);
+  }
+  @starting-style { .loupe[open] .loupe__panel { opacity: 0; transform: translateY(12px); } }
+  .loupe[data-fermeture] .loupe__panel { opacity: 0; transform: translateY(8px); transition-duration: 160ms; }
+  .loupe[data-fermeture]::backdrop { opacity: 0; transition: opacity 160ms ease; }
+
+  .loupe__head { grid-area: head; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--s-3) var(--s-4); padding: var(--s-3) var(--gut); border-bottom: 1px solid var(--rule); position: sticky; top: 0; background: var(--bg); z-index: 2; min-height: var(--nav-h); }
+  .loupe__folio { color: var(--fg-2); font-size: 1.125rem; }
+  .loupe__titre { font-size: clamp(1.375rem, 1.1rem + 1.4vw, 2.25rem); max-inline-size: none; line-height: 1.05; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .loupe__close { min-height: 44px; padding: 0 var(--s-2); margin-right: calc(-1 * var(--s-2)); font-weight: 500; }
+
+  .loupe__vues { grid-area: vues; position: relative; display: grid; grid-template-rows: auto auto; gap: var(--s-3); padding: var(--s-4) var(--gut) 0; min-height: 0; }
+  .loupe__commandes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); }
+  .loupe__cmd { min-height: 44px; border: 1px solid var(--rule-strong); border-radius: var(--r); color: var(--fg-2); font-weight: 500; transition: color var(--dur-micro) ease, border-color var(--dur-micro) ease, background-color var(--dur-micro) ease; }
+  .loupe__cmd[aria-pressed="true"] { color: var(--fg); border-color: var(--accent-text); background: color-mix(in srgb, var(--accent) 16%, transparent); }
+  .loupe__vue { grid-row: 2; grid-column: 1; margin: 0; overflow: hidden; background: var(--surface); border-radius: var(--r); aspect-ratio: 4 / 5; max-height: min(70svh, 78vw * 1.25); justify-self: center; width: 100%; max-width: calc(min(70svh, 78vw * 1.25) * 0.8);
+    transition: opacity 180ms var(--ease-out); }
+  .loupe__vue img { width: 100%; height: 100%; object-fit: cover; object-position: var(--cx, 50%) var(--cy, 50%); transition: transform var(--dur-panel) var(--ease-out); transform-origin: var(--cx, 50%) var(--cy, 50%); }
+  /* Mode simple : une image, le détail est un recadrage agrandi de l'original */
+  .loupe__vues[data-mode="simple"] .loupe__vue--detail { display: none; }
+  .loupe__vues[data-mode="simple"][data-vue="detail"] .loupe__vue--ensemble img { transform: scale(2.2); }
+  /* Mode double sur mobile : une vue à la fois */
+  .loupe__vues[data-mode="double"][data-vue="ensemble"] .loupe__vue--detail,
+  .loupe__vues[data-mode="double"][data-vue="detail"] .loupe__vue--ensemble { opacity: 0; pointer-events: none; }
+  .loupe__vues[data-mode="double"] .loupe__vue--detail { z-index: 1; }
+
+  .loupe__infos { grid-area: infos; padding: var(--s-5) var(--gut); display: grid; gap: var(--s-4); }
+  .loupe__fiche { max-width: 36rem; }
+  .loupe__fiche:empty { display: none; }
+  .loupe__actions .btn { width: 100%; }
+  .loupe__nav { grid-area: nav; display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--s-3); align-items: center; padding: var(--s-4) var(--gut) calc(var(--s-4) + env(safe-area-inset-bottom)); border-top: 1px solid var(--rule); }
+  .loupe__nav [data-suiv] { justify-self: end; }
+  .loupe__compteur { color: var(--fg-2); font-size: 1.125rem; text-align: center; }
+  .loupe__nav .btn[disabled] { opacity: 0.4; }
+
+  @media (min-width: 1024px) {
+    .loupe__panel {
+      grid-template-columns: minmax(0, 1fr) 24rem;
+      grid-template-rows: auto 1fr auto; align-content: stretch;
+      grid-template-areas: 'head head' 'vues infos' 'vues nav';
+    }
+    .loupe__vues { padding: var(--s-6) var(--s-6) var(--s-6) var(--gut); grid-template-rows: 1fr auto; align-content: center; }
+    .loupe__commandes { grid-row: 2; justify-self: center; grid-template-columns: auto auto; }
+    .loupe__cmd { padding-inline: var(--s-5); }
+    .loupe__vue { grid-row: 1; max-height: calc(100svh - var(--nav-h) - 2 * var(--s-6) - 60px); max-width: calc((100svh - var(--nav-h) - 2 * var(--s-6) - 60px) * 0.8); }
+    /* Deux images : côte à côte, pas de commandes */
+    .loupe__vues[data-mode="double"] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4); align-items: center; justify-items: center; }
+    .loupe__vues[data-mode="double"] .loupe__vue--ensemble { grid-column: 1; }
+    .loupe__vues[data-mode="double"] .loupe__vue--detail { grid-column: 2; opacity: 1 !important; pointer-events: auto !important; }
+    .loupe__vues[data-mode="double"] .loupe__vue { max-height: calc(100svh - var(--nav-h) - 2 * var(--s-6)); max-width: calc((100svh - var(--nav-h) - 2 * var(--s-6)) * 0.8); }
+    .loupe__vues[data-mode="double"] .loupe__commandes { display: none; }
+    .loupe__infos { border-left: 1px solid var(--rule); align-content: start; padding: var(--s-6); }
+    .loupe__nav { border-left: 1px solid var(--rule); padding: var(--s-5) var(--s-6); grid-template-columns: 1fr 1fr; }
+    .loupe__compteur { grid-column: 1 / -1; grid-row: 1; text-align: left; }
+    .loupe__nav [data-prec] { grid-row: 2; }
+    .loupe__nav [data-suiv] { grid-row: 2; justify-self: stretch; }
+    .loupe__nav [data-prec] { justify-self: stretch; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .loupe__panel, .loupe__vue, .loupe__vue img { transition: none; }
+    @starting-style { .loupe[open] .loupe__panel { transform: none; } }
+  }
+</style>
+
+<script>
+  type Vue = { src: string; srcset: string; sizes: string; width: number; height: number };
+  type Piece = { id: string; folio: string; titre: string; alt: string; motif: string | null; zone: string | null; encres: string | null; placeholder: boolean; cadrage: { x: number; y: number }; image: Vue; detail: Vue | null; projet: string };
+
+  document.querySelectorAll<HTMLDialogElement>('[data-loupe]').forEach((dlg) => {
+    if (typeof dlg.showModal !== 'function') return; // sans <dialog>, le lien ouvre l'image elle-même
+    const pieces: Piece[] = JSON.parse(dlg.querySelector('[data-pieces]')!.textContent || '[]');
+    const racine = dlg.closest('[data-galerie]') ?? dlg.parentElement!;
+    const galerie = racine.querySelector('[data-galerie]') ?? racine;
+    const q = <T extends Element>(s: string) => dlg.querySelector<T>(s)!;
+    const vues = q<HTMLElement>('[data-vues]');
+    const imgEnsemble = q<HTMLImageElement>('[data-img="ensemble"]');
+    const imgDetail = q<HTMLImageElement>('[data-img="detail"]');
+    const fiche = q<HTMLElement>('[data-fiche]');
+    const note = q<HTMLElement>('[data-note]');
+    const prec = q<HTMLButtonElement>('[data-prec]');
+    const suiv = q<HTMLButtonElement>('[data-suiv]');
+    let index = 0;
+    let ouvreur: HTMLElement | null = null;
+    let fermetureEnCours = false;
+
+    const poserImage = (img: HTMLImageElement, v: Vue | null, alt: string) => {
+      if (!v) { img.removeAttribute('src'); img.removeAttribute('srcset'); img.alt = ''; return; }
+      img.src = v.src; img.srcset = v.srcset; img.sizes = v.sizes; img.width = v.width; img.height = v.height; img.alt = alt;
+    };
+    const poserVue = (vue: 'ensemble' | 'detail') => {
+      vues.dataset.vue = vue;
+      dlg.querySelectorAll<HTMLButtonElement>('[data-vue-btn]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.vueBtn === vue)));
+    };
+    const afficher = (i: number) => {
+      index = (i + pieces.length) % pieces.length;
+      const p = pieces[index];
+      q('[data-folio]').textContent = `N° ${p.folio}`;
+      q('[data-titre]').textContent = p.titre;
+      vues.style.setProperty('--cx', `${p.cadrage.x}%`);
+      vues.style.setProperty('--cy', `${p.cadrage.y}%`);
+      vues.dataset.mode = p.detail ? 'double' : 'simple';
+      poserImage(imgEnsemble, p.image, p.alt);
+      poserImage(imgDetail, p.detail, p.detail ? `${p.alt} Vue de détail.` : '');
+      poserVue('ensemble');
+      const lignes: [string, string | null][] = [['Motif', p.motif], ['Zone', p.zone], ['Encres', p.encres]];
+      fiche.innerHTML = lignes.filter(([, v]) => v).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
+      note.hidden = !p.placeholder;
+      q<HTMLAnchorElement>('[data-projet]').href = p.projet;
+      q('[data-compteur]').textContent = `${index + 1} / ${pieces.length}`;
+      prec.disabled = suiv.disabled = pieces.length < 2;
+      dlg.querySelector('.loupe__panel')!.scrollTop = 0;
+    };
+    const ouvrir = (id: string, depuis: HTMLElement | null, pousser = true) => {
+      const i = pieces.findIndex((p) => p.id === id);
+      if (i < 0) return;
+      ouvreur = depuis;
+      afficher(i);
+      if (!dlg.open) { dlg.removeAttribute('data-fermeture'); dlg.showModal(); }
+      if (pousser && !(history.state && history.state.loupe)) history.pushState({ loupe: id }, '', `#${id}`);
+      else if (pousser) history.replaceState({ loupe: id }, '', `#${id}`);
+      q<HTMLElement>('[data-fermer]').focus();
+    };
+    const fermer = (viaHistorique = false) => {
+      if (!dlg.open || fermetureEnCours) return;
+      fermetureEnCours = true;
+      const fin = () => {
+        dlg.close();
+        dlg.removeAttribute('data-fermeture');
+        fermetureEnCours = false;
+        if (!viaHistorique && history.state && history.state.loupe) history.back();
+        else if (!viaHistorique && location.hash) history.replaceState(null, '', location.pathname + location.search);
+        (ouvreur ?? galerie.querySelector<HTMLElement>(`[data-ouvrir="${pieces[index].id}"]`))?.focus();
+      };
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) fin();
+      else { dlg.setAttribute('data-fermeture', ''); setTimeout(fin, 160); }
+    };
+
+    galerie.querySelectorAll<HTMLAnchorElement>('[data-ouvrir]').forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); ouvrir(a.dataset.ouvrir!, a); }));
+    q('[data-fermer]').addEventListener('click', () => fermer());
+    dlg.addEventListener('cancel', (e) => { e.preventDefault(); fermer(); }); // Échap
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) fermer(); });
+    prec.addEventListener('click', () => { afficher(index - 1); history.replaceState({ loupe: pieces[index].id }, '', `#${pieces[index].id}`); });
+    suiv.addEventListener('click', () => { afficher(index + 1); history.replaceState({ loupe: pieces[index].id }, '', `#${pieces[index].id}`); });
+    dlg.querySelectorAll<HTMLButtonElement>('[data-vue-btn]').forEach((b) => b.addEventListener('click', () => poserVue(b.dataset.vueBtn as 'ensemble' | 'detail')));
+    dlg.addEventListener('keydown', (e) => {
+      if (e.target instanceof HTMLInputElement) return;
+      if (e.key === 'ArrowLeft') prec.click();
+      if (e.key === 'ArrowRight') suiv.click();
+    });
+    addEventListener('popstate', () => {
+      const id = history.state && history.state.loupe;
+      if (id) ouvrir(id, ouvreur, false);
+      else if (dlg.open) fermer(true);
+    });
+    // Lien profond : /realisations#identifiant
+    const h = decodeURIComponent(location.hash.slice(1));
+    if (h && pieces.some((p) => p.id === h)) ouvrir(h, galerie.querySelector<HTMLElement>(`[data-ouvrir="${h}"]`), true);
+  });
+</script>
