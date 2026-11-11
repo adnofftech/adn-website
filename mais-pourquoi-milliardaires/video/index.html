@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Mais pourquoi — Et si on redistribuait tout ?</title>
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{--gold:#e8b84a;--mint:#47f0a0;--ink:#04100b;--paper:#f3ecd4;--red:#ff4a3d;--panel:rgba(4,16,11,.80)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#030605}
+#root{position:relative;width:100%;height:100%;overflow:hidden;font-family:"Archivo Black","Arial Black",sans-serif;color:var(--paper)}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+.fx{position:absolute;inset:0;pointer-events:none}
+#vig{background:radial-gradient(ellipse at 50% 46%,rgba(0,0,0,0) 52%,rgba(0,0,0,.6) 100%)}
+#flash{background:#fff;opacity:0}
+.clip{position:absolute;inset:0;pointer-events:none}
+.ov{position:absolute;left:60px;right:60px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.tt{font-size:128px;line-height:.98;letter-spacing:-.035em;text-transform:uppercase;text-shadow:0 8px 0 rgba(0,0,0,.5),0 0 40px rgba(0,0,0,.65);-webkit-text-stroke:7px rgba(4,16,11,.9);paint-order:stroke fill}
+.tt span{display:inline-block;will-change:transform}
+.gold{color:var(--gold)}.mint{color:var(--mint)}.red{color:var(--red)}
+.mono{font-family:"Space Mono",monospace;font-weight:700}
+#brand{position:absolute;left:46px;top:88px;font-size:28px;letter-spacing:.06em;color:var(--paper);background:rgba(4,16,11,.62);padding:6px 16px;border-radius:999px;text-shadow:none}
+#brand b{color:var(--gold)}
+#caps.clip{position:absolute;inset:auto;left:70px;right:150px;top:1330px;height:200px;display:flex;align-items:center;justify-content:center}
+.cap{position:absolute;left:0;right:0;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 30px;font-size:66px;line-height:1.05;letter-spacing:-.02em;text-transform:uppercase;opacity:0;text-shadow:0 5px 0 rgba(0,0,0,.75),0 0 26px rgba(0,0,0,.9)}
+.cap i{font-style:normal;display:inline-block;color:var(--paper)}
+.src{position:absolute;left:70px;right:150px;margin-inline:auto;width:max-content;max-width:860px;text-align:center;font-size:23px;line-height:1.25;color:var(--paper);opacity:0;background:rgba(4,16,11,.55);padding:6px 14px;border-radius:10px;text-shadow:0 2px 8px #000,0 0 14px #000}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="83.96" data-width="1080" data-height="1920">
+  <canvas id="gl" width="1080" height="1920"></canvas>
+  <div id="vig" class="fx"></div>
+  <div id="brand" class="mono">MAIS <b>POURQUOI</b> ?</div>
+
+  <audio id="narration" src="audio/narration_leo.mp3" data-start="0" data-duration="83.41" data-track-index="1" data-volume="1"></audio>
+  <audio id="bed" src="audio/bed.wav" data-start="0" data-duration="83.96" data-track-index="2" data-volume="1"></audio>
+
+  <!-- S1 -->
+  <section class="clip" id="s-hook" data-start="0" data-duration="5.3" data-track-index="3"><div class="ov" style="top:215px">
+    <div class="tt"><span id="h1">Et si on</span></div>
+    <div class="tt gold" style="font-size:100px"><span id="h2">redistribuait</span></div>
+    <div class="tt"><span id="h3">tout&nbsp;?</span></div>
+  </div></section>
+  <!-- S2 -->
+  <section class="clip" id="s-vrai" data-start="6.7" data-duration="1.05" data-track-index="3"><div class="ov" style="top:300px"><div class="tt red" id="vrai" style="font-size:118px"><span>Vraiment&nbsp;?</span></div></div></section>
+  <section class="clip" id="s-legal3" data-start="8.9" data-duration="3.5" data-track-index="3"><div class="src mono" id="legal3" style="top:1575px">Scénario hypothétique. Chiffres arrondis : Forbes (1er mars 2026), Banque mondiale (2024).</div></section>
+  <!-- S5 -->
+  <section class="clip" id="s-prob" data-start="18.52" data-duration="2.66" data-track-index="3"><div class="ov" style="top:245px">
+    <div class="tt" style="font-size:104px"><span id="p1">Mais il y a un</span></div>
+    <div class="tt red" style="font-size:118px"><span id="p2">problème…</span></div>
+  </div></section>
+  <!-- S6 -->
+  <section class="clip" id="s-cash" data-start="22.3" data-duration="2.0" data-track-index="3"><div class="ov" style="top:245px">
+    <div class="tt"><span id="c1">Une fortune</span></div>
+    <div class="tt gold" style="font-size:190px;line-height:1"><span id="c2">≠</span></div>
+    <div class="tt" style="color:#eafff5"><span id="c3">du cash</span></div>
+  </div></section>
+  <!-- S8 -->
+  <section class="clip" id="s-vend" data-start="30.1" data-duration="2.45" data-track-index="3"><div class="ov" style="top:250px">
+    <div class="tt"><span id="v1">Tout le monde</span></div>
+    <div class="tt" style="font-size:190px;color:#ff8a7c"><span id="v2">vend.</span></div>
+  </div></section>
+  <!-- S10 -->
+  <section class="clip" id="s-chute" data-start="36.45" data-duration="1.95" data-track-index="3"><div class="ov" style="top:240px">
+    <div class="tt" style="font-size:118px"><span id="k1">Les cours</span></div>
+    <div class="tt red" style="font-size:112px"><span id="k2">pourraient</span></div>
+    <div class="tt red" style="font-size:150px"><span id="k3">chuter</span></div>
+  </div></section>
+  <!-- S16 -->
+  <section class="clip" id="s-aider" data-start="65.9" data-duration="4.95" data-track-index="3"><div class="ov" style="top:150px">
+    <div class="tt mint" style="font-size:112px"><span id="a1">Aider</span></div>
+    <div class="tt gold" style="font-size:140px;line-height:1"><span id="a2">≠</span></div>
+    <div class="tt" style="font-size:90px"><span id="a3">résoudre</span></div>
+    <div class="tt red" style="font-size:86px"><span id="a4">durablement</span></div>
+  </div></section>
+  <!-- S18 -->
+  <section class="clip" id="s-fin" data-start="82.5" data-duration="1.46" data-track-index="3"><div class="ov" style="top:300px">
+    <div class="tt" style="font-size:150px"><span id="f1">Tu le</span></div>
+    <div class="tt gold" style="font-size:150px"><span id="f2">ferais&nbsp;?</span></div>
+  </div></section>
+  <section class="clip" id="s-legal" data-start="79.4" data-duration="4.56" data-track-index="3"><div class="src mono" id="legal" style="top:1275px">Scénario hypothétique. Chiffres arrondis : Forbes (1er mars 2026), Banque mondiale (2024), Altrata (2025).</div></section>
+
+  <div class="fx" style="top:1290px;height:300px;bottom:auto;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.38) 28%,rgba(0,0,0,.38) 72%,rgba(0,0,0,0))"></div>
+  <div id="caps" class="clip" data-start="0" data-duration="83.96" data-track-index="4"></div>
+  <div id="flash" class="fx"></div>
+</div>
+
+<script src="js/timing.global.js"></script>
+<script src="js/captions.js"></script>
+<script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+<script type="module" src="js/main.js"></script>
+<script>
+(() => {
+const tl = gsap.timeline({ paused: true });
+const S = window.TIMING.scenes;
+const norm = (x) => x.toLowerCase().replace(/[^a-zàâçéèêëîïôûùüÿœ0-9']/g, "");
+const on = (n, re, k = 0) => { const h = S[n - 1].words.filter((w) => re.test(norm(w[2]))); if (!h[k]) throw new Error("mot introuvable " + n + " " + re); return h[k][0]; };
+const slam = (sel, t, o = {}) => tl.fromTo(sel, { y: o.y ?? 70, scale: o.s ?? 1.5, opacity: 0, rotation: o.r ?? -3 }, { y: 0, scale: 1, opacity: 1, rotation: 0, duration: o.d ?? 0.32, ease: "back.out(1.9)" }, t);
+const out = (sel, t, d = 0.22, y = -40) => tl.to(sel, { opacity: 0, y, duration: d, ease: "power2.in" }, t);
+const fade = (sel, t, to = 0.85, d = 0.3) => tl.fromTo(sel, { opacity: 0 }, { opacity: to, duration: d }, t);
+const flash = (t, color, peak = 0.7, d = 0.35) => { tl.set("#flash", { backgroundColor: color }, t - 0.001); tl.fromTo("#flash", { opacity: 0 }, { opacity: peak, duration: 0.04, immediateRender: false }, t); tl.to("#flash", { opacity: 0, duration: d }, t + 0.05); };
+
+// S1 « ET SI ON REDISTRIBUAIT TOUT ? »
+slam("#h1", 0.05, { y: 90 }); slam("#h2", on(1, /tous/), { y: 90, s: 1.7 }); slam("#h3", on(1, /toute/), { y: 90 });
+tl.to("#h3", { scale: 1.08, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 4.0);
+out("#s-hook .ov", 5.15, 0.2, -50);
+// S2 « VRAIMENT ? »
+const tn = on(2, /non/); tl.fromTo("#vrai", { scale: 0.3, opacity: 0, rotation: -14 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.36, ease: "back.out(1.7)" }, tn - 0.04); tl.to("#vrai", { scale: 1.05, duration: 0.3, yoyo: true, repeat: 1 }, tn + 0.4);
+// S3 source discrète
+// S5 « MAIS IL Y A UN PROBLÈME… »
+slam("#p1", 18.55, { y: 80 }); slam("#p2", on(5, /problème/) - 0.1, { y: 80, s: 1.8 }); tl.to("#p2", { x: 6, duration: 0.05, yoyo: true, repeat: 5, ease: "none" }, on(5, /problème/) + 0.35);
+out("#s-prob .ov", 21.0, 0.2);
+// S6 « UNE FORTUNE ≠ DU CASH »
+slam("#c1", 22.35, { y: 70 }); tl.fromTo("#c2", { scale: 3, opacity: 0, rotation: -25 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.35, ease: "back.out(2.2)" }, on(6, /juste/) - 0.05); slam("#c3", on(6, /argent/) - 0.05, { y: 70 });
+out("#s-cash .ov", 24.15, 0.2);
+// S8 « TOUT LE MONDE VEND. »
+slam("#v1", 30.15, { y: 70 }); slam("#v2", on(8, /vendre/) - 0.05, { y: 90, s: 2.1, r: 4 }); tl.to("#v2", { scale: 1.1, duration: 0.18, yoyo: true, repeat: 5, ease: "sine.inOut" }, 31.2);
+out("#s-vend .ov", 32.45, 0.1, 0);
+// S10 « LES COURS POURRAIENT CHUTER »
+slam("#k1", 36.5, { y: 60 }); slam("#k2", on(10, /pourraient/) - 0.05, { y: 60 }); tl.fromTo("#k3", { y: -120, scale: 1.4, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.26, ease: "power4.in" }, on(10, /effondrer/) - 0.1);
+tl.to("#k3", { y: 18, duration: 0.08, yoyo: true, repeat: 3, ease: "none" }, on(10, /effondrer/) + 0.2);
+out("#s-chute .ov", 38.3, 0.15, 0);
+// S16 « AIDER ≠ RÉSOUDRE DURABLEMENT »
+slam("#a1", on(16, /aider/) - 0.05, { y: 70 }); tl.fromTo("#a2", { scale: 3, opacity: 0, rotation: -25 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.35, ease: "back.out(2.2)" }, on(16, /mais/) - 0.05);
+slam("#a3", on(16, /supprimer/) - 0.05, { y: 60 }); slam("#a4", on(16, /durablement/) - 0.05, { y: 60 });
+out("#s-aider .ov", 70.7, 0.2);
+// S18 « TU LE FERAIS ? »
+const tt = on(18, /^tu$/, 1); slam("#f1", tt - 0.03, { y: 90, s: 1.6 }); slam("#f2", on(18, /ferais/) - 0.03, { y: 90, s: 1.9, d: 0.36 });
+tl.to("#f2", { scale: 1.06, duration: 0.5, yoyo: true, repeat: 1, ease: "sine.inOut" }, 83.2);
+fade("#legal", 79.5, 0.85, 0.5);
+fade("#legal3", 9.0, 0.8, 0.3); out("#legal3", 12.1, 0.3, 0);
+// flashs de transition entre modules 3D (cuts)
+flash(13.18, "#ffd9a0", 0.75, 0.5);     // vers la chaleur (life)
+tl.fromTo("#flash", { opacity: 0 }, { opacity: 0, duration: 0.01, immediateRender: false }, 18.4);
+flash(18.52, "#bfe3ff", 0.35, 0.18);    // arrêt brutal, froid
+flash(27.64, "#ffffff", 0.45, 0.25);
+flash(38.46, "#ff9a8a", 0.4, 0.25);
+flash(45.64, "#ff9a8a", 0.3, 0.2);    // cut impact (S11) -> réseau (S12)
+flash(51.3, "#bfe3ff", 0.45, 0.35);
+flash(54.78, "#ffd9a0", 0.7, 0.45);
+flash(59.44, "#ffe9c4", 0.4, 0.3);
+flash(79.16, "#ffffff", 0.5, 0.35);
+
+// sous-titres karaoké (texte exact du script)
+const caps = document.getElementById("caps");
+window.CAPTIONS.forEach((c, k) => {
+  if (c.w.map((x) => x[2]).join(" ") === "TU LE FERAIS ?") return; // le titre cinétique final joue ce rôle (synchronisé sur les mêmes mots)
+  const el = document.createElement("div"); el.className = "cap"; el.id = "cap" + k;
+  c.w.forEach(([s, e, w], j) => { const i = document.createElement("i"); i.id = `cw${k}_${j}`; i.textContent = w; el.appendChild(i); });
+  caps.appendChild(el);
+  tl.fromTo("#cap" + k, { opacity: 0, y: 24, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.14, ease: "power2.out" }, c.s);
+  c.w.forEach(([s, e, w], j) => { tl.fromTo(`#cw${k}_${j}`, { color: "#f3ecd4", scale: 1 }, { color: "#e8b84a", scale: 1.03, duration: 0.1, ease: "power2.out" }, s); tl.to(`#cw${k}_${j}`, { color: "#f3ecd4", scale: 1, duration: 0.12 }, Math.max(s + 0.12, e)); });
+  tl.to("#cap" + k, { opacity: 0, duration: 0.1 }, c.e - 0.1);
+});
+window.__timelines["main"] = tl;
+})();
+</script>
+</body>
+</html>

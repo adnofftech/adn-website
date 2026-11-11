@@ -1,0 +1,554 @@
+[
+ {
+  "n": 1,
+  "start": 0.0,
+  "end": 3.54,
+  "texte": "Tu te souviens de tes vacances d’enfant ? Ces étés qui n’en finissaient jamais ?"
+ },
+ {
+  "n": 2,
+  "start": 3.8,
+  "end": 8.68,
+  "texte": "Et puis un jour, sans prévenir, tout s’est mis à accélérer. Janvier, et hop, déjà juin."
+ },
+ {
+  "n": 3,
+  "start": 8.98,
+  "end": 13.28,
+  "texte": "Tu clignes des yeux, c’est Noël. Pourtant une journée dure toujours 24h, pile."
+ },
+ {
+  "n": 4,
+  "start": 13.72,
+  "end": 19.62,
+  "texte": "Alors pourquoi t’as l’impression que le temps file de plus en plus vite en grandissant ? Spoiler : c’est pas ton horloge qui déconne."
+ },
+ {
+  "n": 5,
+  "start": 19.86,
+  "end": 25.92,
+  "texte": "C’est ton cerveau. Plus précisément, la façon dont il remarque le monde, fabrique des souvenirs, et mesure le changement."
+ },
+ {
+  "n": 6,
+  "start": 26.24,
+  "end": 33.28,
+  "texte": "Et le truc hyper étrange là-dedans : ce que tu ressens comme “temps qui passe” dépend autant de ce dont tu te souviens que de ce que t’as vraiment vécu."
+ },
+ {
+  "n": 7,
+  "start": 33.7,
+  "end": 38.8,
+  "texte": "Repense à une journée de quand t’étais gosse. Tu découvrais un endroit, un jeu, quelqu’un, un truc nouveau."
+ },
+ {
+  "n": 8,
+  "start": 39.2,
+  "end": 43.56,
+  "texte": "Une heure, ça pouvait contenir une tonne de trucs. Tu regardais partout, tout était à apprendre."
+ },
+ {
+  "n": 9,
+  "start": 43.92,
+  "end": 48.04,
+  "texte": "Même un trajet banal devenait une aventure. Maintenant compare avec une journée récente."
+ },
+ {
+  "n": 10,
+  "start": 48.56,
+  "end": 52.18,
+  "texte": "Réveil, téléphone, mêmes gestes, mêmes tâches en pilote automatique."
+ },
+ {
+  "n": 11,
+  "start": 52.54,
+  "end": 58.3,
+  "texte": "Le soir arrive, et t’as l’impression que la journée s’est juste... évaporée. Pourtant elle a duré exactement pareil."
+ },
+ {
+  "n": 12,
+  "start": 58.54,
+  "end": 61.0,
+  "texte": "Sauf qu’elle t’a pas laissé la même quantité de souvenirs distincts."
+ },
+ {
+  "n": 13,
+  "start": 61.54,
+  "end": 66.16,
+  "texte": "Et c’est ça, la clé du mystère : ton cerveau a pas de petite horloge interne hyper précise."
+ },
+ {
+  "n": 14,
+  "start": 66.42,
+  "end": 75.2,
+  "texte": "Il bricole son estimation du temps avec plusieurs mécanismes, et ça dépend de ton attention, tes émotions, ton état physique, et la façon dont tu reconstruis tes souvenirs après coup."
+ },
+ {
+  "n": 15,
+  "start": 75.5,
+  "end": 78.7,
+  "texte": "Quand t’attends un truc avec impatience, chaque minute dure une plombe."
+ },
+ {
+  "n": 16,
+  "start": 78.92,
+  "end": 84.12,
+  "texte": "Quand t’es à fond dans un jeu ou une conversation, tu zappes complètement l’heure qu’il est. Le temps, lui, a pas bougé."
+ },
+ {
+  "n": 17,
+  "start": 84.4,
+  "end": 85.94,
+  "texte": "C’est ton attention qui s’est déplacée."
+ },
+ {
+  "n": 18,
+  "start": 86.34,
+  "end": 92.18,
+  "texte": "Le psychologue William James s’est penché là-dessus très tôt : notre expérience du temps, c’est pas une copie fidèle de la réalité."
+ },
+ {
+  "n": 19,
+  "start": 92.64,
+  "end": 96.84,
+  "texte": "C’est une construction de l’esprit, influencée par ce qu’on remarque et comment on l’interprète."
+ },
+ {
+  "n": 20,
+  "start": 97.3,
+  "end": 101.42,
+  "texte": "Mais pourquoi cette sensation s’intensifie avec l’âge ? Une piste : la nouveauté."
+ },
+ {
+  "n": 21,
+  "start": 101.86,
+  "end": 104.4,
+  "texte": "Gamin, tu tombes constamment sur des situations inédites."
+ },
+ {
+  "n": 22,
+  "start": 104.7,
+  "end": 110.38,
+  "texte": "Ton cerveau doit apprendre des règles, repérer des détails, créer des associations. Le monde est plein de premières fois."
+ },
+ {
+  "n": 23,
+  "start": 110.38,
+  "end": 113.16,
+  "texte": "En grandissant, une partie de ta vie devient prévisible."
+ },
+ {
+  "n": 24,
+  "start": 113.5,
+  "end": 119.64,
+  "texte": "Tu connais le chemin, tu sais comment se passe une journée type, tu reconnais les situations et t’enchaînes plein de gestes en pilote automatique."
+ },
+ {
+  "n": 25,
+  "start": 119.94,
+  "end": 124.42,
+  "texte": "Pratique pour économiser de l’énergie. Mais du coup, dans ta mémoire, les journées se ressemblent toutes."
+ },
+ {
+  "n": 26,
+  "start": 125.0,
+  "end": 131.08,
+  "texte": "Imagine deux trajets de 10 minutes. Le premier dans une ville inconnue : tu remarques les façades, les sons, les gens."
+ },
+ {
+  "n": 27,
+  "start": 131.68,
+  "end": 135.9,
+  "texte": "Le second, ton trajet de tous les jours : t’arrives sans pouvoir raconter quoi que ce soit."
+ },
+ {
+  "n": 28,
+  "start": 136.38,
+  "end": 140.22,
+  "texte": "Même durée. Mais le premier, avec le recul, te paraît bien plus riche."
+ },
+ {
+  "n": 29,
+  "start": 140.22,
+  "end": 147.0,
+  "texte": "Le chercheur Marc Wittmann bosse justement sur cette perception subjective du temps, et sur les liens avec le corps et la conscience."
+ },
+ {
+  "n": 30,
+  "start": 147.74,
+  "end": 154.52,
+  "texte": "Pour lui, y’a pas un seul compteur mental : ça varie selon l’attention portée au présent, les sensations corporelles, le contexte."
+ },
+ {
+  "n": 31,
+  "start": 154.86,
+  "end": 162.12,
+  "texte": "Attention quand même : la nouveauté explique pas tout, et y’a pas UNE réponse qui résout tout le mystère de “pourquoi les années accélèrent avec l’âge”."
+ },
+ {
+  "n": 32,
+  "start": 162.52,
+  "end": 168.6,
+  "texte": "Plusieurs mécanismes se combinent. Certains concernent ce que tu ressens sur le moment. D’autres, comment tu t’en souviens après."
+ },
+ {
+  "n": 33,
+  "start": 169.14,
+  "end": 175.7,
+  "texte": "Et là, paradoxe hyper intéressant : une expérience peut sembler longue pendant qu’elle se passe, mais courte quand t’y repenses."
+ },
+ {
+  "n": 34,
+  "start": 176.16,
+  "end": 178.68,
+  "texte": "Et l’inverse marche aussi. Imagine une salle d’attente."
+ },
+ {
+  "n": 35,
+  "start": 179.12,
+  "end": 183.6,
+  "texte": "Rien à faire, tu checks l’heure toutes les 30 secondes, chaque minute dure une éternité."
+ },
+ {
+  "n": 36,
+  "start": 184.18,
+  "end": 189.08,
+  "texte": "Sur le moment, le temps s’étire à fond. Mais quand t’y repenses après ? Quasi aucun souvenir."
+ },
+ {
+  "n": 37,
+  "start": 189.56,
+  "end": 193.08,
+  "texte": "T’as eu l’impression que ça durait longtemps, sans que ça prenne de place dans ta mémoire."
+ },
+ {
+  "n": 38,
+  "start": 193.54,
+  "end": 197.38,
+  "texte": "Maintenant un voyage, plein de lieux inconnus, de rencontres, d’imprévus."
+ },
+ {
+  "n": 39,
+  "start": 197.38,
+  "end": 201.9,
+  "texte": "Sur place, les journées filent parce que t’es à fond occupé. Mais une fois rentré ?"
+ },
+ {
+  "n": 40,
+  "start": 202.1,
+  "end": 206.02,
+  "texte": "Ce voyage te paraît immense dans le souvenir. Tu te rappelles plein de moments différents."
+ },
+ {
+  "n": 41,
+  "start": 206.64,
+  "end": 210.84,
+  "texte": "Avec le recul, cette période a l’air plus dense, presque plus longue qu’une semaine normale."
+ },
+ {
+  "n": 42,
+  "start": 211.42,
+  "end": 218.32,
+  "texte": "Le psychologue Robert Ornstein a étudié comment la quantité et la complexité des infos traitées influencent notre estimation du temps."
+ },
+ {
+  "n": 43,
+  "start": 218.76,
+  "end": 227.8,
+  "texte": "Ça veut pas dire que ton cerveau compte littéralement les souvenirs comme des secondes, mais l’idée est là : la façon dont une période est stockée en mémoire change la durée qu’on lui attribue après."
+ },
+ {
+  "n": 44,
+  "start": 228.2,
+  "end": 235.3,
+  "texte": "Donc en gros, y’a deux questions différentes : combien de temps ça semble durer sur le moment, et quelle place ça prend quand tu regardes en arrière."
+ },
+ {
+  "n": 45,
+  "start": 235.68,
+  "end": 241.05,
+  "texte": "Deux trucs qui marchent pas pareil. Alors, pourquoi un été d’enfance te paraît plus long qu’une année récente ?"
+ },
+ {
+  "n": 46,
+  "start": 241.25,
+  "end": 245.95,
+  "texte": "Parce que tu compares pas deux durées enregistrées nickel. Tu compares des souvenirs reconstruits."
+ },
+ {
+  "n": 47,
+  "start": 246.27,
+  "end": 253.27,
+  "texte": "Ton enfance, c’était plein d’étapes marquées : la rentrée, un anniversaire, un déménagement, un pote rencontré, une découverte."
+ },
+ {
+  "n": 48,
+  "start": 253.61,
+  "end": 259.07,
+  "texte": "Des périodes bourrées de repères. Adulte, ou ado qui grandit, t’as plus de semaines répétitives."
+ },
+ {
+  "n": 49,
+  "start": 259.45,
+  "end": 262.27,
+  "texte": "Cours, boulot, trajets, écrans, habitudes."
+ },
+ {
+  "n": 50,
+  "start": 262.65,
+  "end": 266.33,
+  "texte": "Pas forcément vides de sens, mais elles se ressemblent, et les souvenirs se mélangent."
+ },
+ {
+  "n": 51,
+  "start": 266.79,
+  "end": 271.85,
+  "texte": "Résultat : t’as plus de frontières nettes entre un lundi et le suivant. La période se comprime dans ta tête."
+ },
+ {
+  "n": 52,
+  "start": 272.33,
+  "end": 277.59,
+  "texte": "Y’a aussi cette idée qu’on entend souvent : une année représente une part de plus en plus petite de ta vie en vieillissant."
+ },
+ {
+  "n": 53,
+  "start": 278.05,
+  "end": 282.37,
+  "texte": "À 5 ans, une année = un cinquième de ta vie. À 50 ans, un cinquantième."
+ },
+ {
+  "n": 54,
+  "start": 282.71,
+  "end": 287.21,
+  "texte": "Ça paraît logique, et ça aide à comprendre pourquoi une année semble énorme dans une vie courte."
+ },
+ {
+  "n": 55,
+  "start": 287.53,
+  "end": 292.29,
+  "texte": "Mais cette règle de calcul suffit pas à prouver que ton cerveau ressent vraiment chaque année dans cette proportion."
+ },
+ {
+  "n": 56,
+  "start": 292.77,
+  "end": 295.43,
+  "texte": "Le temps psychologique, c’est bien plus complexe que ça."
+ },
+ {
+  "n": 57,
+  "start": 295.43,
+  "end": 299.91,
+  "texte": "Vois plutôt ça comme une métaphore parlante, pas comme une loi scientifique qui expliquerait tout."
+ },
+ {
+  "n": 58,
+  "start": 300.39,
+  "end": 306.19,
+  "texte": "Le stress aussi déforme ton rapport au temps. Inquiet, en attente d’une nouvelle importante, en alerte face à un danger ?"
+ },
+ {
+  "n": 59,
+  "start": 306.25,
+  "end": 308.53,
+  "texte": "Tu deviens hyper attentif à chaque seconde."
+ },
+ {
+  "n": 60,
+  "start": 308.75,
+  "end": 314.03,
+  "texte": "Mais une période difficile peut aussi devenir floue dans ta mémoire, parce que t’étais crevé ou que les journées se répétaient."
+ },
+ {
+  "n": 61,
+  "start": 314.21,
+  "end": 319.83,
+  "texte": "Y’a pas une seule façon de vivre le temps sous pression. Les émotions fortes, elles, laissent des souvenirs plus marquants."
+ },
+ {
+  "n": 62,
+  "start": 320.07,
+  "end": 326.41,
+  "texte": "Un moment de peur, de joie, de surprise peut sembler ralentir sur le coup, puis rester hyper présent en mémoire."
+ },
+ {
+  "n": 63,
+  "start": 326.65,
+  "end": 329.99,
+  "texte": "Mais c’est pas forcément que ton cerveau a filmé en plus d’images par seconde."
+ },
+ {
+  "n": 64,
+  "start": 330.27,
+  "end": 335.33,
+  "texte": "La sensation de ralenti et le souvenir détaillé, c’est deux trucs différents, même s’ils arrivent souvent ensemble."
+ },
+ {
+  "n": 65,
+  "start": 335.87,
+  "end": 340.33,
+  "texte": "Le chercheur Douwe Draaisma a bossé sur la mémoire autobiographique et notre rapport au passé."
+ },
+ {
+  "n": 66,
+  "start": 340.73,
+  "end": 344.11,
+  "texte": "Quand tu regardes en arrière, tu rejoues pas une vidéo intégrale de ta vie."
+ },
+ {
+  "n": 67,
+  "start": 344.39,
+  "end": 348.55,
+  "texte": "Tu reconstruis un récit à partir de scènes et repères qui ont gardé de l’importance."
+ },
+ {
+  "n": 68,
+  "start": 348.89,
+  "end": 353.21,
+  "texte": "Les périodes riches en changements paraissent plus longues parce qu’elles ont plus de points de repère mémorables."
+ },
+ {
+  "n": 69,
+  "start": 353.21,
+  "end": 355.81,
+  "texte": "Et ça, ça donne une piste super concrète."
+ },
+ {
+  "n": 70,
+  "start": 356.19,
+  "end": 359.69,
+  "texte": "Si tes semaines se ressemblent toutes, elles vont se fondre les unes dans les autres."
+ },
+ {
+  "n": 71,
+  "start": 360.05,
+  "end": 373.11,
+  "texte": "Si tu introduis des trucs nouveaux régulièrement, tu crées des repères distincts : apprendre un truc, visiter un endroit, cuisiner un nouveau plat, rencontrer du monde, changer d’itinéraire, ou juste te consacrer à fond à un projet qui demande ta présence."
+ },
+ {
+  "n": 72,
+  "start": 373.59,
+  "end": 378.67,
+  "texte": "Le but, c’est pas de remplir chaque minute ou de courir après la nouveauté en permanence. Ça serait crevant."
+ },
+ {
+  "n": 73,
+  "start": 379.05,
+  "end": 381.71,
+  "texte": "Et ralentir physiquement le temps, c’est juste pas possible."
+ },
+ {
+  "n": 74,
+  "start": 381.71,
+  "end": 388.29,
+  "texte": "Le truc, c’est plutôt de vivre certains moments avec assez d’attention pour qu’ils disparaissent pas dans le brouillard des automatismes."
+ },
+ {
+  "n": 75,
+  "start": 388.55,
+  "end": 392.83,
+  "texte": "Tu peux commencer simple. Chaque soir, rappelle-toi 3 moments précis de ta journée."
+ },
+ {
+  "n": 76,
+  "start": 393.37,
+  "end": 401.41,
+  "texte": "Pas “j’ai bossé” ou “j’ai scrollé mon tel”, mais un détail concret : une phrase entendue, un truc appris, un endroit remarqué, un fou rire."
+ },
+ {
+  "n": 77,
+  "start": 401.79,
+  "end": 405.87,
+  "texte": "Ça garantit pas que tes journées paraîtront plus longues, mais ça t’aide à mieux remarquer ce que tu vis."
+ },
+ {
+  "n": 78,
+  "start": 406.27,
+  "end": 411.89,
+  "texte": "Autre piste : sois vraiment présent pendant une activité. Tu manges ? Fais gaffe au goût, aux textures."
+ },
+ {
+  "n": 79,
+  "start": 412.51,
+  "end": 416.61,
+  "texte": "Tu parles à quelqu’un ? Écoute sans checker ton écran. Tu découvres un lieu ?"
+ },
+ {
+  "n": 80,
+  "start": 416.75,
+  "end": 422.39,
+  "texte": "Observe les détails au lieu de foncer en pensant déjà à la suite. Ton attention peut pas être partout en même temps."
+ },
+ {
+  "n": 81,
+  "start": 422.89,
+  "end": 429.11,
+  "texte": "Mais tu peux choisir où tu la mets, de temps en temps. Et surtout, te dis pas qu’y’a un problème chez toi parce que les mois filent trop vite."
+ },
+ {
+  "n": 82,
+  "start": 429.53,
+  "end": 435.29,
+  "texte": "C’est hyper courant, ça varie d’une personne à l’autre et selon les périodes de vie. Ça veut pas dire que t’as raté tes journées."
+ },
+ {
+  "n": 83,
+  "start": 435.29,
+  "end": 442.13,
+  "texte": "Ça veut juste dire que ton cerveau a pris l’habitude de reconnaître ce qui l’entoure, et accorde moins d’attention à ce qui lui paraît familier."
+ },
+ {
+  "n": 84,
+  "start": 442.47,
+  "end": 451.17,
+  "texte": "Alors la prochaine fois que tu dis “cette année est passée en un éclair”, pose-toi une autre question : qu’est-ce qui, dans cette année, était vraiment différent de la précédente ?"
+ },
+ {
+  "n": 85,
+  "start": 451.27,
+  "end": 457.45,
+  "texte": "Quels moments tu peux raconter sans regarder tes photos ou ton calendrier ? Et quelles expériences t’aimerais te rappeler dans 10 ans ?"
+ },
+ {
+  "n": 86,
+  "start": 457.49,
+  "end": 460.07,
+  "texte": "Parce que le temps sur l’horloge avance toujours au même rythme."
+ },
+ {
+  "n": 87,
+  "start": 460.39,
+  "end": 464.65,
+  "texte": "Mais le temps que tu gardes en mémoire, lui, dépend des traces que la vie laisse derrière elle."
+ },
+ {
+  "n": 88,
+  "start": 464.65,
+  "end": 469.47,
+  "texte": "Gamin, un été paraissait interminable parce que le monde était plein de premières fois."
+ },
+ {
+  "n": 89,
+  "start": 469.79,
+  "end": 472.35,
+  "texte": "En grandissant, t’as pas perdu ta capacité à découvrir."
+ },
+ {
+  "n": 90,
+  "start": 472.85,
+  "end": 476.21,
+  "texte": "T’as juste appris à reconnaître le monde au lieu de le redécouvrir."
+ },
+ {
+  "n": 91,
+  "start": 476.65,
+  "end": 480.87,
+  "texte": "Et si les années te paraissent filer trop vite maintenant, c’est peut-être pas le temps qui accélère."
+ },
+ {
+  "n": 92,
+  "start": 481.11,
+  "end": 486.81,
+  "texte": "C’est peut-être juste le moment de recommencer à remarquer ce qui, juste à côté de toi, n’a encore jamais été vu."
+ }
+]

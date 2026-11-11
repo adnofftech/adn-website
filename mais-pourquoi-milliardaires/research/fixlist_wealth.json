@@ -1,0 +1,98 @@
+[
+ {
+  "scene": 1,
+  "severity": "mineur",
+  "t": 5.08,
+  "what": "À t=5,08 (et sans doute 3,4 à 4,7) les billets qui quittent la montagne forment surtout une gerbe de confettis dans la moitié haute (y 300 à 1000) alors que les silhouettes sont minuscules en bas, sur les bords (y 1130 à 1400). Le trajet « de la montagne vers les gens » n'est pas lisible d'un coup d'œil ; ça se lit comme une explosion de billets. La directive demande des billets qui se dirigent vers des silhouettes. À confirmer avec les instants supplémentaires.",
+  "where": "video/js/scenes/wealth_hall.js (makeFlights, U.fl1, fonction bez dans updateBills)",
+  "suggested_fix": "Baisser le point de contrôle c des arcs fl1 (apex environ 40 % plus bas) pour que les billets redescendent vers les têtes de la foule. Réduire le nombre de billets qui passent dans la moitié haute pendant que le titre est affiché, ou ajouter 2 ou 3 flux plus denses (plus de billets par flux) visibles de la montagne vers la foule gauche et droite."
+ },
+ {
+  "scene": 1,
+  "severity": "mineur",
+  "t": 0.3,
+  "what": "La directive demande des écrans affichant des chiffres gigantesques. Dans S1 les écrans muraux montrent de petites colonnes de chiffres sombres, vues en perspective, à peine lisibles aux instants 0,30 et 2,69. L'effet « chiffres gigantesques » vient surtout de S3. Rien n'est inventé car il n'y a ni unité ni libellé, donc pas de souci de faits.",
+  "where": "video/js/scenes/wealth_hall.js (hU.screens : taille, luminosité)",
+  "suggested_fix": "Agrandir légèrement les 2 écrans les plus proches de la caméra et augmenter leur émissivité de ~30 %, sans ajouter d'unité ni de libellé."
+ },
+ {
+  "scene": 2,
+  "severity": "mineur",
+  "t": 7.4,
+  "what": "À t=7,40 (et sans doute de ~7,3 à ~7,85) l'image est presque entièrement un aplat bleu uni : le « ? » est vu si près (caméra à z=17 pour un « ? » en z=12,5) qu'on ne reconnaît plus un point d'interrogation, ni la montagne ni la foule. Le zoom rapide est demandé par la directive, mais pendant environ 0,5 s l'écran n'illustre plus la phrase. Ce n'est pas un objet qui traverse la caméra, c'est un plan très serré sur la face avant.",
+  "where": "video/js/scenes/wealth.js (SHOTS clés t=7.56 et t=7.7 : position p et f)",
+  "suggested_fix": "Arrêter le zoom plus tôt : p z≈17 → z≈24, f 46 → 50 (aux clés t=7.56 et t=7.7), pour que la crosse du « ? » et son contour restent identifiables ; sinon garder le zoom mais couper à 7,70 (le cut du montage est déjà là) et raccourcir le recul qui suit."
+ },
+ {
+  "scene": 3,
+  "severity": "majeur",
+  "t": 12.5,
+  "what": "Le panneau « plus de 824 millions de personnes / moins de 3 $ par jour · Banque mondiale, 2024 » n'est visible dans aucune des 3 images. D'après le code il n'est affiché que de 11,86 à 12,78 (environ 0,9 s). Sa ligne source et son seuil « moins de 3 $ par jour » ne fondent qu'à partir de 12,41 (sstep 12,41→12,76) alors que le groupe se réduit et disparaît dès 12,52 (sstep 12,52→12,78). Ils ne sont donc jamais lisibles : le chiffre 824 M apparaît sans son critère ni sa source, ce que FACTS F2 et la directive (« indique discrètement sa source ») interdisent. À confirmer sur images (instants 12,3, 12,55, 12,7).",
+  "where": "video/js/scenes/wealth_map.js (fonction updateNumbers : tMi, out, N.sub.material.opacity)",
+  "suggested_fix": "Faire apparaître la ligne source plus tôt : N.sub.material.opacity = sstep(tMi+0.15, tMi+0.4, t)*0.95 ; retarder la sortie du panneau : out = 1 - sstep(12.85, 13.05, t) (le diveFill blanc commence à 12,9). Option : avancer tMi à 11,72 (« des »). Vérifier que le panneau (x droit ≈978 px) reste dans la marge de 150 px."
+ },
+ {
+  "scene": 3,
+  "severity": "majeur",
+  "t": 12.88,
+  "what": "La carte est surexposée à t=12,88 : les halos additifs des cellules allumées s'additionnent et les continents (Amérique, Europe, Asie) deviennent de grosses taches blanches. On ne distingue plus les « milliers de points lumineux » demandés ni les contours de la carte. Seuls les flux restent lisibles. Les trois quarts supérieurs du cadre sont vides et noirs. La directive demande des points lumineux qui apparaissent progressivement, pas un voile blanc. Une partie de cet effet peut venir du plongeon final vers la zone chaude (M.dive, diveFill dès 12,85). À confirmer avec 11,95, 12,3 et 12,55.",
+  "where": "video/js/scenes/wealth_map.js (updateMap mode 3 : hs = 3.4*ps et multiplyScalar(0.8) ; updateS3Fx : M.dive.material.opacity)",
+  "suggested_fix": "Réduire la taille des halos en mode 3 de 3,4 à 2,0 (hs = 2.0*ps) et leur intensité de 0,8 à 0,4 ; limiter M.dive.material.opacity à 0.2+0.3*dv avant 13,0. Garder le blanc complet seulement sur diveFill (12,9 à 13,16) pour le raccord vers S4."
+ },
+ {
+  "scene": 3,
+  "severity": "mineur",
+  "t": 10.44,
+  "what": "La mention de source de l'euro (« Forbes 1er mars 2026 · converti au taux BCE du 09/10/2026 ») est minuscule (~25 px), grise, posée sur le bord supérieur des continents, et elle s'étend de x≈70 à x≈1015 (déborde la marge droite de 150 px). Sur téléphone elle sera difficile à lire. Elle omet aussi « (1 € = 1,1206 $) » prévu dans FACTS F1€.",
+  "where": "video/js/scenes/wealth_map.js (N.mention dans buildNumbers : taille, position ; N.backM)",
+  "suggested_fix": "Remonter la ligne d'environ 40 px (au-dessus de la carte, sur le fond sombre), augmenter la taille (size 0.5 → 0.6), la raccourcir (« Forbes 1er mars 2026 · converti au taux BCE du 09/10/2026 (1 € = 1,1206 $) » sur 2 lignes centrées plutôt qu'une seule très large) et passer la couleur à #f3ecd4 pleine opacité."
+ },
+ {
+  "scene": 3,
+  "severity": "mineur",
+  "t": 10.44,
+  "what": "À t=10,44 la montagne de billets ressemble à un petit œuf vert en bas de cadre, bien plus petite que la carte. La directive veut qu'elle devienne si grande que la caméra doit reculer pour montrer l'échelle ; ici l'échelle gigantesque n'est portée que par le compteur. Le recul est réussi mais la montagne perd son impact.",
+  "where": "video/js/scenes/wealth.js (mtn.scale : 1+0.3*eio(...) puis 1-0.1*eio(...) pour t entre 10,7 et 13)",
+  "suggested_fix": "Supprimer la réduction de 10 % entre 10,7 et 13 et porter le grossissement de 1,3 à ~1,6 entre 7,9 et 9,4, ou ajouter quelques silhouettes de repère à sa base pour donner l'échelle."
+ },
+ {
+  "scene": 13,
+  "severity": "majeur",
+  "t": 54.48,
+  "what": "Surexposition et traînées de flux qui traversent la caméra en fin de scène. À 54,48 s, environ 19 % des pixels du haut du cadre (0 à 700 px) sont quasi blancs et 36 % ont une luminance supérieure à 200. Un faisceau de traînées additives jaune et blanc recouvre toute la moitié haute, et la carte n'est plus lisible. Le badge « MAIS POURQUOI ? » flotte dans ce lavis blanc. Un rendu 3D seul à 54,2 s montre aussi une grosse colonne dorée saturée sur la gauche, au moment où la caméra traverse le hub. Le défaut dure environ 0,4 s, de 54,2 à 54,7 s, et c'est la dernière image avant la coupe vers S14.",
+  "where": "video/js/scenes/wealth_map.js (fonction updateS13Fx : constantes burst, fade, paintFlows, opacité de M.beam), video/js/scenes/wealth.js (clés caméra de S13 entre 54,12 et 54,77 s)",
+  "suggested_fix": "Avancer et raccourcir l'extinction des flux et du faisceau : fade = sstep(54.2, 54.5, t) au lieu de sstep(54.45, 54.75, t), et dans base multiplier par (1 - 0.9*sstep(54.2, 54.45, t)). Plafonner M.beam.material.opacity à environ 0,25 et la ramener à 0 quand la caméra descend sous y = 15. Si besoin, moduler l'alpha des traînées par la distance à la caméra, ou passer leur blending de Additive à Normal pour la dernière seconde."
+ },
+ {
+  "scene": 13,
+  "severity": "mineur",
+  "t": 54.48,
+  "what": "Un parallélépipède translucide à arêtes vives, plus clair que le fond, sert de faisceau derrière le bénéficiaire. Il couvre à peu près x = 445 à 1010 px et y = 250 à 1170 px. Il se lit comme une boîte plate, pas comme un cône de lumière, et crée un bord vertical net en plein milieu du plan final.",
+  "where": "video/js/scenes/wealth_map.js (M.heroBeam, M.beam)",
+  "suggested_fix": "Remplacer la géométrie du faisceau par un cône ou un cylindre évasé à bords dégradés (texture de gradient horizontal), ou ramener l'opacité de M.heroBeam à 0,10 maximum. Le fondre dès 54,3 s."
+ },
+ {
+  "scene": 13,
+  "severity": "mineur",
+  "t": 53.04,
+  "what": "La carte de S13 ne se reconnaît pas comme le retour à la carte de S3. S3 est un relief vert monétaire continu, alors que S13 est une grille de cases bleue puis violet saturé. Ce violet vient d'un éclairage orange sur des cases bleues, et il détonne avec la direction artistique noir, vert et or. La directive dit « Retour à la carte du monde de la scène précédente (S3) » et « palette plus chaleureuse ».",
+  "where": "video/js/scenes/wealth_map.js (couleur de base des cases) et wealth.js (lignes mixHex de warm13 : hemi.color, hemi.groundColor, sun.color)",
+  "suggested_fix": "Teinter les cases vers le vert ou sarcelle de S3 (environ 0x2f8f6a) ou vers un ambre sombre. Pour la montée en chaleur, mélanger vers 0xffdcae sans passer par du violet, en baissant la saturation du bleu de départ (0x7fa6f0 vers un bleu-vert)."
+ },
+ {
+  "scene": 13,
+  "severity": "mineur",
+  "t": 54.7,
+  "what": "Nuance de la directive peu portée par l'image : « la distribution d'argent est le point de départ d'une autre question, pas la fin du problème ». La scène se termine sur une pose très triomphale (bras levés, pluie de pièces, flash chaud vers S14) et aucun élément visuel n'indique que ce n'est qu'une hypothèse ou un début. L'ensemble reste acceptable parce que « imaginons » est dans la voix et le sous-titre, et que S15 inverse la tendance.",
+  "where": "video/js/scenes/wealth_map.js (animation M.heroP : bras, saut, sstep 54,35 à 54,7)",
+  "suggested_fix": "Optionnel : atténuer la célébration (bras à mi-hauteur, pas de saut) et garder un sourire calme, ou garder la pose mais couper la pluie de pièces 0,2 s avant la fin pour que le plan final soit celui d'une personne qui reçoit, pas d'un dénouement."
+ },
+ {
+  "scene": 18,
+  "severity": "mineur",
+  "t": 81.44,
+  "what": "Les « flux » demandés ne sont pas très lisibles. Les billets giclent en gerbe symétrique, y compris vers le plafond, comme une éruption. Les silhouettes sont deux petits groupes d'une douzaine de personnages au pied de la montagne, en partie masqués par les piliers de pièces à 81,44. On sent peu la « population mondiale » vers laquelle l'argent serait divisé.",
+  "where": "video/js/scenes/wealth_hall.js (updateBills, updateCrowd) et video/js/scenes/wealth.js (SHOTS S18)",
+  "suggested_fix": "Orienter les billets en arcs bas vers deux ou trois groupes de silhouettes et supprimer les trajectoires vers le plafond. Ajouter quelques traînées lumineuses ou rubans dorés entre la montagne et chaque groupe. Augmenter le nombre et l'étalement des silhouettes, dégagées des piliers de pièces."
+ }
+]

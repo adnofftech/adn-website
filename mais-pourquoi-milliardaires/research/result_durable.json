@@ -1,0 +1,406 @@
+{
+ "module": "durable",
+ "files_written": [
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/durable.js",
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/durable_kit.js",
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/durable_s15.js",
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/durable_s16.js",
+  "/home/user/adn-website/mais-pourquoi-milliardaires/video/js/scenes/durable_s17.js"
+ ],
+ "scenes": [
+  {
+   "n": 15,
+   "shown": "Intérieur chaleureux, table à nappe vichy : la facture « RÉGLÉE » (raccord life) à gauche, une pile de 48 billets fictifs qui se pose puis fond, quatre pastilles de dépenses (LOGEMENT, NOURRITURE, ÉNERGIE, TRANSPORT) vers lesquelles les billets s'envolent un à un, un calendrier mural dont les pages tournent (jours barrés, pictogrammes de factures récurrentes qui se renouvellent à chaque page, aucun montant), une jauge « SOLDE » à 10 segments qui se vide jusqu'au rouge, puis un tuyau « REVENU STABLE » vide au robinet fermé avec pointillé gris, et les quatre factures « À PAYER » qui reviennent sur la table. Caméra : plan large, tilt vers le tuyau, descente puis gros plan sur le solde quasi nul avec un billet restant. Lumière chaude qui devient froide et sombre.",
+   "beats": [
+    {
+     "t": 59.44,
+     "word": "Sauf",
+     "event": "Plan large : facture RÉGLÉE sur la table, pièce chaude, la pile de billets finit de se poser, calendrier déjà en mouvement, jauge pleine"
+    },
+    {
+     "t": 59.66,
+     "word": "qu'une",
+     "event": "Les jours du calendrier défilent (marqueur doré + croix) et les pastilles de factures récurrentes se renouvellent sur la page"
+    },
+    {
+     "t": 59.9,
+     "word": "fois",
+     "event": "Les 4 pastilles de dépenses apparaissent en cascade et les premiers billets s'envolent un à un du haut de la pile"
+    },
+    {
+     "t": 60.22,
+     "word": "argent",
+     "event": "Flux de billets vers les pastilles, chaque arrivée fait pulser la pastille"
+    },
+    {
+     "t": 60.42,
+     "word": "dépensé",
+     "event": "Rafale : environ 35 billets quittent la pile en 0,55 s, la pile s'effondre, la jauge tombe à 1-2 segments rouges (60,40-60,95)"
+    },
+    {
+     "t": 60.26,
+     "word": "(dépensé)",
+     "event": "Première page de calendrier qui se retourne (JANVIER vers FÉVRIER)"
+    },
+    {
+     "t": 61.2,
+     "word": "si",
+     "event": "La caméra se redresse : le tuyau mural s'étend depuis la gauche"
+    },
+    {
+     "t": 61.63,
+     "word": "toujours",
+     "event": "Deuxième page de calendrier (vers MARS) ; le robinet apparaît et sa roue se visse"
+    },
+    {
+     "t": 62,
+     "word": "pas",
+     "event": "Robinet fermé, étiquette rouge FERMÉ"
+    },
+    {
+     "t": 62.12,
+     "word": "revenus",
+     "event": "Plaque « REVENU STABLE » ; des impulsions dorées butent sur le robinet (flash rouge), rien ne coule"
+    },
+    {
+     "t": 62.36,
+     "word": "stables",
+     "event": "Onde le long du pointillé gris (bec vers pile) : le flux attendu est absent"
+    },
+    {
+     "t": 63,
+     "word": "le",
+     "event": "Troisième page de calendrier (MARS vers AVRIL) ; la facture RÉGLÉE glisse et sort du cadre ; la caméra plonge vers la table"
+    },
+    {
+     "t": 63.06,
+     "word": "problème",
+     "event": "Facture LOGEMENT « À PAYER » atterrit (léger tremblement)"
+    },
+    {
+     "t": 63.38,
+     "word": "risque",
+     "event": "Facture NOURRITURE atterrit (tremblement), la lampe vacille"
+    },
+    {
+     "t": 63.64,
+     "word": "de",
+     "event": "Facture ÉNERGIE atterrit"
+    },
+    {
+     "t": 63.88,
+     "word": "revenir",
+     "event": "Facture TRANSPORT atterrit ; jauge : un seul segment rouge clignotant ; un dernier billet reste (liseré rouge)"
+    },
+    {
+     "t": 64.71,
+     "word": "(fin)",
+     "event": "Gros plan sur la jauge SOLDE quasi vide, un billet, quatre factures À PAYER, lumière froide"
+    }
+   ]
+  },
+  {
+   "n": 16,
+   "shown": "Image scindée sur deux plateformes séparées par une ligne dorée. À gauche, « ARGENT IMMÉDIAT » : pluie de ~640 billets fictifs convergeant vers un tas qui grossit (pic à « énormément » puis retombée jusqu'à l'arrêt de la pluie), onde au pic, puis ~36 personnes qui apparaissent autour du tas et sautillent. À droite, « STABILITÉ DURABLE » : six emplacements fantômes en pointillé qui s'allument un à un avec un objet 3D animé et une étiquette (REVENUS tuyau ouvert au flux régulier de pièces, EMPLOIS deux ouvriers, LOGEMENTS maison, SOINS clinique à croix, ÉDUCATION livres et toque, SERVICES bus et lampadaire), reliés par une chaîne dorée avec impulsions régulières. La caméra traverse de gauche à droite puis recule en vue quasi aérienne qui rassemble les deux côtés, le haut du cadre laissé vide pour le titre.",
+   "beats": [
+    {
+     "t": 64.72,
+     "word": "Redistribuer",
+     "event": "Pluie de billets déjà en cours sur la plateforme gauche, ligne de partage et six emplacements fantômes visibles à droite ; l'étiquette ARGENT IMMÉDIAT apparaît à 64,85"
+    },
+    {
+     "t": 65.32,
+     "word": "fortune",
+     "event": "Le débit de la pluie monte"
+    },
+    {
+     "t": 65.94,
+     "word": "aider",
+     "event": "Pic de la pluie (centré 65,95), le tas atteint sa taille maximale ; caméra rapprochée sur le tas"
+    },
+    {
+     "t": 66.18,
+     "word": "énormément",
+     "event": "Onde dorée qui se propage depuis le pied du tas"
+    },
+    {
+     "t": 66.9,
+     "word": "de",
+     "event": "Retombée : la pluie s'éteint (fin vers 66,9-67,0), le tas ne grossit plus"
+    },
+    {
+     "t": 67.02,
+     "word": "personnes",
+     "event": "Les personnes apparaissent en cascade autour du tas et sautillent"
+    },
+    {
+     "t": 67.68,
+     "word": "Mais",
+     "event": "La ligne de partage s'illumine ; la caméra passe à droite ; REVENUS s'allume : colonne de lumière, tuyau ouvert, pièces à rythme régulier ; étiquette STABILITÉ DURABLE"
+    },
+    {
+     "t": 67.98,
+     "word": "suffit",
+     "event": "EMPLOIS : deux ouvriers qui travaillent"
+    },
+    {
+     "t": 68.38,
+     "word": "forcément",
+     "event": "LOGEMENTS : maison aux fenêtres allumées"
+    },
+    {
+     "t": 68.94,
+     "word": "supprimer",
+     "event": "SOINS : clinique avec croix rotative"
+    },
+    {
+     "t": 69.36,
+     "word": "durablement",
+     "event": "ÉDUCATION : livres et toque ; la chaîne dorée commence à relier les éléments"
+    },
+    {
+     "t": 70.18,
+     "word": "pauvreté",
+     "event": "SERVICES : bus ; les impulsions régulières circulent sur toute la chaîne ; la caméra recule en vue haute"
+    },
+    {
+     "t": 70.89,
+     "word": "(fin)",
+     "event": "Composition réunie : tas fini à gauche, structure durable à droite, ligne de partage éteinte, haut du cadre vide"
+    }
+   ]
+  },
+  {
+   "n": 17,
+   "shown": "Plateau circulaire sombre. Un patrimoine isolé (tas de billets, lingots d'or, piles de pièces) rayonne au centre avec la poussière d'or ; sur « il dépend aussi » des liens dorés partent du tas vers cinq emplacements ; ENTREPRISES (usine, cheminées fumantes, caisses), EMPLOIS (tour de bureaux, salariés), LOGEMENTS (maisons, habitants), BIENS (halle à auvent, caisses) et SERVICES (hôpital à croix, école) s'allument et se relient un à un ; l'argent (pièces or et menthe) et les biens (caisses) circulent sur un réseau d'anneaux et de cordes ; travelling arrière et montée jusqu'à une vue d'ensemble large et sereine du système complet avec onde dorée sur « fonctionner ». Le tas central sert de raccord vers la montagne de billets du module wealth.",
+   "beats": [
+    {
+     "t": 70.9,
+     "word": "Parce",
+     "event": "Début : le patrimoine isolé au centre du plateau, pièces d'or qui tournent, poussière lumineuse, reste du plateau éteint"
+    },
+    {
+     "t": 71.2,
+     "word": "l'argent",
+     "event": "Pièces d'or en orbite autour du tas"
+    },
+    {
+     "t": 72.52,
+     "word": "ce",
+     "event": "Étiquette « CE QU'ON POSSÈDE » au-dessus du tas isolé (caméra qui s'en approche), jusqu'à 73,4"
+    },
+    {
+     "t": 73.52,
+     "word": "il",
+     "event": "Les liens dorés commencent à sortir du tas, l'étiquette disparaît, la caméra amorce le recul"
+    },
+    {
+     "t": 74.34,
+     "word": "entreprises",
+     "event": "Usine : s'allume avec onde au sol, fumée, lien du tas à l'usine achevé, étiquette ENTREPRISES"
+    },
+    {
+     "t": 75.32,
+     "word": "emplois",
+     "event": "Tour de bureaux et salariés s'allument ; lien usine vers emplois ; étiquette EMPLOIS"
+    },
+    {
+     "t": 75.78,
+     "word": "(après emplois)",
+     "event": "LOGEMENTS : maisons et habitants s'allument"
+    },
+    {
+     "t": 76.1,
+     "word": "biens",
+     "event": "Halle BIENS s'allume ; caisses qui circulent sur les liens"
+    },
+    {
+     "t": 76.72,
+     "word": "services",
+     "event": "SERVICES : hôpital et école s'allument ; anneau de liens fermé"
+    },
+    {
+     "t": 77.25,
+     "word": "qui",
+     "event": "Liens transversaux entreprises-biens et emplois-logements : le système est entièrement interconnecté ; la caméra monte en vue large"
+    },
+    {
+     "t": 78.42,
+     "word": "fonctionner",
+     "event": "Onde dorée qui s'étend sur le plateau, liseré qui s'éclaire, lumière qui monte"
+    },
+    {
+     "t": 79.15,
+     "word": "(fin)",
+     "event": "Vue d'ensemble large et sereine : économie complète, tas vert au centre"
+    }
+   ]
+  }
+ ],
+ "sfx_events": [
+  {
+   "t": 59.5,
+   "kind": "rustle",
+   "note": "Les billets se posent et forment la pile (59,14-59,85)"
+  },
+  {
+   "t": 59.62,
+   "kind": "tick",
+   "note": "Début du défilé des jours du calendrier (environ 27 jours par seconde) ; micro-ticks réguliers jusqu'à 64,4"
+  },
+  {
+   "t": 59.9,
+   "kind": "whoosh",
+   "note": "Premiers billets qui s'envolent un à un vers les pastilles (59,88-60,3)"
+  },
+  {
+   "t": 60.26,
+   "kind": "rustle",
+   "note": "Page de calendrier 1 (JANVIER vers FÉVRIER) qui se retourne"
+  },
+  {
+   "t": 60.42,
+   "kind": "whoosh",
+   "note": "Rafale de ~35 billets en 0,55 s sur « dépensé » ; faire suivre d'une rafale de ticks/pièces aux arrivées (60,4-61,5)"
+  },
+  {
+   "t": 60.52,
+   "kind": "tick",
+   "note": "Pastilles de factures récurrentes qui réapparaissent sur la nouvelle page (repeat à 61,89 et 63,26, 1 à 7 ticks espacés d'environ 0,1-0,2 s)"
+  },
+  {
+   "t": 61.2,
+   "kind": "swell",
+   "note": "Le tuyau mural s'étend depuis la gauche (glissement métallique léger, 61,2-61,62)"
+  },
+  {
+   "t": 61.63,
+   "kind": "rustle",
+   "note": "Page de calendrier 2 (FÉVRIER vers MARS)"
+  },
+  {
+   "t": 62,
+   "kind": "impact",
+   "note": "Robinet qui se ferme puis clac (étiquette FERMÉ), son sec et grave"
+  },
+  {
+   "t": 62.12,
+   "kind": "tick",
+   "note": "Plaque REVENU STABLE ; impulsions dorées qui butent sur le robinet toutes les 0,85 s (petit tic étouffé)"
+  },
+  {
+   "t": 62.36,
+   "kind": "riser",
+   "note": "Onde grise sur le pointillé : montée discrète qui retombe dans le vide (62,36-62,9)"
+  },
+  {
+   "t": 63,
+   "kind": "whoosh",
+   "note": "Page de calendrier 3 et facture réglée qui glisse hors cadre"
+  },
+  {
+   "t": 63.06,
+   "kind": "impact",
+   "note": "Facture LOGEMENT qui atterrit sur la table (impact sourd + tremblement léger)"
+  },
+  {
+   "t": 63.38,
+   "kind": "impact",
+   "note": "Facture NOURRITURE (même impact) ; la lampe vacille"
+  },
+  {
+   "t": 63.64,
+   "kind": "impact",
+   "note": "Facture ÉNERGIE"
+  },
+  {
+   "t": 63.88,
+   "kind": "impact",
+   "note": "Facture TRANSPORT, la dernière ; puis bip d'alerte lent sur le segment rouge qui clignote (63,9-64,7)"
+  },
+  {
+   "t": 64.72,
+   "kind": "swell",
+   "note": "Cut vers S16 : montée de la pluie de billets (64,72-65,95), fraîchement dense"
+  },
+  {
+   "t": 65.95,
+   "kind": "impact",
+   "note": "Pic de la pluie, tas à sa taille maximale ; onde dorée à 66,18"
+  },
+  {
+   "t": 66.9,
+   "kind": "silence",
+   "note": "La pluie s'arrête, retombée nette"
+  },
+  {
+   "t": 67.02,
+   "kind": "ding",
+   "note": "Les personnes apparaissent en cascade (petits dings légers 67,02-67,7)"
+  },
+  {
+   "t": 67.68,
+   "kind": "stinger",
+   "note": "« Mais » : éclair de la ligne de partage, bascule vers la droite, REVENUS s'allume"
+  },
+  {
+   "t": 67.98,
+   "kind": "ding",
+   "note": "EMPLOIS (puis LOGEMENTS 68,38 ; SOINS 68,94 ; ÉDUCATION 69,36 ; SERVICES 70,18) : dings montants, un par élément, plus cristallins que les précédents"
+  },
+  {
+   "t": 70.18,
+   "kind": "swell",
+   "note": "SERVICES allumé, la chaîne circule, recul en vue haute : montée douce vers la résolution (70,18-70,9)"
+  },
+  {
+   "t": 70.9,
+   "kind": "cash",
+   "note": "Cut vers S17 : bruit de pièces en orbite autour du patrimoine isolé, nappe calme et sombre"
+  },
+  {
+   "t": 73.52,
+   "kind": "riser",
+   "note": "« il dépend aussi » : les liens sortent du tas (montée de tension douce vers l'ouverture)"
+  },
+  {
+   "t": 74.34,
+   "kind": "ding",
+   "note": "Usine allumée ; même ding rond à 75,32 (emplois), 75,78 (logements), 76,1 (biens), 76,72 (services) : cinq allumages avec hauteur croissante"
+  },
+  {
+   "t": 77.25,
+   "kind": "whoosh",
+   "note": "Liens transversaux qui se tissent (77,25 et 77,42)"
+  },
+  {
+   "t": 78.42,
+   "kind": "swell",
+   "note": "« fonctionner » : onde dorée sur tout le plateau et lumière qui monte ; résolution musicale à souligner (accord ouvert qui se résout, 78,42-79,1)"
+  }
+ ],
+ "perf": {
+  "avg_ms": 620,
+  "max_ms": 1030
+ },
+ "screenshots_dir": "/tmp/claude-0/shots-durable",
+ "known_issues": [
+  "Chaque nouvelle session de capture affiche environ 3 à 3,6 s sur la première image (compilation des shaders, une seule fois par processus). Ensuite, mesures sur 35 instants répartis dans la fenêtre : 0,30 à 0,90 s par image (S15 0,57-0,71 s ; S16 0,55-0,90 s ; S17 0,30-0,76 s) ; un pic à 1,03 s vu une fois à 66,0. Moyenne mesurée environ 0,62 s, maximum 1,03 s, sous les 1,5 s demandés.",
+  "Les personnages (S16 foule, S17 salariés et habitants, ouvriers de l'élément EMPLOIS) sont des capsules et sphères sans visage : chaleureux mais très simples, avec des teintes de peau variées. Pas de visages détaillés comme dans le module life.",
+  "S16 : à la fin du plan (70,85), le bord avant des plateformes descend vers y≈1400 px et peut chevaucher légèrement la zone des sous-titres ; le haut du cadre est bien laissé libre (environ 28 % vide, ciel étoilé).",
+  "S16 : pendant le tout début (64,72 à 65,3) le tas est encore petit car il grossit avec la pluie ; la pluie est dans la zone du titre en haut de l'image (billets assombris à l'approche du haut mais encore visibles).",
+  "S17 : plan final (79,14) très dégagé en haut (environ 25 % de ciel noir) et en bas ; le système occupe environ y 490-1250 px. Les étiquettes se chevauchent un peu aux extrémités à l'arrière (SERVICES / LOGEMENTS) sur le plan large mais restent lisibles.",
+  "S15 : le numéro de jour de calendrier est partiellement masqué par les croix rouges (c'est voulu : jours barrés) ; les petits numéros de jours sont lisibles seulement en gros plan.",
+  "Le tremblement de caméra n'existe qu'aux 4 atterrissages de factures (S15, amplitude 0,035, 0,18 s chacun). Aucun autre SHAKE.",
+  "La lumière dirigée change de position selon la scène ; le point de lumière (lampe) n'est actif que dans S15, S16 (or) et S17 : chaque scène remplace les paramètres des 3 lumières du module (conforme au contrat : hemisphère + directionnelle + 1 ponctuelle)."
+ ],
+ "not_done": [
+  "Je n'ai pas lancé de rendu Hyperframes complet ni vérifié l'intégration dans main.js (consigne : seulement le banc shot.mjs). Seul le port 9106 a été utilisé.",
+  "Je n'ai pas regardé image par image : j'ai ouvert environ 45 captures réparties sur la fenêtre (entrée et sortie de chaque scène, bornes début, début+0,05, fin-0,05 pour S15 à 59,44/59,49 et 64,67-64,77, S16 à 64,72/64,77/70,85/70,9, S17 à 70,9/70,95/79,11/79,15), plusieurs avant les derniers ajustements mineurs de taille d'étiquette, de caméra et d'anneau de pic (relus ensuite sur 59,9, 66,3 et 73,45 mais pas sur tous les instants). Les captures finales n'ont pas toutes été relues une à une.",
+  "Les listes de beats sont dérivées de l'horloge du code et de timing.json ; je n'ai pas vérifié visuellement chaque instant précis de chaque ligne (par exemple 61,63 : robinet, 62,0 : FERMÉ, 63,64 : troisième facture, 67,98-70,18 : les six éléments un par un n'ont été vus qu'aux instants 67,8, 68,5, 69,4, 70,3 et 70,85).",
+  "Pas de graphiques « pic puis retombée » vs « flux régulier » dessinés à l'écran en S16 (l'idée est portée par la pluie et le flux de pièces du tuyau ouvert) ; pas de visages sur les personnages.",
+  "Pas de test de déterminisme automatisé (deux rendus du même t comparés) ; le code n'utilise aucune horloge ni Math.random (hash H uniquement) et toutes les animations sont des fonctions de t.",
+  "Le texte « AIDER ≠ RÉSOUDRE DURABLEMENT » n'est pas fait (HTML du monteur) ; le haut de l'image de S16 est réservé mais je n'ai pas testé avec le vrai titre incrusté.",
+  "Les modules dépendent de durable_kit.js, durable_s15.js, durable_s16.js, durable_s17.js ; ces fichiers sont déjà suivis par git (commits de précaution par un autre processus), je n'ai fait aucun commit."
+ ]
+}

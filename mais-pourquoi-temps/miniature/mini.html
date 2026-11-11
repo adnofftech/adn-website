@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><style>*{margin:0}body{width:1280px;height:720px;overflow:hidden;background:#ffd35c;font-family:"Archivo Black","Arial Black",sans-serif}svg{display:block}</style>
+<svg id="s" viewBox="0 0 1920 1080" width="1280" height="720"><defs><radialGradient id="g" cx="30%" cy="50%" r="80%"><stop offset="0" stop-color="#fff3a8"/><stop offset="1" stop-color="#ff9a4d"/></radialGradient></defs><rect width="1920" height="1080" fill="url(#g)"/></svg>
+<script src="gsap.min.js"></script><script src="rig.js"></script><script>
+const R=RIG,P=R.props,s=document.getElementById('s');
+for(let i=0;i<14;i++){const a=i*(Math.PI*2/14);R.line(s,430,560,430+Math.cos(a)*1500,560+Math.sin(a)*1500,{stroke:'#fff',opacity:.18,'stroke-width':40});}
+const m=R.stick(s,{x:380,y:830,s:1.6});m.set(Object.assign({},{aL:125,eL:15,aR:-125,eR:-15,lL:10,lR:-10,face:'surprised'}));
+const ck=P.clock(s,1700,860,130);gsap.set(ck.hands.m,{rotation:200});
+[[880,900,-14,'#ee5d55'],[1130,930,10,'#5b8def']].forEach(([x,y,r,c],i)=>{const k=P.calendar(s,x,y,150,['JAN','JUIN'][i],{color:c});gsap.set(k,{rotation:r});});
+const t=(str,x,y,sz,f)=>R.text(s,str,x,y,sz,f,{stroke:R.INK,'stroke-width':18,'paint-order':'stroke','text-anchor':'start'});
+t('POURQUOI',760,190,120,'#fff');t('LE TEMPS',760,380,175,'#ee5d55');t('FILE VITE ?',760,590,150,'#fff');
+</script>

@@ -1,0 +1,8 @@
+final/work-*/
+final/.*hf-transaction*/
+video/snapshots/
+video/.hyperframes/
+video/node_modules/
+__pycache__/
+final/mais-pourquoi-imprimante-9x16.mp4
+final/mais-pourquoi-imprimante-v2.mp4

@@ -1,0 +1,106 @@
+[
+ {
+  "scene": 8,
+  "severity": "majeur",
+  "t": 28.6,
+  "what": "Entre environ 28,3 et 29,0 s, le compteur « ORDRES DE VENTE » (0, 62, 218…) est dessiné en bas du canvas de l'écran. Au moment où la caméra recule, il passe pile dans la bande des sous-titres (y 1330-1530) et le liseré doré de l'écran barre « ET IMAGINE MAINTENANT ». À 28,4 s le chiffre « 62 » est recouvert par « IMAGINE ». Le compteur, élément demandé par la directive, est illisible à cet instant, et les sous-titres sont salis.",
+  "where": "video/js/scenes/market.js : drawScreen() (c.fillText(\"ORDRES DE VENTE\", 30, 900), le nombre à y=985, le texte illustratif à y=1019) et le trim doré (position y=1,2) ; plans caméra de S8 (27,64 à 29,5 s).",
+  "suggested_fix": "Déplacer le bloc compteur en haut du canvas, sous l'en-tête (libellé à y≈120, nombre à y≈200), et décaler la courbe et les lignes de 100 px vers le bas. Ou remonter la caméra pour que le pied de l'écran reste au-dessus de y=1300 avant 29 s."
+ },
+ {
+  "scene": 8,
+  "severity": "majeur",
+  "t": 29.3,
+  "what": "L'écran est quasi vide pendant environ 2 s, alors que la voix dit déjà « tous les milliardaires essaient de vendre ». Il y a 0 barre à 28,1 s, 1 à 28,9 s, 2 à 29,7 s, 4 à 30,1 s, et la foule n'est bien présente qu'à partir de 30,5 s. La directive demande que les ordres « se multiplient et remplissent l'écran ». Le visuel retarde d'environ 1 s sur la phrase : 29,14 à 30,12 s « tous les milliardaires ».",
+  "where": "video/js/scenes/market.js : drawScreen(), kf de `rate` ([[28.0,0],[29.5,1.5],[30.12,4],[31.44,22],[32.5,40]], nRows = floor(rate*1.2)), et le kf de `p`.",
+  "suggested_fix": "Avancer la montée : rate = kf(t,[[27.9,0],[28.6,3],[29.4,8],[30.12,14],[31.44,40]]) pour avoir 8 à 10 barres à « milliardaires » (29,6 s). Faire démarrer les silhouettes plus tôt (T8-0.7)."
+ },
+ {
+  "scene": 8,
+  "severity": "mineur",
+  "t": 30.1,
+  "what": "Les silhouettes des milliardaires sont presque noires sur fond noir, vues de dos. À 30,10 s on devine à peine des têtes et des épaules. Le halo doré (opacité 0,35) et la cravate dorée ne se voient pas. Le spectateur peut difficilement relier ces personnages à « tous les milliardaires ».",
+  "where": "video/js/scenes/market.js : boucle makePerson (shirt 0x15151c/0x2a2a35, glow(PAL.gold, 3.6, 0.35)) et lumières du module.",
+  "suggested_fix": "Éclaircir les vêtements (par ex. 0x3a3f55 / 0x4a4a60). Passer le halo doré à une opacité de 0,7 avec un rayon de 5. Ou ajouter un liseré emissive sur les épaules."
+ },
+ {
+  "scene": 8,
+  "severity": "mineur",
+  "t": 31.5,
+  "what": "Le titre « VEND. » est rouge sur fond d'écran rouge et nuage de cubes rouges : le bas des lettres se fond dans les cubes (32,26 s). Les mots « TOUT LE MONDE » se superposent à l'en-tête « MARCHÉ · ORDRES DE VENTE (simulation) » (31,0 à 32,5 s) : deux textes se chevauchent. Les sous-titres « VENDRE LEURS ACTIONS AU MÊME MOMENT. » sont sur fond chargé (cubes) : lisibles, mais à la limite.",
+  "where": "video/index.html (#s-vend, classes .tt et .red, #v2) et video/js/scenes/market.js : drawScreen() (en-tête).",
+  "suggested_fix": "Renforcer le contraste de #v2 : text-shadow 0 0 40px #000, 0 6px 0 rgba(0,0,0,.85), ou une couleur plus claire (#ff7a6e). Dans drawScreen, atténuer l'en-tête après 30,1 s (c.globalAlpha = 1 - 0.85*sstep(30.0,30.4,t)). Garder les cubes hors de la bande y<700 pendant le titre."
+ },
+ {
+  "scene": 8,
+  "severity": "mineur",
+  "t": 32.26,
+  "what": "Le compteur affiche des entiers d'apparence précise (593, 3 018, 6 199, 11 433, jusqu'à 52 000) avec une mention « compteur illustratif · scénario hypothétique » en 15 px, illisible sur téléphone. Les chiffres sont étiquetés comme illustratifs, mais la directive et le contrat interdisent les chiffres inventés. Un spectateur peut les prendre pour des données.",
+  "where": "video/js/scenes/market.js : drawScreen() (cnt, kf [[28.2,0],[30.12,600],[31.44,9000],[32.5,52000]] ; police 15 px de la mention).",
+  "suggested_fix": "Remplacer les entiers par un indicateur non numérique : ex. « ORDRES DE VENTE ▲▲▲▲ » avec jauge. Ou garder le compteur mais passer la mention à ≥ 24 px et supprimer les séparateurs de milliers (le nombre n'est pas une donnée)."
+ },
+ {
+  "scene": 9,
+  "severity": "majeur",
+  "t": 34.11,
+  "what": "Les « quelques blocs bleus » côté acheteurs sont quasiment invisibles. Le plateau droit est vide de 32,7 à 33,9 s. Il est coupé par le bord droit du cadre dès 33,0 s. À 34,11 s on ne voit qu'un petit bloc bleu rogné, et les blocs bleus qui tombent au sol (x ≥ BX+1,8) sont hors champ. La moitié « il n'y a pas assez d'acheteurs » est donc illustrée par du vide. Le contraste « multitude de rouges / quelques bleus » demandé par la directive n'est pas lisible.",
+  "where": "video/js/scenes/market.js : mise à jour de U.buyers (hx = BX+1.8+H*7.5, calendrier T9M+0.2+i*0.28), U.panLoadR, et SHOTS S9 (clés à 32.56, 33.7, T9F, 34.75 : la caméra dérive vers x=BX-2).",
+  "suggested_fix": "Cadrer les deux plateaux : rester centré sur x=BX (p x = BX±3), FOV +4 (≈60). Faire tomber les bleus plus près : hx = BX+1,5+H*3,5, en commençant à T9V (≈33,1 s) avec un pas de 0,15 s. Garder environ 8 blocs bleus bien visibles dans le plateau droit et la zone bleue, face aux ~40 rouges."
+ },
+ {
+  "scene": 9,
+  "severity": "majeur",
+  "t": 35.3,
+  "what": "La fin de la scène (environ 34,7 à 35,66 s) est quasi vide : une grille bleu sombre, quelques gros cubes rouges flous qui passent, et une courbe verte minuscule dans le coin haut gauche (avec un point blanc), partiellement sous le badge. Le graphique boursier demandé (« la caméra plonge vers un graphique… Graphique qui commence à baisser ») n'est ni lisible ni descendant. Pour le spectateur il y a près d'une seconde de vide sur « d'acheteurs ». Le fléau et le plateau, qui étaient la clé de la scène, disparaissent à 35,2 s.",
+  "where": "video/js/scenes/market.js : SHOTS (clé t:34.75 → l: [BX, 7.5, -4] regarde le bas du panneau, alors que la courbe est vers y≈20) ; constantes CH0=34.9 et F(tau) (aucune baisse avant T10P) ; U.chart.visible = t>=34.7 ; m.visible = t>=35.3 pour les blocs de valeur.",
+  "suggested_fix": "Changer la clé 34.75 en p: [BX, 12, 14], l: [BX-1, 18, -12] pour que la courbe soit au centre haut. Mettre CH0 = 34.3 (courbe visible plus tôt). Ajouter à F un fléchissement net entre 35,0 et 35,66 (ex. - 0.08*eio(lin(35.0, 35.66, tau))). Garder le balancier visible jusqu'à 35,4 s (zone visible t<35.2 à reculer) et lui faire fondre vers le graphique."
+ },
+ {
+  "scene": 9,
+  "severity": "mineur",
+  "t": 33.4,
+  "what": "Des textes 3D sont coupés par le cadre. « ACHETEURS » est tronqué à droite (« ACHETEUR », « ACHETEUI ») de 32,7 à 33,8 s. À 34,1-35,0 s, « À VENDRE » et « ACHETEURS » sortent par le haut (« ENDRE », « ACHE », « DRE ») et « ENDRE » se superpose au badge « MAIS POURQUOI ? ». C'est aussi dans la marge droite de 150 px réservée aux boutons de la plateforme.",
+  "where": "video/js/scenes/market.js : U.lblL / U.lblR (position bx±3,3 à y=10,6, w=4,6) et SHOTS S9.",
+  "suggested_fix": "Rapprocher les étiquettes du centre (bx±2,4, w 3,8). Les faire disparaître en fondu à partir de 34,0 s (visible t<34.0), avant la plongée de la caméra."
+ },
+ {
+  "scene": 9,
+  "severity": "mineur",
+  "t": 32.86,
+  "what": "La balance est mal construite : les cordes ne sont pas fixées au fléau. Les sommets des chaînes extérieures dépassent les extrémités de la barre : à 32,86 s la corde gauche part à gauche du bout du fléau et la corde droite est plus loin que le bout droit. Les plateaux semblent suspendus dans le vide. Le plateau droit est en outre coupé par le bord du cadre.",
+  "where": "video/js/scenes/market.js : mkPan (chaînes à s*1,2, rotation s*-0,38) et la barre BoxGeometry(8,4, 0,3, 0,4) ; plateaux à ±3,8.",
+  "suggested_fix": "Faire converger les chaînes vers un point d'attache unique par plateau (haut au centre du plateau, y=0). Ou allonger le fléau à 10,4 et rapprocher les plateaux à ±3,2 avec des chaînes à ±0,9."
+ },
+ {
+  "scene": 9,
+  "severity": "mineur",
+  "t": 34.4,
+  "what": "Rien à l'écran ne rappelle la nuance voulue par la directive : ce déséquilibre n'est pas une certitude universelle, c'est un scénario où l'offre dépasse la demande « aux prix précédents ». Seul le mot « forcément » le porte à la voix. Le seul indice visuel est la mention « scénario hypothétique » en 15 px de l'écran de S8, absente de S9.",
+  "where": "video/js/scenes/market.js : zone B (ajouter une textPlane près du pied de la balance), visible environ 33,7 à 35,0 s.",
+  "suggested_fix": "Ajouter une petite étiquette « offre > demande aux prix précédents · scénario » (≥ 30 px à l'écran, au-dessus de la bande des sous-titres), apparaissant vers 34,0 s. Elle reste sobre et ne présente rien comme certain."
+ },
+ {
+  "scene": 10,
+  "severity": "mineur",
+  "t": 37.7,
+  "what": "La caméra perd la pointe pendant la chute. À 37.7 le point blanc est collé au bord haut du cadre et l'image n'est qu'un grand vide rouge, avec la grille et le bord diagonal du sol. À 37.9 il ne reste qu'un trait vertical. Pendant environ 0,4 s la chute est mal lisible, alors que c'est le climax de la phrase. Cause probable : des clés de suivi tous les 0,1 s avec un easing eio, qui font accélérer puis freiner la caméra par saccades alors que la pointe tombe de plus de 50 % de la hauteur en 0,6 s.",
+  "where": "video/js/scenes/market.js : boucle SHOTS « suivi de la pointe » (tt de 36.3 à EN-0.02)",
+  "suggested_fix": "Entre T10E-0.1 et T10E+0.7, supprimer l'easing des clés de suivi (e: undefined, donc linéaire) et mettre un décalage de visée plus marqué (lead = -3) pour que le point reste dans le tiers haut du cadre. Sinon, passer le pas de 0,1 à 0,05 s sur cette fenêtre."
+ },
+ {
+  "scene": 10,
+  "severity": "mineur",
+  "t": 38.3,
+  "what": "La directive demande « des blocs représentant la valeur des actions se contractent ». Ces blocs (U.vals) ne sont jamais visibles. Ils sont posés à y≈0 et z=-8.2 et restent hors champ dans les 3 captures qc (35.96, 37.06, 38.16) et dans mes rendus 3D à 36.5, 37.4, 37.7, 37.9, 38.3 et 38.44. La clé finale (p [bx+7,10,-1], l [bx+7,7,-12]) ne les cadre pas non plus.",
+  "where": "video/js/scenes/market.js : création de U.vals dans build() et update() (position y, z) + dernière clé SHOTS (EN-0.01)",
+  "suggested_fix": "Remonter ces blocs dans le champ de la clé finale : par exemple x de bx+2 à bx+9, y de base ≈ 5 (au pied du graphique visible), z=-11.5, devant le panneau. Les laisser se contracter entre T10E et T10E+0.8, comme déjà codé. Vérifier par une capture à 38.3 et 38.44."
+ },
+ {
+  "scene": 10,
+  "severity": "mineur",
+  "t": 38.16,
+  "what": "Colonne de chiffres : à 38.16 les nombres sont tronqués par le bord droit (« 26, 31, 62, 24, 533… » avec le dernier chiffre coupé) et passent dans la marge de sécurité droite de 150 px. Ce sont aussi des nombres aléatoires de 3 chiffres qui clignotent (H(floor(t*12)+k)), alors que la directive dit « nombres qui diminuent ». Aucun chiffre réel n'est affiché, ce qui est conforme à FACTS, mais l'effet « diminuer » n'est pas lu.",
+  "where": "video/js/scenes/market.js : drawChart(), boucle « flux de chiffres » (c.fillText(..., W-24, y))",
+  "suggested_fix": "Décaler la colonne vers l'intérieur (x = W-190). Remplacer le tirage aléatoire par des valeurs décroissantes : value_k = floor(base_k * (1 - 0.65*fall)), avec base_k fixé par H(k,5). Garder des nombres sans unité ni % et ajouter un « ▼ » devant."
+ }
+]

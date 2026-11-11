@@ -1,0 +1,766 @@
+[
+ {
+  "reviewer": "Relecteur n°1 (scènes 1, 2, 3)",
+  "scenes": [
+   {
+    "n": 1,
+    "illustrates_sentence": 4.5,
+    "directive_respected": 4.5,
+    "verdict": "ok",
+    "what_works": "Le hook est immédiat, sans logo. À t=0,30 on voit déjà la salle sombre aux spots cinéma, les coffres-forts à porte ronde, un lingot d'or, des liasses, des écrans à chiffres et la montagne de billets. Les billets sont génériques (« 100 », « BANQUE DE FICTION »). Le travelling avant est net : la montagne passe de ~540 px de haut à t=0,30 à plein cadre à t=5,08. À t=2,69 (« monde », 2,52 à 2,74) de grosses piles d'or, de pièces et de liasses encadrent le cadre, ce qui répond à « les piles apparaissent autour du cadre ». À t=5,08 (« pauvres. », fin 5,02) les billets se détachent de la montagne et une foule de silhouettes colorées aux peaux variées, bras levés, occupe le bas : respectueux, aucune caricature. Titre « ET SI ON / REDISTRIBUAIT / TOUT ? » complet, exact, lisible, construit mot à mot sur « tous » (1,66) et « toute » (3,66). Les sous-titres sont exacts, en zone sûre (y 1330 à 1500) et le surlignage karaoké est correct (SI, à 0,30 ; MONDE à 2,69). À 2,69 le sous-titre est à mi-fondu parce que le chunk finit à 2,74 : ce n'est pas un défaut.",
+    "issues": [
+     {
+      "severity": "mineur",
+      "t": 5.08,
+      "what": "À t=5,08 (et sans doute 3,4 à 4,7) les billets qui quittent la montagne forment surtout une gerbe de confettis dans la moitié haute (y 300 à 1000) alors que les silhouettes sont minuscules en bas, sur les bords (y 1130 à 1400). Le trajet « de la montagne vers les gens » n'est pas lisible d'un coup d'œil ; ça se lit comme une explosion de billets. La directive demande des billets qui se dirigent vers des silhouettes. À confirmer avec les instants supplémentaires.",
+      "where_to_fix": "video/js/scenes/wealth_hall.js (makeFlights, U.fl1, fonction bez dans updateBills)",
+      "suggested_fix": "Baisser le point de contrôle c des arcs fl1 (apex environ 40 % plus bas) pour que les billets redescendent vers les têtes de la foule. Réduire le nombre de billets qui passent dans la moitié haute pendant que le titre est affiché, ou ajouter 2 ou 3 flux plus denses (plus de billets par flux) visibles de la montagne vers la foule gauche et droite."
+     },
+     {
+      "severity": "mineur",
+      "t": 0.3,
+      "what": "La directive demande des écrans affichant des chiffres gigantesques. Dans S1 les écrans muraux montrent de petites colonnes de chiffres sombres, vues en perspective, à peine lisibles aux instants 0,30 et 2,69. L'effet « chiffres gigantesques » vient surtout de S3. Rien n'est inventé car il n'y a ni unité ni libellé, donc pas de souci de faits.",
+      "where_to_fix": "video/js/scenes/wealth_hall.js (hU.screens : taille, luminosité)",
+      "suggested_fix": "Agrandir légèrement les 2 écrans les plus proches de la caméra et augmenter leur émissivité de ~30 %, sans ajouter d'unité ni de libellé."
+     }
+    ],
+    "extra_frames_wanted": [
+     1.2,
+     3.4,
+     4.2,
+     4.7
+    ]
+   },
+   {
+    "n": 2,
+    "illustrates_sentence": 4,
+    "directive_respected": 3.5,
+    "verdict": "a_corriger",
+    "what_works": "Le point d'interrogation 3D doré est immense (~1000 px de haut) et pose bien « Plus personne ne serait pauvre… non ? ». À t=5,68 et 6,54 il est devant la montagne, avec un éclairage doré, une pluie de billets et la foule de chaque côté : c'est bien l'instant où « l'image paraît représenter une solution parfaite ». À t=7,40 (« non ? », 6,94 à 7,70) le « ? » est devenu bleu acier : le doute visuel et le changement froid sont là. Titre « VRAIMENT ? » absent avant « non » puis présent sur le mot « non ? », comme voulu, en rouge, grande taille. Sous-titre exact en 3 lignes avec un surlignage correct (PERSONNE à 5,68, PAUVRE… à 6,54, NON ? à 7,40). Le sound design prévoit la rupture sur « non » (make_sound.py).",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 7.1,
+      "what": "« VRAIMENT ? » est trop large pour le cadre : à t=7,40 il va de x≈40 à x≈1045 (≈1005 px pour une zone de titre de 960 px et une marge droite de 150 px à respecter). L'animation ajoute en plus un dépassement (back.out 2,4 : échelle ≈1,12 vers t≈7,09, soit ≈1130 px) puis une pulsation à 1,08 vers t≈7,64 (≈1085 px). Le V et le ? sont donc coupés ou collés au bord du cadre pendant ces instants.",
+      "where_to_fix": "video/index.html (section #s-vrai, div #vrai, style font-size:150px ; tween GSAP « S2 VRAIMENT ? »)",
+      "suggested_fix": "Passer #vrai de font-size:150px à 118px (largeur ≈790 px, ≈890 px au pic de dépassement, donc dans la zone sûre). Option : réduire l'overshoot à back.out(1.7) et la pulsation à scale 1.05."
+     },
+     {
+      "severity": "mineur",
+      "t": 7.4,
+      "what": "À t=7,40 (et sans doute de ~7,3 à ~7,85) l'image est presque entièrement un aplat bleu uni : le « ? » est vu si près (caméra à z=17 pour un « ? » en z=12,5) qu'on ne reconnaît plus un point d'interrogation, ni la montagne ni la foule. Le zoom rapide est demandé par la directive, mais pendant environ 0,5 s l'écran n'illustre plus la phrase. Ce n'est pas un objet qui traverse la caméra, c'est un plan très serré sur la face avant.",
+      "where_to_fix": "video/js/scenes/wealth.js (SHOTS clés t=7.56 et t=7.7 : position p et f)",
+      "suggested_fix": "Arrêter le zoom plus tôt : p z≈17 → z≈24, f 46 → 50 (aux clés t=7.56 et t=7.7), pour que la crosse du « ? » et son contour restent identifiables ; sinon garder le zoom mais couper à 7,70 (le cut du montage est déjà là) et raccourcir le recul qui suit."
+     },
+     {
+      "severity": "mineur",
+      "t": 7.4,
+      "what": "Rouge (#ff4a3d) sur le bleu saturé du « ? » : les deux ont une luminance proche, le titre vibre un peu. Il reste lisible grâce à l'ombre portée, mais c'est le point le plus faible en lisibilité du titre.",
+      "where_to_fix": "video/index.html (CSS .tt.red ou style de #vrai)",
+      "suggested_fix": "Ajouter un contour sombre au titre (par exemple -webkit-text-stroke: 5px #04100b avec paint-order: stroke fill) ou une ombre plus dense, uniquement pour #vrai."
+     }
+    ],
+    "extra_frames_wanted": [
+     6.9,
+     7.1,
+     7.25,
+     7.55,
+     7.68
+    ]
+   },
+   {
+    "n": 3,
+    "illustrates_sentence": 4,
+    "directive_respected": 3.5,
+    "verdict": "a_corriger",
+    "what_works": "La mise en scène colle bien aux mots. À t=8,00 (« comprendre, ») la salle s'ouvre avec le « ? » bleu qui rétrécit, et la caméra recule. À t=10,44 (« milliards d'euros ») le compteur 7 segments dorés « ≈ 18 000 Md€ » se construit sur « milliers » (9,2) et « Md€ » tombe sur « milliards » (9,86) : c'est conforme à FACTS F1€ (valeur dérivée, signe « ≈ », mention de conversion Forbes 1er mars 2026 / taux BCE du 09/10/2026). La carte du monde en relief est lisible et la montagne est au premier plan. À t=12,88 (« personnes. ») des flux lumineux verts avec des pièces d'or partent de la montagne vers des points de la carte : c'est bien « l'argent se divise en flux ». Les flux démarrent sur « redistribués » (10,7). Sous-titres exacts, bien surlignés (COMPRENDRE à 8,00, D'EUROS à 10,44) et en zone sûre. Aucun chiffre interdit n'est visible dans les 3 images. Le chiffre 824 M figure dans le code avec « Banque mondiale, 2024 » (F2), conforme.",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 12.5,
+      "what": "Le panneau « plus de 824 millions de personnes / moins de 3 $ par jour · Banque mondiale, 2024 » n'est visible dans aucune des 3 images. D'après le code il n'est affiché que de 11,86 à 12,78 (environ 0,9 s). Sa ligne source et son seuil « moins de 3 $ par jour » ne fondent qu'à partir de 12,41 (sstep 12,41→12,76) alors que le groupe se réduit et disparaît dès 12,52 (sstep 12,52→12,78). Ils ne sont donc jamais lisibles : le chiffre 824 M apparaît sans son critère ni sa source, ce que FACTS F2 et la directive (« indique discrètement sa source ») interdisent. À confirmer sur images (instants 12,3, 12,55, 12,7).",
+      "where_to_fix": "video/js/scenes/wealth_map.js (fonction updateNumbers : tMi, out, N.sub.material.opacity)",
+      "suggested_fix": "Faire apparaître la ligne source plus tôt : N.sub.material.opacity = sstep(tMi+0.15, tMi+0.4, t)*0.95 ; retarder la sortie du panneau : out = 1 - sstep(12.85, 13.05, t) (le diveFill blanc commence à 12,9). Option : avancer tMi à 11,72 (« des »). Vérifier que le panneau (x droit ≈978 px) reste dans la marge de 150 px."
+     },
+     {
+      "severity": "majeur",
+      "t": 12.88,
+      "what": "La carte est surexposée à t=12,88 : les halos additifs des cellules allumées s'additionnent et les continents (Amérique, Europe, Asie) deviennent de grosses taches blanches. On ne distingue plus les « milliers de points lumineux » demandés ni les contours de la carte. Seuls les flux restent lisibles. Les trois quarts supérieurs du cadre sont vides et noirs. La directive demande des points lumineux qui apparaissent progressivement, pas un voile blanc. Une partie de cet effet peut venir du plongeon final vers la zone chaude (M.dive, diveFill dès 12,85). À confirmer avec 11,95, 12,3 et 12,55.",
+      "where_to_fix": "video/js/scenes/wealth_map.js (updateMap mode 3 : hs = 3.4*ps et multiplyScalar(0.8) ; updateS3Fx : M.dive.material.opacity)",
+      "suggested_fix": "Réduire la taille des halos en mode 3 de 3,4 à 2,0 (hs = 2.0*ps) et leur intensité de 0,8 à 0,4 ; limiter M.dive.material.opacity à 0.2+0.3*dv avant 13,0. Garder le blanc complet seulement sur diveFill (12,9 à 13,16) pour le raccord vers S4."
+     },
+     {
+      "severity": "mineur",
+      "t": 10.44,
+      "what": "La mention de source de l'euro (« Forbes 1er mars 2026 · converti au taux BCE du 09/10/2026 ») est minuscule (~25 px), grise, posée sur le bord supérieur des continents, et elle s'étend de x≈70 à x≈1015 (déborde la marge droite de 150 px). Sur téléphone elle sera difficile à lire. Elle omet aussi « (1 € = 1,1206 $) » prévu dans FACTS F1€.",
+      "where_to_fix": "video/js/scenes/wealth_map.js (N.mention dans buildNumbers : taille, position ; N.backM)",
+      "suggested_fix": "Remonter la ligne d'environ 40 px (au-dessus de la carte, sur le fond sombre), augmenter la taille (size 0.5 → 0.6), la raccourcir (« Forbes 1er mars 2026 · converti au taux BCE du 09/10/2026 (1 € = 1,1206 $) » sur 2 lignes centrées plutôt qu'une seule très large) et passer la couleur à #f3ecd4 pleine opacité."
+     },
+     {
+      "severity": "mineur",
+      "t": 10.44,
+      "what": "La mention légale F5 (« Scénario hypothétique. Chiffres arrondis : Forbes (1er mars 2026), Banque mondiale (2024), Altrata (2025). ») prévue par FACTS pour « S3 et fin » n'apparaît pas en S3 (le commentaire « S3 source discrète » d'index.html est vide ; #legal n'est affiché que de 79,4 à 83,96).",
+      "where_to_fix": "video/index.html (nouvelle section clip « legal » pour S3 + tween fade)",
+      "suggested_fix": "Ajouter un second bloc .src mono (copie de #legal) de data-start=\"8.9\" à \"12.4\", positionné sous les sous-titres (top:1560px) pour ne pas heurter la ligne source du panneau 824 M (~y 1270 à 1310), avec un fade-in/out de 0,3 s."
+     },
+     {
+      "severity": "mineur",
+      "t": 10.44,
+      "what": "À t=10,44 la montagne de billets ressemble à un petit œuf vert en bas de cadre, bien plus petite que la carte. La directive veut qu'elle devienne si grande que la caméra doit reculer pour montrer l'échelle ; ici l'échelle gigantesque n'est portée que par le compteur. Le recul est réussi mais la montagne perd son impact.",
+      "where_to_fix": "video/js/scenes/wealth.js (mtn.scale : 1+0.3*eio(...) puis 1-0.1*eio(...) pour t entre 10,7 et 13)",
+      "suggested_fix": "Supprimer la réduction de 10 % entre 10,7 et 13 et porter le grossissement de 1,3 à ~1,6 entre 7,9 et 9,4, ou ajouter quelques silhouettes de repère à sa base pour donner l'échelle."
+     }
+    ],
+    "extra_frames_wanted": [
+     7.85,
+     9,
+     11.2,
+     11.95,
+     12.3,
+     12.55,
+     12.7
+    ]
+   }
+  ]
+ },
+ {
+  "reviewer": "relecteur n°2",
+  "scenes": [
+   {
+    "n": 4,
+    "illustrates_sentence": 4.5,
+    "directive_respected": 4,
+    "verdict": "ok",
+    "what_works": "La scène suit la voix mot à mot. Le billet naît de la lampe sur « cet argent » (14,3 s), arrive dans les mains de la mère sur « pourrait » et est levé sur « tout changer ». Les courses apparaissent à « manger / à / leur / faim » (15,9 à 16,7 s) : pain, lait, corbeille de fruits, sac « COURSES ». Sur « se loger » (16,9 à 17,4 s), une facture « LOYER » est tamponnée « RÉGLÉE » avec une coche, puis la porte s'ouvre sur un intérieur doré. Sur « se soigner », la croix s'allume sur le cabinet « SANTÉ » avec un soignant et des patients, et le billet monte vers la croix. La caméra suit bien l'argent jusqu'à son usage, avec des whips propres entre les trois situations. Les personnages sont chaleureux, souriants, avec des teintes de peau variées et sans caricature. Aucun chiffre n'est inventé (les « 100 » sont des billets fictifs « BANQUE DE FICTION »). Les sous-titres sont exacts, lisibles et ne masquent aucun objet clé. Le raccord vers S5 fonctionne : à 18,4 s la salle s'assombrit et le billet reste seul au centre, comme le billet suspendu de S5. Pas de trou noir ni d'objet qui traverse la caméra.",
+    "issues": [
+     {
+      "severity": "mineur",
+      "t": 18.22,
+      "what": "Le dernier plan (cabinet de soins) est vert-olive et sombre, plus froid que la cuisine et la porte dorée. Cela contredit « lumière progressivement plus chaleureuse ». À 18,22 s l'image est terne et olive avant le noir de S5. Le mur du cabinet est vert menthe (#e4f6ef).",
+      "where_to_fix": "video/js/scenes/life.js (mur wC, texWall(\"#e4f6ef\",\"#d3ede3\") ; intensités U.pt / U.dir ; dimO en fin de updateS4)",
+      "suggested_fix": "Réchauffer le mur du cabinet (texWall(\"#f6e6cc\",\"#ecd5b0\")) et garder la croix verte comme seul accent froid. Commencer l'assombrissement final plus tard (sstep(T4.soigner+0.7, b4-0.12, t)) pour que le cabinet reste doré jusqu'à 18,1 s."
+     },
+     {
+      "severity": "mineur",
+      "t": 17.8,
+      "what": "Le sous-titre « SE LOGER, SE SOIGNER. » passe sur le visage de la patiente en violet (têtes à y≈1310-1440, de 17,7 à 18,5 s). Ce sont les yeux et la bouche d'un personnage, que le sous-titre masque.",
+      "where_to_fix": "video/js/scenes/life.js (positions finales U.kid / U.par dans updateS4 : kidX = lerp(28.75, 32.0, walk) ; plans S4_SHOTS soigner)",
+      "suggested_fix": "Décaler les patients vers la droite hors de la bande sous-titres (x 250 à 750), par exemple kidX final 29.7 et parX final 30.5. Sinon baisser légèrement le look-at du plan T4.soigner+0.36 pour que les têtes passent au-dessus de y=1300."
+     },
+     {
+      "severity": "mineur",
+      "t": 14.3,
+      "what": "La peau du père et du garçon (SKIN[2] = 0xc68642) devient orange vif sous le point de lumière chaud (0xffb25a, intensité 6 à 6,5). Les visages ressemblent à des jouets oranges, face au brun profond de la mère et de la fille. Cela peut sembler caricatural, alors que la directive demande un style humain et respectueux.",
+      "where_to_fix": "video/js/scenes/life.js (création de dad et boy : skin: SKIN[2] ; U.pt.intensity)",
+      "suggested_fix": "Passer dad et boy à SKIN[1] (0xe0ac82) ou à une teinte moins saturée (≈0xb98258). Réduire U.pt.intensity à environ 5 de 14 à 16 s."
+     }
+    ],
+    "extra_frames_wanted": [
+     14.8,
+     17.5
+    ]
+   },
+   {
+    "n": 5,
+    "illustrates_sentence": 4.5,
+    "directive_respected": 4.5,
+    "verdict": "ok",
+    "what_works": "Tout le cahier des charges est tenu. Le billet reste suspendu avec un anneau d'impact (18,82 s). Zoom rapide : à 19,05 s le billet remplit le cadre. Sur « énorme » il se retourne en certificat « ACTION · PART DU CAPITAL · SOCIÉTÉ FICTIVE » avec des éclats (19,3 à 19,5 s). Sur « problème » il devient un écran « BOURSE » avec chandeliers (19,85 s), puis la caméra tourne vers une forêt de chandeliers « MARCHÉ » (20,3 à 21,1 s). Le décor devient plus sombre, bleu nuit et contrasté. Aucune société réelle n'apparaît et aucun chiffre n'est inventé. Le titre « MAIS IL Y A UN PROBLÈME… » est exact, avec « UN PROBLÈME… » en rouge sur le mot « problème ». Il est calé sur la voix : « MAIS IL Y A » à 18,55 s et « UN PROBLÈME… » à 19,48 s. Le raccord billet S4 vers S5 est cohérent (taille et position quasi identiques). L'audio coupe bien : creux du mix à -38 dB entre 18,25 et 18,5 s, puis reprise sur la phrase. Pas de trou noir, de texte coupé ni de chevauchement gênant en dehors du titre.",
+    "issues": [
+     {
+      "severity": "mineur",
+      "t": 19.85,
+      "what": "Le titre est coupé en 3 lignes (« MAIS IL Y A / UN / PROBLÈME… »), avec « UN » orphelin sur sa ligne. « PROBLÈME… » va de x≈108 à x≈975, au-delà de la marge droite de 150 px (x>930). Entre 19,85 et 21,0 s le titre occupe y 250-610 et recouvre le haut de l'écran BOURSE puis l'écran MARCHÉ (20,3 à 21,0 s). Le rouge sur les chandeliers bordeaux est un peu faible.",
+      "where_to_fix": "video/index.html (section #s-prob : #p1, #p2, classe .tt ; font-size 128px)",
+      "suggested_fix": "Passer à deux lignes : <div class=\"tt\" style=\"font-size:104px\"><span id=\"p1\">Mais il y a un</span></div> puis <div class=\"tt red\" style=\"font-size:116px\"><span id=\"p2\">problème…</span></div>. Le texte reste identique, il n'y a plus d'orphelin et le titre tient dans les marges (≈ y 250-520). Garder les slams et timings actuels (p1 à 18,55 s, p2 à on(5,/problème/)-0.1)."
+     },
+     {
+      "severity": "mineur",
+      "t": 20,
+      "what": "Le sous-titre sépare la négation : la page « ÉNORME PROBLÈME AUQUEL ON NE » (19,02 à 20,46 s) puis « PENSE PAS. » (20,46 à 21,18 s). « ne » est lu seul en fin de page, avant « pense pas ».",
+      "where_to_fix": "scripts/make_captions.py (regroupement des mots de la scène 5), puis régénérer video/js/captions.js",
+      "suggested_fix": "Regrouper en « ÉNORME PROBLÈME » (19,02 à 19,94 s) puis « AUQUEL ON NE PENSE PAS. » (19,94 à 21,18 s). Le texte prononcé n'est pas modifié."
+     }
+    ],
+    "extra_frames_wanted": [
+     20.6
+    ]
+   },
+   {
+    "n": 6,
+    "illustrates_sentence": 4.5,
+    "directive_respected": 4,
+    "verdict": "a_corriger",
+    "what_works": "La transformation demandée est clairement visible. Un grand coffre-fort rempli de billets s'ouvre (21,5 à 22,9 s), avec sa roue dorée et des piles de liasses. Sur « pas juste de l'argent » (22,9 à 23,5 s), le mur de billets se retourne en certificats « ACTION », les piles deviennent des tours et les étiquettes « ACTIONS / BÂTIMENTS / PARTICIPATIONS » apparaissent. Sur « dans un coffre », la caméra traverse le coffre et découvre l'univers flottant (certificats, pièces, camemberts, écrans COURS, tours, anneaux), puis le réseau d'entreprises (24,3 s). La fiction est claire : « SOCIÉTÉ FICTIVE » et « BANQUE DE FICTION », sans chiffre ni marque réelle. Le titre « UNE FORTUNE ≠ DU CASH » est exact, empilé en 4 lignes, et se construit mot à mot : « UNE FORTUNE » à 22,35 s, « ≠ » sur « juste », « DU CASH » sur « argent ». L'idée se comprend en une seconde. Les sous-titres sont exacts. L'incrustation F3 suggérée dans FACTS D (« ~1/4 en liquidités ») n'est pas affichée ; ce n'est pas exigé par la directive et le cadre est déjà chargé, donc c'est acceptable.",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 23.3,
+      "what": "Collision titre HTML / texte diégétique. Entre ≈23,15 et 23,55 s, « DU CASH » (y≈700-800) recouvre l'étiquette 3D « ACTIONS » (x 220-540, y 712-800), qui devient illisible (« …CIONS »). C'est le mot le plus important de la phrase pour la suite (S7 : actions). Le « ≠ » passe aussi sur l'anneau du coffre. « DU CASH » en menthe est sur le mur de billets verts, donc peu contrasté. Vérifié sur un rendu composite à 23,4 s.",
+      "where_to_fix": "video/js/scenes/shares_vault.js (ligne 52, tableau Z.tags : y des trois étiquettes)",
+      "suggested_fix": "Descendre les étiquettes sous la zone titre (y>850 px) : ACTIONS y 14.3 -> 11.7, BÂTIMENTS y 10.6 -> 9.2, PARTICIPATIONS y 6.9 -> 6.6 (x inchangés, elles restent dans l'ouverture du coffre). Option complémentaire : mettre « DU CASH » (#c3) en doré ou en blanc avec contour sombre pour sortir du vert."
+     },
+     {
+      "severity": "mineur",
+      "t": 21.3,
+      "what": "L'enseigne « COFFRE-FORT » est coupée par le haut de la porte de 21,2 à 22,3 s (on lit « OFFRE-FORT »). Dès 22,35 s le titre « UNE / ≠ » la recouvre (« COF…RE-FORT » à 22,9 et 23,4 s).",
+      "where_to_fix": "video/js/scenes/shares_lib.js (ligne 116, plaque plq : position y 18.2) et video/js/scenes/shares_vault.js (updateZone)",
+      "suggested_fix": "Remonter la plaque (y 18.2 -> 19.6) pour qu'elle ne soit plus masquée par la porte. La faire disparaître quand le titre arrive (opacité 1 -> 0 entre 22,3 et 22,7 s, via un champ V.plq exposé dans buildVault). Sinon, plus simple : plq.visible = t < 22.6."
+     },
+     {
+      "severity": "mineur",
+      "t": 24.04,
+      "what": "Fin de S6 : le sous-titre « L'ARGENT DANS UN COFFRE. » passe sur de gros certificats crème et un anneau doré. Le mot surligné « COFFRE. » (doré) est sur fond crème ou doré, avec un contraste faible, et le texte du certificat (« ACTION », « PART DU ») traverse « L'ARGENT ». Le texte reste lisible grâce à l'ombre, mais c'est fragile sur téléphone.",
+      "where_to_fix": "video/index.html (zone #caps ; ajouter un voile) ou video/js/scenes/shares_vault.js (réduction de nearK pour les certificats dans la bande basse)",
+      "suggested_fix": "Ajouter un dégradé sombre discret derrière les sous-titres, juste avant #caps : <div class=\"fx\" style=\"top:1290px;height:280px;bottom:auto;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.4) 25%,rgba(0,0,0,.4) 75%,rgba(0,0,0,0))\"></div>. Ce voile est global, donc à valider avec les autres relecteurs."
+     },
+     {
+      "severity": "mineur",
+      "t": 22.76,
+      "what": "Le sous-titre « CE N'EST PAS JUSTE DE » se coupe en laissant « DE » seul sur la 2e ligne (de 22,4 à 23,2 s), ce qui donne une typographie orpheline.",
+      "where_to_fix": "scripts/make_captions.py (regroupement de la scène 6), puis régénérer video/js/captions.js",
+      "suggested_fix": "Forcer une coupure avant « DE » : page « CE N'EST PAS JUSTE » (22,4 à 23,02 s), puis « DE L'ARGENT DANS UN COFFRE. » (23,02 à 24,34 s). Le texte prononcé n'est pas modifié."
+     }
+    ],
+    "extra_frames_wanted": [
+     23.3,
+     23.5,
+     22.6
+    ]
+   }
+  ]
+ },
+ {
+  "reviewer": "Relecteur n°3 (scènes 7, 8, 9). J'ai vu les 9 captures qc et rendu 28 instants supplémentaires de la composition dans un dossier de travail, sans toucher au projet. Ces rendus utilisent une police de secours, donc les retours à la ligne des sous-titres y diffèrent. J'ai donc jugé les chevauchements sous-titres/3D sur les captures qc, et le contenu 3D sur mes rendus.",
+  "scenes": [
+   {
+    "n": 7,
+    "illustrates_sentence": 4,
+    "directive_respected": 4,
+    "verdict": "a_corriger",
+    "what_works": "La séquence suit bien la phrase. Une tour d'entreprise se monte à 24,4 s, éclate en étages dont les parts sont colorées par actionnaire, puis une part dorée est tirée vers l'avant avec son investisseur et l'étiquette « UNE PART DU CAPITAL ». Cela respecte l'interdit : on montre une part, pas la totalité de l'entreprise. Vers 25,6-26,0 s, la barre « ~73 % parts d'entreprises / ~26 % liquide » arrive sur « dans des entreprises ». Elle est conforme à F3 : « en moyenne », source Altrata, « liquide » et non « cash ». À partir de 26,1 s (« entreprises »), les icônes USINE, BUREAUX, SALARIÉS et PRODUITS apparaissent en cascade avec leurs liens vers la tour. Sur « d'actions » (27,2 à 27,6 s), un certificat « ACTION · PART DU CAPITAL · SOCIÉTÉ FICTIVE » se place devant la tour. C'est exactement l'idée « action = participation, pas billets dans un coffre ». Le texte de fond est exact et lisible, et le sous-titre « UNE GRANDE PARTIE EST INVESTIE » est bien synchronisé.",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 27.34,
+      "what": "Pendant « sous forme d'actions », le panneau 3D « ENTREPRISE » (cadre doré) traverse la zone des sous-titres. À 27,34 s il est superposé à « SOUS FORME ». À 27,55 s il touche encore « D'ACTIONS. ». Deux textes se chevauchent au moment clé de la phrase, et les sous-titres perdent en lisibilité entre environ 27,2 et 27,64 s.",
+      "where_to_fix": "video/js/scenes/shares_s7.js, fonction updateS7, ligne du panneau S.sign (positionné à y=2,2, z=7,4, donc au ras du sol devant la tour). Le plan caméra de shares.js autour de 27,64 s l'amène dans la zone y 1330-1530.",
+      "suggested_fix": "Faire disparaître le panneau quand « sous » démarre : S.sign.visible = k>0.01 && t < TM.sous (ou le multiplier par 1 - sstep(TM.sous-0.1, TM.sous+0.2, t)). À défaut, le relever à y≈12-13, au-dessus de la tour, hors de la bande des sous-titres."
+     },
+     {
+      "severity": "mineur",
+      "t": 26.7,
+      "what": "Sur « entreprises », le panneau « ENTREPRISE » est barré par les traits cyan et les impulsions blanches qui convergent vers la tour : les lettres PR sont hachées. Les étiquettes SALARIÉS et PRODUITS sont placées derrière les deux piles (z=-9,5). Elles sont lues « SALARI… » et « …DUITS », voire « RODUITS » à 27,34 s. Leurs icônes sont petites et en partie cachées. À 26,3 s, une étiquette est coupée au bord gauche du cadre. Le haut du cadre (environ 20 %) reste vide.",
+      "where_to_fix": "video/js/scenes/shares_s7.js (const ICONS : positions de « salaries » et « produits » ; S.sign ; S.traces/S.pulses) et plans caméra de shares.js entre 26,1 et 27,4 s.",
+      "suggested_fix": "Remonter S.sign à y≈3,4. Faire passer salariés et produits à z≈+3…+9 (devant ou sur les côtés, x=±8,6), pas derrière les tours. Agrandir les étiquettes d'environ 20 %. Faire s'arrêter les traits à 1 m du panneau."
+     },
+     {
+      "severity": "mineur",
+      "t": 26,
+      "what": "La barre F3 (73 %/26 %) n'est pleinement lisible que pendant environ 0,7 s : elle surgit à 25,45 s et s'efface à partir de 25,9 s. C'est court pour deux chiffres et une source. Elle masque aussi la moitié basse de la part dorée qu'on vient de mettre en évidence. La ligne de source (22 px) touche le bord droit du cadre. Le « % » de « ~26 % » déborde presque du segment doré.",
+      "where_to_fix": "video/js/scenes/shares_s7.js : hudTex() et le bloc « barre F3 » (facteur 1 - sstep(TM.entreprises-0.2, TM.entreprises+0.05, t)).",
+      "suggested_fix": "Prolonger le maintien jusqu'à TM.entreprises+0.35 (environ 26,45 s). Réduire la ligne de source à 20 px ou la raccourcir (« Altrata 2026 (données 2025) · moyenne »). Mettre « ~26 % » à 54 px."
+     },
+     {
+      "severity": "mineur",
+      "t": 25.99,
+      "what": "Des icônes d'actionnaires se superposent. À 25,99 s, l'icône rouge est cachée derrière le cercle doré de l'investisseur (un arc rouge dépasse). À 26,7 s, le cercle teal « groupe » recouvre le cercle bleu « banque ». Sous l'investisseur doré, la pile de pièces vue de tranche forme une tache jaune informe.",
+      "where_to_fix": "video/js/scenes/shares_s7.js, bloc S.inv (positions tx/tz/iy des icônes non dorées) et bloc « pièces ».",
+      "suggested_fix": "Décaler les icônes non dorées en hauteur (iy +1,8 pour B/T) et latéralement. Orienter les pièces (rotation x) pour qu'elles se lisent comme des disques, ou réduire leur nombre à 6."
+     }
+    ]
+   },
+   {
+    "n": 8,
+    "illustrates_sentence": 4,
+    "directive_respected": 4,
+    "verdict": "a_corriger",
+    "what_works": "Le concept est juste et bien raccordé. Le certificat ACTION de S7 se glisse dans un grand écran « MARCHÉ · ORDRES DE VENTE (simulation) » (continuité 27,64 à 28,25 s). Des silhouettes de milliardaires se lèvent sur « milliardaires » (29,6 s) et lèvent les bras sur « vendre ». Les barres rouges « VENTE ▼ » se multiplient. Le compteur accélère (593 à 30,1 s, puis plusieurs milliers) et des centaines de blocs rouges plus des flèches descendantes partent vers l'écran sur « leurs actions / au même moment » (31,0 à 32,5 s). La caméra pivote autour de l'écran (vue de côté à 32,26 s). Le titre « TOUT LE MONDE VEND. » est présent et exact : « Tout le monde » à 30,15 s, « VEND. » à 30,91 s, calé sur « vendre ». Le ton reste hypothétique (« simulation », « scénario hypothétique ») et il n'y a aucune caricature.",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 28.6,
+      "what": "Entre environ 28,3 et 29,0 s, le compteur « ORDRES DE VENTE » (0, 62, 218…) est dessiné en bas du canvas de l'écran. Au moment où la caméra recule, il passe pile dans la bande des sous-titres (y 1330-1530) et le liseré doré de l'écran barre « ET IMAGINE MAINTENANT ». À 28,4 s le chiffre « 62 » est recouvert par « IMAGINE ». Le compteur, élément demandé par la directive, est illisible à cet instant, et les sous-titres sont salis.",
+      "where_to_fix": "video/js/scenes/market.js : drawScreen() (c.fillText(\"ORDRES DE VENTE\", 30, 900), le nombre à y=985, le texte illustratif à y=1019) et le trim doré (position y=1,2) ; plans caméra de S8 (27,64 à 29,5 s).",
+      "suggested_fix": "Déplacer le bloc compteur en haut du canvas, sous l'en-tête (libellé à y≈120, nombre à y≈200), et décaler la courbe et les lignes de 100 px vers le bas. Ou remonter la caméra pour que le pied de l'écran reste au-dessus de y=1300 avant 29 s."
+     },
+     {
+      "severity": "majeur",
+      "t": 29.3,
+      "what": "L'écran est quasi vide pendant environ 2 s, alors que la voix dit déjà « tous les milliardaires essaient de vendre ». Il y a 0 barre à 28,1 s, 1 à 28,9 s, 2 à 29,7 s, 4 à 30,1 s, et la foule n'est bien présente qu'à partir de 30,5 s. La directive demande que les ordres « se multiplient et remplissent l'écran ». Le visuel retarde d'environ 1 s sur la phrase : 29,14 à 30,12 s « tous les milliardaires ».",
+      "where_to_fix": "video/js/scenes/market.js : drawScreen(), kf de `rate` ([[28.0,0],[29.5,1.5],[30.12,4],[31.44,22],[32.5,40]], nRows = floor(rate*1.2)), et le kf de `p`.",
+      "suggested_fix": "Avancer la montée : rate = kf(t,[[27.9,0],[28.6,3],[29.4,8],[30.12,14],[31.44,40]]) pour avoir 8 à 10 barres à « milliardaires » (29,6 s). Faire démarrer les silhouettes plus tôt (T8-0.7)."
+     },
+     {
+      "severity": "mineur",
+      "t": 30.1,
+      "what": "Les silhouettes des milliardaires sont presque noires sur fond noir, vues de dos. À 30,10 s on devine à peine des têtes et des épaules. Le halo doré (opacité 0,35) et la cravate dorée ne se voient pas. Le spectateur peut difficilement relier ces personnages à « tous les milliardaires ».",
+      "where_to_fix": "video/js/scenes/market.js : boucle makePerson (shirt 0x15151c/0x2a2a35, glow(PAL.gold, 3.6, 0.35)) et lumières du module.",
+      "suggested_fix": "Éclaircir les vêtements (par ex. 0x3a3f55 / 0x4a4a60). Passer le halo doré à une opacité de 0,7 avec un rayon de 5. Ou ajouter un liseré emissive sur les épaules."
+     },
+     {
+      "severity": "mineur",
+      "t": 31.5,
+      "what": "Le titre « VEND. » est rouge sur fond d'écran rouge et nuage de cubes rouges : le bas des lettres se fond dans les cubes (32,26 s). Les mots « TOUT LE MONDE » se superposent à l'en-tête « MARCHÉ · ORDRES DE VENTE (simulation) » (31,0 à 32,5 s) : deux textes se chevauchent. Les sous-titres « VENDRE LEURS ACTIONS AU MÊME MOMENT. » sont sur fond chargé (cubes) : lisibles, mais à la limite.",
+      "where_to_fix": "video/index.html (#s-vend, classes .tt et .red, #v2) et video/js/scenes/market.js : drawScreen() (en-tête).",
+      "suggested_fix": "Renforcer le contraste de #v2 : text-shadow 0 0 40px #000, 0 6px 0 rgba(0,0,0,.85), ou une couleur plus claire (#ff7a6e). Dans drawScreen, atténuer l'en-tête après 30,1 s (c.globalAlpha = 1 - 0.85*sstep(30.0,30.4,t)). Garder les cubes hors de la bande y<700 pendant le titre."
+     },
+     {
+      "severity": "mineur",
+      "t": 30.1,
+      "what": "Sous-titre : « LES » et « MILLIARDAIRES » sont collés (« LESMILLIARDAIRES », sans espace visible). Le mot en surbrillance passe à l'échelle 1,07 et son grand débord mange l'espace de 24 px de la ligne. Le même risque existe pour d'autres mots longs mis en surbrillance, dans toute la vidéo.",
+      "where_to_fix": "video/index.html : règle .cap (gap:4px 24px) et la tween de surbrillance (scale 1.07, dans le forEach des captions).",
+      "suggested_fix": "Passer l'échelle de surbrillance à 1,03. Ou ajouter .cap i{margin:0 8px} et gap 32px. Ou utiliser transform-origin:center bottom avec un scale de 1,04 maximum."
+     },
+     {
+      "severity": "mineur",
+      "t": 32.26,
+      "what": "Le compteur affiche des entiers d'apparence précise (593, 3 018, 6 199, 11 433, jusqu'à 52 000) avec une mention « compteur illustratif · scénario hypothétique » en 15 px, illisible sur téléphone. Les chiffres sont étiquetés comme illustratifs, mais la directive et le contrat interdisent les chiffres inventés. Un spectateur peut les prendre pour des données.",
+      "where_to_fix": "video/js/scenes/market.js : drawScreen() (cnt, kf [[28.2,0],[30.12,600],[31.44,9000],[32.5,52000]] ; police 15 px de la mention).",
+      "suggested_fix": "Remplacer les entiers par un indicateur non numérique : ex. « ORDRES DE VENTE ▲▲▲▲ » avec jauge. Ou garder le compteur mais passer la mention à ≥ 24 px et supprimer les séparateurs de milliers (le nombre n'est pas une donnée)."
+     }
+    ]
+   },
+   {
+    "n": 9,
+    "illustrates_sentence": 3,
+    "directive_respected": 3,
+    "verdict": "a_corriger",
+    "what_works": "La balance 3D est un bon support, claire et lisible. Deux zones teintées sont séparées (rouge à gauche, bleu à droite) avec les étiquettes « À VENDRE » et « ACHETEURS ». Sur « Tout le monde veut vendre… » (32,56 à 33,48 s), une pluie de blocs rouges tombe à gauche. Elle s'accumule vite dans le plateau gauche, tandis que le fléau penche fortement du côté des vendeurs (33,8 s, 34,1 s). Le basculement accompagne bien « il n'y a pas forcément assez d'acheteurs ». Les sous-titres sont exacts (« MAIS IL N'Y A PAS / FORCÉMENT ASSEZ D'ACHETEURS. »), avec surbrillance synchrone. Il n'y a ni chiffre ni pourcentage inventé, et le ton ne prétend pas à une certitude mathématique.",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 34.11,
+      "what": "Les « quelques blocs bleus » côté acheteurs sont quasiment invisibles. Le plateau droit est vide de 32,7 à 33,9 s. Il est coupé par le bord droit du cadre dès 33,0 s. À 34,11 s on ne voit qu'un petit bloc bleu rogné, et les blocs bleus qui tombent au sol (x ≥ BX+1,8) sont hors champ. La moitié « il n'y a pas assez d'acheteurs » est donc illustrée par du vide. Le contraste « multitude de rouges / quelques bleus » demandé par la directive n'est pas lisible.",
+      "where_to_fix": "video/js/scenes/market.js : mise à jour de U.buyers (hx = BX+1.8+H*7.5, calendrier T9M+0.2+i*0.28), U.panLoadR, et SHOTS S9 (clés à 32.56, 33.7, T9F, 34.75 : la caméra dérive vers x=BX-2).",
+      "suggested_fix": "Cadrer les deux plateaux : rester centré sur x=BX (p x = BX±3), FOV +4 (≈60). Faire tomber les bleus plus près : hx = BX+1,5+H*3,5, en commençant à T9V (≈33,1 s) avec un pas de 0,15 s. Garder environ 8 blocs bleus bien visibles dans le plateau droit et la zone bleue, face aux ~40 rouges."
+     },
+     {
+      "severity": "majeur",
+      "t": 35.3,
+      "what": "La fin de la scène (environ 34,7 à 35,66 s) est quasi vide : une grille bleu sombre, quelques gros cubes rouges flous qui passent, et une courbe verte minuscule dans le coin haut gauche (avec un point blanc), partiellement sous le badge. Le graphique boursier demandé (« la caméra plonge vers un graphique… Graphique qui commence à baisser ») n'est ni lisible ni descendant. Pour le spectateur il y a près d'une seconde de vide sur « d'acheteurs ». Le fléau et le plateau, qui étaient la clé de la scène, disparaissent à 35,2 s.",
+      "where_to_fix": "video/js/scenes/market.js : SHOTS (clé t:34.75 → l: [BX, 7.5, -4] regarde le bas du panneau, alors que la courbe est vers y≈20) ; constantes CH0=34.9 et F(tau) (aucune baisse avant T10P) ; U.chart.visible = t>=34.7 ; m.visible = t>=35.3 pour les blocs de valeur.",
+      "suggested_fix": "Changer la clé 34.75 en p: [BX, 12, 14], l: [BX-1, 18, -12] pour que la courbe soit au centre haut. Mettre CH0 = 34.3 (courbe visible plus tôt). Ajouter à F un fléchissement net entre 35,0 et 35,66 (ex. - 0.08*eio(lin(35.0, 35.66, tau))). Garder le balancier visible jusqu'à 35,4 s (zone visible t<35.2 à reculer) et lui faire fondre vers le graphique."
+     },
+     {
+      "severity": "mineur",
+      "t": 33.4,
+      "what": "Des textes 3D sont coupés par le cadre. « ACHETEURS » est tronqué à droite (« ACHETEUR », « ACHETEUI ») de 32,7 à 33,8 s. À 34,1-35,0 s, « À VENDRE » et « ACHETEURS » sortent par le haut (« ENDRE », « ACHE », « DRE ») et « ENDRE » se superpose au badge « MAIS POURQUOI ? ». C'est aussi dans la marge droite de 150 px réservée aux boutons de la plateforme.",
+      "where_to_fix": "video/js/scenes/market.js : U.lblL / U.lblR (position bx±3,3 à y=10,6, w=4,6) et SHOTS S9.",
+      "suggested_fix": "Rapprocher les étiquettes du centre (bx±2,4, w 3,8). Les faire disparaître en fondu à partir de 34,0 s (visible t<34.0), avant la plongée de la caméra."
+     },
+     {
+      "severity": "mineur",
+      "t": 32.86,
+      "what": "La balance est mal construite : les cordes ne sont pas fixées au fléau. Les sommets des chaînes extérieures dépassent les extrémités de la barre : à 32,86 s la corde gauche part à gauche du bout du fléau et la corde droite est plus loin que le bout droit. Les plateaux semblent suspendus dans le vide. Le plateau droit est en outre coupé par le bord du cadre.",
+      "where_to_fix": "video/js/scenes/market.js : mkPan (chaînes à s*1,2, rotation s*-0,38) et la barre BoxGeometry(8,4, 0,3, 0,4) ; plateaux à ±3,8.",
+      "suggested_fix": "Faire converger les chaînes vers un point d'attache unique par plateau (haut au centre du plateau, y=0). Ou allonger le fléau à 10,4 et rapprocher les plateaux à ±3,2 avec des chaînes à ±0,9."
+     },
+     {
+      "severity": "mineur",
+      "t": 35.36,
+      "what": "Le sous-titre « FORCÉMENT ASSEZ D'ACHETEURS. RÉSULTAT ? » affiche le premier mot de la scène 10 (« RÉSULTAT ? ») dès 34,26 s, soit environ 1,4 s avant qu'il soit prononcé (35,66 s). Le bloc chevauche la frontière des scènes 9 et 10 et dévoile la suite.",
+      "where_to_fix": "scripts/make_captions.py (regroupement des mots en blocs) puis video/js/captions.js régénéré.",
+      "suggested_fix": "Forcer une coupure de bloc aux fins de phrase (mot finissant par . ? … ou changement de scène dans timing.json). « RÉSULTAT ? » démarre alors un nouveau bloc à 35,66 s."
+     },
+     {
+      "severity": "mineur",
+      "t": 34.4,
+      "what": "Rien à l'écran ne rappelle la nuance voulue par la directive : ce déséquilibre n'est pas une certitude universelle, c'est un scénario où l'offre dépasse la demande « aux prix précédents ». Seul le mot « forcément » le porte à la voix. Le seul indice visuel est la mention « scénario hypothétique » en 15 px de l'écran de S8, absente de S9.",
+      "where_to_fix": "video/js/scenes/market.js : zone B (ajouter une textPlane près du pied de la balance), visible environ 33,7 à 35,0 s.",
+      "suggested_fix": "Ajouter une petite étiquette « offre > demande aux prix précédents · scénario » (≥ 30 px à l'écran, au-dessus de la bande des sous-titres), apparaissant vers 34,0 s. Elle reste sobre et ne présente rien comme certain."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "reviewer": "relecteur n°4 (scènes 10, 11, 12). J'ai ouvert les 9 captures qc/scene_10-12 et lu DIRECTIVE, script, timing, FACTS, impact.js, market.js, index.html et make_sound.py. J'ai aussi rendu des captures 3D seules (sans titres ni sous-titres) à 14 instants supplémentaires avec scripts/shot.mjs, dans le scratchpad, sans toucher au projet. Les constats sur la superposition des sous-titres sont donc déduits de la zone y 1330-1550 px et confirmés sur les captures composites existantes.",
+  "scenes": [
+   {
+    "n": 10,
+    "illustrates_sentence": 4,
+    "directive_respected": 3.5,
+    "verdict": "a_corriger",
+    "what_works": "La phrase est illustrée précisément. À 35.96 (« Résultat ? »), la courbe verte est calme avec son point blanc. À 37.06 (« actions »), elle devient rouge et amorce la baisse. La plongée tombe à « s'effondrer » (37.56-38.14), avec une caméra qui suit la pointe, une colonne de chiffres qui défile vers le bas, une ambiance rouge et un tremblement bref. Le titre HTML « LES COURS POURRAIENT CHUTER » est exact et lisible en haut (y 240-600), le conditionnel est respecté et il n'y a aucun pourcentage. Les sous-titres karaoké sont synchrones (ACTIONS doré à 37.06, S'EFFONDRER doré à 38.16). L'impact sonore est calé sur « s'effondrer » (+0,1 s) et reste contrôlé.",
+    "issues": [
+     {
+      "severity": "mineur",
+      "t": 37.7,
+      "what": "La caméra perd la pointe pendant la chute. À 37.7 le point blanc est collé au bord haut du cadre et l'image n'est qu'un grand vide rouge, avec la grille et le bord diagonal du sol. À 37.9 il ne reste qu'un trait vertical. Pendant environ 0,4 s la chute est mal lisible, alors que c'est le climax de la phrase. Cause probable : des clés de suivi tous les 0,1 s avec un easing eio, qui font accélérer puis freiner la caméra par saccades alors que la pointe tombe de plus de 50 % de la hauteur en 0,6 s.",
+      "where_to_fix": "video/js/scenes/market.js : boucle SHOTS « suivi de la pointe » (tt de 36.3 à EN-0.02)",
+      "suggested_fix": "Entre T10E-0.1 et T10E+0.7, supprimer l'easing des clés de suivi (e: undefined, donc linéaire) et mettre un décalage de visée plus marqué (lead = -3) pour que le point reste dans le tiers haut du cadre. Sinon, passer le pas de 0,1 à 0,05 s sur cette fenêtre."
+     },
+     {
+      "severity": "mineur",
+      "t": 38.3,
+      "what": "La directive demande « des blocs représentant la valeur des actions se contractent ». Ces blocs (U.vals) ne sont jamais visibles. Ils sont posés à y≈0 et z=-8.2 et restent hors champ dans les 3 captures qc (35.96, 37.06, 38.16) et dans mes rendus 3D à 36.5, 37.4, 37.7, 37.9, 38.3 et 38.44. La clé finale (p [bx+7,10,-1], l [bx+7,7,-12]) ne les cadre pas non plus.",
+      "where_to_fix": "video/js/scenes/market.js : création de U.vals dans build() et update() (position y, z) + dernière clé SHOTS (EN-0.01)",
+      "suggested_fix": "Remonter ces blocs dans le champ de la clé finale : par exemple x de bx+2 à bx+9, y de base ≈ 5 (au pied du graphique visible), z=-11.5, devant le panneau. Les laisser se contracter entre T10E et T10E+0.8, comme déjà codé. Vérifier par une capture à 38.3 et 38.44."
+     },
+     {
+      "severity": "mineur",
+      "t": 38.16,
+      "what": "Colonne de chiffres : à 38.16 les nombres sont tronqués par le bord droit (« 26, 31, 62, 24, 533… » avec le dernier chiffre coupé) et passent dans la marge de sécurité droite de 150 px. Ce sont aussi des nombres aléatoires de 3 chiffres qui clignotent (H(floor(t*12)+k)), alors que la directive dit « nombres qui diminuent ». Aucun chiffre réel n'est affiché, ce qui est conforme à FACTS, mais l'effet « diminuer » n'est pas lu.",
+      "where_to_fix": "video/js/scenes/market.js : drawChart(), boucle « flux de chiffres » (c.fillText(..., W-24, y))",
+      "suggested_fix": "Décaler la colonne vers l'intérieur (x = W-190). Remplacer le tirage aléatoire par des valeurs décroissantes : value_k = floor(base_k * (1 - 0.65*fall)), avec base_k fixé par H(k,5). Garder des nombres sans unité ni % et ajouter un « ▼ » devant."
+     }
+    ],
+    "extra_frames_wanted": [
+     37.5,
+     37.8,
+     38,
+     38.3,
+     38.44
+    ]
+   },
+   {
+    "n": 11,
+    "illustrates_sentence": 4,
+    "directive_respected": 4,
+    "verdict": "a_corriger",
+    "what_works": "Le concept en deux couches est clair et conforme. La jauge « VALEUR EN BOURSE » au-dessus de l'entreprise passe du bleu au rouge et descend pendant « perdraient une grande partie de leur valeur en Bourse » (39.16-41.28), avec une flèche rouge vers le bas. En dessous, « ACTIVITÉ RÉELLE ● en fonctionnement » (en vert) montre une usine qui tourne (bras robotisés, convoyeur, caisses, 5 employés, fumée) et une tour de bureaux éclairée. Les interdits sont respectés : aucune explosion, aucun licenciement, aucune fermeture. Les investisseurs défilent autour de « attirer des investisseurs ». À « financer », trois projets en fil de fer apparaissent. À « développement », deux se grisent avec « EN PAUSE » et le troisième reste vert, ce qui évite de tout figer. Les sous-titres sont synchrones et les ticks du sound design suivent la baisse de la jauge.",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 42.05,
+      "what": "Les sous-titres (y 1330-1550) masquent le bas du plan, qui est justement la 2e couche voulue par la directive : machines, convoyeur et employés. À 42.05 les têtes et torses des 5 employés sont derrière « ELLES POURRAIENT ». Sur mes rendus 3D à 40.5 et 41.2, convoyeur, caisses et employés occupent y≈1400-1640 et le pied des bras y≈1300-1450. Pendant presque toute la phrase, « les machines et employés continuent » est partiellement caché. La jauge occupe aussi le haut (label à y<100, hors zone de sécurité, voir ci-dessous).",
+      "where_to_fix": "video/js/scenes/impact.js : SHOTS de S11 (clés t11.bourse+0.3, t11.attirer, t11.financer+0.1, 45.3) + position de la jauge (gx/gy, lblV, lblA)",
+      "suggested_fix": "Resserrer la mise en page verticale pour que l'usine soit dans y≈700-1300 px. Raccourcir la jauge (tube h 9 → 6) et la baisser (gy 18 → ~14). Descendre l'étiquette lblV (gy+6.2 → gy+4.5) et lblA (y 9.2 → 8.2). Viser plus bas sur ces clés (l.y et p.y d'environ -4 à -5 unités). Valider par capture à 40.5, 42.05 et 44.4 : employés au-dessus de y≈1300 et « VALEUR EN BOURSE » sous y≈200."
+     },
+     {
+      "severity": "majeur",
+      "t": 45.34,
+      "what": "Le libellé « PROJETS DE DÉVELOPPEMENT » est tronqué par le bord droit : « PROJETS DE DÉVELOPPEMEN » à 45.34, et déjà à 44.4 sur mon rendu 3D. Le 3e projet vert est coupé à droite et un fragment « E » d'« ACTIVITÉ RÉELLE » reste collé au bord gauche. Le texte est coupé sur plus d'une seconde, pendant les derniers mots de la phrase.",
+      "where_to_fix": "video/js/scenes/impact.js : U.lblP = textPlane('PROJETS DE DÉVELOPPEMENT', {w:12, size:0.5}) et clés SHOTS t11.financer+0.1 et 45.3 (p.x=24 puis 18)",
+      "suggested_fix": "Mettre le libellé sur 2 lignes (« PROJETS DE / DÉVELOPPEMENT ») ou le réduire (w 8, size ≈0.36). Centrer la caméra sur les projets (p.x = l.x = 21) et reculer (p.z 26 → ~34) pour que les 3 projets (x 16 à 26.4) et leur label tiennent dans le cadre."
+     },
+     {
+      "severity": "mineur",
+      "t": 41.8,
+      "what": "Le label « VALEUR EN BOURSE » sort du cadre par le haut. À 41.8 il est à moitié coupé, à 42.05 il est absent, alors que la jauge rouge et la flèche restent visibles sans légende. À 40.5 il est à y≈55-105 et chevauche le badge « MAIS POURQUOI ? ». Il est donc hors de la zone de sécurité (y<260) pendant « Elles pourraient avoir plus de mal à attirer… ».",
+      "where_to_fix": "video/js/scenes/impact.js : U.lblV.position (gy+6.2) + clés SHOTS 41.32 et 42.82",
+      "suggested_fix": "Même correctif que ci-dessus : rapprocher le label de la jauge (gy+4.5) et garder y_label ≥ 260 px dans toutes les clés. Au minimum, garder le label visible jusqu'à 42.6."
+     },
+     {
+      "severity": "mineur",
+      "t": 38.76,
+      "what": "Entrée de la scène : à 38.76, pendant « Certaines entreprises », l'image est surtout un mur de graphique sombre avec sa grille, un bout de courbe rouge sous les sous-titres et un liseré doré du bâtiment à droite. L'entreprise n'est identifiable qu'à partir d'environ 38.9 (tour de bureaux et usine visibles sur mon rendu). Il y a 0,4 s de plan peu lisible au début de la phrase.",
+      "where_to_fix": "video/js/scenes/impact.js : SHOTS, 1re clé (38.46) et 2e clé (39.3)",
+      "suggested_fix": "Avancer la 2e clé de 39.3 à ~38.85, ou démarrer plus large (p [ox-8,5,24], l [ox-2,5,0]) avec le mur rouge en avant-plan gauche, pour que la tour et l'usine soient déjà dans le cadre à « entreprises » (38.82)."
+     },
+     {
+      "severity": "mineur",
+      "t": 43.5,
+      "what": "Les 7 silhouettes « investisseurs » sont translucides (opacité 0.55) et se superposent en file : sur mes rendus à 43.5 et 44.4, des corps fantômes s'empilent. Aucune légende ne dit qu'il s'agit d'investisseurs, alors que « investisseurs » est dit à 43.28-43.98. Le sens (ils s'éloignent ou hésitent) reste ambigu.",
+      "where_to_fix": "video/js/scenes/impact.js : U.inv (opacité 0.55, positions z = 8+(i%4)*1.6)",
+      "suggested_fix": "Passer l'opacité à ~0.85 et espacer les silhouettes en x et z pour éviter la superposition. Ajouter une étiquette discrète « INVESTISSEURS » (textPlane) au-dessus du groupe entre onset(11,/investisseurs/) et +1,2 s."
+     }
+    ],
+    "extra_frames_wanted": [
+     39.4,
+     40.5,
+     41.3,
+     41.8,
+     43,
+     43.6,
+     44.4,
+     45.1
+    ]
+   },
+   {
+    "n": 12,
+    "illustrates_sentence": 4,
+    "directive_respected": 3.5,
+    "verdict": "a_corriger",
+    "what_works": "Le déroulé suit la phrase. À 45.94 (« Et si la panique »), un grand écran vert calme avec des billes lumineuses sur des liens. À 46.8 (« propageait »), l'écran central est rouge et le petit écran voisin reste vert, donc la propagation est progressive. La caméra recule à partir de 47.7 (« conséquences ») et révèle à 49.6-51.0 un réseau de plusieurs écrans, banques (colonnes et fronton), entreprises, maisons et personnes. Le label « MILLIARDAIRES » apparaît pile sur le mot (50.3). Les milliardaires, 4 silhouettes en costume sombre vues de dos sans caricature, forment une petite partie d'un réseau plus large, ce qui illustre « bien plus de monde que les seuls milliardaires ». Le ton est sombre sans catastrophisme (pas d'explosion ni de texte alarmiste). Les pings sonores suivent l'onde et la montée caméra. Aucun chiffre n'est affiché, conformément à FACTS.",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 50.3,
+      "what": "La contagion paraît uniforme, ce que la directive interdit (« les lignes ne doivent pas suggérer que chaque acteur est touché de la même manière »). À 49.6, 50.3 et 51.0, les 7 écrans sont tous rouges avec des courbes qui chutent presque pareil. Banques, usines, maisons et personnes ne changent pas d'apparence, et tous les liens ont la même couleur et la même épaisseur. Cause : tous les nœuds « screen » ont inten ≥ 0.5, donc a > 0.15 et la courbe passe au rouge, et les nœuds non-écran n'ont aucun rendu dépendant de act().",
+      "where_to_fix": "video/js/scenes/impact.js : NODE_DEF.inten (écrans aux indices 0,1,5,9,12,14,19), seuil `a > 0.15` dans drawScreen(), matériaux des nœuds bank/firm/activity/investor",
+      "suggested_fix": "Baisser inten à 0.10-0.18 pour 2 ou 3 écrans périphériques (par exemple idx 5, 12, 19) afin qu'ils restent verts ou quasi plats à la fin. Pour les non-écrans, moduler la couleur selon act(i,t) (légèrement rougie ou assombrie si inten élevé, neutre sinon). Faire varier la teinte des liens selon max(act). Résultat attendu : quelques acteurs touchés fortement, d'autres peu ou pas."
+     },
+     {
+      "severity": "mineur",
+      "t": 51,
+      "what": "À 51.0, les sous-titres (y 1330-1550) recouvrent les torses des 4 milliardaires, qui sont pourtant le référent des deux derniers mots. Le label 3D « MILLIARDAIRES » (y≈1235) fait doublon avec le mot du sous-titre 230 px plus bas, et il passe sur la tête d'un nœud « investisseur » bleu, ce qui donne « MILL▮ARDAIRES ». Les 25 % supérieurs du cadre (y<350) sont vides alors que le réseau est petit.",
+      "where_to_fix": "video/js/scenes/impact.js : 2 dernières clés SHOTS (t12.seuls et E-0.01), U.bill / U.lblB",
+      "suggested_fix": "Remonter l'ensemble : l.y 14.5 → ~9 et p.y 15.5 → ~10 sur ces 2 clés, pour décaler le réseau d'environ 180-200 px vers le haut. Les milliardaires passent alors au-dessus de y≈1300 et le haut du cadre est utilisé. Décaler lblB (x ou y) pour qu'il ne chevauche pas le nœud investisseur, ou le supprimer puisque le sous-titre le dit."
+     },
+     {
+      "severity": "mineur",
+      "t": 49.6,
+      "what": "Lisibilité du réseau final. Les « entreprises » sont des cubes bleu marine unis avec une cheminée, très sombres, peu identifiables. Les liens sont des lignes d'un pixel presque invisibles à taille téléphone : seules les billes crème se voient, ce qui rend l'« onde » et les « lignes lumineuses » peu lisibles. Les personnes ordinaires sont rares (2 ou 3 silhouettes bleues, dont une cachée derrière un écran) face aux 4 milliardaires au premier plan, ce qui affaiblit « bien plus de monde ».",
+      "where_to_fix": "video/js/scenes/impact.js : build() (nœuds kind 'firm', U.links LineSegments, liste kinds)",
+      "suggested_fix": "Donner aux entreprises la texture de fenêtres winTex() et un emissive léger, comme la tour de S11. Remplacer ou doubler les liens par de fins cylindres instanciés (rayon ≈0.05, additifs). Ajouter 6 à 8 petites silhouettes civiles (makePerson scale ≈0.9) près des maisons et usines. Un anneau lumineux qui s'étend depuis le nœud 0 rendrait l'onde plus lisible."
+     },
+     {
+      "severity": "mineur",
+      "t": 45.45,
+      "what": "Trou noir au raccord S11 vers S12. La caméra interpole de 45.3 à 45.64 (eio) sur environ 70 unités de sol vide, sans cut ni flash. À 45.45 l'image est entièrement noire (ciel et grille presque invisibles), pendant environ 3 à 4 images, avec seulement le sous-titre « LEUR DÉVELOPPEMENT. » par-dessus.",
+      "where_to_fix": "video/js/scenes/impact.js : SHOTS, clés 45.3 et 45.64 ; video/index.html : flashs de transition",
+      "suggested_fix": "Faire un vrai cut : ajouter {t:45.63, même pose que la clé 45.3} juste avant {t:45.64, ...}, et un flash(45.64, '#ff9a8a', 0.3, 0.2) dans index.html pour l'habiller, comme à 38.46 et 51.3."
+     }
+    ],
+    "extra_frames_wanted": [
+     46.4,
+     47.2,
+     47.8,
+     49,
+     49.6,
+     50.3,
+     51.25
+    ]
+   }
+  ]
+ },
+ {
+  "reviewer": "relecteur n°5 (scènes 13, 14, 15)",
+  "scenes": [
+   {
+    "n": 13,
+    "illustrates_sentence": 4,
+    "directive_respected": 4,
+    "verdict": "a_corriger",
+    "what_works": "Le visuel suit la phrase mot à mot. Sur « Mais imaginons que les ventes se passent » (51,3 à 52,9 s), la carte du monde en cases est encore froide et bleue, dans le prolongement de S12, et des flux partent du hub central vers de petites silhouettes. Des cubes bleu pâle, les blocs d'actions vendues, voyagent avec les flux. La palette se réchauffe ensuite (53,04 s, sur « malgré tout »), ce qui correspond à « Retour de la palette plus chaleureuse ». Sur « l'argent soit distribué » (54,28 à 54,78 s), la caméra plonge sur un bénéficiaire sur disque doré, entouré d'une foule de silhouettes colorées et de pièces dorées qui tombent. C'est exactement « caméra qui suit un flux jusqu'à un bénéficiaire ». Le compteur est présent sous forme d'un anneau segmenté qui se remplit autour du hub. Aucun chiffre inventé, aucun titre HTML requis par la directive (aucun n'est affiché, c'est correct). Le bénéficiaire est respectueux et non caricatural. Sous-titres exacts, lisibles, mot courant en or aligné sur la voix (IMAGINONS à 51,6 s, MALGRÉ à 53,04 s, DISTRIBUÉ à 54,48 s). Rien d'important n'est masqué par les sous-titres.",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 54.48,
+      "what": "Surexposition et traînées de flux qui traversent la caméra en fin de scène. À 54,48 s, environ 19 % des pixels du haut du cadre (0 à 700 px) sont quasi blancs et 36 % ont une luminance supérieure à 200. Un faisceau de traînées additives jaune et blanc recouvre toute la moitié haute, et la carte n'est plus lisible. Le badge « MAIS POURQUOI ? » flotte dans ce lavis blanc. Un rendu 3D seul à 54,2 s montre aussi une grosse colonne dorée saturée sur la gauche, au moment où la caméra traverse le hub. Le défaut dure environ 0,4 s, de 54,2 à 54,7 s, et c'est la dernière image avant la coupe vers S14.",
+      "where_to_fix": "video/js/scenes/wealth_map.js (fonction updateS13Fx : constantes burst, fade, paintFlows, opacité de M.beam), video/js/scenes/wealth.js (clés caméra de S13 entre 54,12 et 54,77 s)",
+      "suggested_fix": "Avancer et raccourcir l'extinction des flux et du faisceau : fade = sstep(54.2, 54.5, t) au lieu de sstep(54.45, 54.75, t), et dans base multiplier par (1 - 0.9*sstep(54.2, 54.45, t)). Plafonner M.beam.material.opacity à environ 0,25 et la ramener à 0 quand la caméra descend sous y = 15. Si besoin, moduler l'alpha des traînées par la distance à la caméra, ou passer leur blending de Additive à Normal pour la dernière seconde."
+     },
+     {
+      "severity": "mineur",
+      "t": 54.48,
+      "what": "Un parallélépipède translucide à arêtes vives, plus clair que le fond, sert de faisceau derrière le bénéficiaire. Il couvre à peu près x = 445 à 1010 px et y = 250 à 1170 px. Il se lit comme une boîte plate, pas comme un cône de lumière, et crée un bord vertical net en plein milieu du plan final.",
+      "where_to_fix": "video/js/scenes/wealth_map.js (M.heroBeam, M.beam)",
+      "suggested_fix": "Remplacer la géométrie du faisceau par un cône ou un cylindre évasé à bords dégradés (texture de gradient horizontal), ou ramener l'opacité de M.heroBeam à 0,10 maximum. Le fondre dès 54,3 s."
+     },
+     {
+      "severity": "mineur",
+      "t": 53.04,
+      "what": "La carte de S13 ne se reconnaît pas comme le retour à la carte de S3. S3 est un relief vert monétaire continu, alors que S13 est une grille de cases bleue puis violet saturé. Ce violet vient d'un éclairage orange sur des cases bleues, et il détonne avec la direction artistique noir, vert et or. La directive dit « Retour à la carte du monde de la scène précédente (S3) » et « palette plus chaleureuse ».",
+      "where_to_fix": "video/js/scenes/wealth_map.js (couleur de base des cases) et wealth.js (lignes mixHex de warm13 : hemi.color, hemi.groundColor, sun.color)",
+      "suggested_fix": "Teinter les cases vers le vert ou sarcelle de S3 (environ 0x2f8f6a) ou vers un ambre sombre. Pour la montée en chaleur, mélanger vers 0xffdcae sans passer par du violet, en baissant la saturation du bleu de départ (0x7fa6f0 vers un bleu-vert)."
+     },
+     {
+      "severity": "mineur",
+      "t": 54.7,
+      "what": "Nuance de la directive peu portée par l'image : « la distribution d'argent est le point de départ d'une autre question, pas la fin du problème ». La scène se termine sur une pose très triomphale (bras levés, pluie de pièces, flash chaud vers S14) et aucun élément visuel n'indique que ce n'est qu'une hypothèse ou un début. L'ensemble reste acceptable parce que « imaginons » est dans la voix et le sous-titre, et que S15 inverse la tendance.",
+      "where_to_fix": "video/js/scenes/wealth_map.js (animation M.heroP : bras, saut, sstep 54,35 à 54,7)",
+      "suggested_fix": "Optionnel : atténuer la célébration (bras à mi-hauteur, pas de saut) et garder un sourire calme, ou garder la pose mais couper la pluie de pièces 0,2 s avant la fin pour que le plan final soit celui d'une personne qui reçoit, pas d'un dénouement."
+     }
+    ],
+    "extra_frames_wanted": [
+     52.4,
+     54.2,
+     54.65,
+     54.76
+    ]
+   },
+   {
+    "n": 14,
+    "illustrates_sentence": 4.5,
+    "directive_respected": 4.5,
+    "verdict": "a_corriger",
+    "what_works": "Excellent enchaînement, très précis par rapport à la voix. « Des millions de personnes » : la foule de silhouettes colorées surgit derrière la bénéficiaire (rendu 3D à 55,5 s) et un plan large la montre immense à 56,3 s. Sur « payer » (56,90 à 57,18 s), la facture passe de « À PAYER » à « RÉGLÉE » avec tampon et coche verte (QC 57,11 s). Le loyer est réglé (maison rouge, facture « LOYER », coche). Sur « factures », le panier se remplit de pain, lait, fruits et légumes (visible à 59,14 s). Sur « et améliorer » (58,0 à 58,55 s), le plan bus scolaire montre l'accès à un service : un enfant avec cartable monte à bord, puis salue à la fenêtre, ce qui répond à « une personne qui accède à un service nécessaire ». Sur « quotidien » (59,14 s), l'intérieur chaleureux se bâtit (fenêtre, rideaux, guirlande lumineuse, plante, lampe, tapis) : c'est la « transition vers un intérieur plus confortable ». Le ton devient franchement positif et respectueux, sans caricature, avec un visage souriant et une lumière de plus en plus chaude. Aucun chiffre. Les sous-titres suivent bien (DES à 55,08 s, PAYER à 57,11 s, QUOTIDIEN à 59,14 s).",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 55.08,
+      "what": "Le premier groupe de sous-titres, « DES MILLIONS DE PERSONNES POURRAIENT » (5 mots, 36 caractères, de 54,78 à 56,58 s), passe sur trois lignes. La ligne du bas (« POURRAIENT ») touche le haut du tampon rouge « À PAYER » et la masque en partie (crop à 55,08 s). « À PAYER » est l'état de départ de la transformation que la voix va décrire. Les deux premières lignes sont posées sur le papier crème de la facture avec un texte crème, donc seule l'ombre portée assure le contraste. Le bloc déborde aussi au-dessus de la zone prévue de 2 lignes, qui commence à y = 1330.",
+      "where_to_fix": "scripts/make_captions.py (règle de découpage des groupes), puis régénération de video/js/captions.js. Éventuellement le cadrage de la première clé caméra de S14, dans video/js/scenes/life_s14.js.",
+      "suggested_fix": "Limiter tout groupe à 2 lignes, soit environ 28 caractères maximum. Dans make_captions.py, flusher aussi quand len(txt) + 1 + len(mot_suivant) > 28 et len(cur) >= 3. On obtient « DES MILLIONS DE PERSONNES » puis « POURRAIENT ENFIN PAYER », avec le texte du script inchangé. Optionnel : ajouter un léger voile sombre derrière les sous-titres (ombre plus large) ou remonter la facture dans le cadre pour la sortir de la zone y = 1330 à 1540."
+     },
+     {
+      "severity": "mineur",
+      "t": 57.11,
+      "what": "Le « R » de « RÉGLÉE » est partiellement caché sur la grande facture. La petite facture « LOYER », qui est devant, recouvre son bord gauche (cadrages à 57,11 et 59,14 s). Le mot se lit « ÉGLÉE » à première vue, ce qui affaiblit le mot qu'il faut comprendre en une seconde.",
+      "where_to_fix": "video/js/scenes/life_s14.js (position de inv2, dans la ligne qui définit inv2.g.position)",
+      "suggested_fix": "Décaler inv2 vers la gauche et vers l'avant, par exemple de x = -0,66 à -0,82 et z de 0,62 à 0,66. Ou réduire légèrement l'échelle du tampon sur inv1 pour qu'il reste à l'intérieur du papier."
+     },
+     {
+      "severity": "mineur",
+      "t": 57.11,
+      "what": "Au moment du tampon (57,11 s), la tête de tampon est un gros bloc noir flottant en haut du cadre. Il est coupé par le bord supérieur, touche le badge « MAIS POURQUOI ? » et n'est relié à aucun corps cohérent (un bout de bras brun). Il disparaît à 57,5 s. Le plan se lit comme un rectangle noir inexpliqué pendant environ 0,3 s.",
+      "where_to_fix": "video/js/scenes/life_s14.js (stampTool, position tool1, caméra à T14.et - 0,02)",
+      "suggested_fix": "Cadrer un peu plus large ou plus bas pendant le coup de tampon (caméra y -0,15) pour garder le tampon dans le cadre sous le badge, ou le faire sortir du champ plus vite après l'impact (au lieu de le laisser lever)."
+     },
+     {
+      "severity": "mineur",
+      "t": 55.08,
+      "what": "Pendant les 0,5 premières secondes (voix « Des »), le plan est sombre et terne, fond brun foncé, sans foule ni lumière. La directive demande un ton positif. La foule n'apparaît qu'à environ 55,6 s, quasi à la fin du mot « millions ».",
+      "where_to_fix": "video/js/scenes/life_s14.js (S14_LIGHTS, S14_ENV et le pop de la foule lointaine, ligne S.far)",
+      "suggested_fix": "Avancer le lever de lumière et l'apparition de la foule de 0,3 s (pop sur T14.millions - 0,15 au lieu de T14.millions + 0,34) et relever la lumière hémisphérique de départ (0,6 vers 0,8)."
+     }
+    ],
+    "extra_frames_wanted": [
+     55.6,
+     56.3,
+     57.95,
+     58.3,
+     58.55
+    ]
+   },
+   {
+    "n": 15,
+    "illustrates_sentence": 4.5,
+    "directive_respected": 4.5,
+    "verdict": "ok",
+    "what_works": "Scène très réussie et fidèle à la directive. Sur « cet argent dépensé » (60,22 à 60,94 s), la pile de billets part en vol vers quatre pastilles étiquetées LOGEMENT, NOURRITURE, ÉNERGIE, TRANSPORT : ce sont exactement les dépenses essentielles listées par le client. Le calendrier tourne JANVIER, FÉVRIER, MARS, AVRIL, avec des croix rouges et des pictogrammes récurrents (maison, pain, éclair, bus). La jauge « SOLDE » sans aucun chiffre passe de pleine à un seul segment rouge. Sur « pas de revenus stables », un tuyau avec un robinet rouge fermé et une étiquette « FERMÉ » apparaît, avec des gouttes qui n'arrivent pas jusqu'à la table. Le rendu 3D à 62,2 s montre aussi la plaque « REVENU STABLE ». Cela traduit « un flux régulier qui n'est pas présent ». Sur « le problème risque de revenir », quatre factures « À PAYER » se reposent l'une après l'autre sur la table (QC 64,42 s), pendant que la caméra s'approche du solde restant. Aucun jugement porté sur les personnes (aucune personne à l'écran, l'argent va à des besoins essentiels), et le mécanisme versement unique contre besoins récurrents est clair. Raccord réussi avec S14 (même pièce, même lampe, même facture « LOGEMENT RÉGLÉE »). L'ambiance se refroidit légèrement sans devenir catastrophiste. Sous-titres lisibles et en place.",
+    "issues": [
+     {
+      "severity": "mineur",
+      "t": 64.42,
+      "what": "Les en-têtes de facture sont tronqués par la largeur du papier : « NOURRITURI » et « TRANSPOR » coupés à droite, « LOGEMENT » qui touche le bord, et « ÉNERGIE » presque illisible (texte blanc sur en-tête orange pâle et grisé). Le même défaut est déjà visible sur la petite facture « LOGEMENT » à 59,74 s. Les en-têtes sont aussi petits pour un téléphone.",
+      "where_to_fix": "video/js/scenes/durable_kit.js (fonction texInvoice, ligne du fillText de l'étiquette)",
+      "suggested_fix": "Dimensionner la police par mesure : g.font = 900 ${s}px ; réduire s tant que g.measureText(label).width > w - 82 - 10. Environ 22 px pour NOURRITURE et TRANSPORT, 26 px pour LOGEMENT. Assombrir un peu l'en-tête d'ÉNERGIE pour garder le contraste avec le blanc."
+     },
+     {
+      "severity": "mineur",
+      "t": 59.74,
+      "what": "Incohérence de logique au tout début. Le calendrier démarre à 59,14 s, soit 0,3 s avant le début de la scène, à 27 jours par seconde. Au premier plan visible, JANVIER a déjà ses jours barrés jusqu'au 16 (QC 59,74 s), alors que la pile est encore pleine et la jauge « SOLDE » à 100 % (le rendu 3D à 59,5 s montre même la jauge en train de se remplir). Le temps semble avancer sans que l'argent baisse. Les billets ne partent qu'à partir de 59,88 s.",
+      "where_to_fix": "video/js/scenes/durable_s15.js (constantes PERIOD_A et RATE, FLIPS)",
+      "suggested_fix": "Faire commencer le décompte vers 59,6 à 59,8 s, c'est-à-dire PERIOD_A[0] ≈ 59.7, puis accélérer RATE du premier mois (≈ 45 j/s) pour que JANVIER finisse toujours au flip de 60,26 s. Ou masquer les croix du calendrier tant que la pile n'est pas complète."
+     },
+     {
+      "severity": "mineur",
+      "t": 62.08,
+      "what": "La plaque « REVENU STABLE » est trop petite pour un écran de téléphone (lettres d'environ 18 px de haut dans un cadre 1080 px de large), sombre sur sombre, et elle n'est pas encore là à l'instant du QC (elle apparaît à 62,12 s, sur « revenus »). Au moment échantillonné, le tuyau seul porte une étiquette « FERMÉ » sans mention de ce qu'il représente. Le tuyau est aussi coupé par le bord gauche du cadre.",
+      "where_to_fix": "video/js/scenes/durable_s15.js (textPlane « REVENU STABLE », la ligne PIPE, et la fonction pop sur T15.revenus)",
+      "suggested_fix": "Agrandir la plaque (w 1,1 à 1,8, h 0,26 à 0,42), éclaircir son fond et sa bordure, et la faire apparaître sur « toujours » (T15.toujours, 61,58 s) au lieu de « revenus ». Décaler PIPE.x0 de -2,8 à -2,2 pour que le robinet soit plus central dans le cadre."
+     },
+     {
+      "severity": "mineur",
+      "t": 64.42,
+      "what": "Le plan final recadre le calendrier d'avril, qui est coupé par le haut du cadre. Le badge « MAIS POURQUOI ? » se superpose aux croix rouges et aux icônes du calendrier : encombrement visuel et texte du badge moins net.",
+      "where_to_fix": "video/js/scenes/durable.js (dernière clé de SHOTS pour S15, t = B15 - 0.01) ou durable_s15.js (visibilité du calendrier en fin de scène)",
+      "suggested_fix": "Baisser légèrement la cible de la dernière clé caméra (l.y de 1,1 à 0,8) pour sortir le calendrier du haut du cadre, ou faire disparaître le calendrier (échelle ou opacité) à partir d'environ 64,0 s pour que seuls le solde et les factures restent à l'image."
+     }
+    ],
+    "extra_frames_wanted": [
+     59.5,
+     60.5,
+     62.3,
+     63.4
+    ]
+   }
+  ]
+ },
+ {
+  "reviewer": "relecteur n°6 (scènes 16, 17, 18)",
+  "scenes": [
+   {
+    "n": 16,
+    "illustrates_sentence": 3.5,
+    "directive_respected": 4,
+    "verdict": "a_corriger",
+    "what_works": "Le concept est le bon et il est lisible. À gauche, une pluie de billets tombe sur un tas qui ne grossit plus, avec le bandeau « ARGENT IMMÉDIAT » et des personnes qui apparaissent autour du tas après « personnes » (visible à 67,81). À droite, une plateforme sombre porte les six éléments de stabilité : revenus, emplois, logements, soins, éducation, services. Les socles pointillés sont d'abord vides puis se remplissent, ce qui donne bien l'« apparition successive ». Un éclair sur la ligne de partage dorée marque le « Mais » à 67,81. La caméra traverse la séparation puis recule à 70,60 pour réunir les deux côtés dans une même composition. Le titre « AIDER ≠ RÉSOUDRE DURABLEMENT » est exact, arrive mot à mot sur « aider », « mais », « supprimer » et « durablement », et reste dans le cadre. La nuance de la directive est respectée : aucun chiffre, aucune promesse d'éradication. Les sous-titres sont synchrones (REDISTRIBUER en or à 65,02, PAUVRETÉ en or à 70,60).",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 70.6,
+      "what": "Les titres HTML et les étiquettes 3D se chevauchent. Les bandeaux lointains « STABILITÉ DURABLE », « ÉDUCATION » et « SERVICES » passent juste derrière « RÉSOUDRE » et « DURABLEMENT ». On voit des textes fantômes (« ST▢B▢LIT▢… », « ÉD…TI… S…C… ») qui salissent le titre et sont illisibles, alors que l'éducation et les services sont justement des éléments demandés par la directive. Le titre occupe y≈250–735 px, et la plateforme est trop haute dans le cadre au dernier plan.",
+      "where_to_fix": "video/index.html (section #s-aider, lignes 71-76) et video/js/scenes/durable.js (clés SHOTS S16 à t=70.25 et B16-0.01) ; accessoirement video/js/scenes/durable_s16.js (S.labR, ligne 87)",
+      "suggested_fix": "Rendre le titre plus compact et plus haut pour que son bas soit ≤ ~580 px, au-dessus du premier bandeau 3D. Par exemple #s-aider .ov top:150px, tailles a1≈112px, a2≈140px, a3≈90px, a4≈86px. Faire disparaître S.labR (« STABILITÉ DURABLE ») dès T16.durablement+0.3, puisqu'il répète le titre. Si on préfère décaler la caméra, viser plus loin (l z ≈ -4.5 sur les deux dernières clés) mais surveiller que les accessoires ne descendent pas sous le sous-titre à y≈1400. Revérifier à 69,6 et 70,6."
+     },
+     {
+      "severity": "majeur",
+      "t": 70.6,
+      "what": "Les étiquettes des tuiles sont mal associées à leurs objets dans la composition finale (caméra haute et étiquettes flottant à y=3.5). « LOGEMENTS » est posé sur le mortier de diplôme (éducation), « SOINS » sur le bus (services), « REVENUS » sous la maison, et « EMPLOIS » sous l'hôpital à croix rouge. Le spectateur lit « diplôme = logements » et « maison = revenus ». C'est une erreur de sens au moment de la conclusion visuelle.",
+      "where_to_fix": "video/js/scenes/durable_s16.js ligne 82 : lab.position.set(0, 3.5, 0.5)",
+      "suggested_fix": "Rapprocher chaque étiquette de son propre socle : par exemple lab.position.set(0, 1.4, 1.5), devant et au pied du socle. On peut aussi ajouter un petit trait vertical entre l'étiquette et l'objet, ou diminuer la hauteur d'accroche. Vérifier qu'à 68,6 et 69,7 (caméra plus basse) l'étiquette n'est pas masquée par la rangée de tuiles qui est devant."
+     },
+     {
+      "severity": "mineur",
+      "t": 67.81,
+      "what": "Le bandeau « ARGENT IMMÉDIAT » est coupé par le bord gauche du cadre (on lit « RGENT IMMÉDIAT ») pendant le traveling vers la ligne de partage. Le petit libellé « REVENUS » sur la plateforme de droite est minuscule et illisible à cet instant. Dans le code, le setS qui réduit le bandeau après « Mais » est écrasé par le S.labL.scale.set(pop,pop,1) de la ligne suivante, donc le bandeau garde sa pleine taille.",
+      "where_to_fix": "video/js/scenes/durable_s16.js ligne 115 (S.labL)",
+      "suggested_fix": "Retirer le second scale.set (ou le multiplier par le facteur de réduction) pour que le bandeau rétrécisse après « Mais ». Sinon le masquer à T16.mais+0.4, ou le décaler à x = LX+1.2. Il est déjà lu à 65,02."
+     },
+     {
+      "severity": "mineur",
+      "t": 65.02,
+      "what": "Sous-titre « REDISTRIBUERUNE FORTUNE PEUT » : l'espace entre REDISTRIBUER et UNE disparaît. Le mot actif est agrandi à 1.07, et comme il est très long (~570 px) il dévore le gap de 24 px. À 67,81 les espaces sont corrects.",
+      "where_to_fix": "video/index.html ligne 149 (scale: 1.07) et CSS .cap gap (ligne 26)",
+      "suggested_fix": "Mettre le scale du mot actif à 1.03, ou passer .cap à gap:4px 34px. Alternative : transform-origin bas et marge horizontale sur .cap i."
+     },
+     {
+      "severity": "mineur",
+      "t": 65.02,
+      "what": "Les sous-titres (y≈1330–1530) recouvrent le bas du tas de billets à 65,02, et le bas des personnes et de la ligne de partage dorée à 67,81. Ce sont les éléments clés du côté gauche. Rien de fatal, car le texte reste lisible grâce à l'ombre.",
+      "where_to_fix": "video/js/scenes/durable.js, clés SHOTS S16 à B15, 65.9 et 67.0",
+      "suggested_fix": "Remonter le cadrage de ~120–150 px : baisser un peu l.y du point visé (3.4→2.6) sur les trois premières clés S16, pour que le tas et le groupe de personnes restent au-dessus de y≈1330."
+     }
+    ],
+    "extra_frames_wanted": [
+     66.4,
+     67.3,
+     68.4,
+     69.6
+    ]
+   },
+   {
+    "n": 17,
+    "illustrates_sentence": 4.5,
+    "directive_respected": 4.5,
+    "verdict": "ok",
+    "what_works": "C'est la scène la plus précise des trois, et elle suit la phrase mot à mot. À 71,20, sur « l'argent », on voit le tas de billets avec pièces et lingots, soit « ce qu'on possède ». À 75,03, sur « des entreprises », une usine apparaît avec son étiquette ENTREPRISES, et des arcs d'argent partent du tas vers elle. À 78,86, sur « fonctionner », le travelling arrière montre tout le système : ENTREPRISES, EMPLOIS (tour de bureaux avec salariés), SERVICES (hôpital à croix), LOGEMENTS (maisons) et BIENS (entrepôt avec colis qui circulent). Des arcs verts et dorés relient le tout au tas central. L'économie apparaît comme un réseau interconnecté, sans cause unique, sans caricature, avec un ton serein et chaud, un fond différent de celui de S16. Le plan est centré et rien n'est masqué par les sous-titres, qui restent en dessous de la scène. Les étiquettes sont calées sur les mots dans le code (T17.entreprises, emplois, biens, services), les clacks et pings du son sont posés sur les mêmes mots, et l'accord de résolution tombe à 77,56. Aucun texte d'écran n'est exigé par la directive pour cette scène, et aucun chiffre n'est affiché.",
+    "issues": [
+     {
+      "severity": "mineur",
+      "t": 78.86,
+      "what": "Dans le plan final, quelques étiquettes se chevauchent légèrement avec les objets voisins : « LOGEMENTS » mord sur la base de l'hôpital, « BIENS » recouvre le pied de la tour EMPLOIS et ses salariés. Les étiquettes sont aussi petites (~24 px de haut) pour un téléphone. Les objets restent identifiables, donc ce n'est pas bloquant.",
+      "where_to_fix": "video/js/scenes/durable_s17.js (NODE_DEF : valeurs top de logements/biens, taille de textPlane) ",
+      "suggested_fix": "Remonter « LOGEMENTS » et « BIENS » de ~0.5 (top 2.7→3.2) ou agrandir les étiquettes d'environ 15 % pour la dernière prise de vue. Vérifier à 77,9."
+     }
+    ],
+    "extra_frames_wanted": [
+     75.55,
+     76.3,
+     76.9,
+     77.9
+    ]
+   },
+   {
+    "n": 18,
+    "illustrates_sentence": 4,
+    "directive_respected": 3.5,
+    "verdict": "a_corriger",
+    "what_works": "Le retour à la salle et à la montagne de billets du début, comme le demande la directive (vue de face, piliers de pièces, lingots, écrans de chiffres). Des billets s'envolent de part et d'autre de la montagne vers des silhouettes aux bras levés, qui se trouvent au pied de la montagne, de chaque côté. La caméra avance vers la montagne entre 79,46, 81,56 et 83,66. Un grand point d'interrogation 3D doré apparaît au centre à la fin, sur le tas de billets, avec la foule de chaque côté. Le titre « TU LE FERAIS ? » (« TU LE » crème, « FERAIS ? » or) est exact, lisible et bien dans le cadre. Aucune phrase n'est ajoutée après la question. La mention F5 (« Scénario hypothétique… ») est présente en bas. Le code prévoit une résolution musicale puis un impact net et deux pings sur « ferais » (autour de 82,96), conformément à la directive de son final net. Ces sons n'ont pas été écoutés ici. Les sous-titres suivent la voix (FORTUNE en or à 81,44), avec « TOUTE LA FORTUNE DES MILLIARDAIRES, » lisible.",
+    "issues": [
+     {
+      "severity": "majeur",
+      "t": 83.66,
+      "what": "Doublon de texte à l'écran : « TU LE FERAIS ? » apparaît deux fois en même temps, en gros titre (haut, y≈310–590) et en sous-titre karaoké (y≈1430). Ça dure de ~82,67 à ~83,79 : le titre slamme à 82,67, le dernier chunk de sous-titres est affiché de 82,6 à 83,79. Pour la composition finale que la directive veut « forte et immédiatement lisible », la répétition affaiblit l'effet.",
+      "where_to_fix": "video/index.html, boucle des sous-titres (lignes 144-151) et lignes 127-129",
+      "suggested_fix": "Ne pas créer le dernier chunk de sous-titres, dont le texte est exactement celui du titre, par exemple en tête de boucle : if (c.w.map(x=>x[2]).join(' ') === 'TU LE FERAIS ?') return; Le titre cinétique (Tu le / ferais ?) joue le rôle de sous-titre synchronisé. Variante : garder le sous-titre jusqu'à 82,6 et ne glisser le titre qu'à la fin de la voix (~83,36), ce qui raccourcit son temps d'affichage."
+     },
+     {
+      "severity": "mineur",
+      "t": 81.44,
+      "what": "Les « flux » demandés ne sont pas très lisibles. Les billets giclent en gerbe symétrique, y compris vers le plafond, comme une éruption. Les silhouettes sont deux petits groupes d'une douzaine de personnages au pied de la montagne, en partie masqués par les piliers de pièces à 81,44. On sent peu la « population mondiale » vers laquelle l'argent serait divisé.",
+      "where_to_fix": "video/js/scenes/wealth_hall.js (updateBills, updateCrowd) et video/js/scenes/wealth.js (SHOTS S18)",
+      "suggested_fix": "Orienter les billets en arcs bas vers deux ou trois groupes de silhouettes et supprimer les trajectoires vers le plafond. Ajouter quelques traînées lumineuses ou rubans dorés entre la montagne et chaque groupe. Augmenter le nombre et l'étalement des silhouettes, dégagées des piliers de pièces."
+     },
+     {
+      "severity": "mineur",
+      "t": 83.66,
+      "what": "La mention F5 (23 px) manque de contraste : à 81,44 sa première partie est crème sur le pilier de pièces beige, et à 83,66 elle passe sur la figurine blanche et les billets. Elle frôle aussi le point du « ? » 3D juste au-dessus. Elle reste lisible grâce à l'ombre, mais elle est fragile sur téléphone.",
+      "where_to_fix": "video/index.html, CSS .src (ligne 28) et #legal (ligne 82)",
+      "suggested_fix": "Ajouter un fond discret, par exemple background:rgba(4,16,11,.55); padding:6px 14px; border-radius:10px; ou renforcer le text-shadow. Descendre légèrement #legal (top:1255→1275) pour dégager le « ? »."
+     }
+    ],
+    "extra_frames_wanted": [
+     80.3,
+     82.9,
+     83.95
+    ]
+   }
+  ]
+ }
+]
