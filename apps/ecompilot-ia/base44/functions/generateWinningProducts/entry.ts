@@ -140,6 +140,11 @@ CRITÈRES DE QUALITÉ STRICTS — un produit n’est retenu que s’il les rempl
 
 INTERDITS : les produits clichés du dropshipping (brosse dérouleur, lampe lune, coussin cervical générique, etc.) sauf si tu apportes un angle réellement nouveau. Ne propose jamais un produit sans preuve de demande actuelle.
 
+ÉCHELLE DES DEUX NOTES — à respecter strictement :
+- profitScore est un entier de 0 à 100, JAMAIS une note sur 10 ni sur 20. Repères : 0-39 produit à éviter, 40-59 moyen, 60-74 correct, 75-89 très bon, 90-100 exceptionnel. Un produit que tu recommandes de tester se situe normalement entre 65 et 90. Écrire 8 au lieu de 80 est une erreur.
+- breakoutPotential suit la même échelle de 0 à 100, jamais sur 10.
+- estMarginPct est un entier en pourcentage de 0 à 100 (ex. 72 pour 72 %).
+
 Pour chacun des dix produits, remplis tous les champs. estCost et estSellPrice sont des chaînes avec le symbole € (ex. « 8 € », « 39 € »). demandGrowth est une chaîne en pourcentage (ex. « +148 % »). imagePrompt est en anglais, de 5 à 10 mots, fond blanc. aliexpressQuery est en anglais, optimisée pour la recherche AliExpress. adQuery est en anglais, optimisée pour la Facebook Ad Library. whyNow explique en deux phrases pourquoi c’est le bon moment.`;
 
     const res = await llm(req, prompt, { jsonSchema: SCHEMA, web: true, model: 'gemini_3_1_pro' });

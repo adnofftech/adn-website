@@ -96,6 +96,7 @@ Le document de spécification contenait quelques incohérences internes, tranch�
 - `analyzeProfit` est rangée avec les fonctions de génération IA (elle appelle `llm`), et non avec les fonctions Shopify.
 - `getShopifyProductFinance` renvoie la liste des produits quand aucun `product_id` n’est fourni, pour que la page « Marge nette produit » propose un sélecteur.
 - Les sections de type `list` de `runDailyPrompt` renvoient un élément par ligne dans `content` (le schéma du prompt ne prévoyait qu’un champ texte).
+- `generateWinningProducts` énonce explicitement l’échelle des notes dans le prompt (`profitScore` et `breakoutPotential` de 0 à 100, jamais sur 10) : le prompt d’origine ne la donnait que dans la description du schéma JSON, et les modèles renvoyaient alors des notes sur 10.
 - Les avatars des agents sont des SVG dessinés dans le code plutôt que des images téléversées, et les visuels de l’accueil sont deux SVG locaux (`src/assets/`), faute de médias fournis.
 
 ## Vérifications
