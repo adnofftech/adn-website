@@ -1,0 +1,27 @@
+{
+  // Compte Shopify de l’utilisateur (Admin API). Un seul par utilisateur.
+  "name": "ShopifyAccount",
+  "type": "object",
+  "properties": {
+    "shop_domain": { "type": "string", "description": "Domaine myshopify.com de la boutique" },
+    "access_token": { "type": "string", "description": "Jeton d’accès Admin API (shpat_...)" },
+    "shop_name": { "type": "string", "description": "Nom public de la boutique" },
+    "currency": { "type": "string", "description": "Devise de la boutique (EUR, USD...)" },
+    "plan_display_name": { "type": "string", "description": "Forfait Shopify affiché" },
+    "status": {
+      "type": "string",
+      "enum": ["connected", "error"],
+      "default": "connected",
+      "description": "État de la connexion"
+    },
+    "product_count": { "type": "number", "default": 0, "description": "Nombre de produits détectés" },
+    "last_sync_date": { "type": "string", "format": "date-time", "description": "Dernière synchronisation" }
+  },
+  "required": ["shop_domain", "access_token"],
+  "rls": {
+    "read": { "created_by_id": "{{user.id}}" },
+    "create": { "created_by_id": "{{user.id}}" },
+    "update": { "created_by_id": "{{user.id}}" },
+    "delete": { "created_by_id": "{{user.id}}" }
+  }
+}

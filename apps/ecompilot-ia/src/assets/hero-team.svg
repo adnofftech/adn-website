@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="Six assistants reliés autour d’une boutique">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="38%" r="62%">
+      <stop offset="0%" stop-color="#f5b800" stop-opacity=".30"/>
+      <stop offset="55%" stop-color="#f5b800" stop-opacity=".06"/>
+      <stop offset="100%" stop-color="#0d0e10" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#15171a"/>
+      <stop offset="100%" stop-color="#0b0c0d"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f5b800" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#f5b800" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#f5b800" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <g stroke="#ffffff" stroke-opacity=".045">
+    <path d="M0 150h1600M0 300h1600M0 450h1600M0 600h1600M0 750h1600"/>
+    <path d="M200 0v900M400 0v900M600 0v900M800 0v900M1000 0v900M1200 0v900M1400 0v900"/>
+  </g>
+  <rect width="1600" height="900" fill="url(#glow)"/>
+
+  <!-- liaisons -->
+  <g fill="none" stroke="#f5b800" stroke-opacity=".30" stroke-width="1.6">
+    <path d="M800 450 L520 250"/><path d="M800 450 L1080 250"/>
+    <path d="M800 450 L420 470"/><path d="M800 450 L1180 470"/>
+    <path d="M800 450 L560 680"/><path d="M800 450 L1040 680"/>
+  </g>
+  <rect x="300" y="447" width="1000" height="3" fill="url(#beam)"/>
+
+  <!-- boutique au centre -->
+  <g>
+    <circle cx="800" cy="450" r="96" fill="#f5b800" fill-opacity=".10" stroke="#f5b800" stroke-opacity=".55" stroke-width="2"/>
+    <circle cx="800" cy="450" r="140" fill="none" stroke="#f5b800" stroke-opacity=".18" stroke-width="1.2" stroke-dasharray="7 11"/>
+    <path d="M752 428h96l-12-26h-72z" fill="none" stroke="#f5b800" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M760 428v58h80v-58" fill="none" stroke="#f5b800" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M784 486v-28h32v28" fill="none" stroke="#f5b800" stroke-width="2.2"/>
+  </g>
+
+  <!-- six agents -->
+  <g>
+    <g transform="translate(520 250)"><circle r="42" fill="#15171a" stroke="#5fae9a" stroke-width="2.4"/><circle cy="-8" r="13" fill="none" stroke="#5fae9a" stroke-width="2.2"/><path d="M-19 26c0-13 8.6-20 19-20s19 7 19 20" fill="none" stroke="#5fae9a" stroke-width="2.2"/></g>
+    <g transform="translate(1080 250)"><circle r="42" fill="#15171a" stroke="#e89657" stroke-width="2.4"/><circle cy="-8" r="13" fill="none" stroke="#e89657" stroke-width="2.2"/><path d="M-19 26c0-13 8.6-20 19-20s19 7 19 20" fill="none" stroke="#e89657" stroke-width="2.2"/></g>
+    <g transform="translate(420 470)"><circle r="42" fill="#15171a" stroke="#d06a96" stroke-width="2.4"/><circle cy="-8" r="13" fill="none" stroke="#d06a96" stroke-width="2.2"/><path d="M-19 26c0-13 8.6-20 19-20s19 7 19 20" fill="none" stroke="#d06a96" stroke-width="2.2"/></g>
+    <g transform="translate(1180 470)"><circle r="42" fill="#15171a" stroke="#5d97c9" stroke-width="2.4"/><circle cy="-8" r="13" fill="none" stroke="#5d97c9" stroke-width="2.2"/><path d="M-19 26c0-13 8.6-20 19-20s19 7 19 20" fill="none" stroke="#5d97c9" stroke-width="2.2"/></g>
+    <g transform="translate(560 680)"><circle r="42" fill="#15171a" stroke="#9277c9" stroke-width="2.4"/><circle cy="-8" r="13" fill="none" stroke="#9277c9" stroke-width="2.2"/><path d="M-19 26c0-13 8.6-20 19-20s19 7 19 20" fill="none" stroke="#9277c9" stroke-width="2.2"/></g>
+    <g transform="translate(1040 680)"><circle r="42" fill="#15171a" stroke="#d9b441" stroke-width="2.4"/><circle cy="-8" r="13" fill="none" stroke="#d9b441" stroke-width="2.2"/><path d="M-19 26c0-13 8.6-20 19-20s19 7 19 20" fill="none" stroke="#d9b441" stroke-width="2.2"/></g>
+  </g>
+</svg>

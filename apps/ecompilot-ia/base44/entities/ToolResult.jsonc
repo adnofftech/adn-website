@@ -1,0 +1,23 @@
+{
+  // Mémoire des résultats : un enregistrement par outil et par utilisateur.
+  "name": "ToolResult",
+  "type": "object",
+  "properties": {
+    "tool_key": {
+      "type": "string",
+      "description": "Clé de l’outil (chemin de route, ex : /roadmap)"
+    },
+    "data": {
+      "type": "object",
+      "description": "Dernier résultat généré par l’outil, restauré au retour sur la page"
+    },
+    "savedAt": { "type": "string", "format": "date-time", "description": "Date du dernier enregistrement" }
+  },
+  "required": ["tool_key"],
+  "rls": {
+    "read": { "created_by_id": "{{user.id}}" },
+    "create": { "created_by_id": "{{user.id}}" },
+    "update": { "created_by_id": "{{user.id}}" },
+    "delete": { "created_by_id": "{{user.id}}" }
+  }
+}

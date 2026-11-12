@@ -4,6 +4,8 @@ Site de **LArtiste.Ink**, tatoueur à Saint-Paul, La Réunion. Concept : « Le c
 
 Le site permet au visiteur de découvrir l’univers, d’examiner les tatouages « à la loupe » (vue d’ensemble puis détail) et de préparer un message complet à coller dans Instagram, où l’artiste confirme le projet, le tarif et le créneau.
 
+> **Autre projet dans ce dépôt :** [`apps/ecompilot-ia`](apps/ecompilot-ia/README.md) — EcomPilot IA (« Ta Team »), application React/Vite au format Base44, indépendante de ce site vitrine.
+
 > **État : version de présentation.** Les textures d’encre tiennent lieu de photographies, les mentions légales sont à compléter, l’indexation est désactivée. Voir [`docs/a-completer.md`](docs/a-completer.md).
 
 ## Démarrer

@@ -1,0 +1,26 @@
+{
+  // L’entité User est intégrée à Base44 : ne pas la recréer.
+  // Ce fichier documente uniquement les champs personnalisés ajoutés
+  // au profil via base44.auth.updateMe().
+  "name": "User",
+  "builtIn": true,
+  "customProperties": {
+    "niche": { "type": "string", "description": "Niche e-commerce de l’utilisateur" },
+    "productPhoto": { "type": "string", "description": "URL de la photo du produit principal" },
+    "beginnerMode": { "type": "boolean", "default": true, "description": "Vocabulaire simple et ton encourageant" },
+    "milestones": {
+      "type": "object",
+      "description": "Étapes validées",
+      "properties": {
+        "first_visit": { "type": "boolean" },
+        "first_100_visits": { "type": "boolean" },
+        "first_add_to_cart": { "type": "boolean" },
+        "first_sale": { "type": "boolean" },
+        "first_10_sales": { "type": "boolean" },
+        "first_1000_revenue": { "type": "boolean" },
+        "first_profitable_day": { "type": "boolean" },
+        "first_10000_revenue": { "type": "boolean" }
+      }
+    }
+  }
+}

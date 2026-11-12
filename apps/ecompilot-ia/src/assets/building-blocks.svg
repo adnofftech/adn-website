@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700" role="img" aria-label="Briques empilées formant une boutique">
+  <defs>
+    <linearGradient id="bbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#191b1d"/>
+      <stop offset="100%" stop-color="#0b0c0d"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f5b800" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#c78e00" stop-opacity=".75"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="700" fill="url(#bbg)"/>
+  <g stroke="#ffffff" stroke-opacity=".05">
+    <path d="M0 140h900M0 280h900M0 420h900M0 560h900"/>
+    <path d="M150 0v700M300 0v700M450 0v700M600 0v700M750 0v700"/>
+  </g>
+
+  <!-- pile de briques -->
+  <g>
+    <rect x="220" y="470" width="460" height="74" rx="16" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="256" y="382" width="388" height="74" rx="16" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="292" y="294" width="316" height="74" rx="16" fill="url(#amber)" fill-opacity=".16" stroke="#f5b800" stroke-opacity=".5"/>
+    <rect x="330" y="206" width="240" height="74" rx="16" fill="#ffffff" fill-opacity=".05" stroke="#ffffff" stroke-opacity=".14"/>
+    <rect x="372" y="118" width="156" height="74" rx="16" fill="url(#amber)" fill-opacity=".24" stroke="#f5b800" stroke-opacity=".6"/>
+  </g>
+
+  <!-- points de connexion -->
+  <g fill="#f5b800">
+    <circle cx="450" cy="331" r="5"/><circle cx="450" cy="155" r="5"/>
+    <circle cx="340" cy="507" r="4" fill-opacity=".5"/><circle cx="560" cy="507" r="4" fill-opacity=".5"/>
+    <circle cx="372" cy="419" r="4" fill-opacity=".5"/><circle cx="528" cy="419" r="4" fill-opacity=".5"/>
+  </g>
+  <g stroke="#f5b800" stroke-opacity=".28" stroke-width="1.4" fill="none">
+    <path d="M450 192v102"/><path d="M450 368v102"/>
+  </g>
+
+  <text x="450" y="614" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" fill="#a6a39b">une brique par jour</text>
+</svg>
